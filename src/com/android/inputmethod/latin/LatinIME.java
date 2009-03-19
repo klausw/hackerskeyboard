@@ -388,7 +388,9 @@ public class LatinIME extends InputMethodService
     @Override
     public void onComputeInsets(InputMethodService.Insets outInsets) {
         super.onComputeInsets(outInsets);
-        outInsets.contentTopInsets = outInsets.visibleTopInsets;
+        if (!isFullscreenMode()) {
+            outInsets.contentTopInsets = outInsets.visibleTopInsets;
+        }
     }
     
     @Override

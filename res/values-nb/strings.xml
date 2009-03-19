@@ -15,9 +15,9 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for english_ime_name (5849054103817924472) -->
+    <!-- no translation found for english_ime_name (7252517407088836577) -->
     <skip />
-    <!-- no translation found for english_ime_settings (8408735206364332137) -->
+    <!-- no translation found for english_ime_settings (6661589557206947774) -->
     <skip />
     <string name="vibrate_on_keypress">"Vibrer ved tastetrykk"</string>
     <string name="sound_on_keypress">"Lyd ved tastetrykk"</string>
@@ -47,7 +47,7 @@
     <string name="auto_cap">"Stor forbokstav"</string>
     <string name="auto_cap_summary">"Start automatisk setninger med stor bokstav"</string>
     <string name="auto_punctuate">"Automatisk punktum"</string>
-    <!-- no translation found for auto_punctuate_summary (7849876837879793721) -->
+    <!-- no translation found for auto_punctuate_summary (6589441565817502132) -->
     <skip />
     <!-- no translation found for prediction_modes:0 (4870266572388153286) -->
     <!-- no translation found for prediction_modes:1 (1669461741568287396) -->
@@ -58,9 +58,9 @@
     <skip />
     <!-- no translation found for prediction_full (3765102052052510268) -->
     <skip />
-    <!-- no translation found for prediction_modes_values:0 (1346378763221728910) -->
-    <!-- no translation found for prediction_modes_values:1 (7980848218230433021) -->
-    <!-- no translation found for prediction_modes_values:2 (7444980361469942622) -->
+    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
+    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
+    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
     <string name="added_word">"<xliff:g id="WORD">%s</xliff:g>: Lagret"</string>
     <string name="alternates_for_a">"åæáàâãä"</string>
     <string name="alternates_for_e">"éèêë"</string>
@@ -71,7 +71,7 @@
     <string name="alternates_for_n">"ñ"</string>
     <string name="alternates_for_c">"ç"</string>
     <string name="alternates_for_y">"ýÿ"</string>
-    <!-- no translation found for alternates_for_z (243837378542028049) -->
+    <!-- no translation found for alternates_for_z (8206774143334512268) -->
     <skip />
     <!-- no translation found for tip_long_press (6101270866284343344) -->
     <skip />
@@ -82,6 +82,8 @@
     <string name="tip_add_to_dictionary">"Trykk lenge på ordet lengst til venstre for å legge det til i ordlisten"</string>
     <string name="label_go_key">"Gå"</string>
     <!-- no translation found for label_next_key (362972844525672568) -->
+    <skip />
+    <!-- no translation found for label_done_key (2441578748772529288) -->
     <skip />
     <!-- no translation found for label_send_key (2815056534433717444) -->
     <skip />
