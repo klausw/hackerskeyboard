@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        android:title="@string/english_ime_settings"
+        android:key="english_ime_settings">
+
+    <CheckBoxPreference
+            android:key="vibrate_on"
+            android:title="@string/vibrate_on_keypress"
+            android:persistent="true"
+            />
+
+    <CheckBoxPreference
+            android:key="sound_on"
+            android:title="@string/sound_on_keypress"
+            android:persistent="true" 
+            />
+
+    <CheckBoxPreference
+            android:key="auto_cap"
+            android:title="@string/auto_cap"
+            android:persistent="true"
+            android:defaultValue="true"
+            />
+
+    <!--CheckBoxPreference
+            android:key="auto_punctuate"
+            android:title="@string/auto_punctuate"
+            android:persistent="true"
+            android:defaultValue="true"
+            android:visible="false"
+            /-->
+
+    <ListPreference
+            android:key="prediction_mode"
+            android:title="@string/prediction"
+            android:dialogTitle="@string/auto_complete_dialog_title"
+            android:summary="@string/prediction_summary"
+            android:persistent="true" 
+            android:entries="@array/prediction_modes"
+            android:entryValues="@array/prediction_modes_values"
+            android:defaultValue="@string/prediction_basic"
+            />
+
+    <PreferenceCategory
+            android:title="@string/prediction_category"
+            android:key="prediction_settings">
+            
+        <CheckBoxPreference
+            android:key="hit_correction"
+            android:title="@string/hit_correction"
+            android:summary="@string/hit_correction_summary"
+            android:persistent="true" 
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="prediction_landscape"
+            android:title="@string/prediction_landscape"
+            android:summary="@string/prediction_landscape_summary"
+            android:persistent="true" 
+            android:defaultValue="false"
+            />
+            
+    </PreferenceCategory>            
+</PreferenceScreen>
