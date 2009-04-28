@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="english_ime_name">"Klawiatura Android"</string>
+    <string name="english_ime_settings">"Ustawienia klawiatury Android"</string>
+    <string name="vibrate_on_keypress">"Wibruj przy naciśnięciu klawisza"</string>
+    <string name="sound_on_keypress">"Dźwięk przy naciśnięciu klawisza"</string>
+    <string name="hit_correction">"Popraw błędy pisowni"</string>
+    <string name="hit_correction_summary">"Włącz poprawianie błędów wprowadzania"</string>
+    <string name="hit_correction_land">"Błędy wprowadzania w orientacji poziomej"</string>
+    <string name="hit_correction_land_summary">"Włącz poprawianie błędów wprowadzania"</string>
+    <string name="auto_correction">"Propozycje słów"</string>
+    <string name="auto_correction_summary">"Automatycznie poprawiaj poprzednie słowo"</string>
+    <string name="prediction">"Propozycje słów"</string>
+    <string name="prediction_category">"Ustawienia propozycji słów"</string>
+    <string name="prediction_summary">"Włącz autouzupełnianie podczas wpisywania"</string>
+    <string name="auto_complete_dialog_title">"Autouzupełnianie"</string>
+    <string name="prediction_landscape">"Zwiększ rozmiar pola tekstowego"</string>
+    <string name="prediction_landscape_summary">"Wyłącz propozycje słów w orientacji poziomej"</string>
+    <string name="auto_cap">"Automatyczna zamiana na wielkie litery"</string>
+    <string name="auto_cap_summary">"Zamieniaj na wielką pierwszą literę zdania"</string>
+    <string name="auto_punctuate">"Automatyczna interpunkcja"</string>
+    <!-- no translation found for auto_punctuate_summary (6589441565817502132) -->
+    <skip />
+    <string name="quick_fixes">"Szybkie poprawki"</string>
+    <string name="quick_fixes_summary">"Poprawia częste błędy wpisywania"</string>
+    <string name="show_suggestions">"Pokaż sugestie"</string>
+    <string name="show_suggestions_summary">"Wyświetl sugerowane słowa podczas wpisywania"</string>
+    <string name="auto_complete">"Autouzupełnianie"</string>
+    <string name="auto_complete_summary">"Spacja i znaki przestankowe automatycznie wstawiają wyróżnione słowo"</string>
+  <string-array name="prediction_modes">
+    <item>"Brak"</item>
+    <item>"Podstawowy"</item>
+    <item>"Zaawansowany"</item>
+  </string-array>
+    <string name="prediction_none">"0"</string>
+    <string name="prediction_basic">"1"</string>
+    <string name="prediction_full">"2"</string>
+    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
+    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
+    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
+    <string name="added_word">"<xliff:g id="WORD">%s</xliff:g> : Zapisano"</string>
+    <string name="alternates_for_a">"àáâãäåæ"</string>
+    <string name="alternates_for_e">"èéêë"</string>
+    <string name="alternates_for_i">"ìíîï"</string>
+    <string name="alternates_for_o">"òóôõöœø"</string>
+    <string name="alternates_for_u">"ùúûü"</string>
+    <string name="alternates_for_s">"§ß"</string>
+    <string name="alternates_for_n">"ñ"</string>
+    <string name="alternates_for_c">"ç"</string>
+    <string name="alternates_for_y">"ýÿ"</string>
+    <!-- no translation found for alternates_for_z (8206774143334512268) -->
+    <skip />
+    <string name="tip_long_press">"Przytrzymaj klawisz, aby wyświetlić znaki akcentowane (ø, ö itp.)"</string>
+    <string name="tip_dismiss">"Naciśnij klawisz cofania ↶, aby zamknąć klawiaturę w dowolnym momencie"</string>
+    <string name="tip_access_symbols">"Przejdź do cyfr i symboli"</string>
+    <string name="tip_add_to_dictionary">"Naciśnij i przytrzymaj słowo po lewej stronie w celu dodania go do słownika"</string>
+    <string name="touch_to_continue">"Dotknij tej podpowiedzi, aby kontynuować »"</string>
+    <string name="touch_to_finish">"Dotknij tutaj, aby zamknąć tę podpowiedź i zacząć pisać!"</string>
+    <string name="tip_to_open_keyboard"><b>"Klawiatura jest otwierana po każdym dotknięciu pola tekstowego"</b></string>
+    <string name="tip_to_view_accents"><b>"Dotknij i przytrzymaj klawisz, aby wyświetlić znaki akcentowane"\n"(ø, ö, ô, ó itd.)"</b></string>
+    <string name="tip_to_open_symbols"><b>"Przełącz na cyfry i symbole, dotykając tego klawisza"</b></string>
+    <string name="tip_to_close_symbols"><b>"Wróć do trybu liter, dotykając ponownie tego klawisza"</b></string>
+    <string name="tip_to_launch_settings"><b>"Dotknij i przytrzymaj ten klawisz, aby zmienić ustawienia klawiatury, takie jak autouzupełnianie"</b></string>
+    <string name="tip_to_start_typing"><b>"Wypróbuj!"</b></string>
+    <string name="label_go_key">"Przejdź"</string>
+    <string name="label_next_key">"Dalej"</string>
+    <string name="label_done_key">"Gotowe"</string>
+    <string name="label_send_key">"Wyślij"</string>
+    <string name="label_symbol_key">"?123"</string>
+    <string name="label_phone_key">"123"</string>
+    <string name="label_alpha_key">"ABC"</string>
+    <string name="label_alt_key">"ALT"</string>
+</resources>
