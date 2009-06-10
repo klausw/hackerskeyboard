@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="english_ime_name">"Клавиатура Android"</string>
+    <string name="english_ime_settings">"Настройки клавиатуры Android"</string>
+    <string name="vibrate_on_keypress">"Вибрация при нажатии клавиш"</string>
+    <string name="sound_on_keypress">"Звук при нажатии клавиш"</string>
+    <string name="hit_correction">"Исправлять опечатки"</string>
+    <string name="hit_correction_summary">"Включить исправление ошибок при вводе"</string>
+    <string name="hit_correction_land">"Ошибки при вводе в горизонтальной ориентации"</string>
+    <string name="hit_correction_land_summary">"Включить исправление ошибок при вводе"</string>
+    <string name="auto_correction">"Предложение слов"</string>
+    <string name="auto_correction_summary">"Автоматически исправлять предыдущее слово"</string>
+    <string name="prediction">"Предложение слов"</string>
+    <string name="prediction_category">"Настройки предложения слов"</string>
+    <string name="prediction_summary">"Включить автоматическое завершение слов при вводе"</string>
+    <string name="auto_complete_dialog_title">"Автоматическое завершение"</string>
+    <string name="prediction_landscape">"Увеличить размер текстового поля"</string>
+    <string name="prediction_landscape_summary">"Скрывать предложение слов в горизонтальной ориентации"</string>
+    <string name="auto_cap">"Автоматический перевод в верхний регистр"</string>
+    <string name="auto_cap_summary">"Делать заглавной первую букву предложения"</string>
+    <string name="auto_punctuate">"Автоматическая пунктуация"</string>
+    <!-- no translation found for auto_punctuate_summary (6589441565817502132) -->
+    <skip />
+    <string name="quick_fixes">"Быстрое исправление"</string>
+    <string name="quick_fixes_summary">"Исправляет распространенные опечатки"</string>
+    <string name="show_suggestions">"Предлагать варианты"</string>
+    <string name="show_suggestions_summary">"Предлагать варианты во время ввода"</string>
+    <string name="auto_complete">"Автозавершение"</string>
+    <string name="auto_complete_summary">"При вводе пробела или знака препинания выделенное слово вставляется автоматически"</string>
+  <string-array name="prediction_modes">
+    <item>"Нет"</item>
+    <item>"Основной"</item>
+    <item>"Расширенный"</item>
+  </string-array>
+    <string name="prediction_none">"0"</string>
+    <string name="prediction_basic">"1"</string>
+    <string name="prediction_full">"2"</string>
+    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
+    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
+    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
+    <string name="added_word">"<xliff:g id="WORD">%s</xliff:g> : сохранено"</string>
+    <string name="alternates_for_a">"àáâãäåæ"</string>
+    <string name="alternates_for_e">"èéêë"</string>
+    <string name="alternates_for_i">"ìíîï"</string>
+    <string name="alternates_for_o">"òóôõöœø"</string>
+    <string name="alternates_for_u">"ùúûü"</string>
+    <string name="alternates_for_s">"§ß"</string>
+    <string name="alternates_for_n">"ñ"</string>
+    <string name="alternates_for_c">"ç"</string>
+    <string name="alternates_for_y">"ýÿ"</string>
+    <string name="tip_long_press">"Удерживайте клавишу, чтобы увидеть варианты с диакритическими знаками (ø, ö и т.д.)"</string>
+    <string name="tip_dismiss">"Нажмите клавишу \"Назад\" ↶, чтобы закрыть клавиатуру в любой момент"</string>
+    <string name="tip_access_symbols">"Открыть цифры и символы"</string>
+    <string name="tip_add_to_dictionary">"Нажмите и удерживайте слово слева, чтобы добавить его в словарь"</string>
+    <string name="touch_to_continue">"Чтобы продолжить, нажмите на эту подсказку »"</string>
+    <string name="touch_to_finish">"Нажмите здесь, чтобы закрыть подсказку и начать вводить текст."</string>
+    <string name="tip_to_open_keyboard"><b>"Клавиатура появляется автоматически при касании текстового поля"</b></string>
+    <string name="tip_to_view_accents"><b>"Нажмите и удерживайте клавишу, чтобы появились спецсимволы "\n"(ø, ö, ô, ó и т. п.)"</b></string>
+    <string name="tip_to_open_symbols"><b>"Чтобы перейти к вводу цифр и символов, нажмите на эту клавишу"</b></string>
+    <string name="tip_to_close_symbols"><b>"Чтобы вернуться к буквенной клавиатуре, снова нажмите на эту клавишу"</b></string>
+    <string name="tip_to_launch_settings"><b>"Чтобы сменить настройки клавиатуры (такие как автозавершение), нажмите и удерживайте эту клавишу"</b></string>
+    <string name="tip_to_start_typing"><b>"Попробуйте!"</b></string>
+    <string name="label_go_key">"Перейти"</string>
+    <string name="label_next_key">"Далее"</string>
+    <string name="label_done_key">"Готово"</string>
+    <string name="label_send_key">"Отправить"</string>
+    <string name="label_symbol_key">"?123"</string>
+    <string name="label_phone_key">"123"</string>
+    <string name="label_alpha_key">"АБВ"</string>
+    <string name="label_alt_key">"ALT"</string>
+</resources>

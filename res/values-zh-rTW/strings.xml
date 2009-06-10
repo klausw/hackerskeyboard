@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="english_ime_name">"Android 鍵盤"</string>
+    <string name="english_ime_settings">"Android 鍵盤設定"</string>
+    <string name="vibrate_on_keypress">"按鍵時震動"</string>
+    <string name="sound_on_keypress">"按鍵時播放音效"</string>
+    <string name="hit_correction">"修正輸入錯誤"</string>
+    <string name="hit_correction_summary">"啟用輸入錯誤修正功能"</string>
+    <string name="hit_correction_land">"橫向輸入錯誤"</string>
+    <string name="hit_correction_land_summary">"啟用輸入錯誤修正功能"</string>
+    <string name="auto_correction">"字詞建議"</string>
+    <string name="auto_correction_summary">"自動修正前一個字詞"</string>
+    <string name="prediction">"字詞建議"</string>
+    <string name="prediction_category">"字詞建議設定"</string>
+    <string name="prediction_summary">"輸入時啟用自動完成"</string>
+    <string name="auto_complete_dialog_title">"自動完成"</string>
+    <string name="prediction_landscape">"放大文字欄位大小"</string>
+    <string name="prediction_landscape_summary">"在橫向檢視模式中隱藏字詞建議"</string>
+    <string name="auto_cap">"自動大寫"</string>
+    <string name="auto_cap_summary">"句首字母大寫"</string>
+    <string name="auto_punctuate">"自動標點"</string>
+    <!-- no translation found for auto_punctuate_summary (6589441565817502132) -->
+    <skip />
+    <string name="quick_fixes">"快速修正"</string>
+    <string name="quick_fixes_summary">"修正一般打字錯誤"</string>
+    <string name="show_suggestions">"顯示建議"</string>
+    <string name="show_suggestions_summary">"打字時顯示建議字詞"</string>
+    <string name="auto_complete">"自動完成"</string>
+    <string name="auto_complete_summary">"在反白顯示的字詞處自動插入空白鍵和標點符號鍵盤"</string>
+  <string-array name="prediction_modes">
+    <item>"無"</item>
+    <item>"基本模式"</item>
+    <item>"進階模式"</item>
+  </string-array>
+    <string name="prediction_none">"0"</string>
+    <string name="prediction_basic">"1"</string>
+    <string name="prediction_full">"2"</string>
+    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
+    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
+    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
+    <string name="added_word">"<xliff:g id="WORD">%s</xliff:g>：已儲存"</string>
+    <string name="alternates_for_a">"àáâãäåæ"</string>
+    <string name="alternates_for_e">"èéêë"</string>
+    <string name="alternates_for_i">"ìíîï"</string>
+    <string name="alternates_for_o">"òóôõöœø"</string>
+    <string name="alternates_for_u">"ùúûü"</string>
+    <string name="alternates_for_s">"§ß"</string>
+    <string name="alternates_for_n">"ñ"</string>
+    <string name="alternates_for_c">"ç"</string>
+    <string name="alternates_for_y">"ýÿ"</string>
+    <string name="tip_long_press">"按住按鍵可查看重音符號 (ø、ö 等)"</string>
+    <string name="tip_dismiss">"隨時可以透過按後退鍵 ↶ 關閉鍵盤"</string>
+    <string name="tip_access_symbols">"使用數字和符號"</string>
+    <string name="tip_add_to_dictionary">"按住最左邊的字詞，將其新增到字典中"</string>
+    <string name="touch_to_continue">"輕觸此提示繼續 »"</string>
+    <string name="touch_to_finish">"輕觸此處以關閉提示，並開始打字！"</string>
+    <string name="tip_to_open_keyboard"><b>"輕觸文字欄位時即會開啟鍵盤"</b></string>
+    <string name="tip_to_view_accents"><b>"輕觸並按住某個鍵即可查看聲調"\n"(ø、ö、ô、ó 等)"</b></string>
+    <string name="tip_to_open_symbols"><b>"輕觸此鍵即可切換到數字和符號鍵盤"</b></string>
+    <string name="tip_to_close_symbols"><b>"再次輕觸此鍵即可返回到字母鍵盤"</b></string>
+    <string name="tip_to_launch_settings"><b>"輕觸並按住此鍵即可變更鍵盤設定，例如自動完成"</b></string>
+    <string name="tip_to_start_typing"><b>"試試看！"</b></string>
+    <string name="label_go_key">"開始"</string>
+    <string name="label_next_key">"下一步"</string>
+    <string name="label_done_key">"完成"</string>
+    <string name="label_send_key">"傳送"</string>
+    <string name="label_symbol_key">"?123"</string>
+    <string name="label_phone_key">"123"</string>
+    <string name="label_alpha_key">"ABC"</string>
+    <string name="label_alt_key">"ALT"</string>
+</resources>

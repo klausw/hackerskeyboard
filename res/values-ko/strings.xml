@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="english_ime_name">"Android 키보드"</string>
+    <string name="english_ime_settings">"Android 키보드 설정"</string>
+    <string name="vibrate_on_keypress">"키를 누를 때 진동 발생"</string>
+    <string name="sound_on_keypress">"버튼을 누를 때 소리 발생"</string>
+    <string name="hit_correction">"입력 오류 수정"</string>
+    <string name="hit_correction_summary">"입력 오류 수정 사용"</string>
+    <string name="hit_correction_land">"가로 입력 오류"</string>
+    <string name="hit_correction_land_summary">"입력 오류 수정 사용"</string>
+    <string name="auto_correction">"단어 추천"</string>
+    <string name="auto_correction_summary">"이전 단어를 자동으로 수정"</string>
+    <string name="prediction">"단어 추천"</string>
+    <string name="prediction_category">"단어 추천 설정"</string>
+    <string name="prediction_summary">"입력할 때 자동 완성 사용"</string>
+    <string name="auto_complete_dialog_title">"자동 완성"</string>
+    <string name="prediction_landscape">"입력란 크기 늘리기"</string>
+    <string name="prediction_landscape_summary">"가로 보기에서 단어 추천 숨기기"</string>
+    <string name="auto_cap">"자동 대문자화"</string>
+    <string name="auto_cap_summary">"문장의 첫 글자를 대문자로 표시"</string>
+    <string name="auto_punctuate">"자동 구두점 입력"</string>
+    <!-- no translation found for auto_punctuate_summary (6589441565817502132) -->
+    <skip />
+    <string name="quick_fixes">"빠른 수정"</string>
+    <string name="quick_fixes_summary">"일반적인 오타를 수정합니다."</string>
+    <string name="show_suggestions">"추천 단어 표시"</string>
+    <string name="show_suggestions_summary">"글자를 입력하는 동안 추천 단어를 표시합니다."</string>
+    <string name="auto_complete">"자동 완성"</string>
+    <string name="auto_complete_summary">"스페이스 바와 문장부호 키를 사용하면 강조 표시된 단어가 자동으로 삽입됩니다."</string>
+  <string-array name="prediction_modes">
+    <item>"없음"</item>
+    <item>"기본"</item>
+    <item>"고급"</item>
+  </string-array>
+    <string name="prediction_none">"0"</string>
+    <string name="prediction_basic">"1"</string>
+    <string name="prediction_full">"2"</string>
+    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
+    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
+    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
+    <string name="added_word">"<xliff:g id="WORD">%s</xliff:g> : 저장됨"</string>
+    <string name="alternates_for_a">"àáâãäåæ"</string>
+    <string name="alternates_for_e">"èéêë"</string>
+    <string name="alternates_for_i">"ìíîï"</string>
+    <string name="alternates_for_o">"òóôõöœø"</string>
+    <string name="alternates_for_u">"ùúûü"</string>
+    <string name="alternates_for_s">"§ß"</string>
+    <string name="alternates_for_n">"ñ"</string>
+    <string name="alternates_for_c">"ç"</string>
+    <string name="alternates_for_y">"ýÿ"</string>
+    <string name="tip_long_press">"키를 길게 누르면 악센트(ø, ö 등)가 표시됩니다."</string>
+    <string name="tip_dismiss">"키보드를 닫으려면 언제든지 뒤로 키(↶)를 누르세요."</string>
+    <string name="tip_access_symbols">"숫자 및 기호 액세스"</string>
+    <string name="tip_add_to_dictionary">"맨 왼쪽에 있는 단어를 길게 누르면 사전에 추가됩니다."</string>
+    <string name="touch_to_continue">"계속하려면 힌트를 터치하세요. »"</string>
+    <string name="touch_to_finish">"힌트를 닫고 입력을 시작하려면 여기를 터치하세요."</string>
+    <string name="tip_to_open_keyboard"><b>"입력란을 터치하면 키보드가 열립니다."</b></string>
+    <string name="tip_to_view_accents"><b>"키를 길게 누르면 악센트"\n"(ø, ö, ô, ó 등)를 볼 수 있습니다."</b></string>
+    <string name="tip_to_open_symbols"><b>"이 키를 터치하면 숫자 및 기호 자판으로 변경됩니다."</b></string>
+    <string name="tip_to_close_symbols"><b>"이 키를 다시 터치하면 키보드가 표시됩니다."</b></string>
+    <string name="tip_to_launch_settings"><b>"자동 완성과 같은 키보드 설정을 변경하려면 이 키를 길게 누르세요."</b></string>
+    <string name="tip_to_start_typing"><b>"사용해 보세요."</b></string>
+    <string name="label_go_key">"이동"</string>
+    <string name="label_next_key">"다음"</string>
+    <string name="label_done_key">"완료"</string>
+    <string name="label_send_key">"전송"</string>
+    <string name="label_symbol_key">"?123"</string>
+    <string name="label_phone_key">"123"</string>
+    <string name="label_alpha_key">"ABC"</string>
+    <string name="label_alt_key">"ALT"</string>
+</resources>

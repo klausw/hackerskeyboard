@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="english_ime_name">"Clavier Android"</string>
+    <string name="english_ime_settings">"Paramètres du clavier Android"</string>
+    <string name="vibrate_on_keypress">"Vibrer à chaque touche"</string>
+    <string name="sound_on_keypress">"Son à chaque touche"</string>
+    <string name="hit_correction">"Corriger les fautes de frappe"</string>
+    <string name="hit_correction_summary">"Activer la correction des erreurs de saisie"</string>
+    <string name="hit_correction_land">"Erreurs de saisie en mode paysage"</string>
+    <string name="hit_correction_land_summary">"Activer la correction des erreurs de saisie"</string>
+    <string name="auto_correction">"Saisie prédictive"</string>
+    <string name="auto_correction_summary">"Corriger automatiquement le mot précédent"</string>
+    <string name="prediction">"Saisie prédictive"</string>
+    <string name="prediction_category">"Paramètres de la saisie prédictive"</string>
+    <string name="prediction_summary">"Activer la saisie semi-automatique"</string>
+    <string name="auto_complete_dialog_title">"Saisie semi-automatique"</string>
+    <string name="prediction_landscape">"Agrandir le champ de texte"</string>
+    <string name="prediction_landscape_summary">"Masquer la saisie prédictive en mode paysage"</string>
+    <string name="auto_cap">"Majuscules auto"</string>
+    <string name="auto_cap_summary">"Mettre en majuscule la première lettre de chaque phrase"</string>
+    <string name="auto_punctuate">"Ponctuation automatique"</string>
+    <!-- no translation found for auto_punctuate_summary (6589441565817502132) -->
+    <skip />
+    <string name="quick_fixes">"Corrections rapides"</string>
+    <string name="quick_fixes_summary">"Corrige les fautes de frappe courantes"</string>
+    <string name="show_suggestions">"Afficher les suggestions"</string>
+    <string name="show_suggestions_summary">"Afficher les suggestions de terme lors de la saisie"</string>
+    <string name="auto_complete">"Saisie semi-automatique"</string>
+    <string name="auto_complete_summary">"La barre d\'espace/ponctuation insèrent auto. le terme surligné."</string>
+  <string-array name="prediction_modes">
+    <item>"Aucun"</item>
+    <item>"Simple"</item>
+    <item>"Avancé"</item>
+  </string-array>
+    <string name="prediction_none">"0"</string>
+    <string name="prediction_basic">"1"</string>
+    <string name="prediction_full">"2"</string>
+    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
+    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
+    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
+    <string name="added_word">"<xliff:g id="WORD">%s</xliff:g> : enregistré"</string>
+    <string name="alternates_for_a">"àáâãäåæ"</string>
+    <string name="alternates_for_e">"èéêë"</string>
+    <string name="alternates_for_i">"ìíîï"</string>
+    <string name="alternates_for_o">"òóôõöœø"</string>
+    <string name="alternates_for_u">"ùúûü"</string>
+    <string name="alternates_for_s">"§ß"</string>
+    <string name="alternates_for_n">"ñ"</string>
+    <string name="alternates_for_c">"ç"</string>
+    <string name="alternates_for_y">"ýÿ"</string>
+    <string name="tip_long_press">"Maintenir une touche enfoncée pour afficher les accents (à, é, etc.)"</string>
+    <string name="tip_dismiss">"Appuyez sur la touche Retour ↶ pour fermer le clavier à tout moment."</string>
+    <string name="tip_access_symbols">"Accéder aux chiffres et symboles"</string>
+    <string name="tip_add_to_dictionary">"Appuyer et maintenir le doigt sur le mot le plus à gauche pour l\'ajouter au dictionnaire"</string>
+    <string name="touch_to_continue">"Touchez ce conseil pour continuer »"</string>
+    <string name="touch_to_finish">"Touchez ici pour fermer ce conseil et commencer à saisir votre texte."</string>
+    <string name="tip_to_open_keyboard"><b>"Le clavier s\'affiche à chaque fois que vous touchez une zone de texte."</b></string>
+    <string name="tip_to_view_accents"><b>"Maintenez une touche enfoncée pour afficher les accents"\n"(ø, ö, ô, ó, etc.)"</b></string>
+    <string name="tip_to_open_symbols"><b>"Appuyez sur cette touche pour basculer vers les chiffres et les symboles."</b></string>
+    <string name="tip_to_close_symbols"><b>"Retourner au clavier en appuyant de nouveau sur cette touche"</b></string>
+    <string name="tip_to_launch_settings"><b>"Maintenez cette touche enfoncée afin de modifier les paramètres du clavier, tels que la saisie semi-automatique."</b></string>
+    <string name="tip_to_start_typing"><b>"Essayez !"</b></string>
+    <string name="label_go_key">"OK"</string>
+    <string name="label_next_key">"Suivant"</string>
+    <string name="label_done_key">"OK"</string>
+    <string name="label_send_key">"Envoyer"</string>
+    <string name="label_symbol_key">"?123"</string>
+    <string name="label_phone_key">"123"</string>
+    <string name="label_alpha_key">"ABC"</string>
+    <string name="label_alt_key">"ALT"</string>
+</resources>

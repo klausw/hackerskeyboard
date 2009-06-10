@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="english_ime_name">"Klávesnice Android"</string>
+    <string name="english_ime_settings">"Nastavení klávesnice Android"</string>
+    <string name="vibrate_on_keypress">"Při stisku klávesy vibrovat"</string>
+    <string name="sound_on_keypress">"Zvuk při stisku klávesy"</string>
+    <string name="hit_correction">"Opravovat překlepy"</string>
+    <string name="hit_correction_summary">"Povolit opravu chyb vstupu"</string>
+    <string name="hit_correction_land">"Chyby vstupu v zobrazení na šířku"</string>
+    <string name="hit_correction_land_summary">"Povolit opravu chyb vstupu"</string>
+    <string name="auto_correction">"Návrhy slov"</string>
+    <string name="auto_correction_summary">"Automaticky opravit předchozí slovo"</string>
+    <string name="prediction">"Návrhy slov"</string>
+    <string name="prediction_category">"Nastavení návrhů slov"</string>
+    <string name="prediction_summary">"Povolit automatické dokončování při psaní"</string>
+    <string name="auto_complete_dialog_title">"Automatické dokončování"</string>
+    <string name="prediction_landscape">"Zvětšit textové pole"</string>
+    <string name="prediction_landscape_summary">"Skrýt návrhy slov v zobrazení na šířku"</string>
+    <string name="auto_cap">"Velká písmena automaticky"</string>
+    <string name="auto_cap_summary">"Zahájit větu velkým písmenem"</string>
+    <string name="auto_punctuate">"Automatická interpunkce"</string>
+    <!-- no translation found for auto_punctuate_summary (6589441565817502132) -->
+    <skip />
+    <string name="quick_fixes">"Rychlé opravy"</string>
+    <string name="quick_fixes_summary">"Opravuje běžné překlepy"</string>
+    <string name="show_suggestions">"Zobrazovat návrhy"</string>
+    <string name="show_suggestions_summary">"Při psaní zobrazovat návrhy slov"</string>
+    <string name="auto_complete">"Automatické dokončování"</string>
+    <string name="auto_complete_summary">"Stisknutí mezerníku nebo interpunkce automaticky vloží zvýrazněné slovo"</string>
+  <string-array name="prediction_modes">
+    <item>"Není"</item>
+    <item>"Základní"</item>
+    <item>"Pokročilé"</item>
+  </string-array>
+    <string name="prediction_none">"0"</string>
+    <string name="prediction_basic">"1"</string>
+    <string name="prediction_full">"2"</string>
+    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
+    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
+    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
+    <string name="added_word">"<xliff:g id="WORD">%s</xliff:g> : Uloženo"</string>
+    <string name="alternates_for_a">"áàâãäåæ"</string>
+    <string name="alternates_for_e">"éěèêë"</string>
+    <string name="alternates_for_i">"íìîï"</string>
+    <string name="alternates_for_o">"óòôõöœø"</string>
+    <string name="alternates_for_u">"ůúùûü"</string>
+    <string name="alternates_for_s">"š§ß"</string>
+    <string name="alternates_for_n">"ňñ"</string>
+    <string name="alternates_for_c">"čç"</string>
+    <string name="alternates_for_y">"ýÿ"</string>
+    <string name="tip_long_press">"Podržením klávesy zobrazíte diakritiku (ž, á atd.)"</string>
+    <string name="tip_dismiss">"Stisknutím klávesy Zpět ↶ můžete klávesnici kdykoli zavřít"</string>
+    <string name="tip_access_symbols">"Přístup k číslům a symbolům"</string>
+    <string name="tip_add_to_dictionary">"Stisknutím a podržením slova zcela vlevo toto slovo přidáte do slovníku"</string>
+    <string name="touch_to_continue">"Chcete-li pokračovat, dotkněte se této rady »"</string>
+    <string name="touch_to_finish">"Chcete-li tuto radu zavřít a začít psát, dotkněte se zde."</string>
+    <string name="tip_to_open_keyboard"><b>"Klávesnice se zobrazí, kdykoli se dotknete textového pole."</b></string>
+    <string name="tip_to_view_accents"><b>"Stisknutím a podržením klávesy zobrazíte diakritiku"\n"(ó, ø, ö, ô atd.)"</b></string>
+    <string name="tip_to_open_symbols"><b>"Stisknutím této klávesy přejdete do režimu číslic a symbolů"</b></string>
+    <string name="tip_to_close_symbols"><b>"Opětovným stisknutím této klávesy se vrátíte zpět do režimu písmen"</b></string>
+    <string name="tip_to_launch_settings"><b>"Chcete-li změnit nastavení klávesnice, jako například automatické dokončování, stiskněte tuto klávesu a podržte ji."</b></string>
+    <string name="tip_to_start_typing"><b>"Zkuste to."</b></string>
+    <string name="label_go_key">"Přejít"</string>
+    <string name="label_next_key">"Další"</string>
+    <string name="label_done_key">"Hotovo"</string>
+    <string name="label_send_key">"Odeslat"</string>
+    <string name="label_symbol_key">"?123"</string>
+    <string name="label_phone_key">"123"</string>
+    <string name="label_alpha_key">"ABC"</string>
+    <string name="label_alt_key">"Alt"</string>
+</resources>
