@@ -71,14 +71,22 @@ public class LatinIME extends InputMethodService
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
+    private static final int MSG_UPDATE_SHIFT_STATE = 2;
     
     // How many continuous deletes at which to start deleting at a higher speed.
     private static final int DELETE_ACCELERATE_AT = 20;
     // Key events coming any faster than this are long-presses.
-    private static final int QUICK_PRESS = 200; 
+    private static final int QUICK_PRESS = 200;
+    // Weight added to a user picking a new word from the suggestion strip
+    static final int FREQUENCY_FOR_PICKED = 3;
+    // Weight added to a user typing a new word that doesn't get corrected (or is reverted)
+    static final int FREQUENCY_FOR_TYPED = 1;
+    // A word that is frequently typed and get's promoted to the user dictionary, uses this
+    // frequency.
+    static final int FREQUENCY_FOR_AUTO_ADD = 250;
     
-    private static final int KEYCODE_ENTER = 10;
-    private static final int KEYCODE_SPACE = ' ';
+    static final int KEYCODE_ENTER = '\n';
+    static final int KEYCODE_SPACE = ' ';
 
     // Contextual menu positions
     private static final int POS_SETTINGS = 0;
@@ -95,6 +103,8 @@ public class LatinIME extends InputMethodService
     KeyboardSwitcher mKeyboardSwitcher;
     
     private UserDictionary mUserDictionary;
+    private ContactsDictionary mContactsDictionary;
+    private ExpandableDictionary mAutoDictionary;
     
     private String mLocale;
 
@@ -114,6 +124,8 @@ public class LatinIME extends InputMethodService
     private boolean mQuickFixes;
     private boolean mShowSuggestions;
     private int     mCorrectionMode;
+    private int     mOrientation;
+
     // Indicates whether the suggestion strip is to be on in landscape
     private boolean mJustAccepted;
     private CharSequence mJustRevertedSeparator;
@@ -150,6 +162,9 @@ public class LatinIME extends InputMethodService
                         }
                     }
                     break;
+                case MSG_UPDATE_SHIFT_STATE:
+                    updateShiftKeyState(getCurrentInputEditorInfo());
+                    break;
             }
         }
     };
@@ -158,10 +173,12 @@ public class LatinIME extends InputMethodService
         super.onCreate();
         //setStatusIcon(R.drawable.ime_qwerty);
         mKeyboardSwitcher = new KeyboardSwitcher(this);
-        initSuggest(getResources().getConfiguration().locale.toString());
-        
+        final Configuration conf = getResources().getConfiguration();
+        initSuggest(conf.locale.toString());
+        mOrientation = conf.orientation;
+
         mVibrateDuration = getResources().getInteger(R.integer.vibrate_duration_ms);
-        
+
         // register to receive ringer mode changes for silent mode
         IntentFilter filter = new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
         registerReceiver(mReceiver, filter);
@@ -172,13 +189,18 @@ public class LatinIME extends InputMethodService
         mSuggest = new Suggest(this, R.raw.main);
         mSuggest.setCorrectionMode(mCorrectionMode);
         mUserDictionary = new UserDictionary(this);
+        mContactsDictionary = new ContactsDictionary(this);
+        mAutoDictionary = new AutoDictionary(this);
         mSuggest.setUserDictionary(mUserDictionary);
+        mSuggest.setContactsDictionary(mContactsDictionary);
+        mSuggest.setAutoDictionary(mAutoDictionary);
         mWordSeparators = getResources().getString(R.string.word_separators);
         mSentenceSeparators = getResources().getString(R.string.sentence_separators);
     }
     
     @Override public void onDestroy() {
         mUserDictionary.close();
+        mContactsDictionary.close();
         unregisterReceiver(mReceiver);
         super.onDestroy();
     }
@@ -188,9 +210,14 @@ public class LatinIME extends InputMethodService
         if (!TextUtils.equals(conf.locale.toString(), mLocale)) {
             initSuggest(conf.locale.toString());
         }
+        // If orientation changed while predicting, commit the change
+        if (conf.orientation != mOrientation) {
+            commitTyped(getCurrentInputConnection());
+            mOrientation = conf.orientation;
+        }
         super.onConfigurationChanged(conf);
     }
-    
+
     @Override
     public View onCreateInputView() {
         mInputView = (LatinKeyboardView) getLayoutInflater().inflate(
@@ -309,7 +336,7 @@ public class LatinIME extends InputMethodService
         }
         mPredictionOn = mPredictionOn && mCorrectionMode > 0;
         checkTutorial(attribute.privateImeOptions);
-        if (TRACE) Debug.startMethodTracing("latinime");
+        if (TRACE) Debug.startMethodTracing("/data/trace/latinime");
     }
 
     @Override
@@ -344,6 +371,7 @@ public class LatinIME extends InputMethodService
             TextEntryState.reset();
         }
         mJustAccepted = false;
+        postUpdateShiftKeyState();
     }
 
     @Override
@@ -465,9 +493,15 @@ public class LatinIME extends InputMethodService
                 }
                 mCommittedLength = mComposing.length();
                 TextEntryState.acceptedTyped(mComposing);
+                mAutoDictionary.addWord(mComposing.toString(), FREQUENCY_FOR_TYPED);
             }
             updateSuggestions();
         }
+    }
+
+    private void postUpdateShiftKeyState() {
+        mHandler.removeMessages(MSG_UPDATE_SHIFT_STATE);
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_UPDATE_SHIFT_STATE), 300);
     }
 
     public void updateShiftKeyState(EditorInfo attr) {
@@ -571,6 +605,9 @@ public class LatinIME extends InputMethodService
                 // Cancel the just reverted state
                 mJustRevertedSeparator = null;
         }
+        if (mKeyboardSwitcher.onKey(primaryCode)) {
+            changeKeyboardMode();
+        }
     }
     
     public void onText(CharSequence text) {
@@ -606,7 +643,7 @@ public class LatinIME extends InputMethodService
         } else {
             deleteChar = true;
         }
-        updateShiftKeyState(getCurrentInputEditorInfo());
+        postUpdateShiftKeyState();
         TextEntryState.backspace();
         if (TextEntryState.getState() == TextEntryState.STATE_UNDO_COMMIT) {
             revertLastWord(deleteChar);
@@ -656,7 +693,11 @@ public class LatinIME extends InputMethodService
         } else {
             sendKeyChar((char)primaryCode);
         }
-        updateShiftKeyState(getCurrentInputEditorInfo());
+        if (mPredicting && mComposing.length() == 1) {
+            updateShiftKeyState(getCurrentInputEditorInfo());
+        } else {
+            postUpdateShiftKeyState();
+        }
         measureCps();
         TextEntryState.typedCharacter((char) primaryCode, isWordSeparator(primaryCode));
     }
@@ -756,7 +797,9 @@ public class LatinIME extends InputMethodService
         if (mCorrectionMode == Suggest.CORRECTION_FULL) {
             correctionAvailable |= typedWordValid;
         }
-        
+        // Don't auto-correct words with multiple capital letter
+        correctionAvailable &= !mWord.isMostlyCaps();
+
         mCandidateView.setSuggestions(stringList, false, typedWordValid, correctionAvailable); 
         if (stringList.size() > 0) {
             if (correctionAvailable && !typedWordValid && stringList.size() > 1) {
@@ -819,6 +862,10 @@ public class LatinIME extends InputMethodService
         InputConnection ic = getCurrentInputConnection();
         if (ic != null) {
             ic.commitText(suggestion, 1);
+        }
+        // Add the word to the auto dictionary if it's not a known word
+        if (mAutoDictionary.isValidWord(suggestion) || !mSuggest.isValidWord(suggestion)) {
+            mAutoDictionary.addWord(suggestion.toString(), FREQUENCY_FOR_PICKED);
         }
         mPredicting = false;
         mCommittedLength = suggestion.length();
@@ -973,7 +1020,7 @@ public class LatinIME extends InputMethodService
             return;
         }
         if (mVibrator == null) {
-            mVibrator = new Vibrator();
+            mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         }
         mVibrator.vibrate(mVibrateDuration);
     }
@@ -998,7 +1045,12 @@ public class LatinIME extends InputMethodService
     void tutorialDone() {
         mTutorial = null;
     }
-    
+
+    void promoteToUserDictionary(String word, int frequency) {
+        if (mUserDictionary.isValidWord(word)) return;
+        mUserDictionary.addWord(word, frequency);
+    }
+
     private void launchSettings() {
         handleClose();
         Intent intent = new Intent();
@@ -1044,7 +1096,8 @@ public class LatinIME extends InputMethodService
                         launchSettings();
                         break;
                     case POS_METHOD:
-                        InputMethodManager.getInstance(LatinIME.this).showInputMethodPicker();
+                        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                            .showInputMethodPicker();
                         break;
                 }
             }
@@ -1107,7 +1160,35 @@ public class LatinIME extends InputMethodService
         for (int i = 0; i < CPS_BUFFER_SIZE; i++) total += mCpsIntervals[i];
         System.out.println("CPS = " + ((CPS_BUFFER_SIZE * 1000f) / total));
     }
-    
+
+    class AutoDictionary extends ExpandableDictionary {
+        // If the user touches a typed word 2 times or more, it will become valid.
+        private static final int VALIDITY_THRESHOLD = 2 * FREQUENCY_FOR_PICKED;
+        // If the user touches a typed word 5 times or more, it will be added to the user dict.
+        private static final int PROMOTION_THRESHOLD = 5 * FREQUENCY_FOR_PICKED;
+
+        public AutoDictionary(Context context) {
+            super(context);
+        }
+
+        @Override
+        public boolean isValidWord(CharSequence word) {
+            final int frequency = getWordFrequency(word);
+            return frequency > VALIDITY_THRESHOLD;
+        }
+
+        @Override
+        public void addWord(String word, int addFrequency) {
+            final int length = word.length();
+            // Don't add very short or very long words.
+            if (length < 2 || length > getMaxWordLength()) return;
+            super.addWord(word, addFrequency);
+            final int freq = getWordFrequency(word);
+            if (freq > PROMOTION_THRESHOLD) {
+                LatinIME.this.promoteToUserDictionary(word, FREQUENCY_FOR_AUTO_ADD);
+            }
+        }
+    }
 }
 
 
