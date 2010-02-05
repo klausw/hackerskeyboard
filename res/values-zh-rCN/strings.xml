@@ -27,7 +27,7 @@
     <string name="auto_correction_summary" msgid="6881047311475758267">"自动纠正之前的字词"</string>
     <string name="prediction" msgid="466220283138359837">"字词建议"</string>
     <string name="prediction_category" msgid="7027100625580696660">"字词建议设置"</string>
-    <string name="prediction_summary" msgid="459788228830873110">"输入时启用自动完成"</string>
+    <string name="prediction_summary" msgid="459788228830873110">"输入时启用自动填写功能"</string>
     <string name="auto_complete_dialog_title" msgid="2172048590607201920">"自动完成"</string>
     <string name="prediction_landscape" msgid="4874601565593216183">"增加文本域的大小"</string>
     <string name="prediction_landscape_summary" msgid="6736551095997839472">"在横向视图中隐藏字词建议"</string>
@@ -39,20 +39,14 @@
     <string name="quick_fixes" msgid="5353213327680897927">"快速纠正"</string>
     <string name="quick_fixes_summary" msgid="3405028402510332373">"纠正常见的输入错误"</string>
     <string name="show_suggestions" msgid="507074425254289133">"显示建议"</string>
-    <string name="show_suggestions_summary" msgid="1989672863935759654">"输入时显示建议的字词"</string>
-    <string name="auto_complete" msgid="1103196318775486023">"自动输入"</string>
-    <string name="auto_complete_summary" msgid="6113149638718274624">"按空格或标点可自动插入突出显示的字词"</string>
+    <string name="show_suggestions_summary" msgid="1989672863935759654">"输入时启用联想提示"</string>
+    <string name="auto_complete" msgid="1103196318775486023">"自动填写"</string>
+    <string name="auto_complete_summary" msgid="6113149638718274624">"按空格键和标点符号时自动插入突出显示的字词"</string>
   <string-array name="prediction_modes">
     <item msgid="4870266572388153286">"无"</item>
     <item msgid="1669461741568287396">"基本模式"</item>
     <item msgid="4894328801530136615">"高级模式"</item>
   </string-array>
-    <string name="prediction_none" msgid="2472795101338047944">"0"</string>
-    <string name="prediction_basic" msgid="8407291081834155558">"1"</string>
-    <string name="prediction_full" msgid="3765102052052510268">"2"</string>
-    <!-- no translation found for prediction_modes_values:0 (579944677836100459) -->
-    <!-- no translation found for prediction_modes_values:1 (7214414132844804570) -->
-    <!-- no translation found for prediction_modes_values:2 (6678546276084314171) -->
     <string name="added_word" msgid="8993883354622484372">"<xliff:g id="WORD">%s</xliff:g>：已保存"</string>
     <string name="alternates_for_a" msgid="2566516493365324765">"àáâãäåæ"</string>
     <string name="alternates_for_e" msgid="3900510936875547555">"èéêë"</string>
@@ -64,17 +58,17 @@
     <string name="alternates_for_c" msgid="151699780720639892">"ç"</string>
     <string name="alternates_for_y" msgid="1722776806607271199">"ýÿ"</string>
     <string name="key_i" msgid="6483655742552255124">"i"</string>
-    <string name="tip_long_press" msgid="6101270866284343344">"长按某些键可看到重音符号（例如 ø、ö 等）"</string>
+    <string name="tip_long_press" msgid="6101270866284343344">"按住某个键可看到重音符号（例如 ø、ö 等）"</string>
     <string name="tip_dismiss" msgid="7585579046862204381">"随时可以通过按后退键 ↶ 关闭键盘"</string>
     <string name="tip_access_symbols" msgid="6344098517525531652">"访问数字和符号"</string>
     <string name="tip_add_to_dictionary" msgid="1487293888469227817">"长按最左侧的字可将其添加到词典中"</string>
     <string name="touch_to_continue" msgid="7869803257948414531">"轻触此提示继续 »"</string>
     <string name="touch_to_finish" msgid="7990196086480585789">"轻触此处可关闭该提示，然后便可开始输入内容！"</string>
     <string name="tip_to_open_keyboard" msgid="6821200275486950452"><b>"轻触文本字段即可打开键盘"</b></string>
-    <string name="tip_to_view_accents" msgid="5433158573693308501"><b>"长按某些键可看到重音符号"\n"（例如 ø、ö、ô、ó 等）"</b></string>
+    <string name="tip_to_view_accents" msgid="5433158573693308501"><b>"按住某个键可看到重音符号"\n"（例如 ø、ö、ô、ó 等）"</b></string>
     <string name="tip_to_open_symbols" msgid="7345139325622444880"><b>"轻触该键可切换到数字和符号输入模式"</b></string>
     <string name="tip_to_close_symbols" msgid="5227724217206927185"><b>"再次轻触该键可返回字母输入模式"</b></string>
-    <string name="tip_to_launch_settings" msgid="8402961128983196128"><b>"长按该键可更改键盘设置，例如自动输入"</b></string>
+    <string name="tip_to_launch_settings" msgid="8402961128983196128"><b>"长按该键可更改键盘设置，例如自动填写"</b></string>
     <string name="tip_to_start_typing" msgid="7213843601369174313"><b>"试试吧！"</b></string>
     <string name="label_go_key" msgid="1635148082137219148">"开始"</string>
     <string name="label_next_key" msgid="362972844525672568">"下一步"</string>
@@ -84,13 +78,40 @@
     <string name="label_phone_key" msgid="4275497665515080551">"123"</string>
     <string name="label_alpha_key" msgid="8864943487292437456">"ABC"</string>
     <string name="label_alt_key" msgid="2846315350346694811">"ALT"</string>
+    <string name="voice_warning_title" msgid="4419354150908395008">"语音输入"</string>
+    <string name="voice_warning_locale_not_supported" msgid="637923019716442333">"语音输入功能当前还不支持您的语言，您只能输入英语语音。"</string>
+    <string name="voice_warning_may_not_understand" msgid="4611518823070986445">"语音输入是一项试验性的功能，它采用了 Google 的网络语音识别功能。"</string>
+    <string name="voice_warning_how_to_turn_off" msgid="5652369578498701761">"要关闭语音输入功能，请转至键盘设置。"</string>
+    <string name="voice_hint_dialog_message" msgid="6892342981545727994">"要使用语音输入，请按麦克风按钮或者在屏幕键盘上滑动手指。"</string>
+    <string name="voice_listening" msgid="467518160751321844">"请开始说话"</string>
+    <string name="voice_working" msgid="6666937792815731889">"正在处理"</string>
+    <!-- no translation found for voice_initializing (661962047129906646) -->
+    <skip />
+    <string name="voice_error" msgid="5140896300312186162">"出错，请重试。"</string>
+    <string name="voice_network_error" msgid="6649556447401862563">"无法连接"</string>
+    <string name="voice_too_much_speech" msgid="5746973620134227376">"出错，语音过长。"</string>
+    <string name="voice_audio_error" msgid="5072707727016414454">"音频问题"</string>
+    <string name="voice_server_error" msgid="7807129913977261644">"服务器出错"</string>
+    <string name="voice_speech_timeout" msgid="8461817525075498795">"未听到语音"</string>
+    <string name="voice_no_match" msgid="4285117547030179174">"未找到匹配项"</string>
+    <string name="voice_not_installed" msgid="5552450909753842415">"未安装语音搜索"</string>
+    <string name="voice_swipe_hint" msgid="6943546180310682021"><b>"提示："</b>"在键盘上滑动手指可激活语音功能"</string>
+    <string name="voice_punctuation_hint" msgid="1611389463237317754"><b>"提示："</b>"稍后，请尝试使用语音输入标点符号，如“句号”、“逗号”或“问号”。"</string>
+    <string name="cancel" msgid="6830980399865683324">"取消"</string>
+    <string name="ok" msgid="7898366843681727667">"确定"</string>
+    <string name="enable_voice" msgid="8299503298530853956">"语音输入"</string>
+    <string name="auto_submit" msgid="9151008027068358518">"语音结束后自动提交"</string>
+    <string name="auto_submit_summary" msgid="4961875269610384226">"搜索或转到下一字段时自动按 Enter。"</string>
     <string name="open_the_keyboard" msgid="2215920976029260466"><font size="17"><b>"打开键盘"\n</b></font><font size="3">\n</font>"轻触任意文本字段。"</string>
     <string name="close_the_keyboard" msgid="6251022259044940103"><font size="17"><b>"关闭键盘"\n</b></font><font size="3">\n</font>"按“返回”键。"</string>
-    <string name="touch_and_hold" msgid="6154166367273010534"><font size="17"><b>"长按某些键可开启其他字符选项"\n</b></font><font size="3">\n</font>"访问标点和重音符号。"</string>
+    <string name="touch_and_hold" msgid="6154166367273010534"><font size="17"><b>"按住某个键可开启其他字符选项"\n</b></font><font size="3">\n</font>"访问标点和重音符号。"</string>
     <string name="keyboard_settings" msgid="4585753477617374032"><font size="17"><b>"键盘设置"\n</b></font><font size="3">\n</font>"长按 "<b>"?123"</b>" 键。"</string>
     <string name="popular_domain_0" msgid="3745279225122472969">".com"</string>
     <string name="popular_domain_1" msgid="1370572248164278467">".net"</string>
     <string name="popular_domain_2" msgid="3036812463748402878">".org"</string>
     <string name="popular_domain_3" msgid="8718639560809452028">".gov"</string>
     <string name="popular_domain_4" msgid="35359437471311470">".edu"</string>
+    <!-- no translation found for language_selection_title (530749890984542339) -->
+    <skip />
+    <string name="inputMethod" msgid="7854532062009028116">"输入法"</string>
 </resources>

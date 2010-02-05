@@ -16,6 +16,8 @@
 
 package com.android.inputmethod.latin;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.inputmethodservice.Keyboard;
@@ -25,16 +27,25 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
-
-import java.util.List;
+import android.widget.PopupWindow;
 
 public class LatinKeyboardView extends KeyboardView {
 
     static final int KEYCODE_OPTIONS = -100;
     static final int KEYCODE_SHIFT_LONGPRESS = -101;
+    static final int KEYCODE_VOICE = -102;
+    static final int KEYCODE_F1 = -103;
+    static final int KEYCODE_NEXT_LANGUAGE = -104;
+    static final int KEYCODE_PREV_LANGUAGE = -105;
 
     private Keyboard mPhoneKeyboard;
+
+    private boolean mExtensionVisible;
+    private LatinKeyboardView mExtension;
+    private PopupWindow mExtensionPopup;
+    private boolean mFirstEvent;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -66,7 +77,129 @@ public class LatinKeyboardView extends KeyboardView {
         }
     }
 
-    
+    @Override
+    public boolean onTouchEvent(MotionEvent me) {
+        LatinKeyboard keyboard = (LatinKeyboard) getKeyboard();
+        // Reset any bounding box controls in the keyboard
+        if (me.getAction() == MotionEvent.ACTION_DOWN) {
+            keyboard.keyReleased();
+        }
+
+        if (me.getAction() == MotionEvent.ACTION_UP) {
+            int languageDirection = keyboard.getLanguageChangeDirection();
+            if (languageDirection != 0) {
+                getOnKeyboardActionListener().onKey(
+                        languageDirection == 1 ? KEYCODE_NEXT_LANGUAGE : KEYCODE_PREV_LANGUAGE,
+                        null);
+                me.setAction(MotionEvent.ACTION_CANCEL);
+                keyboard.keyReleased();
+                return super.onTouchEvent(me);
+            }
+        }
+
+        // If we don't have an extension keyboard, don't go any further.
+        if (keyboard.getExtension() == 0) {
+            return super.onTouchEvent(me);
+        }
+        if (me.getY() < 0) {
+            if (mExtensionVisible) {
+                int action = me.getAction();
+                if (mFirstEvent) action = MotionEvent.ACTION_DOWN;
+                mFirstEvent = false;
+                MotionEvent translated = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
+                        action,
+                        me.getX(), me.getY() + mExtension.getHeight(), me.getMetaState());
+                boolean result = mExtension.onTouchEvent(translated);
+                translated.recycle();
+                if (me.getAction() == MotionEvent.ACTION_UP
+                        || me.getAction() == MotionEvent.ACTION_CANCEL) {
+                    closeExtension();
+                }
+                return result;
+            } else {
+                if (openExtension()) {
+                    MotionEvent cancel = MotionEvent.obtain(me.getDownTime(), me.getEventTime(),
+                            MotionEvent.ACTION_CANCEL, me.getX() - 100, me.getY() - 100, 0);
+                    super.onTouchEvent(cancel);
+                    cancel.recycle();
+                    if (mExtension.getHeight() > 0) {
+                        MotionEvent translated = MotionEvent.obtain(me.getEventTime(),
+                                me.getEventTime(),
+                                MotionEvent.ACTION_DOWN,
+                                me.getX(), me.getY() + mExtension.getHeight(),
+                                me.getMetaState());
+                        mExtension.onTouchEvent(translated);
+                        translated.recycle();
+                    } else {
+                        mFirstEvent = true;
+                    }
+                }
+                return true;
+            }
+        } else if (mExtensionVisible) {
+            closeExtension();
+            // Send a down event into the main keyboard first
+            MotionEvent down = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
+                    MotionEvent.ACTION_DOWN,
+                    me.getX(), me.getY(), me.getMetaState());
+            super.onTouchEvent(down);
+            down.recycle();
+            // Send the actual event
+            return super.onTouchEvent(me);
+        } else {
+            return super.onTouchEvent(me);
+        }
+    }
+
+    private boolean openExtension() {
+        if (((LatinKeyboard) getKeyboard()).getExtension() == 0) return false;
+        makePopupWindow();
+        mExtensionVisible = true;
+        return true;
+    }
+
+    private void makePopupWindow() {
+        if (mExtensionPopup == null) {
+            int[] windowLocation = new int[2];
+            mExtensionPopup = new PopupWindow(getContext());
+            mExtensionPopup.setBackgroundDrawable(null);
+            LayoutInflater li = (LayoutInflater) getContext().getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE);
+            mExtension = (LatinKeyboardView) li.inflate(R.layout.input, null);
+            mExtension.setOnKeyboardActionListener((LatinIME) getContext());
+            mExtension.setPopupParent(this);
+            mExtension.setPopupOffset(0, -windowLocation[1]);
+            Keyboard keyboard;
+            mExtension.setKeyboard(keyboard = new LatinKeyboard(getContext(),
+                    ((LatinKeyboard) getKeyboard()).getExtension()));
+            mExtensionPopup.setContentView(mExtension);
+            mExtensionPopup.setWidth(getWidth());
+            mExtensionPopup.setHeight(keyboard.getHeight());
+            getLocationInWindow(windowLocation);
+            // TODO: Fix the "- 30". 
+            mExtension.setPopupOffset(0, -windowLocation[1] - 30);
+            mExtensionPopup.showAtLocation(this, 0, 0, -keyboard.getHeight()
+                    + windowLocation[1]);
+        } else {
+            mExtension.setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void closing() {
+        super.closing();
+        if (mExtensionPopup != null && mExtensionPopup.isShowing()) {
+            mExtensionPopup.dismiss();
+            mExtensionPopup = null;
+        }
+    }
+
+    private void closeExtension() {
+        mExtension.setVisibility(INVISIBLE);
+        mExtension.closing();
+        mExtensionVisible = false;
+    }
+
     /****************************  INSTRUMENTATION  *******************************/
 
     static final boolean DEBUG_AUTO_PLAY = false;

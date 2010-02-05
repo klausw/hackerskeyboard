@@ -35,8 +35,8 @@ public class BinaryDictionary extends Dictionary {
     private static final boolean ENABLE_MISSED_CHARACTERS = true;
 
     private int mNativeDict;
+    private int mDictLength; // This value is set from native code, don't change the name!!!!
     private int[] mInputCodes = new int[MAX_WORD_LENGTH * MAX_ALTERNATIVES];
-    private WordCallback mWordCallback;
     private char[] mOutputChars = new char[MAX_WORD_LENGTH * MAX_WORDS];
     private int[] mFrequencies = new int[MAX_WORDS];
 
@@ -75,7 +75,6 @@ public class BinaryDictionary extends Dictionary {
 
     @Override
     public void getWords(final WordComposer codes, final WordCallback callback) {
-        mWordCallback = callback;
         final int codesSize = codes.size();
         // Wont deal with really long words.
         if (codesSize > MAX_WORD_LENGTH - 1) return;
@@ -123,12 +122,18 @@ public class BinaryDictionary extends Dictionary {
     @Override
     public boolean isValidWord(CharSequence word) {
         if (word == null) return false;
-        char[] chars = word.toString().toLowerCase().toCharArray();
+        char[] chars = word.toString().toCharArray();
         return isValidWordNative(mNativeDict, chars, chars.length);
     }
 
+    public int getSize() {
+        return mDictLength; // This value is initialized on the call to openNative()
+    }
+
+    @Override
     public synchronized void close() {
         if (mNativeDict != 0) {
+            System.err.println("Closing BinaryDictionary");
             closeNative(mNativeDict);
             mNativeDict = 0;
         }
