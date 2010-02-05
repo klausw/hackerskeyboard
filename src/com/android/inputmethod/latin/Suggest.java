@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.android.inputmethod.latin.WordComposer;
+
 /**
  * This class loads a dictionary and provides a list of suggestions for a given sequence of 
  * characters. This includes corrections and completions.
@@ -37,7 +39,9 @@ public class Suggest implements Dictionary.WordCallback {
     public static final int CORRECTION_BASIC = 1;
     public static final int CORRECTION_FULL = 2;
 
-    private Dictionary mMainDict;
+    private static final int LARGE_DICTIONARY_THRESHOLD = 200 * 1000;
+
+    private BinaryDictionary mMainDict;
 
     private Dictionary mUserDictionary;
 
@@ -49,18 +53,16 @@ public class Suggest implements Dictionary.WordCallback {
 
     private int[] mPriorities = new int[mPrefMaxSuggestions];
     private ArrayList<CharSequence> mSuggestions = new ArrayList<CharSequence>();
-    private boolean mIncludeTypedWordIfValid;
     private ArrayList<CharSequence> mStringPool = new ArrayList<CharSequence>();
-    private Context mContext;
     private boolean mHaveCorrection;
     private CharSequence mOriginalWord;
     private String mLowerOriginalWord;
+    private boolean mCapitalize;
 
     private int mCorrectionMode = CORRECTION_BASIC;
 
 
     public Suggest(Context context, int dictionaryResId) {
-        mContext = context;
         mMainDict = new BinaryDictionary(context, dictionaryResId);
         for (int i = 0; i < mPrefMaxSuggestions; i++) {
             StringBuilder sb = new StringBuilder(32);
@@ -74,6 +76,10 @@ public class Suggest implements Dictionary.WordCallback {
 
     public void setCorrectionMode(int mode) {
         mCorrectionMode = mode;
+    }
+
+    public boolean hasMainDictionary() {
+        return mMainDict.getSize() > LARGE_DICTIONARY_THRESHOLD;
     }
 
     /**
@@ -153,9 +159,9 @@ public class Suggest implements Dictionary.WordCallback {
     public List<CharSequence> getSuggestions(View view, WordComposer wordComposer, 
             boolean includeTypedWordIfValid) {
         mHaveCorrection = false;
+        mCapitalize = wordComposer.isCapitalized();
         collectGarbage();
         Arrays.fill(mPriorities, 0);
-        mIncludeTypedWordIfValid = includeTypedWordIfValid;
         
         // Save a lowercase version of the original word
         mOriginalWord = wordComposer.getTypedWord();
@@ -298,7 +304,14 @@ public class Suggest implements Dictionary.WordCallback {
         StringBuilder sb = poolSize > 0 ? (StringBuilder) mStringPool.remove(poolSize - 1) 
                 : new StringBuilder(32);
         sb.setLength(0);
-        sb.append(word, offset, length);
+        if (mCapitalize) {
+            sb.append(Character.toUpperCase(word[offset]));
+            if (length > 1) {
+                sb.append(word, offset + 1, length - 1);
+            }
+        } else {
+            sb.append(word, offset, length);
+        }
         mSuggestions.add(pos, sb);
         if (mSuggestions.size() > prefMaxSuggestions) {
             CharSequence garbage = mSuggestions.remove(prefMaxSuggestions);
@@ -335,5 +348,11 @@ public class Suggest implements Dictionary.WordCallback {
             Log.w("Suggest", "String pool got too big: " + poolSize);
         }
         mSuggestions.clear();
+    }
+
+    public void close() {
+        if (mMainDict != null) {
+            mMainDict.close();
+        }
     }
 }
