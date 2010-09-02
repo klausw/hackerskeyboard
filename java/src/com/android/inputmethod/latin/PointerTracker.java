@@ -32,6 +32,8 @@ public class PointerTracker {
         public boolean isMiniKeyboardOnScreen();
     }
 
+    public final int mPointerId;
+
     // Timing constants
     private static final int REPEAT_START_DELAY = 400;
     /* package */  static final int REPEAT_INTERVAL = 50; // ~20 keys per second
@@ -45,7 +47,7 @@ public class PointerTracker {
 
     private final UIProxy mProxy;
     private final UIHandler mHandler;
-    private final ProximityKeyDetector mKeyDetector;
+    private final KeyDetector mKeyDetector;
     private OnKeyboardActionListener mListener;
 
     private Key[] mKeys;
@@ -77,9 +79,10 @@ public class PointerTracker {
     // pressed key
     private int mPreviousKey = NOT_A_KEY;
 
-    public PointerTracker(UIHandler handler, ProximityKeyDetector keyDetector, UIProxy proxy) {
+    public PointerTracker(int id, UIHandler handler, KeyDetector keyDetector, UIProxy proxy) {
         if (proxy == null || handler == null || keyDetector == null)
             throw new NullPointerException();
+        mPointerId = id;
         mProxy = proxy;
         mHandler = handler;
         mKeyDetector = keyDetector;
@@ -97,21 +100,25 @@ public class PointerTracker {
         mKeyDebounceThresholdSquared = (int)(hysteresisPixel * hysteresisPixel);
     }
 
+    private boolean isValidKeyIndex(int keyIndex) {
+        return keyIndex >= 0 && keyIndex < mKeys.length;
+    }
+
     public Key getKey(int keyIndex) {
-        return (keyIndex >= 0 && keyIndex < mKeys.length) ? mKeys[keyIndex] : null;
+        return isValidKeyIndex(keyIndex) ? mKeys[keyIndex] : null;
     }
 
     public void updateKey(int keyIndex) {
         int oldKeyIndex = mPreviousKey;
         mPreviousKey = keyIndex;
         if (keyIndex != oldKeyIndex) {
-            if (oldKeyIndex != NOT_A_KEY && oldKeyIndex < mKeys.length) {
+            if (isValidKeyIndex(oldKeyIndex)) {
                 // if new key index is not a key, old key was just released inside of the key.
                 final boolean inside = (keyIndex == NOT_A_KEY);
                 mKeys[oldKeyIndex].onReleased(inside);
                 mProxy.invalidateKey(mKeys[oldKeyIndex]);
             }
-            if (keyIndex != NOT_A_KEY && keyIndex < mKeys.length) {
+            if (isValidKeyIndex(keyIndex)) {
                 mKeys[keyIndex].onPressed();
                 mProxy.invalidateKey(mKeys[keyIndex]);
             }
@@ -127,14 +134,14 @@ public class PointerTracker {
         startTimeDebouncing(eventTime);
         checkMultiTap(eventTime, keyIndex);
         if (mListener != null) {
-            int primaryCode = (keyIndex != NOT_A_KEY) ? mKeys[keyIndex].codes[0] : 0;
+            int primaryCode = isValidKeyIndex(keyIndex) ? mKeys[keyIndex].codes[0] : 0;
             mListener.onPress(primaryCode);
         }
-        if (keyIndex >= 0 && mKeys[keyIndex].repeatable) {
-            repeatKey(keyIndex);
-            mHandler.startKeyRepeatTimer(REPEAT_START_DELAY, keyIndex, this);
-        }
-        if (keyIndex != NOT_A_KEY) {
+        if (isValidKeyIndex(keyIndex)) {
+            if (mKeys[keyIndex].repeatable) {
+                repeatKey(keyIndex);
+                mHandler.startKeyRepeatTimer(REPEAT_START_DELAY, keyIndex, this);
+            }
             mHandler.startLongPressTimer(keyIndex, LONGPRESS_TIMEOUT);
         }
         showKeyPreviewAndUpdateKey(keyIndex);
@@ -143,7 +150,7 @@ public class PointerTracker {
 
     public void onMoveEvent(int touchX, int touchY, long eventTime) {
         int keyIndex = mKeyDetector.getKeyIndexAndNearbyCodes(touchX, touchY, null);
-        if (keyIndex != NOT_A_KEY) {
+        if (isValidKeyIndex(keyIndex)) {
             if (mCurrentKey == NOT_A_KEY) {
                 updateTimeDebouncing(eventTime);
                 mCurrentKey = keyIndex;
@@ -192,7 +199,7 @@ public class PointerTracker {
         if (!wasInKeyRepeat && !mProxy.isMiniKeyboardOnScreen()) {
             detectAndSendKey(mCurrentKey, touchX, touchY, eventTime);
         }
-        if (keyIndex != NOT_A_KEY && keyIndex < mKeys.length)
+        if (isValidKeyIndex(keyIndex))
             mProxy.invalidateKey(mKeys[keyIndex]);
     }
 
@@ -202,15 +209,17 @@ public class PointerTracker {
         mProxy.dismissPopupKeyboard();
         showKeyPreviewAndUpdateKey(NOT_A_KEY);
         int keyIndex = mCurrentKey;
-        if (keyIndex != NOT_A_KEY && keyIndex < mKeys.length)
+        if (isValidKeyIndex(keyIndex))
            mProxy.invalidateKey(mKeys[keyIndex]);
     }
 
     public void repeatKey(int keyIndex) {
-        Key key = mKeys[keyIndex];
-        // While key is repeating, because there is no need to handle multi-tap key, we can pass
-        // -1 as eventTime argument.
-        detectAndSendKey(keyIndex, key.x, key.y, -1);
+        Key key = getKey(keyIndex);
+        if (key != null) {
+            // While key is repeating, because there is no need to handle multi-tap key, we can
+            // pass -1 as eventTime argument.
+            detectAndSendKey(keyIndex, key.x, key.y, -1);
+        }
     }
 
     // These package scope methods are only for debugging purpose.
@@ -250,7 +259,7 @@ public class PointerTracker {
             throw new IllegalStateException("keyboard and/or hysteresis not set");
         if (newKey == curKey) {
             return true;
-        } else if (curKey >= 0 && curKey < mKeys.length) {
+        } else if (isValidKeyIndex(curKey)) {
             return getSquareDistanceToKeyEdge(x, y, mKeys[curKey])
                     < mKeyDebounceThresholdSquared;
         } else {
@@ -300,7 +309,7 @@ public class PointerTracker {
     }
 
     private void detectAndSendKey(int index, int x, int y, long eventTime) {
-        if (index != NOT_A_KEY && index < mKeys.length) {
+        if (isValidKeyIndex(index)) {
             final Key key = mKeys[index];
             OnKeyboardActionListener listener = mListener;
             if (key.text != null) {
@@ -363,11 +372,15 @@ public class PointerTracker {
     }
 
     private void checkMultiTap(long eventTime, int keyIndex) {
-        if (keyIndex == NOT_A_KEY) return;
-        Key key = mKeys[keyIndex];
+        Key key = getKey(keyIndex);
+        if (key == null)
+            return;
+
+        final boolean isMultiTap =
+                (eventTime < mLastTapTime + MULTITAP_INTERVAL && keyIndex == mLastSentIndex);
         if (key.codes.length > 1) {
             mInMultiTap = true;
-            if (eventTime < mLastTapTime + MULTITAP_INTERVAL && keyIndex == mLastSentIndex) {
+            if (isMultiTap) {
                 mTapCount = (mTapCount + 1) % key.codes.length;
                 return;
             } else {
@@ -375,7 +388,7 @@ public class PointerTracker {
                 return;
             }
         }
-        if (eventTime > mLastTapTime + MULTITAP_INTERVAL || keyIndex != mLastSentIndex) {
+        if (!isMultiTap) {
             resetMultiTap();
         }
     }
