@@ -200,6 +200,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private int mMiniKeyboardOriginY;
     private long mMiniKeyboardPopupTime;
     private int[] mWindowOffset;
+    private float mMiniKeyboardSlideAllowance;
 
     /** Listener for {@link OnKeyboardActionListener}. */
     private OnKeyboardActionListener mKeyboardActionListener;
@@ -387,6 +388,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_verticalCorrection:
                 mVerticalCorrection = a.getDimensionPixelOffset(attr, 0);
+                break;
+            case R.styleable.LatinKeyboardBaseView_miniKeyboardSlideAllowance:
+                mMiniKeyboardSlideAllowance = a.getDimensionPixelOffset(attr, 0);
                 break;
             case R.styleable.LatinKeyboardBaseView_keyPreviewLayout:
                 previewLayout = a.getResourceId(attr, 0);
@@ -989,8 +993,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         if (container == null)
             throw new NullPointerException();
 
-        mMiniKeyboard = (LatinKeyboardBaseView)container.findViewById(R.id.LatinKeyboardBaseView);
-        mMiniKeyboard.setOnKeyboardActionListener(new OnKeyboardActionListener() {
+        LatinKeyboardBaseView miniKeyboard =
+                (LatinKeyboardBaseView)container.findViewById(R.id.LatinKeyboardBaseView);
+        miniKeyboard.setOnKeyboardActionListener(new OnKeyboardActionListener() {
             public void onKey(int primaryCode, int[] keyCodes, int x, int y) {
                 mKeyboardActionListener.onKey(primaryCode, keyCodes, x, y);
                 dismissPopupKeyboard();
@@ -1028,8 +1033,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         } else {
             keyboard = new Keyboard(getContext(), popupKeyboardId);
         }
-        mMiniKeyboard.setKeyboard(keyboard);
-        mMiniKeyboard.setPopupParent(this);
+        miniKeyboard.setKeyboard(keyboard);
+        miniKeyboard.setPopupParent(this);
 
         container.measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.AT_MOST),
                 MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.AT_MOST));
@@ -1061,17 +1066,38 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             mWindowOffset = new int[2];
             getLocationInWindow(mWindowOffset);
         }
-        int popupX = popupKey.x + popupKey.width + getPaddingLeft();
-        int popupY = popupKey.y + getPaddingTop();
-        popupX -= container.getMeasuredWidth();
+
+        // HACK: Have the leftmost number in the popup characters right above the key
+        boolean isNumberAtLeftmost = false;
+        if (popupKey.popupCharacters != null && popupKey.popupCharacters.length() > 1) {
+            char leftmostChar = popupKey.popupCharacters.charAt(0);
+            isNumberAtLeftmost = leftmostChar >= '0' && leftmostChar <= '9';
+        }
+
+        int popupX = popupKey.x + mWindowOffset[0];
+        int popupY = popupKey.y + mWindowOffset[1];
+        if (isNumberAtLeftmost) {
+            popupX -= container.getPaddingLeft();
+        } else {
+            popupX += popupKey.width + getPaddingLeft();
+            popupX -= container.getMeasuredWidth();
+            popupX += container.getPaddingRight();
+        }
+        popupY += getPaddingTop();
         popupY -= container.getMeasuredHeight();
-        popupX += mWindowOffset[0];
-        popupY += mWindowOffset[1];
-        final int x = popupX + container.getPaddingRight();
-        final int y = popupY + container.getPaddingBottom();
-        mMiniKeyboardOriginX = (x < 0 ? 0 : x) + container.getPaddingLeft();
-        mMiniKeyboardOriginY = y + container.getPaddingTop();
-        mMiniKeyboard.setPopupOffset((x < 0) ? 0 : x, y);
+        popupY += container.getPaddingBottom();
+        final int x = popupX;
+        final int y = popupY;
+
+        int adjustedX = x;
+        if (x < 0) {
+            adjustedX = 0;
+        } else if (x > (getMeasuredWidth() - container.getMeasuredWidth())) {
+            adjustedX = getMeasuredWidth() - container.getMeasuredWidth();
+        }
+        mMiniKeyboardOriginX = adjustedX + container.getPaddingLeft() - mWindowOffset[0];
+        mMiniKeyboardOriginY = y + container.getPaddingTop() - mWindowOffset[1];
+        mMiniKeyboard.setPopupOffset(adjustedX, y);
         mMiniKeyboard.setShifted(isShifted());
         // Mini keyboard needs no pop-up key preview displayed.
         mMiniKeyboard.setPreviewEnabled(false);
@@ -1094,7 +1120,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     private MotionEvent generateMiniKeyboardMotionEvent(int action, int x, int y, long eventTime) {
         return MotionEvent.obtain(mMiniKeyboardPopupTime, eventTime, action,
-                x - mMiniKeyboardOriginX, y - mMiniKeyboardOriginY, 0);
+                x - mMiniKeyboardOriginX,
+                // TODO: Currently just taking care of "below" of the keys in a mini popup keyboard
+                // for key detection by sliding finger.  Need to take care of left, right, and
+                // upper of "edge" keys.
+                y - mMiniKeyboardOriginY - (int)mMiniKeyboardSlideAllowance,
+                0);
     }
 
     private PointerTracker getPointerTracker(final int id) {
