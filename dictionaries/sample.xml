@@ -1,0 +1,16 @@
+<!-- This is a sample wordlist that can be converted to a binary dictionary
+     for use by the Latin IME.
+     The format of the word list is a flat list of word entries.
+     Each entry has a frequency between 255 and 0.
+     Highest frequency words get more weight in the prediction algorithm.
+     You can capitalize words that must always be capitalized, such as "January".
+     You can have a capitalized and a non-capitalized word as separate entries,
+     such as "robin" and "Robin".
+-->
+<wordlist>
+  <w f="255">this</w>
+  <w f="255">is</w>
+  <w f="128">sample</w>
+  <w f="1">wordlist</w>
+</wordlist>
+
