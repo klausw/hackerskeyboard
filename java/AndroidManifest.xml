@@ -6,9 +6,11 @@
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8"></uses-sdk>
 
     <application android:label="@string/english_ime_name"
             android:backupAgent="LatinIMEBackupAgent"
+            android:hardwareAccelerated="true"
             android:killAfterRestore="false">
 
         <service android:name="LatinIME"
