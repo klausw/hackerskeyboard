@@ -14,10 +14,10 @@
  * the License.
  */
 
-package com.android.inputmethod.latin;
+package org.pocketworkstation.pckeyboard;
 
-import com.android.inputmethod.latin.LatinKeyboardBaseView.OnKeyboardActionListener;
-import com.android.inputmethod.latin.LatinKeyboardBaseView.UIHandler;
+import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.OnKeyboardActionListener;
+import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.UIHandler;
 
 import android.content.res.Resources;
 import android.inputmethodservice.Keyboard;
