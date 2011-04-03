@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.android.inputmethod.latin;
+package org.pocketworkstation.pckeyboard;
 
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;

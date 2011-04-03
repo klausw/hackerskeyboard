@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.inputmethod.latin;
+package org.pocketworkstation.pckeyboard;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;

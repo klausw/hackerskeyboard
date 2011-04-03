@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.inputmethod.latin;
+package org.pocketworkstation.pckeyboard;
 
-import com.android.inputmethod.latin.Dictionary.DataType;
+import org.pocketworkstation.pckeyboard.Dictionary.DataType;
 
 import android.content.Context;
 import android.content.SharedPreferences;

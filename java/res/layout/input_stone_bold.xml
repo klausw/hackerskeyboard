@@ -18,9 +18,9 @@
 */
 -->
 
-<com.android.inputmethod.latin.LatinKeyboardView
+<org.pocketworkstation.pckeyboard.LatinKeyboardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
+        xmlns:latin="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
         android:id="@+id/LatinkeyboardBaseView"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"

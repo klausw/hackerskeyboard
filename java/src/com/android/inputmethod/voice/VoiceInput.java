@@ -16,8 +16,8 @@
 
 package com.android.inputmethod.voice;
 
-import com.android.inputmethod.latin.EditingUtil;
-import com.android.inputmethod.latin.R;
+import org.pocketworkstation.pckeyboard.EditingUtil;
+import org.pocketworkstation.pckeyboard.R;
 
 import android.content.ContentResolver;
 import android.content.Context;
