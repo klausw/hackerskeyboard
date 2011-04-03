@@ -29,4 +29,11 @@
     <integer name="key_settings">-100</integer>
     <integer name="key_voice">-102</integer>
     <integer name="key_f1">-103</integer>
+    <!--  Keycodes for special keys, using negative KeyEvent keycode numbers -->
+    <integer name="key_dpad_up">-19</integer>    
+    <integer name="key_dpad_down">-20</integer>
+    <integer name="key_dpad_left">-21</integer>
+    <integer name="key_dpad_right">-22</integer>
+    <integer name="key_escape">-111</integer>
+    <integer name="key_ctrl_left">-113</integer>
 </resources>
