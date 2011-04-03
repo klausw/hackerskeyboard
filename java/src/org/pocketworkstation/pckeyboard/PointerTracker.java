@@ -214,7 +214,8 @@ public class PointerTracker {
             return false;
         int primaryCode = key.codes[0];
         return primaryCode == Keyboard.KEYCODE_SHIFT
-                || primaryCode == Keyboard.KEYCODE_MODE_CHANGE;
+                || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
+                || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT;
     }
 
     public boolean isModifier() {
