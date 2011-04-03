@@ -104,12 +104,12 @@ public class Suggest implements Dictionary.WordCallback {
     private int mCorrectionMode = CORRECTION_BASIC;
 
     public Suggest(Context context, int[] dictionaryResId) {
-        mMainDict = new BinaryDictionary(context, dictionaryResId, DIC_MAIN);
+        mMainDict = null; //new BinaryDictionary(context, dictionaryResId, DIC_MAIN);
         initPool();
     }
 
     public Suggest(Context context, ByteBuffer byteBuffer) {
-        mMainDict = new BinaryDictionary(context, byteBuffer, DIC_MAIN);
+        mMainDict = null; //new BinaryDictionary(context, byteBuffer, DIC_MAIN);
         initPool();
     }
 
@@ -133,7 +133,7 @@ public class Suggest implements Dictionary.WordCallback {
     }
 
     public boolean hasMainDictionary() {
-        return mMainDict.getSize() > LARGE_DICTIONARY_THRESHOLD;
+        return false; //mMainDict.getSize() > LARGE_DICTIONARY_THRESHOLD;
     }
 
     public int getApproxMaxWordLength() {
@@ -220,7 +220,9 @@ public class Suggest implements Dictionary.WordCallback {
      */
     public List<CharSequence> getSuggestions(View view, WordComposer wordComposer, 
             boolean includeTypedWordIfValid, CharSequence prevWordForBigram) {
-        LatinImeLogger.onStartSuggestion(prevWordForBigram);
+        return mSuggestions;
+/*
+    	LatinImeLogger.onStartSuggestion(prevWordForBigram);
         mHaveCorrection = false;
         mIsFirstCharCapitalized = wordComposer.isFirstCharCapitalized();
         mIsAllUpperCase = wordComposer.isAllUpperCase();
@@ -344,6 +346,7 @@ public class Suggest implements Dictionary.WordCallback {
         }
         removeDupes();
         return mSuggestions;
+  */
     }
 
     public int[] getNextLettersFrequencies() {
@@ -503,8 +506,8 @@ public class Suggest implements Dictionary.WordCallback {
         if (word == null || word.length() == 0) {
             return false;
         }
-        return mMainDict.isValidWord(word)
-                || (mUserDictionary != null && mUserDictionary.isValidWord(word))
+        return //mMainDict.isValidWord(word)
+                (mUserDictionary != null && mUserDictionary.isValidWord(word))
                 || (mAutoDictionary != null && mAutoDictionary.isValidWord(word))
                 || (mContactsDictionary != null && mContactsDictionary.isValidWord(word));
     }
