@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.android.inputmethod.latin;
+package org.pocketworkstation.pckeyboard;
 
 /**
  * Abstract base class for a dictionary that can do a fuzzy search for words based on a set of key

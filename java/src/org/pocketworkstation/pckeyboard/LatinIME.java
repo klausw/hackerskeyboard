@@ -14,9 +14,9 @@
  * the License.
  */
 
-package com.android.inputmethod.latin;
+package org.pocketworkstation.pckeyboard;
 
-import com.android.inputmethod.latin.LatinIMEUtil.RingCharBuffer;
+import org.pocketworkstation.pckeyboard.LatinIMEUtil.RingCharBuffer;
 import com.android.inputmethod.voice.FieldContext;
 import com.android.inputmethod.voice.SettingsUtil;
 import com.android.inputmethod.voice.VoiceInput;

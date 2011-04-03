@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.android.inputmethod.latin;
+package org.pocketworkstation.pckeyboard;
 
 import android.text.TextUtils;
 import android.view.inputmethod.ExtractedText;
