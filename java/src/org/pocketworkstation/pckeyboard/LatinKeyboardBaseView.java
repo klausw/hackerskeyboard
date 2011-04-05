@@ -165,6 +165,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     // XML attribute
     private int mKeyTextSize;
+    private int mHintTextSize;
     private int mKeyTextColor;
     private Typeface mKeyTextStyle = Typeface.DEFAULT;
     private int mLabelTextSize;
@@ -244,6 +245,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     /** The canvas for the above mutable keyboard bitmap */
     private Canvas mCanvas;
     private final Paint mPaint;
+    private final Paint mPaintHint;
     private final Rect mPadding;
     private final Rect mClipRegion = new Rect(0, 0, 0, 0);
     // This map caches key label text height in pixel as value and key label text size as map key.
@@ -441,6 +443,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_keyTextSize:
                 mKeyTextSize = a.getDimensionPixelSize(attr, 18);
+                mHintTextSize = mKeyTextSize * 6/10; // FIXME
                 break;
             case R.styleable.LatinKeyboardBaseView_keyTextColor:
                 mKeyTextColor = a.getColor(attr, 0xFF000000);
@@ -508,6 +511,13 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mPaint.setTextSize(keyTextSize);
         mPaint.setTextAlign(Align.CENTER);
         mPaint.setAlpha(255);
+
+        mPaintHint = new Paint();
+        mPaintHint.setAntiAlias(true);
+        mPaintHint.setTextSize(mHintTextSize);
+        mPaintHint.setTextAlign(Align.RIGHT);
+        mPaintHint.setAlpha(255);
+        mPaintHint.setTypeface(Typeface.DEFAULT_BOLD);
 
         mPadding = new Rect(0, 0, 0, 0);
         mKeyBackground.getPadding(mPadding);
@@ -765,6 +775,19 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         canvas.drawBitmap(mBuffer, 0, 0, null);
     }
 
+    private int getLabelHeight(Paint paint, int labelSize) {
+    	Integer labelHeightValue = mTextHeightCache.get(labelSize);
+    	if (labelHeightValue != null) {
+    		return labelHeightValue;
+    	} else {
+    		Rect textBounds = new Rect();
+    		paint.getTextBounds(KEY_LABEL_HEIGHT_REFERENCE_CHAR, 0, 1, textBounds);
+    		int labelHeight = textBounds.height();
+    		mTextHeightCache.put(labelSize, labelHeight);
+    		return labelHeight;
+    	}
+    }
+
     private void onBufferDraw() {
         if (mBuffer == null || mKeyboardChanged) {
             if (mBuffer == null || mKeyboardChanged &&
@@ -784,6 +807,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         if (mKeyboard == null) return;
 
         final Paint paint = mPaint;
+        final Paint paintHint = mPaintHint;
         final Drawable keyBackground = mKeyBackground;
         final Rect clipRegion = mClipRegion;
         final Rect padding = mPadding;
@@ -830,23 +854,14 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final int labelSize;
                 if (label.length() > 1 && key.codes.length < 2) {
                     labelSize = mLabelTextSize;
-                    paint.setTypeface(Typeface.DEFAULT_BOLD);
+                    paint.setTypeface(Typeface.DEFAULT);
                 } else {
                     labelSize = mKeyTextSize;
                     paint.setTypeface(mKeyTextStyle);
                 }
                 paint.setTextSize(labelSize);
 
-                Integer labelHeightValue = mTextHeightCache.get(labelSize);
-                final int labelHeight;
-                if (labelHeightValue != null) {
-                    labelHeight = labelHeightValue;
-                } else {
-                    Rect textBounds = new Rect();
-                    paint.getTextBounds(KEY_LABEL_HEIGHT_REFERENCE_CHAR, 0, 1, textBounds);
-                    labelHeight = textBounds.height();
-                    mTextHeightCache.put(labelSize, labelHeight);
-                }
+                final int labelHeight = getLabelHeight(paint, labelSize);
 
                 // Draw a drop shadow for the text
                 paint.setShadowLayer(mShadowRadius, 0, 0, mShadowColor);
@@ -855,6 +870,15 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 canvas.drawText(label, centerX, baseline, paint);
+                
+                char hint = getHintLabel(key);
+                if (hint != 0) {
+                	final int hintLabelHeight = getLabelHeight(paintHint, mHintTextSize);
+                    canvas.drawText(Character.toString(hint),
+                    		key.width - padding.right,
+                    		padding.top + hintLabelHeight * 11/10,
+                    		paintHint);
+                }
                 // Turn off drop shadow
                 paint.setShadowLayer(0, 0, 0, 0);
 
@@ -1243,10 +1267,29 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     private boolean shouldDrawLabelAndIcon(Key key) {
-        return isNumberAtEdgeOfPopupChars(key) || isNonMicLatinF1Key(key)
+    	// isNumberAtEdgeOfPopupChars(key) ||
+    	return isNonMicLatinF1Key(key)
                 || LatinKeyboard.hasPuncOrSmileysPopup(key);
     }
 
+    private char getHintLabel(Key key) {
+        if (key.modifier || key.popupCharacters == null || key.popupCharacters.length() == 0) {
+        	return 0;
+        }
+        if (key.label.length() > 0) {
+        	// FIXME: suppress redundant digit hints on letters for full keyboard?
+        	//if (label >= 'a' && label <= 'z') {
+        	//	return 0;
+        	//}
+        }
+        // must keep this algorithm in sync with onLongPress() method
+        boolean isNumberAtLeftmost =
+            hasMultiplePopupChars(key) && isNumberAtLeftmostPopupChar(key);
+        int pos = isNumberAtLeftmost ? 0 : key.popupCharacters.length() - 1;
+        char label = key.popupCharacters.charAt(pos);
+        return label;
+    }
+    
     private boolean isLatinF1Key(Key key) {
         return (mKeyboard instanceof LatinKeyboard) && ((LatinKeyboard)mKeyboard).isF1Key(key);
     }
