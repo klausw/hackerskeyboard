@@ -17,7 +17,7 @@
 package org.pocketworkstation.pckeyboard;
 
 import android.content.Context;
-import android.inputmethodservice.Keyboard.Key;
+import org.pocketworkstation.pckeyboard.Keyboard.Key;
 import android.text.format.DateFormat;
 import android.util.Log;
 

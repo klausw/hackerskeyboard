@@ -34,7 +34,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.inputmethodservice.InputMethodService;
-import android.inputmethodservice.Keyboard;
 import android.media.AudioManager;
 import android.os.Debug;
 import android.os.Handler;

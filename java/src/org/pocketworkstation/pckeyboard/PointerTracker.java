@@ -20,8 +20,7 @@ import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.OnKeyboardActionLi
 import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.UIHandler;
 
 import android.content.res.Resources;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.Keyboard.Key;
+import org.pocketworkstation.pckeyboard.Keyboard.Key;
 import android.util.Log;
 import android.view.MotionEvent;
 
