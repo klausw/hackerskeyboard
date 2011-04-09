@@ -38,6 +38,14 @@
             />
 
     <CheckBoxPreference
+            android:key="full_keyboard_in_portrait"
+            android:title="Full keyboard in portrait mode"
+            android:summary="(If off, uses the legacy Gingerbread layout in portrait mode.)"
+            android:persistent="true" 
+            android:defaultValue="true"
+            />
+
+    <CheckBoxPreference
             android:key="recorrection_enabled"
             android:title="@string/prefs_enable_recorrection"
             android:summary="@string/prefs_enable_recorrection_summary"
@@ -77,6 +85,36 @@
         <intent
                 android:action="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION"/>
     </PreferenceScreen>
+
+    <PreferenceCategory
+            android:title="ConnectBot related settings"
+            android:key="connectbot_settings">
+
+    <CheckBoxPreference
+            android:key="fullscreen_override"
+            android:title="Always use standard view in landscape mode"
+            android:summary="This disables the mini editor that's normally used on small screens."
+            android:persistent="true" 
+            android:defaultValue="false"
+            />
+
+    <CheckBoxPreference
+            android:key="connectbot_tab_hack"
+            android:title="Tab key sends ConnectBot-compatible tab"
+            android:summary="(Makes the Tab key usable in ConnectBot, but it won't work for other apps.)"
+            android:persistent="true" 
+            android:defaultValue="false"
+            />
+
+    <CheckBoxPreference
+            android:key="connectbot_ctrl_i_hack"
+            android:title="Ctrl-I sends ConnectBot-compatible tab"
+            android:summary="(Harder to type, but should have minimal impact on other apps.)"
+            android:persistent="true" 
+            android:defaultValue="true"            
+            />
+
+	</PreferenceCategory>
 
     <PreferenceCategory
             android:title="@string/prediction_category"

@@ -119,6 +119,8 @@ public class LatinKeyboard extends Keyboard {
     public LatinKeyboard(Context context, int xmlLayoutResId, int mode) {
         super(context, xmlLayoutResId, mode);
         final Resources res = context.getResources();
+        //Log.i("PCKeyboard", "keyHeight=" + this.getKeyHeight());
+        //this.setKeyHeight(30); // is useless, see http://code.google.com/p/android/issues/detail?id=4532
         mContext = context;
         mMode = mode;
         mRes = res;
@@ -207,19 +209,12 @@ public class LatinKeyboard extends Keyboard {
                     mEnterKey.label = res.getText(R.string.label_send_key);
                     break;
                 default:
-                    if (mode == KeyboardSwitcher.MODE_IM) {
-                        mEnterKey.icon = mHintIcon;
-                        mEnterKey.iconPreview = null;
-                        mEnterKey.label = ":-)";
-                        mEnterKey.text = ":-) ";
-                        mEnterKey.popupResId = R.xml.popup_smileys;
-                    } else {
-                        mEnterKey.iconPreview = res.getDrawable(
-                                R.drawable.sym_keyboard_feedback_return);
-                        mEnterKey.icon = res.getDrawable(mIsBlackSym ?
-                                R.drawable.sym_bkeyboard_return : R.drawable.sym_keyboard_return);
-                        mEnterKey.label = null;
-                    }
+                    // Keep Return key in IM mode, we have a dedicated smiley key.
+                    mEnterKey.iconPreview = res.getDrawable(
+                            R.drawable.sym_keyboard_feedback_return);
+                    mEnterKey.icon = res.getDrawable(mIsBlackSym ?
+                            R.drawable.sym_bkeyboard_return : R.drawable.sym_keyboard_return);
+                    mEnterKey.label = null;
                     break;
             }
             // Set the initial size of the preview icon
@@ -228,7 +223,7 @@ public class LatinKeyboard extends Keyboard {
             }
         }
     }
-    
+
     void enableShiftLock() {
         int index = getShiftKeyIndex();
         if (index >= 0) {
