@@ -16,7 +16,7 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import android.inputmethodservice.Keyboard.Key;
+import org.pocketworkstation.pckeyboard.Keyboard.Key;
 
 class MiniKeyboardKeyDetector extends KeyDetector {
     private static final int MAX_NEARBY_KEYS = 1;

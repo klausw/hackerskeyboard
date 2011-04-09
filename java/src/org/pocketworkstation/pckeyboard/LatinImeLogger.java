@@ -20,7 +20,6 @@ import org.pocketworkstation.pckeyboard.Dictionary.DataType;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.inputmethodservice.Keyboard;
 import java.util.List;
 
 public class LatinImeLogger implements SharedPreferences.OnSharedPreferenceChangeListener {
