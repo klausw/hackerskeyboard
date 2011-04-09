@@ -16,8 +16,7 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.Keyboard.Key;
+import org.pocketworkstation.pckeyboard.Keyboard.Key;
 
 import java.util.Arrays;
 import java.util.List;
