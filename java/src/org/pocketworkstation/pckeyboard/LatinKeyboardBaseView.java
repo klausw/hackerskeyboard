@@ -830,6 +830,15 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
         canvas.drawColor(0x00000000, PorterDuff.Mode.CLEAR);
         final int keyCount = keys.length;
+        boolean hasNumberKeys = false;
+        for (int i = 0; i < keyCount; i++) {
+            final Key key = keys[i];
+            if (key.label != null && key.label.equals("1")) {
+            	hasNumberKeys = true;
+            	break;
+            }
+        }
+
         for (int i = 0; i < keyCount; i++) {
             final Key key = keys[i];
             if (drawSingleKey && invalidKey != key) {
@@ -870,8 +879,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 canvas.drawText(label, centerX, baseline, paint);
-                
-                char hint = getHintLabel(key);
+
+                char hint = getHintLabel(key, hasNumberKeys);
                 if (hint != 0) {
                 	final int hintLabelHeight = getLabelHeight(paintHint, mHintTextSize);
                     canvas.drawText(Character.toString(hint),
@@ -1272,24 +1281,26 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 || LatinKeyboard.hasPuncOrSmileysPopup(key);
     }
 
-    private char getHintLabel(Key key) {
+    private char getHintLabel(Key key, boolean hasNumberKeys) {
         if (key.modifier || key.popupCharacters == null || key.popupCharacters.length() == 0) {
         	return 0;
         }
-        if (key.label.length() > 0) {
-        	// FIXME: suppress redundant digit hints on letters for full keyboard?
-        	//if (label >= 'a' && label <= 'z') {
-        	//	return 0;
-        	//}
-        }
-        // must keep this algorithm in sync with onLongPress() method
+        // Must keep this algorithm in sync with onLongPress() method for consistency!
         boolean isNumberAtLeftmost =
             hasMultiplePopupChars(key) && isNumberAtLeftmostPopupChar(key);
-        int pos = isNumberAtLeftmost ? 0 : key.popupCharacters.length() - 1;
+        int popupLen = key.popupCharacters.length();
+        int pos = isNumberAtLeftmost ? 0 : popupLen - 1;
+
+        // Use the character at this position as the label?
         char label = key.popupCharacters.charAt(pos);
+        if (hasNumberKeys && label >= '0' && label <= '9') {
+        	// We have real number keys, don't show digit hint
+        	if (popupLen == 1) return 0; // No other alternatives
+        	label = key.popupCharacters.charAt(1);
+        }
         return label;
     }
-    
+
     private boolean isLatinF1Key(Key key) {
         return (mKeyboard instanceof LatinKeyboard) && ((LatinKeyboard)mKeyboard).isF1Key(key);
     }
