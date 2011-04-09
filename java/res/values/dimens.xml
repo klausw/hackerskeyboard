@@ -20,10 +20,10 @@
 
 <resources>
     <!-- key_height + key_bottom_gap = popup_key_height -->
-    <dimen name="key_height">0.290in</dimen>
-    <dimen name="key_bottom_gap">0.035in</dimen>
+    <dimen name="key_height">0.240in</dimen>
+    <dimen name="key_bottom_gap">0.012in</dimen>
     <dimen name="popup_key_height">0.325in</dimen>
-    <dimen name="keyboard_bottom_padding">0.06in</dimen>
+    <dimen name="keyboard_bottom_padding">0.02in</dimen>
     <dimen name="bubble_pointer_offset">22dip</dimen>
     <dimen name="candidate_strip_height">42dip</dimen>
     <dimen name="candidate_strip_fading_edge_length">63dip</dimen>
