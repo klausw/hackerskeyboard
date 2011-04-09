@@ -81,6 +81,8 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
     private static final int[] KBD_SYMBOLS_SHIFT = new int[] {
         R.xml.kbd_symbols_shift, R.xml.kbd_symbols_shift_black};
     private static final int[] KBD_QWERTY = new int[] {R.xml.kbd_qwerty, R.xml.kbd_qwerty_black};
+    private static final int KBD_FULL = R.xml.kbd_full;
+    private static final int KBD_FULL_SHIFT = R.xml.kbd_full_shift;
 
     private LatinKeyboardView mInputView;
     private static final int[] ALPHABET_MODES = {
@@ -113,6 +115,9 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
     private boolean mHasVoice;
     private boolean mVoiceOnPrimary;
     private boolean mPreferSymbols;
+    private boolean mWantFullInPortrait;
+    private boolean mFullMode;
+    private boolean mFullShifted;
 
     private static final int AUTO_MODE_SWITCH_STATE_ALPHA = 0;
     private static final int AUTO_MODE_SWITCH_STATE_SYMBOL_BEGIN = 1;
@@ -172,12 +177,16 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
     }
 
     private KeyboardId makeSymbolsId(boolean hasVoice) {
+        if (mFullMode)
+            return new KeyboardId(KBD_FULL_SHIFT, hasVoice); 
         return new KeyboardId(KBD_SYMBOLS[getCharColorId()], mHasSettingsKey ?
                 KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY : KEYBOARDMODE_SYMBOLS,
                 false, hasVoice);
     }
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
+        if (mFullMode)
+            return new KeyboardId(KBD_FULL_SHIFT, hasVoice); 
         return new KeyboardId(KBD_SYMBOLS_SHIFT[getCharColorId()], mHasSettingsKey ?
                 KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY : KEYBOARDMODE_SYMBOLS,
                 false, hasVoice);
@@ -323,9 +332,27 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
         return keyboard;
     }
 
+    public void setFullKeyboardOptions(boolean fullInPortrait) {
+        mWantFullInPortrait = fullInPortrait;
+    }
+    
     private KeyboardId getKeyboardId(int mode, int imeOptions, boolean isSymbols) {
         boolean hasVoice = hasVoiceButton(isSymbols);
         int charColorId = getCharColorId();
+        int orientation = mInputMethodService.getResources().getConfiguration().orientation;
+        if (orientation != Configuration.ORIENTATION_PORTRAIT || mWantFullInPortrait) {
+            switch (mode) {
+                case MODE_TEXT:
+                case MODE_URL:
+                case MODE_EMAIL:
+                case MODE_IM:
+                case MODE_WEB:
+                    mFullMode = true;
+                    return new KeyboardId(KBD_FULL, KEYBOARDMODE_NORMAL, true, hasVoice);
+            }
+        } else {
+            mFullMode = false;
+        }
         // TODO: generalize for any KeyboardId
         int keyboardRowsResId = KBD_QWERTY[charColorId];
         if (isSymbols) {
@@ -386,6 +413,19 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
     }
 
     public void setShifted(boolean shifted) {
+        if (mFullMode) {
+            if (shifted) {
+                if (!mFullShifted) {
+                    mFullShifted = true;
+                    mInputView.setKeyboard(getKeyboard(mSymbolsId));
+                }
+            } else {
+                if (mFullShifted) { // FIXME: other keyboards?
+                    mFullShifted = false;
+                    setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
+                }
+            }
+        }
         if (mInputView != null) {
             mInputView.setShifted(shifted);
         }
