@@ -522,7 +522,9 @@ public class Keyboard {
         mDefaultHorizontalGap = 0;
         mDefaultWidth = mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
-        mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 : mDefaultWidth;
+        int nRows = 5;
+        mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 / nRows: mDefaultWidth;
+        Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " (keyHeight=" + keyHeight + " displayHeight="+mDisplayHeight+")");
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
@@ -795,7 +797,7 @@ public class Keyboard {
                 mDisplayWidth, mDisplayWidth / 10);
         mDefaultHeight = getDimensionOrFraction(a,
                 R.styleable.Keyboard_keyHeight,
-                mDisplayHeight, 50);
+                mDisplayHeight, mDefaultHeight);
         mDefaultHorizontalGap = getDimensionOrFraction(a,
                 R.styleable.Keyboard_horizontalGap,
                 mDisplayWidth, 0);
