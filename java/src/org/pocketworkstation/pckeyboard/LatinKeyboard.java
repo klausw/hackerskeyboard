@@ -112,11 +112,11 @@ public class LatinKeyboard extends Keyboard {
     private static int sSpacebarVerticalCorrection;
 
     public LatinKeyboard(Context context, int xmlLayoutResId) {
-        this(context, xmlLayoutResId, 0);
+        this(context, xmlLayoutResId, 0, 0);
     }
 
-    public LatinKeyboard(Context context, int xmlLayoutResId, int mode) {
-        super(context, xmlLayoutResId, mode);
+    public LatinKeyboard(Context context, int xmlLayoutResId, int mode, int heightPercent) {
+        super(context, xmlLayoutResId, mode, heightPercent);
         final Resources res = context.getResources();
         //Log.i("PCKeyboard", "keyHeight=" + this.getKeyHeight());
         //this.setKeyHeight(30); // is useless, see http://code.google.com/p/android/issues/detail?id=4532
@@ -772,7 +772,7 @@ public class LatinKeyboard extends Keyboard {
     }
 
     // TODO LatinKey could be static class
-    class LatinKey extends Keyboard.Key {
+    class LatinKey extends Key {
 
         // functional normal state (with properties)
         private final int[] KEY_STATE_FUNCTIONAL_NORMAL = {
