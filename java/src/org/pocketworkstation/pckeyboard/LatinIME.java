@@ -133,6 +133,8 @@ public class LatinIME extends InputMethodService
     private static final String PREF_CONNECTBOT_CTRL_I_HACK = "connectbot_ctrl_i_hack";
     private static final String PREF_FULLSCREEN_OVERRIDE = "fullscreen_override";
     private static final String PREF_FULL_KEYBOARD_IN_PORTRAIT = "full_keyboard_in_portrait";
+    private static final String PREF_HEIGHT_PORTRAIT = "settings_height_portrait";
+    private static final String PREF_HEIGHT_LANDSCAPE = "settings_height_landscape";
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
@@ -372,7 +374,9 @@ public class LatinIME extends InputMethodService
         mConnectbotCtrlIHack = prefs.getBoolean(PREF_CONNECTBOT_CTRL_I_HACK, true);
         mFullscreenOverride = prefs.getBoolean(PREF_FULLSCREEN_OVERRIDE, true);
         boolean fullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, false);
-        mKeyboardSwitcher.setFullKeyboardOptions(fullInPortrait);
+        int heightPortrait = getHeight(prefs.getString(PREF_HEIGHT_PORTRAIT, "0"));
+        int heightLandscape = getHeight(prefs.getString(PREF_HEIGHT_LANDSCAPE, "0"));
+        mKeyboardSwitcher.setFullKeyboardOptions(fullInPortrait, heightPortrait, heightLandscape);
 
 
         LatinIMEUtil.GCUtils.getInstance().reset();
@@ -2313,6 +2317,9 @@ public class LatinIME extends InputMethodService
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
+        boolean fullInPortrait = false;
+        int heightPercentPortrait = 0;
+        int heightPercentLandscape = 0;
         if (PREF_SELECTED_LANGUAGES.equals(key)) {
             mLanguageSwitcher.loadLocales(sharedPreferences);
             mRefreshKeyboardRequired = true;
@@ -2326,9 +2333,13 @@ public class LatinIME extends InputMethodService
         } else if (PREF_FULLSCREEN_OVERRIDE.equals(key)) {
             mFullscreenOverride = sharedPreferences.getBoolean(PREF_FULLSCREEN_OVERRIDE, false);
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
-            boolean fullInPortrait = sharedPreferences.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, false);
-            mKeyboardSwitcher.setFullKeyboardOptions(fullInPortrait);
+            fullInPortrait = sharedPreferences.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, fullInPortrait);
+        } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
+            heightPercentPortrait = getHeight(sharedPreferences.getString(PREF_HEIGHT_PORTRAIT, ""+heightPercentPortrait));
+        } else if (PREF_HEIGHT_LANDSCAPE.equals(key)) {
+            heightPercentLandscape = getHeight(sharedPreferences.getString(PREF_HEIGHT_LANDSCAPE, ""+heightPercentLandscape));
         }
+        mKeyboardSwitcher.setFullKeyboardOptions(fullInPortrait, heightPercentPortrait, heightPercentLandscape);
     }
 
     public void swipeRight() {
@@ -2709,5 +2720,12 @@ public class LatinIME extends InputMethodService
 
     public void onAutoCompletionStateChanged(boolean isAutoCompletion) {
         mKeyboardSwitcher.onAutoCompletionStateChanged(isAutoCompletion);
+    }
+
+    static int getHeight(String hStr) {
+        int val = Integer.parseInt(hStr);
+        if (val < 20) val = 20;
+        if (val > 75) val = 75;
+        return val;
     }
 }

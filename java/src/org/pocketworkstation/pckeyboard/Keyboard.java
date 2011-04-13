@@ -201,6 +201,7 @@ public class Keyboard {
             rowEdgeFlags = a.getInt(R.styleable.Keyboard_Row_rowEdgeFlags, 0);
             mode = a.getResourceId(R.styleable.Keyboard_Row_keyboardMode,
                     0);
+            a.recycle();
         }
     }
 
@@ -512,7 +513,7 @@ public class Keyboard {
      * @param xmlLayoutResId the resource file that contains the keyboard layout and keys.
      * @param modeId keyboard mode identifier
      */
-    public Keyboard(Context context, int xmlLayoutResId, int modeId) {
+    public Keyboard(Context context, int xmlLayoutResId, int modeId, int keyHeight) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         mDisplayWidth = dm.widthPixels;
         mDisplayHeight = dm.heightPixels;
@@ -521,11 +522,15 @@ public class Keyboard {
         mDefaultHorizontalGap = 0;
         mDefaultWidth = mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
-        mDefaultHeight = mDefaultWidth;
+        mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 : mDefaultWidth;
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
         loadKeyboard(context, context.getResources().getXml(xmlLayoutResId));
+    }
+
+    public Keyboard(Context context, int xmlLayoutResId, int modeId) {
+        this(context, xmlLayoutResId, modeId, 0);
     }
 
     /**
