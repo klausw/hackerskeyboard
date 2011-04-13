@@ -1209,8 +1209,14 @@ public class LatinIME extends InputMethodService
     private void sendTab(boolean isTabKey) {
         InputConnection ic = getCurrentInputConnection();
 
+        EditorInfo ei = getCurrentInputEditorInfo();
+        String pkg = ei.packageName;
+
+        boolean isConnectbot = (pkg.equalsIgnoreCase("org.connectbot"));
+        boolean tabHack = isConnectbot && ((mConnectbotTabHack && isTabKey) || (mConnectbotCtrlIHack && !isTabKey));
+
         // FIXME: tab and ^I don't work in connectbot, hackish workaround
-        if ((mConnectbotTabHack && isTabKey) || (mConnectbotCtrlIHack && !isTabKey)) {
+        if (tabHack) {
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_CENTER));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DPAD_CENTER));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_I));
