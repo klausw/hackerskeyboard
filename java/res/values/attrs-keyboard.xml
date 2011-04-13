@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2006 The Android Open Source Project
+<!-- Copyright (C) 2010 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,12 +14,8 @@
      limitations under the License.
 -->
 
-<!-- Formatting note: terminate all comments with a period, to avoid breaking 
-     the documentation output. To suppress comment lines from the documentation 
-     output, insert an eat-comment element after the comment lines.
--->
-
 <resources>
+
     <declare-styleable name="Keyboard">
         <!-- Default width of a key, in pixels or percentage of display width. -->
         <attr name="keyWidth" format="dimension|fraction" />
@@ -76,4 +72,5 @@
              requested keyboard mode, the key will be skipped. -->
         <attr name="keyboardMode" />
     </declare-styleable>
+
 </resources>
