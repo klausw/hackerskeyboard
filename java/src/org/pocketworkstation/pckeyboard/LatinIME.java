@@ -558,6 +558,8 @@ public class LatinIME extends InputMethodService
     @Override
     public View onCreateCandidatesView() {
         mKeyboardSwitcher.makeKeyboards(true);
+        if (mKeyboardSwitcher.isFullMode())
+            return null; // no candidates
         mCandidateViewContainer = (LinearLayout) getLayoutInflater().inflate(
                 R.layout.candidates, null);
         mCandidateView = (CandidateView) mCandidateViewContainer.findViewById(R.id.candidates);
