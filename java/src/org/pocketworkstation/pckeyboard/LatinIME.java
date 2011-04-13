@@ -217,6 +217,9 @@ public class LatinIME extends InputMethodService
     private boolean mConnectbotTabHack;
     private boolean mConnectbotCtrlIHack;
     private boolean mFullscreenOverride;
+    private boolean mFullInPortrait;
+    private int     mHeightPortrait;
+    private int     mHeightLandscape;
     private int     mCorrectionMode;
     private boolean mEnableVoice = true;
     private boolean mVoiceOnPrimary;
@@ -351,6 +354,7 @@ public class LatinIME extends InputMethodService
 
     @Override
     public void onCreate() {
+        Log.i("PCKeyboard", "onCreate()");
         LatinImeLogger.init(this);
         KeyboardSwitcher.init(this);
         super.onCreate();
@@ -373,11 +377,10 @@ public class LatinIME extends InputMethodService
         mConnectbotTabHack = prefs.getBoolean(PREF_CONNECTBOT_TAB_HACK, false);
         mConnectbotCtrlIHack = prefs.getBoolean(PREF_CONNECTBOT_CTRL_I_HACK, true);
         mFullscreenOverride = prefs.getBoolean(PREF_FULLSCREEN_OVERRIDE, true);
-        boolean fullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, false);
-        int heightPortrait = getHeight(prefs.getString(PREF_HEIGHT_PORTRAIT, "0"));
-        int heightLandscape = getHeight(prefs.getString(PREF_HEIGHT_LANDSCAPE, "0"));
-        mKeyboardSwitcher.setFullKeyboardOptions(fullInPortrait, heightPortrait, heightLandscape);
-
+        mFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, false);
+        mHeightPortrait = getHeight(prefs.getString(PREF_HEIGHT_PORTRAIT, "0"));
+        mHeightLandscape = getHeight(prefs.getString(PREF_HEIGHT_LANDSCAPE, "0"));
+        mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait, mHeightPortrait, mHeightLandscape);
 
         LatinIMEUtil.GCUtils.getInstance().reset();
         boolean tryGC = true;
@@ -513,6 +516,7 @@ public class LatinIME extends InputMethodService
 
     @Override
     public void onConfigurationChanged(Configuration conf) {
+        Log.i("PCKeyboard", "onConfigurationChanged()");
         // If the system locale changes and is different from the saved
         // locale (mSystemLocale), then reload the input locale list from the
         // latin ime settings (shared prefs) and reset the input locale
@@ -570,6 +574,7 @@ public class LatinIME extends InputMethodService
 
     @Override
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
+        Log.i("PCKeyboard", "onStartInputView " + attribute + " " + restarting);
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
         // In landscape mode, this method gets called without the input view being created.
         if (inputView == null) {
@@ -581,7 +586,7 @@ public class LatinIME extends InputMethodService
             toggleLanguage(true, true);
         }
 
-        mKeyboardSwitcher.makeKeyboards(false);
+        mKeyboardSwitcher.makeKeyboards(true);
 
         TextEntryState.newSession(this);
 
@@ -2325,9 +2330,7 @@ public class LatinIME extends InputMethodService
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
-        boolean fullInPortrait = false;
-        int heightPercentPortrait = 0;
-        int heightPercentLandscape = 0;
+        Log.i("PCKeyboard", "onSharedPreferenceChanged()");
         if (PREF_SELECTED_LANGUAGES.equals(key)) {
             mLanguageSwitcher.loadLocales(sharedPreferences);
             mRefreshKeyboardRequired = true;
@@ -2341,13 +2344,13 @@ public class LatinIME extends InputMethodService
         } else if (PREF_FULLSCREEN_OVERRIDE.equals(key)) {
             mFullscreenOverride = sharedPreferences.getBoolean(PREF_FULLSCREEN_OVERRIDE, false);
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
-            fullInPortrait = sharedPreferences.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, fullInPortrait);
+            mFullInPortrait = sharedPreferences.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, mFullInPortrait);
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
-            heightPercentPortrait = getHeight(sharedPreferences.getString(PREF_HEIGHT_PORTRAIT, ""+heightPercentPortrait));
+            mHeightPortrait = getHeight(sharedPreferences.getString(PREF_HEIGHT_PORTRAIT, ""+mHeightPortrait));
         } else if (PREF_HEIGHT_LANDSCAPE.equals(key)) {
-            heightPercentLandscape = getHeight(sharedPreferences.getString(PREF_HEIGHT_LANDSCAPE, ""+heightPercentLandscape));
+            mHeightLandscape = getHeight(sharedPreferences.getString(PREF_HEIGHT_LANDSCAPE, ""+mHeightLandscape));
         }
-        mKeyboardSwitcher.setFullKeyboardOptions(fullInPortrait, heightPercentPortrait, heightPercentLandscape);
+        mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait, mHeightPortrait, mHeightLandscape);
     }
 
     public void swipeRight() {
@@ -2732,7 +2735,7 @@ public class LatinIME extends InputMethodService
 
     static int getHeight(String hStr) {
         int val = Integer.parseInt(hStr);
-        if (val < 20) val = 20;
+        if (val < 15) val = 15;
         if (val > 75) val = 75;
         return val;
     }
