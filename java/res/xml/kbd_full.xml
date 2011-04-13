@@ -16,9 +16,6 @@
 ** See the License for the specific language governing permissions and
 ** limitations under the License.
 */
-    android:keyboardMode="@+id/mode_full"
-    android:keyHeight="@dimen/key_height"
-    android:keyHeight="0.33in"    
         <Key
             android:keyLabel="Fn"
             android:keyWidth="5.3571428%p"
@@ -31,9 +28,8 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
     android:keyWidth="7.1428571485%p"
-    android:keyHeight="@dimen/key_height"
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
 >

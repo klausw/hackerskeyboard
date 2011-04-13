@@ -19,7 +19,7 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
     android:keyWidth="26.67%p"
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
