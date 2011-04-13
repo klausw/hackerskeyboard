@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -62,6 +62,7 @@ public class BinaryDictionary extends Dictionary {
     static {
         try {
             System.loadLibrary("jni_latinime");
+            Log.i("PCKeyboard", "loaded jnu_latinime");
         } catch (UnsatisfiedLinkError ule) {
             Log.e("BinaryDictionary", "Could not load native library jni_latinime");
         }
@@ -104,7 +105,7 @@ public class BinaryDictionary extends Dictionary {
             int fullWordMultiplier);
     private native void closeNative(int dict);
     private native boolean isValidWordNative(int nativeData, char[] word, int wordLength);
-    private native int getSuggestionsNative(int dict, int[] inputCodes, int codesSize, 
+    private native int getSuggestionsNative(int dict, int[] inputCodes, int codesSize,
             char[] outputChars, int[] frequencies, int maxWordLength, int maxWords,
             int maxAlternatives, int skipPos, int[] nextLettersFrequencies, int nextLettersSize);
     private native int getBigramsNative(int dict, char[] prevWord, int prevWordLength,
@@ -135,6 +136,7 @@ public class BinaryDictionary extends Dictionary {
                         TYPED_LETTER_MULTIPLIER, FULL_WORD_FREQ_MULTIPLIER);
                 mDictLength = total;
             }
+            Log.i("PCKeyboard", "Loaded dictionary, len=" + mDictLength);
         } catch (IOException e) {
             Log.w(TAG, "No available memory for binary dictionary");
         } finally {
@@ -189,7 +191,7 @@ public class BinaryDictionary extends Dictionary {
         final int codesSize = codes.size();
         // Won't deal with really long words.
         if (codesSize > MAX_WORD_LENGTH - 1) return;
-        
+
         Arrays.fill(mInputCodes, -1);
         for (int i = 0; i < codesSize; i++) {
             int[] alternatives = codes.getCodesAt(i);
