@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/src
 
 LOCAL_SRC_FILES := \
-	jni/com_android_inputmethod_latin_BinaryDictionary.cpp \
+	jni/org_pocketworkstation_pckeyboard_BinaryDictionary.cpp \
 	src/dictionary.cpp \
 	src/char_utils.cpp
 
