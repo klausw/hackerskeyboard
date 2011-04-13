@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -116,6 +116,8 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
     private boolean mVoiceOnPrimary;
     private boolean mPreferSymbols;
     private boolean mWantFullInPortrait;
+    private int mHeightPercentPortrait;
+    private int mHeightPercentLandscape;
     private boolean mFullMode;
     private boolean mFullShifted;
 
@@ -168,7 +170,7 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
     /**
      * Sets the input locale, when there are multiple locales for input.
      * If no locale switching is required, then the locale should be set to null.
-     * @param locale the current input locale, or null for default locale with no locale 
+     * @param locale the current input locale, or null for default locale with no locale
      * button.
      */
     public void setLanguageSwitcher(LanguageSwitcher languageSwitcher) {
@@ -178,7 +180,7 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
 
     private KeyboardId makeSymbolsId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_SHIFT, hasVoice); 
+            return new KeyboardId(KBD_FULL_SHIFT, hasVoice);
         return new KeyboardId(KBD_SYMBOLS[getCharColorId()], mHasSettingsKey ?
                 KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY : KEYBOARDMODE_SYMBOLS,
                 false, hasVoice);
@@ -186,7 +188,7 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_SHIFT, hasVoice); 
+            return new KeyboardId(KBD_FULL_SHIFT, hasVoice);
         return new KeyboardId(KBD_SYMBOLS_SHIFT[getCharColorId()], mHasSettingsKey ?
                 KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY : KEYBOARDMODE_SYMBOLS,
                 false, hasVoice);
@@ -198,7 +200,7 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
 
         if (forceCreate) mKeyboards.clear();
         // Configuration change is coming after the keyboard gets recreated. So don't rely on that.
-        // If keyboards have already been made, check if we have a screen width change and 
+        // If keyboards have already been made, check if we have a screen width change and
         // create the keyboard layouts again at the correct orientation
         int displayWidth = mInputMethodService.getMaxWidth();
         if (displayWidth == mLastDisplayWidth) return;
@@ -216,18 +218,24 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
         public final int mKeyboardMode; /** A KEYBOARDMODE_XXX value */
         public final boolean mEnableShiftLock;
         public final boolean mHasVoice;
+        public final int mHeightPercent;
 
         private final int mHashCode;
 
-        public KeyboardId(int xml, int mode, boolean enableShiftLock, boolean hasVoice) {
+        public KeyboardId(int xml, int mode, boolean enableShiftLock, boolean hasVoice, int heightPercent) {
             this.mXml = xml;
             this.mKeyboardMode = mode;
             this.mEnableShiftLock = enableShiftLock;
             this.mHasVoice = hasVoice;
+            this.mHeightPercent = heightPercent;
 
             this.mHashCode = Arrays.hashCode(new Object[] {
                xml, mode, enableShiftLock, hasVoice
             });
+        }
+
+        public KeyboardId(int xml, int mode, boolean enableShiftLock, boolean hasVoice) {
+            this(xml, mode, enableShiftLock, hasVoice, 0);
         }
 
         public KeyboardId(int xml, boolean hasVoice) {
@@ -316,7 +324,7 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
             Locale saveLocale = conf.locale;
             conf.locale = mInputLocale;
             orig.updateConfiguration(conf, null);
-            keyboard = new LatinKeyboard(mInputMethodService, id.mXml, id.mKeyboardMode);
+            keyboard = new LatinKeyboard(mInputMethodService, id.mXml, id.mKeyboardMode, id.mHeightPercent);
             keyboard.setVoiceMode(hasVoiceButton(id.mXml == R.xml.kbd_symbols
                     || id.mXml == R.xml.kbd_symbols_black), mHasVoice);
             keyboard.setLanguageSwitcher(mLanguageSwitcher, mIsAutoCompletionActive, isBlackSym());
@@ -332,15 +340,22 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
         return keyboard;
     }
 
-    public void setFullKeyboardOptions(boolean fullInPortrait) {
+    public void setFullKeyboardOptions(boolean fullInPortrait, int heightPercentPortrait, int heightPercentLandscape) {
         mWantFullInPortrait = fullInPortrait;
+        mHeightPercentPortrait = heightPercentPortrait;
+        mHeightPercentLandscape = heightPercentLandscape;
     }
-    
+
+    public boolean isFullMode() {
+        return mFullMode;
+    }
+
     private KeyboardId getKeyboardId(int mode, int imeOptions, boolean isSymbols) {
         boolean hasVoice = hasVoiceButton(isSymbols);
         int charColorId = getCharColorId();
         int orientation = mInputMethodService.getResources().getConfiguration().orientation;
-        if (orientation != Configuration.ORIENTATION_PORTRAIT || mWantFullInPortrait) {
+        boolean isPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
+        if (!isPortrait || mWantFullInPortrait) {
             switch (mode) {
                 case MODE_TEXT:
                 case MODE_URL:
@@ -348,7 +363,8 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
                 case MODE_IM:
                 case MODE_WEB:
                     mFullMode = true;
-                    return new KeyboardId(KBD_FULL, KEYBOARDMODE_NORMAL, true, hasVoice);
+                    int heightPercent = isPortrait ? mHeightPercentPortrait : mHeightPercentLandscape;
+                    return new KeyboardId(KBD_FULL, KEYBOARDMODE_NORMAL, true, hasVoice, heightPercent);
             }
         } else {
             mFullMode = false;
@@ -398,7 +414,7 @@ public class KeyboardSwitcher implements SharedPreferences.OnSharedPreferenceCha
     public int getKeyboardMode() {
         return mMode;
     }
-    
+
     public boolean isAlphabetMode() {
         if (mCurrentId == null) {
             return false;
