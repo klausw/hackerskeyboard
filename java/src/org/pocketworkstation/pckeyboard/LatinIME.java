@@ -586,7 +586,7 @@ public class LatinIME extends InputMethodService
             toggleLanguage(true, true);
         }
 
-        mKeyboardSwitcher.makeKeyboards(true);
+        mKeyboardSwitcher.makeKeyboards(false);
 
         TextEntryState.newSession(this);
 
@@ -1049,6 +1049,7 @@ public class LatinIME extends InputMethodService
                 && mKeyboardSwitcher.getKeyboardMode() != KeyboardSwitcher.MODE_NONE) {
             mKeyboardSwitcher.setVoiceMode(mEnableVoice && mEnableVoiceButton, mVoiceOnPrimary);
         }
+        mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait, mHeightPortrait, mHeightLandscape);
         mKeyboardSwitcher.makeKeyboards(true);
     }
 
@@ -2331,6 +2332,7 @@ public class LatinIME extends InputMethodService
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
         Log.i("PCKeyboard", "onSharedPreferenceChanged()");
+        boolean needReload = false;
         if (PREF_SELECTED_LANGUAGES.equals(key)) {
             mLanguageSwitcher.loadLocales(sharedPreferences);
             mRefreshKeyboardRequired = true;
@@ -2345,12 +2347,18 @@ public class LatinIME extends InputMethodService
             mFullscreenOverride = sharedPreferences.getBoolean(PREF_FULLSCREEN_OVERRIDE, false);
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
             mFullInPortrait = sharedPreferences.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, mFullInPortrait);
+            needReload = true;
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
             mHeightPortrait = getHeight(sharedPreferences.getString(PREF_HEIGHT_PORTRAIT, ""+mHeightPortrait));
+            needReload = true;
         } else if (PREF_HEIGHT_LANDSCAPE.equals(key)) {
             mHeightLandscape = getHeight(sharedPreferences.getString(PREF_HEIGHT_LANDSCAPE, ""+mHeightLandscape));
+            needReload = true;
         }
         mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait, mHeightPortrait, mHeightLandscape);
+        if (needReload) {
+            mKeyboardSwitcher.makeKeyboards(true);
+        }
     }
 
     public void swipeRight() {
