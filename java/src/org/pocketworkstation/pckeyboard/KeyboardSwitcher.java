@@ -112,8 +112,8 @@ public class KeyboardSwitcher implements
     private boolean mVoiceOnPrimary;
     private boolean mPreferSymbols;
     private boolean mWantFullInPortrait;
-    private int mHeightPercentPortrait;
-    private int mHeightPercentLandscape;
+    private int mHeightPercent;
+    private boolean mIsPortrait;
     private boolean mFullMode;
     private boolean mFullShifted;
 
@@ -181,7 +181,7 @@ public class KeyboardSwitcher implements
 
     private KeyboardId makeSymbolsId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_SHIFT, hasVoice);
+            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice, mHeightPercent);
         return new KeyboardId(KBD_SYMBOLS[getCharColorId()],
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
                         : KEYBOARDMODE_SYMBOLS, false, hasVoice);
@@ -189,7 +189,7 @@ public class KeyboardSwitcher implements
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_SHIFT, hasVoice);
+            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice, mHeightPercent);
         return new KeyboardId(KBD_SYMBOLS_SHIFT[getCharColorId()],
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
                         : KEYBOARDMODE_SYMBOLS, false, hasVoice);
@@ -360,8 +360,10 @@ public class KeyboardSwitcher implements
             int heightPercentPortrait, int heightPercentLandscape) {
         Log.i("PCKeyboard", "setFullKeyboardOptions " + fullInPortrait + " " + heightPercentPortrait + " " + heightPercentLandscape);
         mWantFullInPortrait = fullInPortrait;
-        mHeightPercentPortrait = heightPercentPortrait;
-        mHeightPercentLandscape = heightPercentLandscape;
+        int orientation = mInputMethodService.getResources().getConfiguration().orientation;
+        mIsPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
+        mHeightPercent = mIsPortrait ? heightPercentPortrait : heightPercentLandscape;
+
     }
 
     public boolean isFullMode() {
@@ -371,9 +373,7 @@ public class KeyboardSwitcher implements
     private KeyboardId getKeyboardId(int mode, int imeOptions, boolean isSymbols) {
         boolean hasVoice = hasVoiceButton(isSymbols);
         int charColorId = getCharColorId();
-        int orientation = mInputMethodService.getResources().getConfiguration().orientation;
-        boolean isPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
-        if (!isPortrait || mWantFullInPortrait) {
+        if (!mIsPortrait || mWantFullInPortrait) {
             switch (mode) {
             case MODE_TEXT:
             case MODE_URL:
@@ -381,10 +381,8 @@ public class KeyboardSwitcher implements
             case MODE_IM:
             case MODE_WEB:
                 mFullMode = true;
-                int heightPercent = isPortrait ? mHeightPercentPortrait
-                        : mHeightPercentLandscape;
                 return new KeyboardId(KBD_FULL, KEYBOARDMODE_NORMAL, true,
-                        hasVoice, heightPercent);
+                        hasVoice, mHeightPercent);
             }
         } else {
             mFullMode = false;
