@@ -129,9 +129,8 @@ public class LatinIME extends InputMethodService
     public static final String PREF_SELECTED_LANGUAGES = "selected_languages";
     public static final String PREF_INPUT_LANGUAGE = "input_language";
     private static final String PREF_RECORRECTION_ENABLED = "recorrection_enabled";
-    private static final String PREF_CONNECTBOT_TAB_HACK = "connectbot_tab_hack";
-    private static final String PREF_CONNECTBOT_CTRL_I_HACK = "connectbot_ctrl_i_hack";
     private static final String PREF_FULLSCREEN_OVERRIDE = "fullscreen_override";
+    private static final String PREF_CONNECTBOT_TAB_HACK = "connectbot_tab_hack";
     private static final String PREF_FULL_KEYBOARD_IN_PORTRAIT = "full_keyboard_in_portrait";
     private static final String PREF_HEIGHT_PORTRAIT = "settings_height_portrait";
     private static final String PREF_HEIGHT_LANDSCAPE = "settings_height_landscape";
@@ -375,7 +374,6 @@ public class LatinIME extends InputMethodService
         mReCorrectionEnabled = prefs.getBoolean(PREF_RECORRECTION_ENABLED,
                 getResources().getBoolean(R.bool.default_recorrection_enabled));
         mConnectbotTabHack = prefs.getBoolean(PREF_CONNECTBOT_TAB_HACK, false);
-        mConnectbotCtrlIHack = prefs.getBoolean(PREF_CONNECTBOT_CTRL_I_HACK, true);
         mFullscreenOverride = prefs.getBoolean(PREF_FULLSCREEN_OVERRIDE, true);
         mFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT, false);
         mHeightPortrait = getHeight(prefs.getString(PREF_HEIGHT_PORTRAIT, "0"));
@@ -968,7 +966,7 @@ public class LatinIME extends InputMethodService
         float displayHeight = dm.heightPixels;
         // If the display is more than X inches high, don't go to fullscreen mode
         float dimen = getResources().getDimension(R.dimen.max_height_for_fullscreen);
-        if (displayHeight > dimen || mFullscreenOverride) {
+        if (displayHeight > dimen || mFullscreenOverride || isConnectbot()) {
             return false;
         } else {
             return super.onEvaluateFullscreenMode();
@@ -1210,16 +1208,29 @@ public class LatinIME extends InputMethodService
         return mOptionsDialog != null && mOptionsDialog.isShowing();
     }
 
-    // Implementation of KeyboardViewListener
-
-    private void sendTab(boolean isTabKey) {
-        InputConnection ic = getCurrentInputConnection();
-
+    private boolean isConnectbot() {
         EditorInfo ei = getCurrentInputEditorInfo();
         String pkg = ei.packageName;
+        return (pkg.equalsIgnoreCase("org.connectbot") && ei.inputType == 0); // FIXME
+    }
 
-        boolean isConnectbot = (pkg.equalsIgnoreCase("org.connectbot"));
-        boolean tabHack = isConnectbot && ((mConnectbotTabHack && isTabKey) || (mConnectbotCtrlIHack && !isTabKey));
+    private void sendCtrlChar(int primaryCode, int[] keyCodes) {
+        InputConnection ic = getCurrentInputConnection();
+        if (isConnectbot()) {
+            int code = primaryCode & 31;
+            if (code == 9) {
+                sendTab();
+            } else {
+                ic.commitText(Character.toString((char)code), 1);
+            }
+        } else {
+            handleCharacter(primaryCode, keyCodes);
+        }
+    }
+
+    private void sendTab() {
+        InputConnection ic = getCurrentInputConnection();
+        boolean tabHack = isConnectbot() && mConnectbotTabHack;
 
         // FIXME: tab and ^I don't work in connectbot, hackish workaround
         if (tabHack) {
@@ -1232,6 +1243,8 @@ public class LatinIME extends InputMethodService
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_TAB));
         }
     }
+
+    // Implementation of KeyboardViewListener
 
     public void onKey(int primaryCode, int[] keyCodes, int x, int y) {
         long when = SystemClock.uptimeMillis();
@@ -1285,7 +1298,7 @@ public class LatinIME extends InputMethodService
                 }
                 break;
             case 9 /*Tab*/:
-                sendTab(true);
+                sendTab();
                 break;
             case LatinKeyboardView.KEYCODE_ESCAPE:
                 sendKeyChar((char)27);
@@ -1303,13 +1316,7 @@ public class LatinIME extends InputMethodService
                 RingCharBuffer.getInstance().push((char)primaryCode, x, y);
                 LatinImeLogger.logOnInputChar();
                 if (mCtrl && primaryCode >= 32 && primaryCode < 127) {
-                    InputConnection ic = getCurrentInputConnection();
-                    int code = primaryCode & 31;
-                    if (code == 9) {
-                        sendTab(false);
-                    } else {
-                        ic.commitText(Character.toString((char)code), 1);
-                    }
+                    sendCtrlChar(primaryCode, keyCodes);
                     if (!mCtrlKeyState.isMomentary()) {
                         setCtrl(false);
                     }
@@ -2341,8 +2348,6 @@ public class LatinIME extends InputMethodService
                     getResources().getBoolean(R.bool.default_recorrection_enabled));
         } else if (PREF_CONNECTBOT_TAB_HACK.equals(key)) {
             mConnectbotTabHack = sharedPreferences.getBoolean(PREF_CONNECTBOT_TAB_HACK, false);
-        } else if (PREF_CONNECTBOT_CTRL_I_HACK.equals(key)) {
-            mConnectbotCtrlIHack = sharedPreferences.getBoolean(PREF_CONNECTBOT_CTRL_I_HACK, true);
         } else if (PREF_FULLSCREEN_OVERRIDE.equals(key)) {
             mFullscreenOverride = sharedPreferences.getBoolean(PREF_FULLSCREEN_OVERRIDE, false);
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
@@ -2400,7 +2405,7 @@ public class LatinIME extends InputMethodService
         } else if (distinctMultiTouch && primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT) {
             setCtrl(!mCtrl);
             mCtrlKeyState.onPress();
-            if (ic != null)    ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 113/*KeyEvent.KEYCODE_CTRL_LEFT*/));
+            if (ic != null) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 113/*KeyEvent.KEYCODE_CTRL_LEFT*/));
         } else {
             mShiftKeyState.onOtherKeyPressed();
             mSymbolKeyState.onOtherKeyPressed();
@@ -2429,7 +2434,7 @@ public class LatinIME extends InputMethodService
             if (mCtrlKeyState.isMomentary()) {
                 setCtrl(false);
             }
-            if (ic != null)    ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 113/*KeyEvent.KEYCODE_CTRL_LEFT*/));
+            if (ic != null) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 113/*KeyEvent.KEYCODE_CTRL_LEFT*/));
             mCtrlKeyState.onRelease();
         }
     }
