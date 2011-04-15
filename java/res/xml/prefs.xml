@@ -20,18 +20,18 @@
 
     <EditTextPreference
             android:key="settings_height_portrait"
-            android:title="Keyboard height (portrait)"
+            android:title="Keyboard height, portrait"
             android:summary="Percentage of screen height for the full keyboard"
             android:persistent="true"
-            android:defaultValue="40"
+            android:defaultValue="25"
             />
 
     <EditTextPreference
             android:key="settings_height_landscape"
-            android:title="Keyboard height (landscape)"
+            android:title="Keyboard height, landscape"
             android:summary="Percentage of screen height for the full keyboard"
             android:persistent="true"
-            android:defaultValue="55"
+            android:defaultValue="47"
             />
 
     <CheckBoxPreference
@@ -42,10 +42,6 @@
             android:defaultValue="true"
             />
 
-    <PreferenceCategory
-            android:title="ConnectBot related settings"
-            android:key="connectbot_settings">
-
     <CheckBoxPreference
             android:key="fullscreen_override"
             android:title="Always use standard view in landscape mode"
@@ -54,23 +50,23 @@
             android:defaultValue="false"
             />
 
-    <CheckBoxPreference
-            android:key="connectbot_tab_hack"
-            android:title="Tab key sends ConnectBot-compatible tab"
-            android:summary="(Makes the Tab key usable in ConnectBot, but it won't work for other apps.)"
-            android:persistent="true" 
-            android:defaultValue="false"
-            />
+    <PreferenceCategory
+            android:title="ConnectBot related settings"
+            android:key="connectbot_settings">
 
     <CheckBoxPreference
-            android:key="connectbot_ctrl_i_hack"
-            android:title="Ctrl-I sends ConnectBot-compatible tab"
-            android:summary="(Harder to type, but should have minimal impact on other apps.)"
+            android:key="connectbot_tab_hack"
+            android:title="Tab key and Ctrl-I send ConnectBot-compatible tab"
+            android:summary="(Makes the Tab key usable in ConnectBot)"
             android:persistent="true" 
-            android:defaultValue="true"            
+            android:defaultValue="true"
             />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Gingerbread keyboard settings"
+            android:key="gingerbread_settings">
 
     <CheckBoxPreference
             android:key="vibrate_on"
@@ -132,7 +128,8 @@
                 android:action="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION"/>
     </PreferenceScreen>
 
-
+    </PreferenceCategory>
+    
     <PreferenceCategory
             android:title="@string/prediction_category"
             android:key="prediction_settings">
