@@ -29,4 +29,6 @@
     <integer name="config_key_repeat_interval">50</integer>
     <integer name="config_long_press_key_timeout">400</integer>
     <integer name="config_multi_tap_key_timeout">800</integer>
+    <bool name="default_connectbot_tab_hack">true</bool>
+    <bool name="default_fullscreen_override">false</bool>
 </resources>
