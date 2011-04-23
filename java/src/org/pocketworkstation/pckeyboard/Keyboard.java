@@ -82,10 +82,10 @@ public class Keyboard {
     private CharSequence mLabel;
 
     /** Horizontal gap default for all rows */
-    private int mDefaultHorizontalGap;
+    private float mDefaultHorizontalGap;
 
     /** Default key width */
-    private int mDefaultWidth;
+    private float mDefaultWidth;
 
     /** Default key height */
     private int mDefaultHeight;
@@ -157,11 +157,11 @@ public class Keyboard {
      */
     public static class Row {
         /** Default width of a key in this row. */
-        public int defaultWidth;
+        public float defaultWidth;
         /** Default height of a key in this row. */
         public int defaultHeight;
         /** Default horizontal gap between keys in this row. */
-        public int defaultHorizontalGap;
+        public float defaultHorizontalGap;
         /** Vertical gap following this row. */
         public int verticalGap;
         /**
@@ -186,15 +186,15 @@ public class Keyboard {
             defaultWidth = getDimensionOrFraction(a,
                     R.styleable.Keyboard_keyWidth,
                     parent.mDisplayWidth, parent.mDefaultWidth);
-            defaultHeight = getDimensionOrFraction(a,
+            defaultHeight = Math.round(getDimensionOrFraction(a,
                     R.styleable.Keyboard_keyHeight,
-                    parent.mDisplayHeight, parent.mDefaultHeight);
+                    parent.mDisplayHeight, parent.mDefaultHeight));
             defaultHorizontalGap = getDimensionOrFraction(a,
                     R.styleable.Keyboard_horizontalGap,
                     parent.mDisplayWidth, parent.mDefaultHorizontalGap);
-            verticalGap = getDimensionOrFraction(a,
+            verticalGap = Math.round(getDimensionOrFraction(a,
                     R.styleable.Keyboard_verticalGap,
-                    parent.mDisplayHeight, parent.mDefaultVerticalGap);
+                    parent.mDisplayHeight, parent.mDefaultVerticalGap));
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
                     R.styleable.Keyboard_Row);
@@ -240,9 +240,11 @@ public class Keyboard {
         /** Width of the key, not including the gap */
         public int width;
         /** Height of the key, not including the gap */
+        private float realWidth;
         public int height;
         /** The horizontal gap before this key */
         public int gap;
+        private float realGap;
         /** Whether this key is sticky, i.e., a toggle key */
         public boolean sticky;
         /** X coordinate of the key in the keyboard layout */
@@ -309,8 +311,10 @@ public class Keyboard {
         public Key(Row parent) {
             keyboard = parent.parent;
             height = parent.defaultHeight;
-            width = parent.defaultWidth;
-            gap = parent.defaultHorizontalGap;
+            width = Math.round(parent.defaultWidth);
+            realWidth = parent.defaultWidth;
+            gap = Math.round(parent.defaultHorizontalGap);
+            realGap = parent.defaultHorizontalGap;
             edgeFlags = parent.rowEdgeFlags;
         }
 
@@ -332,15 +336,17 @@ public class Keyboard {
             TypedArray a = res.obtainAttributes(Xml.asAttributeSet(parser),
                     R.styleable.Keyboard);
 
-            width = getDimensionOrFraction(a,
+            realWidth = getDimensionOrFraction(a,
                     R.styleable.Keyboard_keyWidth,
                     keyboard.mDisplayWidth, parent.defaultWidth);
-            height = getDimensionOrFraction(a,
+            height = Math.round(getDimensionOrFraction(a,
                     R.styleable.Keyboard_keyHeight,
-                    keyboard.mDisplayHeight, parent.defaultHeight);
-            gap = getDimensionOrFraction(a,
+                    keyboard.mDisplayHeight, parent.defaultHeight));
+            realGap = getDimensionOrFraction(a,
                     R.styleable.Keyboard_horizontalGap,
                     keyboard.mDisplayWidth, parent.defaultHorizontalGap);
+            width = Math.round(realWidth);
+            gap = Math.round(realGap);
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
                     R.styleable.Keyboard_Key);
@@ -523,7 +529,7 @@ public class Keyboard {
         mDefaultWidth = mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
         int nRows = 5;
-        mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 / nRows: mDefaultWidth;
+        mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 / nRows: Math.round(mDefaultWidth);
         Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " (keyHeight=" + keyHeight + " displayHeight="+mDisplayHeight+")");
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
@@ -596,7 +602,7 @@ public class Keyboard {
     }
 
     protected int getHorizontalGap() {
-        return mDefaultHorizontalGap;
+        return Math.round(mDefaultHorizontalGap);
     }
 
     protected void setHorizontalGap(int gap) {
@@ -620,7 +626,7 @@ public class Keyboard {
     }
 
     protected int getKeyWidth() {
-        return mDefaultWidth;
+        return Math.round(mDefaultWidth);
     }
 
     protected void setKeyWidth(int width) {
@@ -718,7 +724,7 @@ public class Keyboard {
         boolean inRow = false;
         boolean leftMostKey = false;
         int row = 0;
-        int x = 0;
+        float x = 0;
         int y = 0;
         Key key = null;
         Row currentRow = null;
@@ -741,7 +747,7 @@ public class Keyboard {
                         }
                    } else if (TAG_KEY.equals(tag)) {
                         inKey = true;
-                        key = createKeyFromXml(res, currentRow, x, y, parser);
+                        key = createKeyFromXml(res, currentRow, Math.round(x), y, parser);
                         mKeys.add(key);
                         if (key.codes[0] == KEYCODE_SHIFT) {
                             mShiftKey = key;
@@ -756,9 +762,9 @@ public class Keyboard {
                 } else if (event == XmlResourceParser.END_TAG) {
                     if (inKey) {
                         inKey = false;
-                        x += key.gap + key.width;
+                        x += key.realGap + key.realWidth;
                         if (x > mTotalWidth) {
-                            mTotalWidth = x;
+                            mTotalWidth = Math.round(x);
                         }
                     } else if (inRow) {
                         inRow = false;
@@ -795,28 +801,29 @@ public class Keyboard {
         mDefaultWidth = getDimensionOrFraction(a,
                 R.styleable.Keyboard_keyWidth,
                 mDisplayWidth, mDisplayWidth / 10);
-        mDefaultHeight = getDimensionOrFraction(a,
+        mDefaultHeight = Math.round(getDimensionOrFraction(a,
                 R.styleable.Keyboard_keyHeight,
-                mDisplayHeight, mDefaultHeight);
+                mDisplayHeight, mDefaultHeight));
         mDefaultHorizontalGap = getDimensionOrFraction(a,
                 R.styleable.Keyboard_horizontalGap,
                 mDisplayWidth, 0);
-        mDefaultVerticalGap = getDimensionOrFraction(a,
+        mDefaultVerticalGap = Math.round(getDimensionOrFraction(a,
                 R.styleable.Keyboard_verticalGap,
-                mDisplayHeight, 0);
+                mDisplayHeight, 0));
         mProximityThreshold = (int) (mDefaultWidth * SEARCH_DISTANCE);
         mProximityThreshold = mProximityThreshold * mProximityThreshold; // Square it for comparison
         a.recycle();
     }
 
-    static int getDimensionOrFraction(TypedArray a, int index, int base, int defValue) {
+    static float getDimensionOrFraction(TypedArray a, int index, int base, float defValue) {
         TypedValue value = a.peekValue(index);
         if (value == null) return defValue;
         if (value.type == TypedValue.TYPE_DIMENSION) {
-            return a.getDimensionPixelOffset(index, defValue);
+            return a.getDimensionPixelOffset(index, Math.round(defValue));
         } else if (value.type == TypedValue.TYPE_FRACTION) {
             // Round it to avoid values like 47.9999 from getting truncated
-            return Math.round(a.getFraction(index, base, base, defValue));
+            //return Math.round(a.getFraction(index, base, base, defValue));
+            return a.getFraction(index, base, base, defValue);
         }
         return defValue;
     }
