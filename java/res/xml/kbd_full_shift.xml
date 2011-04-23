@@ -190,20 +190,24 @@
             android:iconPreview="@drawable/sym_keyboard_feedback_settings"
             android:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
+            android:codes="@integer/key_alt_left"
+            android:keyLabel="Alt"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_space"
             android:keyIcon="@drawable/sym_keyboard_space"
             android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="46.26%p"
+            android:keyWidth="39.2857142857%p"
             android:isModifier="true" />
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_smileys"
+            android:codes="@integer/key_fn"
+            android:keyLabel="Fn"
             android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_dpad_center"
+            android:isModifier="true"
+            android:keyLabel="&#10003;"
+             />
         <Key
             android:codes="@integer/key_dpad_left"
             android:isModifier="true"

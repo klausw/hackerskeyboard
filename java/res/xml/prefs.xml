@@ -23,7 +23,7 @@
             android:title="Keyboard height, portrait"
             android:summary="Percentage of screen height for the full keyboard"
             android:persistent="true"
-            android:defaultValue="25"
+            android:defaultValue="@integer/default_height_portrait"
             />
 
     <EditTextPreference
@@ -31,7 +31,7 @@
             android:title="Keyboard height, landscape"
             android:summary="Percentage of screen height for the full keyboard"
             android:persistent="true"
-            android:defaultValue="47"
+            android:defaultValue="@integer/default_height_landscape"
             />
 
     <CheckBoxPreference
@@ -39,22 +39,30 @@
             android:title="Full keyboard in portrait mode"
             android:summary="(If off, uses the legacy Gingerbread layout in portrait mode.)"
             android:persistent="true" 
-            android:defaultValue="true"
+            android:defaultValue="@bool/default_full_in_portrait"
             />
 
+    <CheckBoxPreference
+            android:key="suggestions_in_landscape"
+            android:title="Show suggestions in landscape mode"
+            android:summary="(If off, the suggestion settings only apply in portrait mode.)"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_suggestions_in_landscape"
+            />
+   
     <CheckBoxPreference
             android:key="fullscreen_override"
             android:title="Always use standard view in landscape mode"
             android:summary="This disables the mini editor that's normally used on small screens."
             android:persistent="true" 
-            android:defaultValue="false"
+            android:defaultValue="@bool/default_fullscreen_override"
             />
 
     <PreferenceCategory
             android:title="ConnectBot related settings"
             android:key="connectbot_settings">
 
-    <CheckBoxPreference
+        <CheckBoxPreference
             android:key="connectbot_tab_hack"
             android:title="Tab key and Ctrl-I send ConnectBot-compatible tab"
             android:summary="(Makes the Tab key usable in ConnectBot)"
@@ -99,7 +107,7 @@
             android:key="auto_cap"
             android:title="@string/auto_cap"
             android:persistent="true"
-            android:defaultValue="true"
+            android:defaultValue="@bool/default_auto_cap"
             />
 
     <ListPreference
@@ -139,7 +147,7 @@
             android:title="@string/quick_fixes"
             android:summary="@string/quick_fixes_summary"
             android:persistent="true"
-            android:defaultValue="true"
+            android:defaultValue="@bool/default_quick_fixes"
             />
 
         <CheckBoxPreference
@@ -147,7 +155,7 @@
             android:title="@string/show_suggestions"
             android:summary="@string/show_suggestions_summary"
             android:persistent="true"
-            android:defaultValue="true"
+            android:defaultValue="@bool/default_suggestions"
             />
 
         <CheckBoxPreference
