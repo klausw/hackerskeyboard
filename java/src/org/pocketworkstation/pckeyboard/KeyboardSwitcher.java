@@ -81,6 +81,7 @@ public class KeyboardSwitcher implements
             R.xml.kbd_qwerty_black };
     private static final int KBD_FULL = R.xml.kbd_full;
     private static final int KBD_FULL_SHIFT = R.xml.kbd_full_shift;
+    private static final int KBD_FULL_FN = R.xml.kbd_full_fn;
 
     private LatinKeyboardView mInputView;
     private static final int[] ALPHABET_MODES = { KEYBOARDMODE_NORMAL,
@@ -189,7 +190,7 @@ public class KeyboardSwitcher implements
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice, mHeightPercent);
+            return new KeyboardId(KBD_FULL_FN, KEYBOARDMODE_SYMBOLS, true, hasVoice, mHeightPercent);
         return new KeyboardId(KBD_SYMBOLS_SHIFT[getCharColorId()],
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
                         : KEYBOARDMODE_SYMBOLS, false, hasVoice);
@@ -476,8 +477,22 @@ public class KeyboardSwitcher implements
         }
     }
 
+    public void setFn(boolean useFn) {
+        if (!mFullMode) return;
+        if (useFn) {
+            LatinKeyboard kbd = getKeyboard(mSymbolsShiftedId);
+            mCurrentId = mSymbolsShiftedId;
+            mInputView.setKeyboard(kbd);
+        } else {
+            // Return to default keyboard state
+            setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
+        }
+    }
+
     public void toggleShift() {
         if (isAlphabetMode())
+            return;
+        if (mFullMode)
             return;
         if (mCurrentId.equals(mSymbolsId)
                 || !mCurrentId.equals(mSymbolsShiftedId)) {
