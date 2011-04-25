@@ -457,7 +457,9 @@ public class KeyboardSwitcher implements
             if (shifted) {
                 if (!mFullShifted) {
                     mFullShifted = true;
-                    mInputView.setKeyboard(getKeyboard(mSymbolsId));
+                    Keyboard kbd = getKeyboard(mSymbolsId);
+                    mInputView.setKeyboard(kbd);
+                    setShiftLocked(false);
                 }
             } else {
                 if (mFullShifted) { // FIXME: other keyboards?
@@ -479,13 +481,16 @@ public class KeyboardSwitcher implements
 
     public void setFn(boolean useFn) {
         if (!mFullMode) return;
+        if (mInputView == null) return;
         if (useFn) {
             LatinKeyboard kbd = getKeyboard(mSymbolsShiftedId);
             mCurrentId = mSymbolsShiftedId;
             mInputView.setKeyboard(kbd);
         } else {
             // Return to default keyboard state
+            mFullShifted = false;
             setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
+            mInputView.setShifted(false);
         }
     }
 

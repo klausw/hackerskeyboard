@@ -1698,20 +1698,17 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void setModCtrl(boolean val) {
-        // Log.i("LatinIME", "setModCtrl "+ mModCtrl + "->" + val +
-        // ", momentary=" + mCtrlKeyState.isMomentary());
+        // Log.i("LatinIME", "setModCtrl "+ mModCtrl + "->" + val + ", momentary=" + mCtrlKeyState.isMomentary());
         mModCtrl = val;
     }
 
     private void setModAlt(boolean val) {
-        // Log.i("LatinIME", "setModAlt "+ mModAlt + "->" + val + ", momentary="
-        // + mAltKeyState.isMomentary());
+        // Log.i("LatinIME", "setModAlt "+ mModAlt + "->" + val + ", momentary=" + mAltKeyState.isMomentary());
         mModAlt = val;
     }
 
     private void setModFn(boolean val) {
-        Log.i("LatinIME", "setModFn " + mModFn + "->" + val + ", momentary="
-                + mFnKeyState.isMomentary());
+        //Log.i("LatinIME", "setModFn " + mModFn + "->" + val + ", momentary=" + mFnKeyState.isMomentary());
         mModFn = val;
         mKeyboardSwitcher.setFn(val);
     }
@@ -1725,6 +1722,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void handleShiftInternal(boolean forceNormal) {
+        //Log.i("PCKeyboard", "handleShiftInternal " + forceNormal);
         mHandler.removeMessages(MSG_UPDATE_SHIFT_STATE);
         KeyboardSwitcher switcher = mKeyboardSwitcher;
         LatinKeyboardView inputView = switcher.getInputView();
@@ -2987,9 +2985,6 @@ public class LatinIME extends InputMethodService implements
         if (mSuggest != null) {
             mSuggest.setCorrectionMode(mCorrectionMode);
         }
-        Log.i("PCKeyboard", "updateCorrectionMode=" + mCorrectionMode
-                        + " mSuggest=" + mSuggest + " mHasDictionary="
-                        + mHasDictionary);
     }
 
     private void updateAutoTextEnabled(Locale systemLocale) {
