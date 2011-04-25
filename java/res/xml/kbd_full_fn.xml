@@ -28,12 +28,10 @@
         android:rowEdgeFlags="top"
     >
         <Key
-            android:codes="@integer/key_insert"
-            android:keyLabel="Insert"
+            android:codes="@integer/key_f1"
             android:keyWidth="10.7142855%p"
             android:keyEdgeFlags="left" 
             android:isModifier="true" />
-
         <Key
             android:codes="@integer/key_fkey_f1"
             android:keyWidth="8.035714%p"            
@@ -131,10 +129,16 @@
             android:isRepeatable="true" />
 
         <Key
+            android:codes="@integer/key_insert"
+            android:keyLabel="Ins"
+            android:isRepeatable="true"            
+            android:isModifier="true" />
+
+        <Key
             android:codes="@integer/key_forward_del"
-            android:keyLabel="Delete"
+            android:keyLabel="Del"
+            android:isRepeatable="true"            
             android:isModifier="true"            
-            android:keyWidth="14.2857142%p"
             android:keyEdgeFlags="right" />
     </Row>
     <Row>
@@ -200,6 +204,7 @@
             android:iconPreview="@drawable/sym_keyboard_feedback_shift"
             android:keyWidth="10.7142855%p"
             android:isModifier="true"
+            android:isSticky="true"
             android:keyEdgeFlags="left" />
 
         <Key
@@ -285,8 +290,7 @@
         <Key
             android:codes="@integer/key_dpad_center"
             android:isModifier="true"
-            android:keyLabel="&#10003;"
-             />
+            android:keyLabel="&#10003;" />
         <Key
             android:codes="@integer/key_dpad_left"
             android:isModifier="true"

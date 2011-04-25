@@ -750,8 +750,10 @@ public class Keyboard {
                         key = createKeyFromXml(res, currentRow, Math.round(x), y, parser);
                         mKeys.add(key);
                         if (key.codes[0] == KEYCODE_SHIFT) {
-                            mShiftKey = key;
-                            mShiftKeyIndex = mKeys.size()-1;
+                            if (mShiftKeyIndex == -1) {
+                                mShiftKey = key;
+                                mShiftKeyIndex = mKeys.size()-1;
+                            }
                             mModifierKeys.add(key);
                         } else if (key.codes[0] == KEYCODE_ALT) {
                             mModifierKeys.add(key);
