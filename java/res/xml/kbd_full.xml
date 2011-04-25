@@ -223,6 +223,7 @@
             android:iconPreview="@drawable/sym_keyboard_feedback_shift"
             android:keyWidth="14.2857140%p"
             android:isModifier="true"
+            android:isSticky="true"
             android:keyEdgeFlags="left" />
         <Key
             android:keyLabel="z"
