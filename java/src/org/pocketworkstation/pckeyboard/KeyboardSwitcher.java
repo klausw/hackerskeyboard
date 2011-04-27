@@ -116,7 +116,6 @@ public class KeyboardSwitcher implements
     private int mHeightPercent;
     private boolean mIsPortrait;
     private boolean mFullMode;
-    private boolean mFullShifted;
 
     private static final int AUTO_MODE_SWITCH_STATE_ALPHA = 0;
     private static final int AUTO_MODE_SWITCH_STATE_SYMBOL_BEGIN = 1;
@@ -453,17 +452,17 @@ public class KeyboardSwitcher implements
     }
 
     public void setShifted(boolean shifted) {
+        //Log.w("PCKeyboard", "setShifted " + shifted, new RuntimeException());
         if (mFullMode) {
+            boolean alreadyShifted = (mCurrentId == mSymbolsShiftedId);
             if (shifted) {
-                if (!mFullShifted) {
-                    mFullShifted = true;
+                if (!alreadyShifted) {
                     Keyboard kbd = getKeyboard(mSymbolsId);
                     mInputView.setKeyboard(kbd);
                     setShiftLocked(false);
                 }
             } else {
-                if (mFullShifted) { // FIXME: other keyboards?
-                    mFullShifted = false;
+                if (alreadyShifted) { // FIXME: other keyboards?
                     setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
                 }
             }
@@ -488,7 +487,6 @@ public class KeyboardSwitcher implements
             mInputView.setKeyboard(kbd);
         } else {
             // Return to default keyboard state
-            mFullShifted = false;
             setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
             mInputView.setShifted(false);
         }
