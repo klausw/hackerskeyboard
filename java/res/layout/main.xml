@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:orientation="vertical">
+    <TextView android:layout_height="wrap_content" android:id="@+id/main_intro" android:text="@string/english_ime_name" android:layout_width="wrap_content" android:textStyle="bold" android:textSize="25sp"></TextView>
+    <LinearLayout android:layout_width="match_parent" android:id="@+id/main_linear1" android:layout_height="wrap_content">
+      <Button android:text="@string/main_setup_1" android:id="@+id/main_setup_btn_1" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+      <Button android:text="@string/main_setup_2" android:id="@+id/main_setup_btn_2" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+    </LinearLayout>
+    <TextView android:layout_height="wrap_content" android:id="@+id/main_description" android:layout_width="wrap_content"></TextView>
+</LinearLayout>
