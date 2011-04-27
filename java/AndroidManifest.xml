@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="org.pocketworkstation.pckeyboard" android:versionCode="1004" android:versionName="v1.4">
+        package="org.pocketworkstation.pckeyboard" android:versionName="v1.5" android:versionCode="1005">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
@@ -21,6 +21,13 @@
             </intent-filter>
             <meta-data android:name="android.view.im" android:resource="@xml/method" />
         </service>
+
+        <activity android:name="Main" android:label="Hacker's Keyboard">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <activity android:name="LatinIMESettings" android:label="@string/english_ime_settings">
             <intent-filter>
