@@ -95,6 +95,7 @@ public class KeyboardSwitcher implements
     private LatinIME mInputMethodService;
 
     private KeyboardId mSymbolsId;
+    private KeyboardId mShiftedId;
     private KeyboardId mSymbolsShiftedId;
 
     private KeyboardId mCurrentId;
@@ -162,6 +163,7 @@ public class KeyboardSwitcher implements
         sInstance.updateSettingsKeyState(prefs);
         prefs.registerOnSharedPreferenceChangeListener(sInstance);
 
+        sInstance.mShiftedId = sInstance.makeShiftedId(false);
         sInstance.mSymbolsId = sInstance.makeSymbolsId(false);
         sInstance.mSymbolsShiftedId = sInstance.makeSymbolsShiftedId(false);
     }
@@ -179,9 +181,17 @@ public class KeyboardSwitcher implements
         mInputLocale = mLanguageSwitcher.getInputLocale();
     }
 
+    private KeyboardId makeShiftedId(boolean hasVoice) {
+        if (mFullMode) {
+            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice, mHeightPercent);
+        } else {
+            return null;
+        }
+    }
+
     private KeyboardId makeSymbolsId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice, mHeightPercent);
+            return new KeyboardId(KBD_FULL_FN, KEYBOARDMODE_SYMBOLS, true, hasVoice, mHeightPercent);
         return new KeyboardId(KBD_SYMBOLS[getCharColorId()],
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
                         : KEYBOARDMODE_SYMBOLS, false, hasVoice);
@@ -189,13 +199,19 @@ public class KeyboardSwitcher implements
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_FN, KEYBOARDMODE_SYMBOLS, true, hasVoice, mHeightPercent);
+            return null;
         return new KeyboardId(KBD_SYMBOLS_SHIFT[getCharColorId()],
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
                         : KEYBOARDMODE_SYMBOLS, false, hasVoice);
     }
 
     public void makeKeyboards(boolean forceCreate) {
+        if (!mIsPortrait || mWantFullInPortrait) {
+            mFullMode = true;
+        } else {
+            mFullMode = false;
+        }
+        mShiftedId = makeShiftedId(mHasVoice && !mVoiceOnPrimary);
         mSymbolsId = makeSymbolsId(mHasVoice && !mVoiceOnPrimary);
         mSymbolsShiftedId = makeSymbolsShiftedId(mHasVoice && !mVoiceOnPrimary);
 
@@ -256,7 +272,8 @@ public class KeyboardSwitcher implements
         }
 
         private boolean equals(KeyboardId other) {
-            return other.mXml == this.mXml
+            return other != null
+                    && other.mXml == this.mXml
                     && other.mKeyboardMode == this.mKeyboardMode
                     && other.mEnableShiftLock == this.mEnableShiftLock
                     && other.mHasVoice == this.mHasVoice;
@@ -373,19 +390,16 @@ public class KeyboardSwitcher implements
     private KeyboardId getKeyboardId(int mode, int imeOptions, boolean isSymbols) {
         boolean hasVoice = hasVoiceButton(isSymbols);
         int charColorId = getCharColorId();
-        if (!mIsPortrait || mWantFullInPortrait) {
+        if (mFullMode) {
             switch (mode) {
             case MODE_TEXT:
             case MODE_URL:
             case MODE_EMAIL:
             case MODE_IM:
             case MODE_WEB:
-                mFullMode = true;
                 return new KeyboardId(KBD_FULL, KEYBOARDMODE_NORMAL, true,
                         hasVoice, mHeightPercent);
             }
-        } else {
-            mFullMode = false;
         }
         // TODO: generalize for any KeyboardId
         int keyboardRowsResId = KBD_QWERTY[charColorId];
@@ -451,24 +465,25 @@ public class KeyboardSwitcher implements
         return false;
     }
 
-    public void setShifted(boolean shifted) {
-        //Log.w("PCKeyboard", "setShifted " + shifted, new RuntimeException());
+    public void setShifted(boolean wantShifted) {
+        //Log.i("PCKeyboard", "setShifted " + wantShifted + " mFullMode=" + mFullMode);
         if (mFullMode) {
-            boolean alreadyShifted = (mCurrentId == mSymbolsShiftedId);
-            if (shifted) {
-                if (!alreadyShifted) {
-                    Keyboard kbd = getKeyboard(mSymbolsId);
+            boolean isShifted = (mCurrentId.equals(mShiftedId));
+            if (wantShifted) {
+                if (!isShifted) {
+                    Keyboard kbd = getKeyboard(mShiftedId);
                     mInputView.setKeyboard(kbd);
+                    mCurrentId = mShiftedId;
                     setShiftLocked(false);
                 }
             } else {
-                if (alreadyShifted) { // FIXME: other keyboards?
+                if (isShifted) {
                     setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
                 }
             }
         }
         if (mInputView != null) {
-            mInputView.setShifted(shifted);
+            mInputView.setShifted(wantShifted);
         }
     }
 
@@ -482,8 +497,8 @@ public class KeyboardSwitcher implements
         if (!mFullMode) return;
         if (mInputView == null) return;
         if (useFn) {
-            LatinKeyboard kbd = getKeyboard(mSymbolsShiftedId);
-            mCurrentId = mSymbolsShiftedId;
+            LatinKeyboard kbd = getKeyboard(mSymbolsId);
+            mCurrentId = mSymbolsId;
             mInputView.setKeyboard(kbd);
         } else {
             // Return to default keyboard state
