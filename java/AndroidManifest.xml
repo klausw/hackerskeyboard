@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="org.pocketworkstation.pckeyboard" android:versionCode="1006" android:versionName="v1.6">
+        package="org.pocketworkstation.pckeyboard" android:versionCode="1007" android:versionName="v1.7">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
@@ -11,7 +11,7 @@
     <application android:label="@string/english_ime_name"
             android:backupAgent="LatinIMEBackupAgent"
             android:hardwareAccelerated="true"
-            android:killAfterRestore="false">
+            android:killAfterRestore="false" android:icon="@drawable/icon">
 
         <service android:name="LatinIME"
                 android:label="@string/english_ime_name"
