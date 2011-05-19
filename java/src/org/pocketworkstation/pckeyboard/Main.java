@@ -37,7 +37,6 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         String html = getString(R.string.main_body);
-        Log.i("PCKeyboard", "html=" + html);
         Spanned content = Html.fromHtml(html);
         TextView description = (TextView) findViewById(R.id.main_description);
         description.setMovementMethod(LinkMovementMethod.getInstance());
