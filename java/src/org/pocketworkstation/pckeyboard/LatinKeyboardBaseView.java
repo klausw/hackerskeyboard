@@ -832,7 +832,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         boolean hasNumberKeys = false;
         for (int i = 0; i < keyCount; i++) {
             final Key key = keys[i];
-            if (key.label != null && key.label.equals("1")) {
+            if (key.label != null && (key.label.equals("1") || key.label.equals("!"))) {
             	hasNumberKeys = true;
             	break;
             }

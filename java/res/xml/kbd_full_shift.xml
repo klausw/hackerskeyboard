@@ -32,29 +32,53 @@
             android:keyWidth="3.5714285%p"
             android:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="!" />            
+            android:keyLabel="!"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="1¹½⅓¼⅛" />            
         <Key
-            android:keyLabel="\@" />         
+            android:keyLabel="\@"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="2²⅔" />         
         <Key
-            android:keyLabel="#" />
+            android:keyLabel="#"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="3³¾⅜" />
         <Key
-            android:keyLabel="$" />
+            android:keyLabel="$"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="4" />
         <Key
-            android:keyLabel="%" />
+            android:keyLabel="%"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="5⅝" />
         <Key
-            android:keyLabel="^" />
+            android:keyLabel="^"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="6" />
         <Key
-            android:keyLabel="&amp;" />
+            android:keyLabel="&amp;"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="7⅞" />
         <Key
-            android:keyLabel="*" />
+            android:keyLabel="*"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="8" />
         <Key
-            android:keyLabel="(" />
+            android:keyLabel="("
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="9" />
         <Key
-            android:keyLabel=")" />
+            android:keyLabel=")"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="0ⁿ" />
         <Key
-            android:keyLabel="_" />
+            android:keyLabel="_"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="-" />
         <Key
-            android:keyLabel="+" />
+            android:keyLabel="+"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="\=" />
         <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
@@ -72,25 +96,45 @@
             android:isModifier="true"
             android:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="Q" />
+            android:keyLabel="Q"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_Q" />
         <Key
-            android:keyLabel="W" />
+            android:keyLabel="W"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_W" />
         <Key
-            android:keyLabel="E" />
+            android:keyLabel="E"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_E" />
         <Key
-            android:keyLabel="R" />
+            android:keyLabel="R"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_R" />
         <Key
-            android:keyLabel="T" />
+            android:keyLabel="T"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_T" />
         <Key
-            android:keyLabel="Y" />
+            android:keyLabel="Y"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_Y" />
         <Key
-            android:keyLabel="U" />
+            android:keyLabel="U"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_U" />
         <Key
-            android:keyLabel="I" />
+            android:keyLabel="I"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_I" />
         <Key
-            android:keyLabel="O" />
+            android:keyLabel="O"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_O" />
         <Key
-            android:keyLabel="P" />
+            android:keyLabel="P"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_P" />
         <Key
             android:keyLabel="{" />            
         <Key
@@ -107,15 +151,23 @@
             android:keyEdgeFlags="left" 
             android:isModifier="true" />
         <Key
-            android:keyLabel="A" />
+            android:keyLabel="A"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_A" />
         <Key
-            android:keyLabel="S" />
+            android:keyLabel="S"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_S" />
         <Key
-            android:keyLabel="D" />
+            android:keyLabel="D"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_D" />
         <Key
             android:keyLabel="F" />
         <Key
-            android:keyLabel="G" />
+            android:keyLabel="G"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_G" />
         <Key
             android:keyLabel="H" />
         <Key
@@ -123,7 +175,9 @@
         <Key
             android:keyLabel="K" />
         <Key
-            android:keyLabel="L" />
+            android:keyLabel="L"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_L" />
         <Key
             android:keyLabel=":" />
         <Key
@@ -146,17 +200,25 @@
             android:isSticky="true"
             android:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="Z" />
+            android:keyLabel="Z"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_Z" />
         <Key
             android:keyLabel="X" />
         <Key
-            android:keyLabel="C" />
+            android:keyLabel="C"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_C" />
         <Key
-            android:keyLabel="V" />
+            android:keyLabel="V"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_V" />
         <Key
             android:keyLabel="B" />
         <Key
-            android:keyLabel="N" />
+            android:keyLabel="N"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_N" />
         <Key
             android:keyLabel="M" />
         <Key
