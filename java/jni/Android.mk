@@ -13,7 +13,7 @@ LOCAL_NDK_VERSION := 4
 LOCAL_SDK_VERSION := 8
 endif
 
-LOCAL_MODULE := libjni_latinime
+LOCAL_MODULE := libjni_pckeyboard
 
 LOCAL_MODULE_TAGS := user
 
