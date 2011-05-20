@@ -394,10 +394,12 @@
         
         <h3>Choose the currently active input method:</h3>
         <blockquote>
-          <p>&#8226; Press the <i>CSet current input method</i> button above.
+          <p>&#8226; Press the <B>Set current input method</b> button above.
           <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.
         </blockquote>
         
+        <h2>Additional information</h2>
+        Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.
       "]]>
     </Data></string>
 </resources>
