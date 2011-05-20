@@ -512,7 +512,9 @@ public class LatinKeyboard extends Keyboard {
             paint.setTextAlign(Align.CENTER);
 
             final boolean allowVariableTextSize = true;
-            final String language = layoutSpaceBar(paint, mLanguageSwitcher.getInputLocale(),
+            Locale locale = mLanguageSwitcher.getInputLocale();
+            Log.i("PCKeyboard", "input locale: " + locale);
+            final String language = layoutSpaceBar(paint, locale,
                     mButtonArrowLeftIcon, mButtonArrowRightIcon, width, height,
                     getTextSizeFromTheme(android.R.style.TextAppearance_Small, 14),
                     allowVariableTextSize);
@@ -767,7 +769,13 @@ public class LatinKeyboard extends Keyboard {
     private int getTextSizeFromTheme(int style, int defValue) {
         TypedArray array = mContext.getTheme().obtainStyledAttributes(
                 style, new int[] { android.R.attr.textSize });
-        int textSize = array.getDimensionPixelSize(array.getResourceId(0, 0), defValue);
+        int resId = array.getResourceId(0, 0);
+        if (resId >= array.length()) {
+            Log.i("PCKeyboard",
+                    "getTextSizeFromTheme error: resId " + resId + " > " + array.length());
+            return defValue;
+        }
+        int textSize = array.getDimensionPixelSize(resId, defValue);
         return textSize;
     }
 
