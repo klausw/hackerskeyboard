@@ -17,6 +17,7 @@
 package org.pocketworkstation.pckeyboard;
 
 import org.pocketworkstation.pckeyboard.LatinIMEUtil.RingCharBuffer;
+
 import com.android.inputmethod.voice.FieldContext;
 import com.android.inputmethod.voice.SettingsUtil;
 import com.android.inputmethod.voice.VoiceInput;
@@ -73,6 +74,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Input method implementation for Qwerty'ish keyboard.
@@ -3167,6 +3170,7 @@ public class LatinIME extends InputMethodService implements
     private static final int CPS_BUFFER_SIZE = 16;
     private long[] mCpsIntervals = new long[CPS_BUFFER_SIZE];
     private int mCpsIndex;
+    private static Pattern NUMBER_RE = Pattern.compile("(\\d+)");
 
     private void measureCps() {
         long now = System.currentTimeMillis();
@@ -3185,8 +3189,11 @@ public class LatinIME extends InputMethodService implements
         mKeyboardSwitcher.onAutoCompletionStateChanged(isAutoCompletion);
     }
 
-    static int getHeight(String hStr) {
-        int val = Integer.parseInt(hStr);
+    static int getHeight(SharedPreferences prefs, String prefName, int defVal) {
+        String prefVal = prefs.getString(prefName, Integer.toString(defVal));
+        Matcher num = NUMBER_RE.matcher(prefVal);
+        if (!num.matches()) return defVal;
+        int val = Integer.parseInt(num.group(1));
         if (val < 15)
             val = 15;
         if (val > 75)
