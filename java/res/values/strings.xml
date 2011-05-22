@@ -373,6 +373,19 @@
     <string name="subtype_mode_keyboard">keyboard</string>
     <string name="subtype_mode_voice">voice</string>
 
+    <string-array name="hint_modes">
+        <item>No hints</item>
+        <item>On non-letter keys</item>
+        <item>On all keys</item>
+    </string-array>
+
+    <string-array name="hint_modes_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="default_hint_mode">1</string>
+
     <!-- Title for Latin keyboard debug settings activity / dialog -->
     <string name="english_ime_debug_settings" translatable="false">Debug settings</string>
     <string name="prefs_debug_mode" translatable="false">Debug Mode</string>
@@ -402,4 +415,5 @@
         Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.
       "]]>
     </Data></string>
+    <string name="text_test">Test</string>
 </resources>
