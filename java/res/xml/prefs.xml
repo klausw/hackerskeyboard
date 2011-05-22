@@ -58,6 +58,16 @@
             android:defaultValue="@bool/default_fullscreen_override"
             />
 
+    <ListPreference
+            android:key="pref_hint_mode"
+            android:title="Key hint label visibility"
+            android:summary="Mark keys that have alternate shift/long-press characters?"
+            android:persistent="true"
+            android:entryValues="@array/hint_modes_values"
+            android:entries="@array/hint_modes"
+            android:defaultValue="@string/default_hint_mode"
+            />
+
     <PreferenceCategory
             android:title="ConnectBot related settings"
             android:key="connectbot_settings">
