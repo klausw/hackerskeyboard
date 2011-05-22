@@ -117,6 +117,7 @@ public class KeyboardSwitcher implements
     private int mHeightPercent;
     private boolean mIsPortrait;
     private boolean mFullMode;
+    private int mHintMode;
 
     private static final int AUTO_MODE_SWITCH_STATE_ALPHA = 0;
     private static final int AUTO_MODE_SWITCH_STATE_SYMBOL_BEGIN = 1;
@@ -160,6 +161,7 @@ public class KeyboardSwitcher implements
                 .getDefaultSharedPreferences(ims);
         sInstance.mLayoutId = Integer.valueOf(prefs.getString(
                 PREF_KEYBOARD_LAYOUT, DEFAULT_LAYOUT_ID));
+
         sInstance.updateSettingsKeyState(prefs);
         prefs.registerOnSharedPreferenceChangeListener(sInstance);
 
@@ -335,6 +337,7 @@ public class KeyboardSwitcher implements
 
         mCurrentId = id;
         mInputView.setKeyboard(keyboard);
+        mInputView.setHintMode(mHintMode);
         keyboard.setShifted(false);
         keyboard.setShiftLocked(keyboard.isShiftLocked());
         keyboard.setImeOptions(mInputMethodService.getResources(), mMode,
@@ -374,12 +377,13 @@ public class KeyboardSwitcher implements
     }
 
     public void setFullKeyboardOptions(boolean fullInPortrait,
-            int heightPercentPortrait, int heightPercentLandscape) {
+            int heightPercentPortrait, int heightPercentLandscape, int hintMode) {
         Log.i("PCKeyboard", "setFullKeyboardOptions " + fullInPortrait + " " + heightPercentPortrait + " " + heightPercentLandscape);
         mWantFullInPortrait = fullInPortrait;
         int orientation = mInputMethodService.getResources().getConfiguration().orientation;
         mIsPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
         mHeightPercent = mIsPortrait ? heightPercentPortrait : heightPercentLandscape;
+        mHintMode = hintMode;
 
     }
 
