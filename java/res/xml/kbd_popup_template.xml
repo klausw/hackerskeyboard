@@ -18,7 +18,7 @@
 */
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
     android:keyWidth="10%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
