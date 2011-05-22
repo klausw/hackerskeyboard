@@ -231,6 +231,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private final int mSwipeThreshold;
     private final boolean mDisambiguateSwipe;
 
+    // Configuration
+    private boolean mHintsOnOtherKeys = true;
+    private boolean mHintsOnLetters = true;
+
     // Drawing
     /** Whether the keyboard bitmap needs to be redrawn before it's blitted. **/
     private boolean mDrawPending;
@@ -572,6 +576,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mHasDistinctMultitouch = context.getPackageManager()
                 .hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_DISTINCT);
         mKeyRepeatInterval = res.getInteger(R.integer.config_key_repeat_interval);
+    }
+
+    public void setHintMode(int hintMode) {
+        //Log.i("PCKeyboard", "set hintMode=" + hintMode);
+        mHintsOnOtherKeys = (hintMode >= 1);
+        mHintsOnLetters = (hintMode >= 2);
     }
 
     public void setOnKeyboardActionListener(OnKeyboardActionListener listener) {
@@ -1284,6 +1294,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         if (key.modifier || key.popupCharacters == null || key.popupCharacters.length() == 0) {
         	return 0;
         }
+
         // Must keep this algorithm in sync with onLongPress() method for consistency!
         boolean isNumberAtLeftmost =
             hasMultiplePopupChars(key) && isNumberAtLeftmostPopupChar(key);
@@ -1292,12 +1303,32 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         // Use the character at this position as the label?
         char label = key.popupCharacters.charAt(pos);
-        if (hasNumberKeys && label >= '0' && label <= '9') {
+        boolean popupIsDigit = (label >= '0' && label <= '9');
+        boolean letterKey = isLetterKey(key);
+
+        if (letterKey) {
+            // Always show number hints on 4-row keyboard, otherwise check
+            // the hint mode setting.
+            if (!mHintsOnLetters && !(popupIsDigit && !hasNumberKeys)) return 0;
+        } else {
+            if (!mHintsOnOtherKeys) return 0;
+        }
+
+        if (letterKey && popupIsDigit && hasNumberKeys) {
         	// We have real number keys, don't show digit hint
         	if (popupLen == 1) return 0; // No other alternatives
         	label = key.popupCharacters.charAt(1);
         }
         return label;
+    }
+
+    private boolean isLetterKey(Key key) {
+        if (key.label == null) return false;
+        if (key.label.length() != 1) return false;
+        int label = key.label.charAt(0);
+        if ((label >= 'a' && label <= 'z') || (label >= 'A' && label <= 'Z'))
+            return true;
+        return false;
     }
 
     private boolean isLatinF1Key(Key key) {
