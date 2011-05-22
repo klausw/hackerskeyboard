@@ -530,7 +530,7 @@ public class Keyboard {
         mDefaultVerticalGap = 0;
         int nRows = 5;
         mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 / nRows: Math.round(mDefaultWidth);
-        Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " (keyHeight=" + keyHeight + " displayHeight="+mDisplayHeight+")");
+        //Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " (keyHeight=" + keyHeight + " displayHeight="+mDisplayHeight+")");
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
