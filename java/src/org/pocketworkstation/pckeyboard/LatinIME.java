@@ -132,6 +132,7 @@ public class LatinIME extends InputMethodService implements
     private static final String PREF_SUGGESTIONS_IN_LANDSCAPE = "suggestions_in_landscape";
     private static final String PREF_HEIGHT_PORTRAIT = "settings_height_portrait";
     private static final String PREF_HEIGHT_LANDSCAPE = "settings_height_landscape";
+    private static final String PREF_HINT_MODE = "pref_hint_mode";
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
@@ -214,12 +215,12 @@ public class LatinIME extends InputMethodService implements
     private boolean mShowSuggestions;
     private boolean mIsShowingHint;
     private boolean mConnectbotTabHack;
-    private boolean mConnectbotCtrlIHack;
     private boolean mFullscreenOverride;
     private boolean mFullInPortrait;
     private boolean mSuggestionsInLandscape;
     private int mHeightPortrait;
     private int mHeightLandscape;
+    private int mHintMode;
     private int mCorrectionMode;
     private boolean mEnableVoice = true;
     private boolean mVoiceOnPrimary;
@@ -389,14 +390,11 @@ public class LatinIME extends InputMethodService implements
                 res.getBoolean(R.bool.default_full_in_portrait));
         mSuggestionsInLandscape = prefs.getBoolean(PREF_SUGGESTIONS_IN_LANDSCAPE,
                 res.getBoolean(R.bool.default_suggestions_in_landscape));
-        mHeightPortrait = getHeight(prefs.getString(PREF_HEIGHT_PORTRAIT,
-                Integer.toString(
-                        res.getInteger(R.integer.default_height_portrait))));
-        mHeightLandscape = getHeight(prefs.getString(PREF_HEIGHT_LANDSCAPE,
-                Integer.toString(
-                        res.getInteger(R.integer.default_height_landscape))));
+        mHeightPortrait = getHeight(prefs, PREF_HEIGHT_PORTRAIT, res.getInteger(R.integer.default_height_portrait));
+        mHeightLandscape = getHeight(prefs, PREF_HEIGHT_LANDSCAPE, res.getInteger(R.integer.default_height_landscape));
+        mHintMode = Integer.parseInt(prefs.getString(PREF_HINT_MODE, res.getString(R.string.default_hint_mode)));
         mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
-                mHeightPortrait, mHeightLandscape);
+                mHeightPortrait, mHeightLandscape, mHintMode);
 
         LatinIMEUtil.GCUtils.getInstance().reset();
         boolean tryGC = true;
@@ -1131,7 +1129,7 @@ public class LatinIME extends InputMethodService implements
                     mVoiceOnPrimary);
         }
         mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
-                mHeightPortrait, mHeightLandscape);
+                mHeightPortrait, mHeightLandscape, mHintMode);
         mKeyboardSwitcher.makeKeyboards(true);
     }
 
@@ -2712,18 +2710,21 @@ public class LatinIME extends InputMethodService implements
                             .getBoolean(R.bool.default_suggestions_in_landscape));
             needReload = true;
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
-            mHeightPortrait = getHeight(sharedPreferences.getString(
-                    PREF_HEIGHT_PORTRAIT, Integer.toString(res
-                            .getInteger(R.integer.default_height_portrait))));
+            mHeightPortrait = getHeight(sharedPreferences,
+                    PREF_HEIGHT_PORTRAIT, res.getInteger(R.integer.default_height_portrait));
             needReload = true;
         } else if (PREF_HEIGHT_LANDSCAPE.equals(key)) {
-            mHeightLandscape = getHeight(sharedPreferences.getString(
-                    PREF_HEIGHT_LANDSCAPE, Integer.toString(res
-                            .getInteger(R.integer.default_height_landscape))));
+            mHeightLandscape = getHeight(sharedPreferences,
+                    PREF_HEIGHT_LANDSCAPE, res.getInteger(R.integer.default_height_landscape));
+            needReload = true;
+        } else if (PREF_HINT_MODE.equals(key)) {
+            mHintMode = Integer.parseInt(sharedPreferences.getString(PREF_HINT_MODE,
+                    res.getString(R.string.default_hint_mode)));
             needReload = true;
         }
+
         mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
-                mHeightPortrait, mHeightLandscape);
+                mHeightPortrait, mHeightLandscape, mHintMode);
         if (needReload) {
             mKeyboardSwitcher.makeKeyboards(true);
         }
