@@ -209,7 +209,7 @@ public class PointerTracker {
 
     private boolean isModifierInternal(int keyIndex) {
         Key key = getKey(keyIndex);
-        if (key == null)
+        if (key == null || key.codes == null)
             return false;
         int primaryCode = key.codes[0];
         return primaryCode == Keyboard.KEYCODE_SHIFT
@@ -229,7 +229,7 @@ public class PointerTracker {
 
     public boolean isSpaceKey(int keyIndex) {
         Key key = getKey(keyIndex);
-        return key != null && key.codes[0] == LatinIME.KEYCODE_SPACE;
+        return key != null && key.codes != null && key.codes[0] == LatinIME.KEYCODE_SPACE;
     }
 
     public void updateKey(int keyIndex) {
@@ -285,7 +285,8 @@ public class PointerTracker {
         checkMultiTap(eventTime, keyIndex);
         if (mListener != null) {
             if (isValidKeyIndex(keyIndex)) {
-                mListener.onPress(mKeys[keyIndex].codes[0]);
+                Key key = mKeys[keyIndex];
+                if (key.codes != null) mListener.onPress(key.codes[0]);
                 // This onPress call may have changed keyboard layout. Those cases are detected at
                 // {@link #setKeyboard}. In those cases, we should update keyIndex according to the
                 // new keyboard layout.
@@ -319,7 +320,8 @@ public class PointerTracker {
                 // The pointer has been slid in to the new key, but the finger was not on any keys.
                 // In this case, we must call onPress() to notify that the new key is being pressed.
                 if (mListener != null) {
-                    mListener.onPress(getKey(keyIndex).codes[0]);
+                    Key key = getKey(keyIndex);
+                    if (key.codes != null) mListener.onPress(key.codes[0]);
                     // This onPress call may have changed keyboard layout. Those cases are detected
                     // at {@link #setKeyboard}. In those cases, we should update keyIndex according
                     // to the new keyboard layout.
@@ -335,11 +337,12 @@ public class PointerTracker {
                 // onRelease() first to notify that the previous key has been released, then call
                 // onPress() to notify that the new key is being pressed.
                 mIsInSlidingKeyInput = true;
-                if (mListener != null)
+                if (mListener != null && oldKey.codes != null)
                     mListener.onRelease(oldKey.codes[0]);
                 resetMultiTap();
                 if (mListener != null) {
-                    mListener.onPress(getKey(keyIndex).codes[0]);
+                    Key key = getKey(keyIndex);
+                    if (key.codes != null) mListener.onPress(key.codes[0]);
                     // This onPress call may have changed keyboard layout. Those cases are detected
                     // at {@link #setKeyboard}. In those cases, we should update keyIndex according
                     // to the new keyboard layout.
@@ -356,7 +359,7 @@ public class PointerTracker {
                 // The pointer has been slid out from the previous key, we must call onRelease() to
                 // notify that the previous key has been released.
                 mIsInSlidingKeyInput = true;
-                if (mListener != null)
+                if (mListener != null && oldKey.codes != null)
                     mListener.onRelease(oldKey.codes[0]);
                 resetMultiTap();
                 keyState.onMoveToNewKey(keyIndex, x ,y);
@@ -492,6 +495,7 @@ public class PointerTracker {
                     listener.onRelease(0); // dummy key code
                 }
             } else {
+                if (key.codes == null) return;
                 int code = key.codes[0];
                 int[] codes = mKeyDetector.newCodeArray();
                 mKeyDetector.getKeyIndexAndNearbyCodes(x, y, codes);
@@ -546,7 +550,7 @@ public class PointerTracker {
 
     private void checkMultiTap(long eventTime, int keyIndex) {
         Key key = getKey(keyIndex);
-        if (key == null)
+        if (key == null || key.codes == null)
             return;
 
         final boolean isMultiTap =
@@ -570,7 +574,7 @@ public class PointerTracker {
         int keyIndex = mKeyDetector.getKeyIndexAndNearbyCodes(x, y, null);
         Key key = getKey(keyIndex);
         final String code;
-        if (key == null) {
+        if (key == null || key.codes == null) {
             code = "----";
         } else {
             int primaryCode = key.codes[0];
