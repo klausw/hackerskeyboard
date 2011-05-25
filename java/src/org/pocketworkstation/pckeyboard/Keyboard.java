@@ -785,6 +785,10 @@ public class Keyboard {
         mTotalHeight = y - mDefaultVerticalGap;
     }
 
+    public int getDisplayWidth() {
+        return mDisplayWidth;
+    }
+
     private void skipToEndOfRow(XmlResourceParser parser)
             throws XmlPullParserException, IOException {
         int event;

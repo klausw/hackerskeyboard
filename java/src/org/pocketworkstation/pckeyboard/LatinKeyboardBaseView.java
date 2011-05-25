@@ -848,6 +848,14 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             }
         }
 
+        int kbWidth = mKeyboard.getDisplayWidth();
+        Log.i("PCKeyboard", "displayWidth=" + kbWidth + " width=" + getWidth());
+        if (getWidth() < kbWidth) {
+            float shrink = (float) getWidth() / kbWidth;
+            Log.i("PCKeyboard", "shrinking keyboard by " + shrink);
+            canvas.scale(shrink, 1.0f);
+        }
+
         for (int i = 0; i < keyCount; i++) {
             final Key key = keys[i];
             if (drawSingleKey && invalidKey != key) {
