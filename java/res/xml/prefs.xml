@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        android:title="@string/english_ime_settings"
+        android:key="english_ime_settings">
+
+    <EditTextPreference
+            android:key="settings_height_portrait"
+            android:title="Keyboard height, portrait"
+            android:summary="Percentage of screen height for the full keyboard"
+            android:persistent="true"
+            android:defaultValue="@integer/default_height_portrait"
+            />
+
+    <EditTextPreference
+            android:key="settings_height_landscape"
+            android:title="Keyboard height, landscape"
+            android:summary="Percentage of screen height for the full keyboard"
+            android:persistent="true"
+            android:defaultValue="@integer/default_height_landscape"
+            />
+
+    <CheckBoxPreference
+            android:key="full_keyboard_in_portrait"
+            android:title="Full keyboard in portrait mode"
+            android:summary="(If off, uses the legacy Gingerbread layout in portrait mode.)"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_full_in_portrait"
+            />
+
+    <CheckBoxPreference
+            android:key="suggestions_in_landscape"
+            android:title="Show suggestions in landscape mode"
+            android:summary="(If off, the suggestion settings only apply in portrait mode.)"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_suggestions_in_landscape"
+            />
+   
+    <CheckBoxPreference
+            android:key="fullscreen_override"
+            android:title="Always use standard view in landscape mode"
+            android:summary="This disables the mini editor that's normally used on small screens."
+            android:persistent="true" 
+            android:defaultValue="@bool/default_fullscreen_override"
+            />
+
+    <ListPreference
+            android:key="pref_hint_mode"
+            android:title="Key hint label visibility"
+            android:summary="Mark keys that have alternate shift/long-press characters?"
+            android:persistent="true"
+            android:entryValues="@array/hint_modes_values"
+            android:entries="@array/hint_modes"
+            android:defaultValue="@string/default_hint_mode"
+            />
+
+    <PreferenceCategory
+            android:title="ConnectBot related settings"
+            android:key="connectbot_settings">
+
+        <CheckBoxPreference
+            android:key="connectbot_tab_hack"
+            android:title="Tab key and Ctrl-I send ConnectBot-compatible tab"
+            android:summary="(Makes the Tab key usable in ConnectBot)"
+            android:persistent="true" 
+            android:defaultValue="true"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Gingerbread keyboard settings"
+            android:key="gingerbread_settings">
+
+    <CheckBoxPreference
+            android:key="vibrate_on"
+            android:title="@string/vibrate_on_keypress"
+            android:persistent="true"
+            />
+
+    <CheckBoxPreference
+            android:key="sound_on"
+            android:title="@string/sound_on_keypress"
+            android:persistent="true" 
+            />
+
+    <CheckBoxPreference
+            android:key="popup_on"
+            android:title="@string/popup_on_keypress"
+            android:persistent="true"
+            android:defaultValue="@bool/default_popup_preview"
+            />
+
+    <CheckBoxPreference
+            android:key="recorrection_enabled"
+            android:title="@string/prefs_enable_recorrection"
+            android:summary="@string/prefs_enable_recorrection_summary"
+            android:persistent="true"
+            android:defaultValue="@bool/default_recorrection_enabled"
+            />
+
+    <CheckBoxPreference
+            android:key="auto_cap"
+            android:title="@string/auto_cap"
+            android:persistent="true"
+            android:defaultValue="@bool/default_auto_cap"
+            />
+
+    <ListPreference
+            android:key="settings_key"
+            android:title="@string/prefs_settings_key"
+            android:persistent="true"
+            android:entryValues="@array/settings_key_modes_values"
+            android:entries="@array/settings_key_modes"
+            android:defaultValue="@string/settings_key_mode_auto"
+            />
+
+    <ListPreference
+            android:key="voice_mode"
+            android:title="@string/voice_input"
+            android:persistent="true"
+            android:entryValues="@array/voice_input_modes_values"
+            android:entries="@array/voice_input_modes"
+            android:defaultValue="@string/voice_mode_main"
+            />
+
+
+    <PreferenceScreen
+            android:title="@string/language_selection_title"
+            android:summary="@string/language_selection_summary">
+        <intent
+                android:action="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION"/>
+    </PreferenceScreen>
+
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+            android:title="@string/prediction_category"
+            android:key="prediction_settings">
+
+        <CheckBoxPreference
+            android:key="quick_fixes"
+            android:title="@string/quick_fixes"
+            android:summary="@string/quick_fixes_summary"
+            android:persistent="true"
+            android:defaultValue="@bool/default_quick_fixes"
+            />
+
+        <CheckBoxPreference
+            android:key="show_suggestions"
+            android:title="@string/show_suggestions"
+            android:summary="@string/show_suggestions_summary"
+            android:persistent="true"
+            android:defaultValue="@bool/default_suggestions"
+            />
+
+        <CheckBoxPreference
+            android:key="auto_complete"
+            android:title="@string/auto_complete"
+            android:summary="@string/auto_complete_summary"
+            android:persistent="true" 
+            android:defaultValue="@bool/enable_autocorrect"
+            android:dependency="show_suggestions"
+            />
+    </PreferenceCategory>            
+
+</PreferenceScreen>
