@@ -249,6 +249,7 @@ public class Keyboard {
         public boolean sticky;
         /** X coordinate of the key in the keyboard layout */
         public int x;
+        private float realX;
         /** Y coordinate of the key in the keyboard layout */
         public int y;
         /** The current pressed state of this key */
@@ -748,6 +749,7 @@ public class Keyboard {
                    } else if (TAG_KEY.equals(tag)) {
                         inKey = true;
                         key = createKeyFromXml(res, currentRow, Math.round(x), y, parser);
+                        key.realX = x;
                         mKeys.add(key);
                         if (key.codes[0] == KEYCODE_SHIFT) {
                             if (mShiftKeyIndex == -1) {
@@ -785,8 +787,16 @@ public class Keyboard {
         mTotalHeight = y - mDefaultVerticalGap;
     }
 
-    public int getDisplayWidth() {
-        return mDisplayWidth;
+    public void setKeyboardWidth(int newWidth) {
+        Log.i("PCKeyboard", "mTotalWidth=" + mTotalWidth + " mDisplayWidth=" + mDisplayWidth);
+        if (newWidth <= 0) return;
+        if (mTotalWidth <= newWidth) return;
+        float scale = (float) newWidth / mDisplayWidth;
+        Log.i("PCKeyboard", "Rescaling keyboard to width " + newWidth);
+        for (Key key : mKeys) {
+            key.x = Math.round(key.realX * scale);
+        }
+        mTotalWidth = newWidth;
     }
 
     private void skipToEndOfRow(XmlResourceParser parser)

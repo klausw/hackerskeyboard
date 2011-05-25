@@ -251,6 +251,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private final Paint mPaintHint;
     private final Rect mPadding;
     private final Rect mClipRegion = new Rect(0, 0, 0, 0);
+    private int mViewWidth;
     // This map caches key label text height in pixel as value and key label text size as map key.
     private final HashMap<Integer, Integer> mTextHeightCache = new HashMap<Integer, Integer>();
     // Distance from horizontal center of the key, proportional to key label text height.
@@ -771,6 +772,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        mViewWidth = w;
         // Release the buffer, if any and it will be reallocated on the next draw
         mBuffer = null;
     }
@@ -799,6 +801,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     private void onBufferDraw() {
         if (mBuffer == null || mKeyboardChanged) {
+            mKeyboard.setKeyboardWidth(mViewWidth);
             if (mBuffer == null || mKeyboardChanged &&
                     (mBuffer.getWidth() != getWidth() || mBuffer.getHeight() != getHeight())) {
                 // Make sure our bitmap is at least 1x1
@@ -846,14 +849,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             	hasNumberKeys = true;
             	break;
             }
-        }
-
-        int kbWidth = mKeyboard.getDisplayWidth();
-        Log.i("PCKeyboard", "displayWidth=" + kbWidth + " width=" + getWidth());
-        if (getWidth() < kbWidth) {
-            float shrink = (float) getWidth() / kbWidth;
-            Log.i("PCKeyboard", "shrinking keyboard by " + shrink);
-            canvas.scale(shrink, 1.0f);
         }
 
         for (int i = 0; i < keyCount; i++) {
