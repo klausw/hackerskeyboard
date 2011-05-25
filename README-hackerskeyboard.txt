@@ -1,5 +1,5 @@
 See http://code.google.com/p/hackerskeyboard/ for more details about
-this project.
+this project. 
 
 If you're planning to make changes that you intend to contribute to the
 project, please get in touch first, the code is currently in flux and
