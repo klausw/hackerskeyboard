@@ -351,6 +351,7 @@ public class Keyboard {
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
                     R.styleable.Keyboard_Key);
+            this.realX = this.x + realGap;
             this.x += gap;
             TypedValue codesValue = new TypedValue();
             a.getValue(R.styleable.Keyboard_Key_codes,
@@ -581,6 +582,7 @@ public class Keyboard {
             }
             final Key key = new Key(row);
             key.x = x;
+            key.realX = x;
             key.y = y;
             key.label = String.valueOf(c);
             key.codes = new int[] { c };
@@ -788,11 +790,10 @@ public class Keyboard {
     }
 
     public void setKeyboardWidth(int newWidth) {
-        Log.i("PCKeyboard", "mTotalWidth=" + mTotalWidth + " mDisplayWidth=" + mDisplayWidth);
-        if (newWidth <= 0) return;
-        if (mTotalWidth <= newWidth) return;
+        if (newWidth <= 0) return;  // view not initialized?
+        if (mTotalWidth <= newWidth) return;  // it already fits
         float scale = (float) newWidth / mDisplayWidth;
-        Log.i("PCKeyboard", "Rescaling keyboard to width " + newWidth);
+        Log.i("PCKeyboard", "Rescaling keyboard: " + mTotalWidth + " => " + newWidth);
         for (Key key : mKeys) {
             key.x = Math.round(key.realX * scale);
         }

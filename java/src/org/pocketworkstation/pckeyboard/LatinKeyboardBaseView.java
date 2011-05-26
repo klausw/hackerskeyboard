@@ -234,6 +234,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     // Configuration
     private boolean mHintsOnOtherKeys = true;
     private boolean mHintsOnLetters = true;
+    private boolean mHasNumberKeys = false;
 
     // Drawing
     /** Whether the keyboard bitmap needs to be redrawn before it's blitted. **/
@@ -842,11 +843,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
         canvas.drawColor(0x00000000, PorterDuff.Mode.CLEAR);
         final int keyCount = keys.length;
-        boolean hasNumberKeys = false;
+        mHasNumberKeys = false;
         for (int i = 0; i < keyCount; i++) {
             final Key key = keys[i];
             if (key.label != null && (key.label.equals("1") || key.label.equals("!"))) {
-            	hasNumberKeys = true;
+            	mHasNumberKeys = true;
             	break;
             }
         }
@@ -892,7 +893,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 canvas.drawText(label, centerX, baseline, paint);
 
-                char hint = getHintLabel(key, hasNumberKeys);
+                char hint = getHintLabel(key);
                 if (hint != 0) {
                 	final int hintLabelHeight = getLabelHeight(paintHint, mHintTextSize);
                     canvas.drawText(Character.toString(hint),
@@ -1164,8 +1165,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         miniKeyboard.mGestureDetector = null;
 
         Keyboard keyboard;
-        if (popupKey.popupCharacters != null) {
-            keyboard = new Keyboard(getContext(), popupKeyboardId, popupKey.popupCharacters,
+        CharSequence popupChars = getPopupCharacters(popupKey);
+        if (popupChars != null) {
+            keyboard = new Keyboard(getContext(), popupKeyboardId, popupChars,
                     -1, getPaddingLeft() + getPaddingRight());
         } else {
             keyboard = new Keyboard(getContext(), popupKeyboardId);
@@ -1226,12 +1228,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         final List<Key> miniKeys = mMiniKeyboard.getKeyboard().getKeys();
         final int miniKeyWidth = miniKeys.size() > 0 ? miniKeys.get(0).width : 0;
 
-        // HACK: Have the leftmost number in the popup characters right above the key
-        boolean isNumberAtLeftmost =
-                hasMultiplePopupChars(popupKey) && isNumberAtLeftmostPopupChar(popupKey);
         int popupX = popupKey.x + mWindowOffset[0];
         popupX += getPaddingLeft();
-        if (isNumberAtLeftmost) {
+        if (shouldAlignLeftmost(popupKey)) {
             popupX += popupKey.width - miniKeyWidth;  // adjustment for a) described above
             popupX -= container.getPaddingLeft();
         } else {
@@ -1275,13 +1274,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return true;
     }
 
-    private static boolean hasMultiplePopupChars(Key key) {
-        if (key.popupCharacters != null && key.popupCharacters.length() > 1) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean shouldDrawIconFully(Key key) {
         return isNumberAtEdgeOfPopupChars(key) || isLatinF1Key(key)
                 || LatinKeyboard.hasPuncOrSmileysPopup(key);
@@ -1293,35 +1285,51 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 || LatinKeyboard.hasPuncOrSmileysPopup(key);
     }
 
-    private char getHintLabel(Key key, boolean hasNumberKeys) {
-        if (key.modifier || key.popupCharacters == null || key.popupCharacters.length() == 0) {
+    private boolean shouldAlignLeftmost(Key key) {
+        return key.x < mViewWidth / 2;
+    }
+
+    /**
+     * Get popup characters, with digits removed if the keyboard has number keys.
+     */
+    private CharSequence getPopupCharacters(Key key) {
+        CharSequence in = key.popupCharacters;
+        if (in == null || !mHasNumberKeys) return in;
+        if (!isLetterKey(key)) return in;
+        int start = 0;
+        int end = in.length();
+        if (end == 0) return null;
+        // This assumes that the digits will be first or last in the list.
+        if (in.charAt(start) >= '0' && in.charAt(start) <= '9') start += 1;
+        if (in.charAt(end - 1) >= '0' && in.charAt(end - 1) <= '9') end -= 1;
+        if (start >= end) return null;
+        return in.subSequence(start, end);
+    }
+
+    private char getHintLabel(Key key) {
+        CharSequence popupChars = getPopupCharacters(key);
+        if (key.modifier || popupChars == null || popupChars.length() == 0) {
         	return 0;
         }
 
         // Must keep this algorithm in sync with onLongPress() method for consistency!
-        boolean isNumberAtLeftmost =
-            hasMultiplePopupChars(key) && isNumberAtLeftmostPopupChar(key);
-        int popupLen = key.popupCharacters.length();
-        int pos = isNumberAtLeftmost ? 0 : popupLen - 1;
+        boolean alignLeftmost = shouldAlignLeftmost(key);
+        int popupLen = popupChars.length();
+        int pos = alignLeftmost ? 0 : popupLen - 1;
 
         // Use the character at this position as the label?
-        char label = key.popupCharacters.charAt(pos);
+        char label = popupChars.charAt(pos);
         boolean popupIsDigit = (label >= '0' && label <= '9');
         boolean letterKey = isLetterKey(key);
 
         if (letterKey) {
             // Always show number hints on 4-row keyboard, otherwise check
             // the hint mode setting.
-            if (!mHintsOnLetters && !(popupIsDigit && !hasNumberKeys)) return 0;
+            if (!mHintsOnLetters && !popupIsDigit) return 0;
         } else {
             if (!mHintsOnOtherKeys) return 0;
         }
 
-        if (letterKey && popupIsDigit && hasNumberKeys) {
-        	// We have real number keys, don't show digit hint
-        	if (popupLen == 1) return 0; // No other alternatives
-        	label = key.popupCharacters.charAt(1);
-        }
         return label;
     }
 
