@@ -1308,8 +1308,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         boolean needUpcase = in.length() == 1 && Character.isUpperCase(in.charAt(0));
         boolean needReverse = !shouldAlignLeftmost(key);
 
-        if (!mHasNumberKeys && !needUpcase && !needReverse) return in;
-
         int start = 0;
         int end = in.length();
         if (end == 0) return null;
@@ -1319,8 +1317,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Remove digits if it's a full keyboard
         if (mHasNumberKeys) {
             // This assumes that the digits will be first or last in the list.
-            if (in.charAt(start) >= '0' && in.charAt(start) <= '9') start += 1;
-            if (in.charAt(end - 1) >= '0' && in.charAt(end - 1) <= '9') end -= 1;
+            if (Character.isDigit(in.charAt(start))) start += 1;
+            if (Character.isDigit(in.charAt(end - 1))) end -= 1;
             if (start >= end) return null;
             result = in.subSequence(start, end);
         }
