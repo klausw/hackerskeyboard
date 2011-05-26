@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.WeakHashMap;
 
 /**
@@ -1290,20 +1291,50 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     /**
-     * Get popup characters, with digits removed if the keyboard has number keys.
+     * Get popup characters, with modifications.
+     *
+     * <ul>
+     * <li>If the letter is uppercase, also upcase the popup chars.
+     *
+     * <li>Suppress digits from popups if the keyboard has a number key row.
+     *
+     * <li>If the popup menu is right-aligned, flip the order of the characters.
+     * </ul>
      */
     private CharSequence getPopupCharacters(Key key) {
         CharSequence in = key.popupCharacters;
-        if (in == null || !mHasNumberKeys) return in;
-        if (!isLetterKey(key)) return in;
+        if (in == null || !isLetterKey(key)) return in;
+
+        boolean needUpcase = in.length() == 1 && Character.isUpperCase(in.charAt(0));
+        boolean needReverse = !shouldAlignLeftmost(key);
+
+        if (!mHasNumberKeys && !needUpcase && !needReverse) return in;
+
         int start = 0;
         int end = in.length();
         if (end == 0) return null;
-        // This assumes that the digits will be first or last in the list.
-        if (in.charAt(start) >= '0' && in.charAt(start) <= '9') start += 1;
-        if (in.charAt(end - 1) >= '0' && in.charAt(end - 1) <= '9') end -= 1;
-        if (start >= end) return null;
-        return in.subSequence(start, end);
+
+        CharSequence result = in;
+
+        // Remove digits if it's a full keyboard
+        if (mHasNumberKeys) {
+            // This assumes that the digits will be first or last in the list.
+            if (in.charAt(start) >= '0' && in.charAt(start) <= '9') start += 1;
+            if (in.charAt(end - 1) >= '0' && in.charAt(end - 1) <= '9') end -= 1;
+            if (start >= end) return null;
+            result = in.subSequence(start, end);
+        }
+
+        if (needUpcase || needReverse) {
+            StringBuilder tmp = new StringBuilder(result);
+            if (needReverse) tmp.reverse();
+            if (needUpcase) {
+                result = tmp.toString().toUpperCase(Locale.US);
+            } else {
+                result = tmp.toString();
+            }
+        }
+        return result;
     }
 
     private char getHintLabel(Key key) {
@@ -1319,7 +1350,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         // Use the character at this position as the label?
         char label = popupChars.charAt(pos);
-        boolean popupIsDigit = (label >= '0' && label <= '9');
+        boolean popupIsDigit = Character.isDigit(label);
         boolean letterKey = isLetterKey(key);
 
         if (letterKey) {
@@ -1336,10 +1367,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private boolean isLetterKey(Key key) {
         if (key.label == null) return false;
         if (key.label.length() != 1) return false;
-        int label = key.label.charAt(0);
-        if ((label >= 'a' && label <= 'z') || (label >= 'A' && label <= 'Z'))
-            return true;
-        return false;
+        return Character.isLetter(key.label.charAt(0));
     }
 
     private boolean isLatinF1Key(Key key) {
