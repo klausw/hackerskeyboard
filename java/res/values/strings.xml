@@ -373,10 +373,29 @@
     <string name="subtype_mode_keyboard">keyboard</string>
     <string name="subtype_mode_voice">voice</string>
 
+    <string name="title_full_in_portrait">Full keyboard in portrait mode</string>
+    <string name="summary_full_in_portrait_true">Use full 5-row keyboard</string>
+    <string name="summary_full_in_portrait_false">Use 4-row Gingerbread keyboard</string>
+
+    <string name="title_suggestions_in_landscape">Suggestions in landscape mode</string>
+    <string name="summary_suggestions_in_landscape_true">Same as in portrait mode</string>
+    <string name="summary_suggestions_in_landscape_false">Hide suggestions in landscape mode</string>
+
+    <string name="title_fullscreen_override">Landscape mode editor override</string>
+    <string name="summary_fullscreen_override_true">Always use standard view</string>
+    <string name="summary_fullscreen_override_false">Use fullscreen editor on small devices</string>
+
+    <string name="title_application_category">Application-specific settings</string>
+    
+    <string name="title_connectbot_tab_hack">ConnectBot tab key mode</string>
+    <string name="summary_connectbot_tab_hack_true">Enable compatibility workaround</string>
+    <string name="summary_connectbot_tab_hack_false">Send plain Tab key event</string>
+
+    <string name="title_hint_mode">Labeled alternate keys</string>
     <string-array name="hint_modes">
-        <item>No hints</item>
-        <item>On non-letter keys</item>
-        <item>On all keys</item>
+        <item>Hide all hint labels</item>
+        <item>Non-letter keys only</item>
+        <item>Show all hint labels</item>
     </string-array>
 
     <string-array name="hint_modes_values">
@@ -385,6 +404,39 @@
         <item>2</item>
     </string-array>
     <string name="default_hint_mode">1</string>
+
+    <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
+    <string-array name="keyboard_height_entries">
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>55%</item>
+        <item>60%</item>
+        <item>65%</item>
+        <item>70%</item>
+        <item>75%</item>
+    </string-array>
+
+    <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
+        dependent and may require overriding with a device specific overlay. Default is in durations.xml -->
+    <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
+    <string-array name="vibrate_duration_entries">
+        <item>5 ms</item>
+        <item>10 ms</item>
+        <item>15 ms</item>
+        <item>20 ms</item>
+        <item>30 ms</item>
+        <item>40 ms</item>
+        <item>50 ms</item>
+        <item>75 ms</item>
+        <item>100 ms</item>
+        <item>200 ms</item>
+    </string-array>
 
     <!-- Title for Latin keyboard debug settings activity / dialog -->
     <string name="english_ime_debug_settings" translatable="false">Debug settings</string>
