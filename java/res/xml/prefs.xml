@@ -18,50 +18,48 @@
         android:title="@string/english_ime_settings"
         android:key="english_ime_settings">
 
-    <EditTextPreference
+    <ListPreference
             android:key="settings_height_portrait"
             android:title="Keyboard height, portrait"
-            android:summary="Percentage of screen height for the full keyboard"
             android:persistent="true"
-            android:defaultValue="@integer/default_height_portrait"
+            android:entryValues="@array/keyboard_height_entries"
+            android:entries="@array/keyboard_height_entries"
+            android:defaultValue="@string/default_height_portrait"
             />
 
-    <EditTextPreference
+    <ListPreference
             android:key="settings_height_landscape"
             android:title="Keyboard height, landscape"
-            android:summary="Percentage of screen height for the full keyboard"
             android:persistent="true"
-            android:defaultValue="@integer/default_height_landscape"
+            android:entryValues="@array/keyboard_height_entries"
+            android:entries="@array/keyboard_height_entries"
+            android:defaultValue="@string/default_height_landscape"
             />
 
     <CheckBoxPreference
             android:key="full_keyboard_in_portrait"
-            android:title="Full keyboard in portrait mode"
-            android:summary="(If off, uses the legacy Gingerbread layout in portrait mode.)"
+            android:title="@string/title_full_in_portrait"
             android:persistent="true" 
             android:defaultValue="@bool/default_full_in_portrait"
             />
 
     <CheckBoxPreference
             android:key="suggestions_in_landscape"
-            android:title="Show suggestions in landscape mode"
-            android:summary="(If off, the suggestion settings only apply in portrait mode.)"
+            android:title="@string/title_suggestions_in_landscape"
             android:persistent="true" 
             android:defaultValue="@bool/default_suggestions_in_landscape"
             />
    
     <CheckBoxPreference
             android:key="fullscreen_override"
-            android:title="Always use standard view in landscape mode"
-            android:summary="This disables the mini editor that's normally used on small screens."
+            android:title="@string/title_fullscreen_override"
             android:persistent="true" 
             android:defaultValue="@bool/default_fullscreen_override"
             />
 
     <ListPreference
             android:key="pref_hint_mode"
-            android:title="Key hint label visibility"
-            android:summary="Mark keys that have alternate shift/long-press characters?"
+            android:title="@string/title_hint_mode"
             android:persistent="true"
             android:entryValues="@array/hint_modes_values"
             android:entries="@array/hint_modes"
@@ -69,13 +67,12 @@
             />
 
     <PreferenceCategory
-            android:title="ConnectBot related settings"
-            android:key="connectbot_settings">
+            android:title="@string/title_application_category"
+            android:key="application_settings">
 
         <CheckBoxPreference
             android:key="connectbot_tab_hack"
-            android:title="Tab key and Ctrl-I send ConnectBot-compatible tab"
-            android:summary="(Makes the Tab key usable in ConnectBot)"
+            android:title="@string/title_connectbot_tab_hack"
             android:persistent="true" 
             android:defaultValue="true"
             />
@@ -89,6 +86,14 @@
     <CheckBoxPreference
             android:key="vibrate_on"
             android:title="@string/vibrate_on_keypress"
+            android:persistent="true"
+            />
+
+    <ListPreference
+            android:key="vibrate_len"
+            android:title="Vibrate duration"
+            android:entryValues="@array/vibrate_duration_entries"
+            android:entries="@array/vibrate_duration_entries"
             android:persistent="true"
             />
 

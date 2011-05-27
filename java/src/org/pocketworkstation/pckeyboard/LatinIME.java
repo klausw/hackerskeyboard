@@ -40,6 +40,7 @@ import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.speech.SpeechRecognizer;
@@ -92,6 +93,7 @@ public class LatinIME extends InputMethodService implements
     static Map<Integer, String> ESC_SEQUENCES;
 
     private static final String PREF_VIBRATE_ON = "vibrate_on";
+    static final String PREF_VIBRATE_LEN = "vibrate_len";
     private static final String PREF_SOUND_ON = "sound_on";
     private static final String PREF_POPUP_ON = "popup_on";
     private static final String PREF_AUTO_CAP = "auto_cap";
@@ -129,13 +131,13 @@ public class LatinIME extends InputMethodService implements
     public static final String PREF_SELECTED_LANGUAGES = "selected_languages";
     public static final String PREF_INPUT_LANGUAGE = "input_language";
     private static final String PREF_RECORRECTION_ENABLED = "recorrection_enabled";
-    private static final String PREF_FULLSCREEN_OVERRIDE = "fullscreen_override";
-    private static final String PREF_CONNECTBOT_TAB_HACK = "connectbot_tab_hack";
-    private static final String PREF_FULL_KEYBOARD_IN_PORTRAIT = "full_keyboard_in_portrait";
-    private static final String PREF_SUGGESTIONS_IN_LANDSCAPE = "suggestions_in_landscape";
-    private static final String PREF_HEIGHT_PORTRAIT = "settings_height_portrait";
-    private static final String PREF_HEIGHT_LANDSCAPE = "settings_height_landscape";
-    private static final String PREF_HINT_MODE = "pref_hint_mode";
+    static final String PREF_FULLSCREEN_OVERRIDE = "fullscreen_override";
+    static final String PREF_CONNECTBOT_TAB_HACK = "connectbot_tab_hack";
+    static final String PREF_FULL_KEYBOARD_IN_PORTRAIT = "full_keyboard_in_portrait";
+    static final String PREF_SUGGESTIONS_IN_LANDSCAPE = "suggestions_in_landscape";
+    static final String PREF_HEIGHT_PORTRAIT = "settings_height_portrait";
+    static final String PREF_HEIGHT_LANDSCAPE = "settings_height_landscape";
+    static final String PREF_HINT_MODE = "pref_hint_mode";
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
@@ -208,6 +210,7 @@ public class LatinIME extends InputMethodService implements
     private boolean mModFn;
     private boolean mPasswordText;
     private boolean mVibrateOn;
+    private int mVibrateLen;
     private boolean mSoundOn;
     private boolean mPopupOn;
     private boolean mAutoCap;
@@ -393,8 +396,8 @@ public class LatinIME extends InputMethodService implements
                 res.getBoolean(R.bool.default_full_in_portrait));
         mSuggestionsInLandscape = prefs.getBoolean(PREF_SUGGESTIONS_IN_LANDSCAPE,
                 res.getBoolean(R.bool.default_suggestions_in_landscape));
-        mHeightPortrait = getHeight(prefs, PREF_HEIGHT_PORTRAIT, res.getInteger(R.integer.default_height_portrait));
-        mHeightLandscape = getHeight(prefs, PREF_HEIGHT_LANDSCAPE, res.getInteger(R.integer.default_height_landscape));
+        mHeightPortrait = getHeight(prefs, PREF_HEIGHT_PORTRAIT, res.getString(R.string.default_height_portrait));
+        mHeightLandscape = getHeight(prefs, PREF_HEIGHT_LANDSCAPE, res.getString(R.string.default_height_landscape));
         mHintMode = Integer.parseInt(prefs.getString(PREF_HINT_MODE, res.getString(R.string.default_hint_mode)));
         mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
                 mHeightPortrait, mHeightLandscape, mHintMode);
@@ -2714,11 +2717,11 @@ public class LatinIME extends InputMethodService implements
             needReload = true;
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
             mHeightPortrait = getHeight(sharedPreferences,
-                    PREF_HEIGHT_PORTRAIT, res.getInteger(R.integer.default_height_portrait));
+                    PREF_HEIGHT_PORTRAIT, res.getString(R.string.default_height_portrait));
             needReload = true;
         } else if (PREF_HEIGHT_LANDSCAPE.equals(key)) {
             mHeightLandscape = getHeight(sharedPreferences,
-                    PREF_HEIGHT_LANDSCAPE, res.getInteger(R.integer.default_height_landscape));
+                    PREF_HEIGHT_LANDSCAPE, res.getString(R.string.default_height_landscape));
             needReload = true;
         } else if (PREF_HINT_MODE.equals(key)) {
             mHintMode = Integer.parseInt(sharedPreferences.getString(PREF_HINT_MODE,
@@ -2926,6 +2929,12 @@ public class LatinIME extends InputMethodService implements
         if (!mVibrateOn) {
             return;
         }
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (v != null) {
+            v.vibrate(mVibrateLen);
+            return;
+        }
+
         if (mKeyboardSwitcher.getInputView() != null) {
             mKeyboardSwitcher.getInputView().performHapticFeedback(
                     HapticFeedbackConstants.KEYBOARD_TAP,
@@ -3021,6 +3030,7 @@ public class LatinIME extends InputMethodService implements
         SharedPreferences sp = PreferenceManager
                 .getDefaultSharedPreferences(this);
         mVibrateOn = sp.getBoolean(PREF_VIBRATE_ON, false);
+        mVibrateLen = getPrefInt(sp, PREF_VIBRATE_LEN, getResources().getString(R.string.vibrate_duration_ms));
         mSoundOn = sp.getBoolean(PREF_SOUND_ON, false);
         mPopupOn = sp.getBoolean(PREF_POPUP_ON, mResources
                 .getBoolean(R.bool.default_popup_preview));
@@ -3170,7 +3180,7 @@ public class LatinIME extends InputMethodService implements
     private static final int CPS_BUFFER_SIZE = 16;
     private long[] mCpsIntervals = new long[CPS_BUFFER_SIZE];
     private int mCpsIndex;
-    private static Pattern NUMBER_RE = Pattern.compile("(\\d+)");
+    private static Pattern NUMBER_RE = Pattern.compile("(\\d+).*");
 
     private void measureCps() {
         long now = System.currentTimeMillis();
@@ -3189,11 +3199,25 @@ public class LatinIME extends InputMethodService implements
         mKeyboardSwitcher.onAutoCompletionStateChanged(isAutoCompletion);
     }
 
-    static int getHeight(SharedPreferences prefs, String prefName, int defVal) {
-        String prefVal = prefs.getString(prefName, Integer.toString(defVal));
-        Matcher num = NUMBER_RE.matcher(prefVal);
+    static int getIntFromString(String val, int defVal) {
+        Matcher num = NUMBER_RE.matcher(val);
         if (!num.matches()) return defVal;
-        int val = Integer.parseInt(num.group(1));
+        return Integer.parseInt(num.group(1));
+    }
+
+    static int getPrefInt(SharedPreferences prefs, String prefName, int defVal) {
+        String prefVal = prefs.getString(prefName, Integer.toString(defVal));
+        //Log.i("PCKeyboard", "getPrefInt " + prefName + " = " + prefVal + ", default " + defVal);
+        return getIntFromString(prefVal, defVal);
+    }
+
+    static int getPrefInt(SharedPreferences prefs, String prefName, String defStr) {
+        int defVal = getIntFromString(defStr, 0);
+        return getPrefInt(prefs, prefName, defVal);
+    }
+
+    static int getHeight(SharedPreferences prefs, String prefName, String defVal) {
+        int val = getPrefInt(prefs, prefName, defVal);
         if (val < 15)
             val = 15;
         if (val > 75)

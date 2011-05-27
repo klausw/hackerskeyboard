@@ -19,6 +19,6 @@
 -->
 
 <resources>
-    <integer name="default_height_portrait">35</integer>
-    <integer name="default_height_landscape">55</integer>
+    <string name="default_height_portrait">35%</string>
+    <string name="default_height_landscape">55%</string>
 </resources>
