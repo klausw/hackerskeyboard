@@ -152,6 +152,7 @@ public class LatinKeyboard extends Keyboard {
     protected Key createKeyFromXml(Resources res, Row parent, int x, int y,
             XmlResourceParser parser) {
         Key key = new LatinKey(res, parent, x, y, parser);
+        if (key.codes == null) return key;
         switch (key.codes[0]) {
         case LatinIME.KEYCODE_ENTER:
             mEnterKey = key;

@@ -235,7 +235,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     // Configuration
     private boolean mHintsOnOtherKeys = true;
     private boolean mHintsOnLetters = true;
-    private boolean mHasNumberKeys = false;
 
     // Drawing
     /** Whether the keyboard bitmap needs to be redrawn before it's blitted. **/
@@ -844,14 +843,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
         canvas.drawColor(0x00000000, PorterDuff.Mode.CLEAR);
         final int keyCount = keys.length;
-        mHasNumberKeys = false;
-        for (int i = 0; i < keyCount; i++) {
-            final Key key = keys[i];
-            if (key.label != null && (key.label.equals("1") || key.label.equals("!"))) {
-            	mHasNumberKeys = true;
-            	break;
-            }
-        }
 
         for (int i = 0; i < keyCount; i++) {
             final Key key = keys[i];
@@ -1166,7 +1157,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         miniKeyboard.mGestureDetector = null;
 
         Keyboard keyboard;
-        CharSequence popupChars = getPopupCharacters(popupKey);
+        CharSequence popupChars = popupKey.popupCharacters;
         if (popupChars != null) {
             keyboard = new Keyboard(getContext(), popupKeyboardId, popupChars,
                     -1, getPaddingLeft() + getPaddingRight());
@@ -1287,56 +1278,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     private boolean shouldAlignLeftmost(Key key) {
-        return key.x < mViewWidth / 2;
-    }
-
-    /**
-     * Get popup characters, with modifications.
-     *
-     * <ul>
-     * <li>If the letter is uppercase, also upcase the popup chars.
-     *
-     * <li>Suppress digits from popups if the keyboard has a number key row.
-     *
-     * <li>If the popup menu is right-aligned, flip the order of the characters.
-     * </ul>
-     */
-    private CharSequence getPopupCharacters(Key key) {
-        CharSequence in = key.popupCharacters;
-        if (in == null || !isLetterKey(key)) return in;
-
-        boolean needUpcase = in.length() == 1 && Character.isUpperCase(in.charAt(0));
-        boolean needReverse = !shouldAlignLeftmost(key);
-
-        int start = 0;
-        int end = in.length();
-        if (end == 0) return null;
-
-        CharSequence result = in;
-
-        // Remove digits if it's a full keyboard
-        if (mHasNumberKeys) {
-            // This assumes that the digits will be first or last in the list.
-            if (Character.isDigit(in.charAt(start))) start += 1;
-            if (Character.isDigit(in.charAt(end - 1))) end -= 1;
-            if (start >= end) return null;
-            result = in.subSequence(start, end);
-        }
-
-        if (needUpcase || needReverse) {
-            StringBuilder tmp = new StringBuilder(result);
-            if (needReverse) tmp.reverse();
-            if (needUpcase) {
-                result = tmp.toString().toUpperCase(Locale.US);
-            } else {
-                result = tmp.toString();
-            }
-        }
-        return result;
+        return !key.popupReversed;
     }
 
     private char getHintLabel(Key key) {
-        CharSequence popupChars = getPopupCharacters(key);
+        CharSequence popupChars = key.popupCharacters;
         if (key.modifier || popupChars == null || popupChars.length() == 0) {
         	return 0;
         }
