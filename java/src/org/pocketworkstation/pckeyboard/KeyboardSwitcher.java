@@ -114,7 +114,7 @@ public class KeyboardSwitcher implements
     private boolean mVoiceOnPrimary;
     private boolean mPreferSymbols;
     private boolean mWantFullInPortrait;
-    private int mHeightPercent;
+    private float mRowHeight;
     private boolean mIsPortrait;
     private boolean mFullMode;
     private int mHintMode;
@@ -185,7 +185,7 @@ public class KeyboardSwitcher implements
 
     private KeyboardId makeShiftedId(boolean hasVoice) {
         if (mFullMode) {
-            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice, mHeightPercent);
+            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice, mRowHeight);
         } else {
             return null;
         }
@@ -193,10 +193,10 @@ public class KeyboardSwitcher implements
 
     private KeyboardId makeSymbolsId(boolean hasVoice) {
         if (mFullMode)
-            return new KeyboardId(KBD_FULL_FN, KEYBOARDMODE_SYMBOLS, true, hasVoice, mHeightPercent);
+            return new KeyboardId(KBD_FULL_FN, KEYBOARDMODE_SYMBOLS, true, hasVoice, mRowHeight);
         return new KeyboardId(KBD_SYMBOLS[getCharColorId()],
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                        : KEYBOARDMODE_SYMBOLS, false, hasVoice, mHeightPercent);
+                        : KEYBOARDMODE_SYMBOLS, false, hasVoice, mRowHeight);
     }
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
@@ -204,7 +204,7 @@ public class KeyboardSwitcher implements
             return null;
         return new KeyboardId(KBD_SYMBOLS_SHIFT[getCharColorId()],
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                        : KEYBOARDMODE_SYMBOLS, false, hasVoice, mHeightPercent);
+                        : KEYBOARDMODE_SYMBOLS, false, hasVoice, mRowHeight);
     }
 
     public void makeKeyboards(boolean forceCreate) {
@@ -243,17 +243,17 @@ public class KeyboardSwitcher implements
         /** A KEYBOARDMODE_XXX value */
         public final boolean mEnableShiftLock;
         public final boolean mHasVoice;
-        public final int mHeightPercent;
+        public final float mRowHeightPercent;
 
         private final int mHashCode;
 
         public KeyboardId(int xml, int mode, boolean enableShiftLock,
-                boolean hasVoice, int heightPercent) {
+                boolean hasVoice, float rowHeightPercent) {
             this.mXml = xml;
             this.mKeyboardMode = mode;
             this.mEnableShiftLock = enableShiftLock;
             this.mHasVoice = hasVoice;
-            this.mHeightPercent = heightPercent;
+            this.mRowHeightPercent = rowHeightPercent;
 
             this.mHashCode = Arrays.hashCode(new Object[] { xml, mode,
                     enableShiftLock, hasVoice });
@@ -350,7 +350,7 @@ public class KeyboardSwitcher implements
             conf.locale = mInputLocale;
             orig.updateConfiguration(conf, null);
             keyboard = new LatinKeyboard(mInputMethodService, id.mXml,
-                    id.mKeyboardMode, id.mHeightPercent);
+                    id.mKeyboardMode, id.mRowHeightPercent);
             keyboard.setVoiceMode(hasVoiceButton(id.mXml == R.xml.kbd_symbols
                     || id.mXml == R.xml.kbd_symbols_black), mHasVoice);
             keyboard.setLanguageSwitcher(mLanguageSwitcher,
@@ -373,7 +373,10 @@ public class KeyboardSwitcher implements
         mWantFullInPortrait = fullInPortrait;
         int orientation = mInputMethodService.getResources().getConfiguration().orientation;
         mIsPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
-        mHeightPercent = mIsPortrait ? heightPercentPortrait : heightPercentLandscape;
+        // Convert overall keyboard height to per-row percentage
+        int nRows = mIsPortrait && !mWantFullInPortrait ? 4 : 5;
+        int screenHeightPercent = mIsPortrait ? heightPercentPortrait : heightPercentLandscape;
+        mRowHeight = (float) screenHeightPercent / nRows;;
         mHintMode = hintMode;
 
     }
@@ -393,19 +396,19 @@ public class KeyboardSwitcher implements
             case MODE_IM:
             case MODE_WEB:
                 return new KeyboardId(KBD_FULL, KEYBOARDMODE_NORMAL, true,
-                        hasVoice, mHeightPercent);
+                        hasVoice, mRowHeight);
             }
         }
         // TODO: generalize for any KeyboardId
         int keyboardRowsResId = KBD_QWERTY[charColorId];
         if (isSymbols) {
             if (mode == MODE_PHONE) {
-                return new KeyboardId(KBD_PHONE_SYMBOLS[charColorId], 0, false, hasVoice, mHeightPercent);
+                return new KeyboardId(KBD_PHONE_SYMBOLS[charColorId], 0, false, hasVoice, mRowHeight);
             } else {
                 return new KeyboardId(
                         KBD_SYMBOLS[charColorId],
                         mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                                : KEYBOARDMODE_SYMBOLS, false, hasVoice, mHeightPercent);
+                                : KEYBOARDMODE_SYMBOLS, false, hasVoice, mRowHeight);
             }
         }
         switch (mode) {
@@ -416,29 +419,29 @@ public class KeyboardSwitcher implements
         case MODE_TEXT:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_NORMAL_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_NORMAL, true, hasVoice, mHeightPercent);
+                            : KEYBOARDMODE_NORMAL, true, hasVoice, mRowHeight);
         case MODE_SYMBOLS:
             return new KeyboardId(KBD_SYMBOLS[charColorId],
                     mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_SYMBOLS, false, hasVoice, mHeightPercent);
+                            : KEYBOARDMODE_SYMBOLS, false, hasVoice, mRowHeight);
         case MODE_PHONE:
-            return new KeyboardId(KBD_PHONE[charColorId], 0, false, hasVoice, mHeightPercent);
+            return new KeyboardId(KBD_PHONE[charColorId], 0, false, hasVoice, mRowHeight);
         case MODE_URL:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_URL_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_URL, true, hasVoice, mHeightPercent);
+                            : KEYBOARDMODE_URL, true, hasVoice, mRowHeight);
         case MODE_EMAIL:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_EMAIL_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_EMAIL, true, hasVoice, mHeightPercent);
+                            : KEYBOARDMODE_EMAIL, true, hasVoice, mRowHeight);
         case MODE_IM:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_IM_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_IM, true, hasVoice, mHeightPercent);
+                            : KEYBOARDMODE_IM, true, hasVoice, mRowHeight);
         case MODE_WEB:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_WEB_WITH_SETTINGS_KEY
-                            : KEYBOARDMODE_WEB, true, hasVoice, mHeightPercent);
+                            : KEYBOARDMODE_WEB, true, hasVoice, mRowHeight);
         }
         return null;
     }
