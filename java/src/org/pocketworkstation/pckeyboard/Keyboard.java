@@ -31,7 +31,11 @@ import android.util.DisplayMetrics;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 
@@ -260,6 +264,7 @@ public class Keyboard {
         public CharSequence text;
         /** Popup characters */
         public CharSequence popupCharacters;
+        public boolean popupReversed;
 
         /**
          * Flags that specify the anchoring to edges of the keyboard for detecting touch events
@@ -530,13 +535,14 @@ public class Keyboard {
         mDefaultHorizontalGap = 0;
         mDefaultWidth = mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
-        int nRows = 5;
+        int nRows = 5; // not really, but scaling height by 4/5 for a 4-row-keyboard looks good
         mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 / nRows: Math.round(mDefaultWidth);
         //Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " (keyHeight=" + keyHeight + " displayHeight="+mDisplayHeight+")");
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
         loadKeyboard(context, context.getResources().getXml(xmlLayoutResId));
+        fixAltChars();
     }
 
     public Keyboard(Context context, int xmlLayoutResId, int modeId) {
@@ -594,6 +600,61 @@ public class Keyboard {
             }
         }
         mTotalHeight = y + mDefaultHeight;
+    }
+
+    private void fixAltChars() {
+        Set<Character> mainKeys = new HashSet<Character>();
+        for (Key key : mKeys) {
+            // Remember characters on the main keyboard so that they can be removed from popups.
+            // This makes it easy to share popup char maps between the normal and shifted
+            // keyboards.
+            if (key.label != null && !key.modifier && key.label.length() == 1) {
+                mainKeys.add(key.label.charAt(0));
+            }
+        }
+
+        for (Key key : mKeys) {
+            if (key.popupCharacters == null) continue;
+            int popupLen = key.popupCharacters.length();
+            if (popupLen == 0) {
+                key.popupCharacters = null;
+                key.popupResId = 0;
+                continue;
+            }
+            if (key.x >= mTotalWidth / 2) {
+                key.popupReversed = true;
+            }
+
+            // Uppercase the alt chars if the main key is uppercase
+            boolean needUpcase = key.label != null && key.label.length() == 1 && Character.isUpperCase(key.label.charAt(0));
+
+            StringBuilder newPopup = new StringBuilder(popupLen);
+            for (int i = 0; i < popupLen; ++i) {
+                char c = key.popupCharacters.charAt(i);
+
+                if (mainKeys.contains(c)) continue;  // already present elsewhere
+
+                // Skip extra digit alt keys on 5-row keyboards
+                if (key.y > 0 && Character.isDigit(c)) continue;
+
+                newPopup.append(c);
+            }
+            Log.i("PCKeyboard", "popup for " + key.label + " '" + key.popupCharacters + "' => '"+ newPopup + "' length " + newPopup.length());
+
+            // No characters left?
+            if (newPopup.length() == 0) {
+                key.popupCharacters = null;
+                key.popupResId = 0;
+                continue;
+            }
+
+            if (key.popupReversed) newPopup.reverse();
+            if (needUpcase) {
+                key.popupCharacters = newPopup.toString().toUpperCase(Locale.US);
+            } else {
+                key.popupCharacters = newPopup.toString();
+            }
+        }
     }
 
     public List<Key> getKeys() {
@@ -736,6 +797,7 @@ public class Keyboard {
 
         try {
             int event;
+            Key prevKey = null;
             while ((event = parser.next()) != XmlResourceParser.END_DOCUMENT) {
                 if (event == XmlResourceParser.START_TAG) {
                     String tag = parser.getName();
@@ -752,15 +814,23 @@ public class Keyboard {
                         inKey = true;
                         key = createKeyFromXml(res, currentRow, Math.round(x), y, parser);
                         key.realX = x;
-                        mKeys.add(key);
-                        if (key.codes[0] == KEYCODE_SHIFT) {
-                            if (mShiftKeyIndex == -1) {
-                                mShiftKey = key;
-                                mShiftKeyIndex = mKeys.size()-1;
-                            }
-                            mModifierKeys.add(key);
-                        } else if (key.codes[0] == KEYCODE_ALT) {
-                            mModifierKeys.add(key);
+                        if (key.codes == null) {
+                          // skip this key, adding its width to the previous one
+                          if (prevKey != null) {
+                              prevKey.width += key.width;
+                          }
+                        } else {
+                          mKeys.add(key);
+                          prevKey = key;
+                          if (key.codes[0] == KEYCODE_SHIFT) {
+                              if (mShiftKeyIndex == -1) {
+                                  mShiftKey = key;
+                                  mShiftKeyIndex = mKeys.size()-1;
+                              }
+                              mModifierKeys.add(key);
+                          } else if (key.codes[0] == KEYCODE_ALT) {
+                              mModifierKeys.add(key);
+                          }
                         }
                     } else if (TAG_KEYBOARD.equals(tag)) {
                         parseKeyboardAttributes(res, parser);
