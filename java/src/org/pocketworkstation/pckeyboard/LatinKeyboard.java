@@ -115,8 +115,8 @@ public class LatinKeyboard extends Keyboard {
         this(context, xmlLayoutResId, 0, 0);
     }
 
-    public LatinKeyboard(Context context, int xmlLayoutResId, int mode, int heightPercent) {
-        super(context, xmlLayoutResId, mode, heightPercent);
+    public LatinKeyboard(Context context, int xmlLayoutResId, int mode, float rowHeightPercent) {
+        super(context, xmlLayoutResId, mode, rowHeightPercent);
         final Resources res = context.getResources();
         //Log.i("PCKeyboard", "keyHeight=" + this.getKeyHeight());
         //this.setKeyHeight(30); // is useless, see http://code.google.com/p/android/issues/detail?id=4532
