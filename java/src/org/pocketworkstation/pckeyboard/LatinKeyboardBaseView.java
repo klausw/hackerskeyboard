@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.WeakHashMap;
 
 /**
@@ -234,7 +235,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     // Configuration
     private boolean mHintsOnOtherKeys = true;
     private boolean mHintsOnLetters = true;
-    private boolean mHasNumberKeys = false;
 
     // Drawing
     /** Whether the keyboard bitmap needs to be redrawn before it's blitted. **/
@@ -843,14 +843,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
         canvas.drawColor(0x00000000, PorterDuff.Mode.CLEAR);
         final int keyCount = keys.length;
-        mHasNumberKeys = false;
-        for (int i = 0; i < keyCount; i++) {
-            final Key key = keys[i];
-            if (key.label != null && (key.label.equals("1") || key.label.equals("!"))) {
-            	mHasNumberKeys = true;
-            	break;
-            }
-        }
 
         for (int i = 0; i < keyCount; i++) {
             final Key key = keys[i];
@@ -1165,7 +1157,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         miniKeyboard.mGestureDetector = null;
 
         Keyboard keyboard;
-        CharSequence popupChars = getPopupCharacters(popupKey);
+        CharSequence popupChars = popupKey.popupCharacters;
         if (popupChars != null) {
             keyboard = new Keyboard(getContext(), popupKeyboardId, popupChars,
                     -1, getPaddingLeft() + getPaddingRight());
@@ -1286,28 +1278,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     private boolean shouldAlignLeftmost(Key key) {
-        return key.x < mViewWidth / 2;
-    }
-
-    /**
-     * Get popup characters, with digits removed if the keyboard has number keys.
-     */
-    private CharSequence getPopupCharacters(Key key) {
-        CharSequence in = key.popupCharacters;
-        if (in == null || !mHasNumberKeys) return in;
-        if (!isLetterKey(key)) return in;
-        int start = 0;
-        int end = in.length();
-        if (end == 0) return null;
-        // This assumes that the digits will be first or last in the list.
-        if (in.charAt(start) >= '0' && in.charAt(start) <= '9') start += 1;
-        if (in.charAt(end - 1) >= '0' && in.charAt(end - 1) <= '9') end -= 1;
-        if (start >= end) return null;
-        return in.subSequence(start, end);
+        return !key.popupReversed;
     }
 
     private char getHintLabel(Key key) {
-        CharSequence popupChars = getPopupCharacters(key);
+        CharSequence popupChars = key.popupCharacters;
         if (key.modifier || popupChars == null || popupChars.length() == 0) {
         	return 0;
         }
@@ -1319,7 +1294,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         // Use the character at this position as the label?
         char label = popupChars.charAt(pos);
-        boolean popupIsDigit = (label >= '0' && label <= '9');
+        boolean popupIsDigit = Character.isDigit(label);
         boolean letterKey = isLetterKey(key);
 
         if (letterKey) {
@@ -1336,10 +1311,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private boolean isLetterKey(Key key) {
         if (key.label == null) return false;
         if (key.label.length() != 1) return false;
-        int label = key.label.charAt(0);
-        if ((label >= 'a' && label <= 'z') || (label >= 'A' && label <= 'Z'))
-            return true;
-        return false;
+        return Character.isLetter(key.label.charAt(0));
     }
 
     private boolean isLatinF1Key(Key key) {
