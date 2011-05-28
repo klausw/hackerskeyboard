@@ -41,6 +41,8 @@
             android:title="@string/title_full_in_portrait"
             android:persistent="true" 
             android:defaultValue="@bool/default_full_in_portrait"
+            android:summaryOn="@string/summary_full_in_portrait_true"
+            android:summaryOff="@string/summary_full_in_portrait_false"
             />
 
     <CheckBoxPreference
@@ -48,6 +50,8 @@
             android:title="@string/title_suggestions_in_landscape"
             android:persistent="true" 
             android:defaultValue="@bool/default_suggestions_in_landscape"
+            android:summaryOn="@string/summary_suggestions_in_landscape_true"
+            android:summaryOff="@string/summary_suggestions_in_landscape_false"
             />
    
     <CheckBoxPreference
@@ -55,6 +59,8 @@
             android:title="@string/title_fullscreen_override"
             android:persistent="true" 
             android:defaultValue="@bool/default_fullscreen_override"
+            android:summaryOn="@string/summary_fullscreen_override_true"
+            android:summaryOff="@string/summary_fullscreen_override_false"
             />
 
     <ListPreference
@@ -75,6 +81,8 @@
             android:title="@string/title_connectbot_tab_hack"
             android:persistent="true" 
             android:defaultValue="true"
+            android:summaryOn="@string/summary_connectbot_tab_hack_true"
+            android:summaryOff="@string/summary_connectbot_tab_hack_false"
             />
 
     </PreferenceCategory>
