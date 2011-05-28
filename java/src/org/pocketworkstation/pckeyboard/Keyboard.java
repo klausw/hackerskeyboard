@@ -395,7 +395,7 @@ public class Keyboard {
             text = a.getText(R.styleable.Keyboard_Key_keyOutputText);
 
             if (codes == null && !TextUtils.isEmpty(label)) {
-                codes = new int[] { label.charAt(0) };
+                codes = new int[] { Character.toLowerCase(label.charAt(0)) };
             }
             a.recycle();
         }
