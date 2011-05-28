@@ -20,15 +20,15 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="alternates_for_a">áàâãäåæ</string>
     <string name="alternates_for_e">3éěèêë</string>
-    <string name="alternates_for_i">íìîï8</string>
-    <string name="alternates_for_o">óòôõöœø9</string>
-    <string name="alternates_for_u">ůúùûü7</string>
+    <string name="alternates_for_i">8ïîìí</string>
+    <string name="alternates_for_o">9øœöõôòó</string>
+    <string name="alternates_for_u">7üûùúů</string>
     <string name="alternates_for_s">š§ß</string>
     <string name="alternates_for_n">ňñ</string>
     <string name="alternates_for_c">čç</string>
-    <string name="alternates_for_y">ýÿ6</string>
+    <string name="alternates_for_y">6ÿý</string>
     <string name="alternates_for_d">ď</string>
-    <string name="alternates_for_r">ř4</string>
-    <string name="alternates_for_t">ť5</string>
+    <string name="alternates_for_r">4ř</string>
+    <string name="alternates_for_t">5ť</string>
     <string name="alternates_for_z">ž</string>
 </resources>

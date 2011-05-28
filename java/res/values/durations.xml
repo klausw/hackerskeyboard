@@ -21,5 +21,5 @@
 <resources>
     <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
         dependent and may require overriding with a device specific overlay. -->
-    <integer name="vibrate_duration_ms">40</integer>
+    <string name="vibrate_duration_ms">40 ms</string>
 </resources>
