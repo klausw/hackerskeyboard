@@ -19,21 +19,20 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="alternates_for_a">áàâãäåāæ</string>
-    <string name="alternates_for_ae"></string>
-    <string name="alternates_for_a_umlaut"></string>
+    <string name="alternates_for_b"></string>
     <string name="alternates_for_c">çčć¢</string>
-    <string name="alternates_for_cyrillic_e">5ё</string>
-    <string name="alternates_for_cyrillic_soft_sign">ъ</string>
     <string name="alternates_for_d">đ</string>
     <string name="alternates_for_e">3éèêëē€</string>
     <string name="alternates_for_f">₣</string>
     <string name="alternates_for_g"></string>
+    <string name="alternates_for_h"></string>
     <string name="alternates_for_i">8íìîïī</string>
-    <string name="alternates_for_l">£₤</string>
+    <string name="alternates_for_j"></string>
+    <string name="alternates_for_k"></string>
+    <string name="alternates_for_l">£₤λ</string>
+    <string name="alternates_for_m">μ</string>
     <string name="alternates_for_n">ñ</string>
     <string name="alternates_for_o">9óòôõöōœø</string>
-    <string name="alternates_for_oe"></string>
-    <string name="alternates_for_o_umlaut"></string>
     <string name="alternates_for_p">0π₱</string>
     <string name="alternates_for_q">1</string>
     <string name="alternates_for_r">4</string>
@@ -42,6 +41,7 @@
     <string name="alternates_for_u">7úùûüū</string>
     <string name="alternates_for_v"></string>
     <string name="alternates_for_w">2</string>
+    <string name="alternates_for_x"></string>
     <string name="alternates_for_y">6ýÿ¥</string>
     <string name="alternates_for_z">ž</string>
 </resources>
