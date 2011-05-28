@@ -525,8 +525,9 @@ public class Keyboard {
      * @param context the application or service context
      * @param xmlLayoutResId the resource file that contains the keyboard layout and keys.
      * @param modeId keyboard mode identifier
+     * @param rowHeightPercent height of each row as percentage of screen height
      */
-    public Keyboard(Context context, int xmlLayoutResId, int modeId, int keyHeight) {
+    public Keyboard(Context context, int xmlLayoutResId, int modeId, float rowHeightPercent) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         mDisplayWidth = dm.widthPixels;
         mDisplayHeight = dm.heightPixels;
@@ -535,8 +536,8 @@ public class Keyboard {
         mDefaultHorizontalGap = 0;
         mDefaultWidth = mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
-        int nRows = 5; // not really, but scaling height by 4/5 for a 4-row-keyboard looks good
-        mDefaultHeight = keyHeight > 0 ? mDisplayHeight * keyHeight / 100 / nRows: Math.round(mDefaultWidth);
+        mDefaultHeight = Math.round(
+                rowHeightPercent > 0 ? mDisplayHeight * rowHeightPercent / 100 : mDefaultWidth);
         //Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " (keyHeight=" + keyHeight + " displayHeight="+mDisplayHeight+")");
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
