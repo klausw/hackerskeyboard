@@ -640,7 +640,7 @@ public class Keyboard {
 
                 newPopup.append(c);
             }
-            Log.i("PCKeyboard", "popup for " + key.label + " '" + key.popupCharacters + "' => '"+ newPopup + "' length " + newPopup.length());
+            //Log.i("PCKeyboard", "popup for " + key.label + " '" + key.popupCharacters + "' => '"+ newPopup + "' length " + newPopup.length());
 
             // No characters left?
             if (newPopup.length() == 0) {
