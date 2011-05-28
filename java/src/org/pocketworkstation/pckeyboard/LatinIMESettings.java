@@ -130,20 +130,12 @@ public class LatinIMESettings extends PreferenceActivity
         updateSummaries();
     }
 
-    static private void setSummaryToEntry(ListPreference pref, CharSequence defVal) {
+    private void setSummaryToEntry(ListPreference pref, CharSequence defVal) {
         CharSequence val = pref.getEntry();
         //Log.i("PCKeyboard", "setSummaryToEntry " + pref.getKey() + " val=" + val + " defVal=" + defVal);
-        if (val == null) {
-            pref.setSummary(defVal);
-        } else {
-            pref.setSummary(pref.getEntry().toString().replace("%", "%%"));
-        }
-    }
-
-    static private void setSummaryForBoolean(CheckBoxPreference pref, String trueDesc, String falseDesc) {
-        Boolean val = pref.isChecked();
-        String desc = val ? trueDesc : falseDesc;
-        pref.setSummary(desc.replace("%", "%%"));
+        if (val == null) val = defVal;
+        String percent = getResources().getString(R.string.percent);
+        pref.setSummary(val.toString().replace("%", " " + percent));
     }
 
     private void updateSummaries() {
@@ -156,18 +148,6 @@ public class LatinIMESettings extends PreferenceActivity
         setSummaryToEntry(mHeightInLandscapePreference, res.getString(R.string.default_height_landscape));
         setSummaryToEntry(mHintModePreference, res.getString(R.string.default_hint_mode));
         setSummaryToEntry(mVibrateDurationPreference, res.getString(R.string.vibrate_duration_ms));
-        setSummaryForBoolean(mFullInPortraitPreference,
-                res.getString(R.string.summary_full_in_portrait_true),
-                res.getString(R.string.summary_full_in_portrait_false));
-        setSummaryForBoolean(mSuggestionsInLandscapePreference,
-                res.getString(R.string.summary_suggestions_in_landscape_true),
-                res.getString(R.string.summary_suggestions_in_landscape_false));
-        setSummaryForBoolean(mStandardViewInLandscapePreference,
-                res.getString(R.string.summary_fullscreen_override_true),
-                res.getString(R.string.summary_fullscreen_override_false));
-        setSummaryForBoolean(mConnectbotHackPreference,
-                res.getString(R.string.summary_connectbot_tab_hack_true),
-                res.getString(R.string.summary_connectbot_tab_hack_false));
     }
 
     private void showVoiceConfirmation() {
