@@ -23,7 +23,6 @@
     android:keyWidth="10%p"
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
-    android:keyHeight="@dimen/key_height"
 >
     <Row
         android:rowEdgeFlags="top"
