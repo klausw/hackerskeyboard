@@ -421,6 +421,7 @@
         <item>70%</item>
         <item>75%</item>
     </string-array>
+    <string name="percent">percent</string>
 
     <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
         dependent and may require overriding with a device specific overlay. Default is in durations.xml -->
