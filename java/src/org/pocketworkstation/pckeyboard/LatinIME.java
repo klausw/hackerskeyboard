@@ -366,7 +366,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onCreate() {
-        Log.i("PCKeyboard", "onCreate()");
+        Log.i("PCKeyboard", "onCreate(), os.version=" + System.getProperty("os.version"));
         LatinImeLogger.init(this);
         KeyboardSwitcher.init(this);
         super.onCreate();
