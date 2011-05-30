@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2009 Google Inc.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -304,7 +304,7 @@ public class EditingUtil {
         }
         // Reflection didn't work, try it the poor way, by moving the cursor to the start,
         // getting the text after the cursor and moving the text back to selected mode.
-        // TODO: Verify that this works properly in conjunction with
+        // TODO: Verify that this works properly in conjunction with 
         // LatinIME#onUpdateSelection
         ic.setSelection(selStart, selEnd);
         result = ic.getTextAfterCursor(selEnd - selStart, 0);
@@ -330,14 +330,6 @@ public class EditingUtil {
             } catch (IllegalArgumentException e) {
                 // Ignore
             } catch (IllegalAccessException e) {
-                // Ignore
-            }
-        } else {
-            // Hackish workaround for API level < 9 (Gingerbread), set the selection instead
-            // so that recorrection replaces instead of inserting.
-            try {
-                ic.setSelection(word.start, word.end);
-            } catch (IllegalArgumentException e) {
                 // Ignore
             }
         }
