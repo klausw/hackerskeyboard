@@ -1310,12 +1310,18 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Use the character at this position as the label?
         char label = popupChars.charAt(pos);
         boolean popupIsDigit = Character.isDigit(label);
+        boolean popupIs7BitAscii = label >= 32 && label < 127;
         boolean letterKey = isLetterKey(key);
 
         if (letterKey) {
-            // Always show number hints on 4-row keyboard, otherwise check
-            // the hint mode setting.
-            if (!mHintsOnLetters && !popupIsDigit) return 0;
+            // Always show number hints on 4-row keyboard, and show
+            // hints if the user wants some hints and the popup is an
+            // Ascii char such as '@' or '?'. Otherwise check the hint mode setting.
+            boolean show = false;
+            if (popupIsDigit) show = true;
+            if (mHintsOnLetters) show = true;
+            if (mHintsOnOtherKeys && popupIs7BitAscii) show = true;
+            if (!show) return 0;
         } else {
             if (!mHintsOnOtherKeys) return 0;
         }
