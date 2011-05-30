@@ -855,12 +855,24 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             // Switch the character to uppercase if shift is pressed
             String label = key.label == null? null : adjustCase(key.label).toString();
 
+            float yscale = 1.0f;
             final Rect bounds = keyBackground.getBounds();
             if (key.width != bounds.right || key.height != bounds.bottom) {
-                keyBackground.setBounds(0, 0, key.width, key.height);
+                int minHeight = keyBackground.getMinimumHeight();
+                if (minHeight > key.height) {
+                    yscale = (float) key.height / minHeight;
+                    keyBackground.setBounds(0, 0, key.width, minHeight);
+                } else {
+                    keyBackground.setBounds(0, 0, key.width, key.height);
+                }
             }
             canvas.translate(key.x + kbdPaddingLeft, key.y + kbdPaddingTop);
+            if (yscale != 1.0f) {
+                canvas.save();
+                canvas.scale(1.0f, yscale);
+            }
             keyBackground.draw(canvas);
+            if (yscale != 1.0f)  canvas.restore();
 
             boolean shouldDrawIcon = true;
             if (label != null) {
