@@ -199,6 +199,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private int mWindowY;
     private int mPopupPreviewDisplayedY;
     private final int mDelayBeforePreview;
+    private final int mDelayBeforeSpacePreview;
     private final int mDelayAfterPreview;
 
     // Popup mini keyboard
@@ -504,6 +505,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mPreviewPopup.setTouchable(false);
         mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
         mDelayBeforePreview = res.getInteger(R.integer.config_delay_before_preview);
+        mDelayBeforeSpacePreview = res.getInteger(R.integer.config_delay_before_space_preview);
         mDelayAfterPreview = res.getInteger(R.integer.config_delay_after_preview);
 
         mMiniKeyboardParent = this;
@@ -991,7 +993,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 mHandler.cancelPopupPreview();
                 mHandler.dismissPreview(mDelayAfterPreview);
             } else if (tracker != null) {
-                mHandler.popupPreview(mDelayBeforePreview, keyIndex, tracker);
+                int delay = mShowPreview ? mDelayBeforePreview : mDelayBeforeSpacePreview;
+                mHandler.popupPreview(delay, keyIndex, tracker);
             }
         }
     }
