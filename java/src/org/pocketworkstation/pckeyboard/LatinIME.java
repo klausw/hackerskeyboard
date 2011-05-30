@@ -366,7 +366,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onCreate() {
-        Log.i("PCKeyboard", "onCreate()");
+        Log.i("PCKeyboard", "onCreate(), os.version=" + System.getProperty("os.version"));
         LatinImeLogger.init(this);
         KeyboardSwitcher.init(this);
         super.onCreate();
@@ -2400,7 +2400,8 @@ public class LatinIME extends InputMethodService implements
         if (mCapsLock) {
             suggestion = suggestion.toString().toUpperCase();
         } else if (preferCapitalization()
-                || (mKeyboardSwitcher.isAlphabetMode() && inputView.isShifted())) {
+                || (mKeyboardSwitcher.isAlphabetMode() && inputView.isShifted()
+                        && !(mKeyboardSwitcher.isFullMode() && !correcting))) {
             suggestion = suggestion.toString().toUpperCase().charAt(0)
                     + suggestion.subSequence(1, suggestion.length()).toString();
         }

@@ -514,7 +514,7 @@ public class LatinKeyboard extends Keyboard {
 
             final boolean allowVariableTextSize = true;
             Locale locale = mLanguageSwitcher.getInputLocale();
-            Log.i("PCKeyboard", "input locale: " + locale);
+            //Log.i("PCKeyboard", "input locale: " + locale);
             final String language = layoutSpaceBar(paint, locale,
                     mButtonArrowLeftIcon, mButtonArrowRightIcon, width, height,
                     getTextSizeFromTheme(android.R.style.TextAppearance_Small, 14),

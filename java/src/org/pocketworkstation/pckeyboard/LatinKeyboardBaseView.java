@@ -199,6 +199,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private int mWindowY;
     private int mPopupPreviewDisplayedY;
     private final int mDelayBeforePreview;
+    private final int mDelayBeforeSpacePreview;
     private final int mDelayAfterPreview;
 
     // Popup mini keyboard
@@ -504,6 +505,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mPreviewPopup.setTouchable(false);
         mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
         mDelayBeforePreview = res.getInteger(R.integer.config_delay_before_preview);
+        mDelayBeforeSpacePreview = res.getInteger(R.integer.config_delay_before_space_preview);
         mDelayAfterPreview = res.getInteger(R.integer.config_delay_after_preview);
 
         mMiniKeyboardParent = this;
@@ -855,12 +857,24 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             // Switch the character to uppercase if shift is pressed
             String label = key.label == null? null : adjustCase(key.label).toString();
 
+            float yscale = 1.0f;
             final Rect bounds = keyBackground.getBounds();
             if (key.width != bounds.right || key.height != bounds.bottom) {
-                keyBackground.setBounds(0, 0, key.width, key.height);
+                int minHeight = keyBackground.getMinimumHeight();
+                if (minHeight > key.height) {
+                    yscale = (float) key.height / minHeight;
+                    keyBackground.setBounds(0, 0, key.width, minHeight);
+                } else {
+                    keyBackground.setBounds(0, 0, key.width, key.height);
+                }
             }
             canvas.translate(key.x + kbdPaddingLeft, key.y + kbdPaddingTop);
+            if (yscale != 1.0f) {
+                canvas.save();
+                canvas.scale(1.0f, yscale);
+            }
             keyBackground.draw(canvas);
+            if (yscale != 1.0f)  canvas.restore();
 
             boolean shouldDrawIcon = true;
             if (label != null) {
@@ -879,20 +893,24 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
                 // Draw a drop shadow for the text
                 paint.setShadowLayer(mShadowRadius, 0, 0, mShadowColor);
+
+                // Draw hint label (if present) behind the main key
+                char hint = getHintLabel(key);
+                if (hint != 0) {
+                    final int hintLabelHeight = getLabelHeight(paintHint, mHintTextSize);
+                    canvas.drawText(Character.toString(hint),
+                            key.width - padding.right,
+                            padding.top + hintLabelHeight * 11/10,
+                            paintHint);
+                }
+
+                // Draw main key label
                 final int centerX = (key.width + padding.left - padding.right) / 2;
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 canvas.drawText(label, centerX, baseline, paint);
 
-                char hint = getHintLabel(key);
-                if (hint != 0) {
-                	final int hintLabelHeight = getLabelHeight(paintHint, mHintTextSize);
-                    canvas.drawText(Character.toString(hint),
-                    		key.width - padding.right,
-                    		padding.top + hintLabelHeight * 11/10,
-                    		paintHint);
-                }
                 // Turn off drop shadow
                 paint.setShadowLayer(0, 0, 0, 0);
 
@@ -979,7 +997,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 mHandler.cancelPopupPreview();
                 mHandler.dismissPreview(mDelayAfterPreview);
             } else if (tracker != null) {
-                mHandler.popupPreview(mDelayBeforePreview, keyIndex, tracker);
+                int delay = mShowPreview ? mDelayBeforePreview : mDelayBeforeSpacePreview;
+                mHandler.popupPreview(delay, keyIndex, tracker);
             }
         }
     }
@@ -1295,12 +1314,18 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Use the character at this position as the label?
         char label = popupChars.charAt(pos);
         boolean popupIsDigit = Character.isDigit(label);
+        boolean popupIs7BitAscii = label >= 32 && label < 127;
         boolean letterKey = isLetterKey(key);
 
         if (letterKey) {
-            // Always show number hints on 4-row keyboard, otherwise check
-            // the hint mode setting.
-            if (!mHintsOnLetters && !popupIsDigit) return 0;
+            // Always show number hints on 4-row keyboard, and show
+            // hints if the user wants some hints and the popup is an
+            // Ascii char such as '@' or '?'. Otherwise check the hint mode setting.
+            boolean show = false;
+            if (popupIsDigit) show = true;
+            if (mHintsOnLetters) show = true;
+            if (mHintsOnOtherKeys && popupIs7BitAscii) show = true;
+            if (!show) return 0;
         } else {
             if (!mHintsOnOtherKeys) return 0;
         }
