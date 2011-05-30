@@ -893,20 +893,24 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
                 // Draw a drop shadow for the text
                 paint.setShadowLayer(mShadowRadius, 0, 0, mShadowColor);
+
+                // Draw hint label (if present) behind the main key
+                char hint = getHintLabel(key);
+                if (hint != 0) {
+                    final int hintLabelHeight = getLabelHeight(paintHint, mHintTextSize);
+                    canvas.drawText(Character.toString(hint),
+                            key.width - padding.right,
+                            padding.top + hintLabelHeight * 11/10,
+                            paintHint);
+                }
+
+                // Draw main key label
                 final int centerX = (key.width + padding.left - padding.right) / 2;
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 canvas.drawText(label, centerX, baseline, paint);
 
-                char hint = getHintLabel(key);
-                if (hint != 0) {
-                	final int hintLabelHeight = getLabelHeight(paintHint, mHintTextSize);
-                    canvas.drawText(Character.toString(hint),
-                    		key.width - padding.right,
-                    		padding.top + hintLabelHeight * 11/10,
-                    		paintHint);
-                }
                 // Turn off drop shadow
                 paint.setShadowLayer(0, 0, 0, 0);
 
