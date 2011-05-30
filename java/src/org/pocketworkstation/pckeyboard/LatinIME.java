@@ -65,6 +65,7 @@ import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -2698,6 +2699,12 @@ public class LatinIME extends InputMethodService implements
             mReCorrectionEnabled = sharedPreferences.getBoolean(
                     PREF_RECORRECTION_ENABLED, res
                             .getBoolean(R.bool.default_recorrection_enabled));
+            if (mReCorrectionEnabled) {
+                // It doesn't work right on pre-Gingerbread phones.
+                Toast.makeText(getApplicationContext(),
+                        res.getString(R.string.recorrect_warning), Toast.LENGTH_LONG)
+                        .show();
+            }
         } else if (PREF_CONNECTBOT_TAB_HACK.equals(key)) {
             mConnectbotTabHack = sharedPreferences.getBoolean(
                     PREF_CONNECTBOT_TAB_HACK, res
