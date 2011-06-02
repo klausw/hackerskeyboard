@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="org.pocketworkstation.pckeyboard" android:versionCode="1013" android:versionName="v1.13">
+        package="org.pocketworkstation.pckeyboard" android:versionName="v1.14" android:versionCode="1014">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />

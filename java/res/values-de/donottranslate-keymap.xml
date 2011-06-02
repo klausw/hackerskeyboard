@@ -82,7 +82,7 @@
     
     <string name="key_ad12_main">+</string>
     <string name="key_ad12_shift">*</string>
-    <string name="key_ad12_alt">+*•★±</string>
+    <string name="key_ad12_alt">+*~•★±</string>
 
     <string name="key_bksl_main">#</string>
     <string name="key_bksl_shift">\'</string>
@@ -91,7 +91,7 @@
 
     <string name="key_ac10_main">ö</string>
     <string name="key_ac10_shift">Ö</string>
-    <string name="key_ac10_alt">♥♠♦♣</string>
+    <string name="key_ac10_alt">♦♥♠♣</string>
 
     <string name="key_ac11_main">ä</string>
     <string name="key_ac11_shift">Ä</string>
