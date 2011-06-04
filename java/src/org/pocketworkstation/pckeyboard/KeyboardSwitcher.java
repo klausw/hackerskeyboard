@@ -30,7 +30,8 @@ import java.util.Locale;
 
 public class KeyboardSwitcher implements
         SharedPreferences.OnSharedPreferenceChangeListener {
-
+	private static String TAG = "PCKeyboardKbSw";
+	
     public static final int MODE_NONE = 0;
     public static final int MODE_TEXT = 1;
     public static final int MODE_SYMBOLS = 2;
@@ -369,7 +370,7 @@ public class KeyboardSwitcher implements
 
     public void setFullKeyboardOptions(boolean fullInPortrait,
             int heightPercentPortrait, int heightPercentLandscape, int hintMode) {
-        Log.i("PCKeyboard", "setFullKeyboardOptions " + fullInPortrait + " " + heightPercentPortrait + " " + heightPercentLandscape);
+        //Log.i(TAG, "setFullKeyboardOptions " + fullInPortrait + " " + heightPercentPortrait + " " + heightPercentLandscape);
         mWantFullInPortrait = fullInPortrait;
         int orientation = mInputMethodService.getResources().getConfiguration().orientation;
         mIsPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
@@ -464,7 +465,7 @@ public class KeyboardSwitcher implements
     }
 
     public void setShifted(boolean wantShifted) {
-        //Log.i("PCKeyboard", "setShifted " + wantShifted + " mFullMode=" + mFullMode);
+        //Log.i(TAG, "setShifted " + wantShifted + " mFullMode=" + mFullMode + " isShifted=" + (mCurrentId.equals(mShiftedId)));
         if (mFullMode) {
             boolean isShifted = (mCurrentId.equals(mShiftedId));
             if (wantShifted) {
@@ -486,6 +487,7 @@ public class KeyboardSwitcher implements
     }
 
     public void setShiftLocked(boolean shiftLocked) {
+        //Log.i(TAG, "setShiftLocked " + shiftLocked + " mFullMode=" + mFullMode);
         if (mInputView != null) {
             mInputView.setShiftLocked(shiftLocked);
         }
@@ -506,6 +508,7 @@ public class KeyboardSwitcher implements
     }
 
     public void toggleShift() {
+    	//Log.i(TAG, "toggleShift isAlphabetMode=" + isAlphabetMode() + " mFullMode=" + mFullMode);
         if (isAlphabetMode())
             return;
         if (mFullMode)
