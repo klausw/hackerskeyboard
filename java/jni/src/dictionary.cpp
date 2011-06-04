@@ -34,11 +34,12 @@
 
 namespace latinime {
 
-Dictionary::Dictionary(void *dict, int typedLetterMultiplier, int fullWordMultiplier)
+Dictionary::Dictionary(void *dict, int typedLetterMultiplier, int fullWordMultiplier, int size)
 {
     mDict = (unsigned char*) dict;
     mTypedLetterMultiplier = typedLetterMultiplier;
     mFullWordMultiplier = fullWordMultiplier;
+    mDictSize = size;
     getVersionNumber();
 }
 
@@ -112,6 +113,7 @@ Dictionary::checkIfDictVersionIsLatest()
 unsigned short
 Dictionary::getChar(int *pos)
 {
+    if (*pos < 0 || *pos >= mDictSize) return 0;
     unsigned short ch = (unsigned short) (mDict[(*pos)++] & 0xFF);
     // If the code is 255, then actual 16 bit code follows (in big endian)
     if (ch == 0xFF) {
@@ -124,6 +126,7 @@ Dictionary::getChar(int *pos)
 int
 Dictionary::getAddress(int *pos)
 {
+    if (*pos < 0 || *pos >= mDictSize) return 0;
     int address = 0;
     if ((mDict[*pos] & FLAG_ADDRESS_MASK) == 0) {
         *pos += 1;
@@ -133,12 +136,14 @@ Dictionary::getAddress(int *pos)
         address += (mDict[*pos + 2] & 0xFF);
         *pos += 3;
     }
+    if (address < 0 || address >= mDictSize) return 0;
     return address;
 }
 
 int
 Dictionary::getFreq(int *pos)
 {
+    if (*pos < 0 || *pos >= mDictSize) return 0;
     int freq = mDict[(*pos)++] & 0xFF;
 
     if (checkIfDictVersionIsLatest()) {
@@ -364,6 +369,7 @@ Dictionary::getWordsRec(int pos, int depth, int maxDepth, bool completion, int s
 int
 Dictionary::getBigramAddress(int *pos, bool advance)
 {
+    if (*pos < 0 || *pos >= mDictSize) return 0;
     int address = 0;
 
     address += (mDict[*pos] & 0x3F) << 16;
@@ -374,12 +380,14 @@ Dictionary::getBigramAddress(int *pos, bool advance)
         *pos += 3;
     }
 
+    if (address < 0 || address >= mDictSize) return 0;
     return address;
 }
 
 int
 Dictionary::getBigramFreq(int *pos)
 {
+    if (*pos < 0 || *pos >= mDictSize) return 0;
     int freq = mDict[(*pos)++] & FLAG_BIGRAM_FREQ;
 
     return freq;
