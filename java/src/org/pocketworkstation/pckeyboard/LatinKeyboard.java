@@ -637,8 +637,15 @@ public class LatinKeyboard extends Keyboard {
         final int code = key.codes[0];
         if (code == KEYCODE_SHIFT ||
                 code == KEYCODE_DELETE) {
+        	// Adjust target area for these keys
             y -= key.height / 10;
-            if (code == KEYCODE_SHIFT) x += key.width / 6;
+            if (code == KEYCODE_SHIFT) {
+            	if (key.x == 0) {
+            		x += key.width / 6;  // left shift
+            	} else {
+            		x -= key.width / 6;  // right shift
+            	}
+            }
             if (code == KEYCODE_DELETE) x -= key.width / 6;
         } else if (code == LatinIME.KEYCODE_SPACE) {
             y += LatinKeyboard.sSpacebarVerticalCorrection;
