@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.text.AutoText;
@@ -33,7 +34,8 @@ import android.view.View;
  * @hide pending API Council Approval
  */
 public class Suggest implements Dictionary.WordCallback {
-
+	private static String TAG = "PCKeyboard";
+	
     public static final int APPROX_MAX_WORD_LENGTH = 32;
 
     public static final int CORRECTION_NONE = 0;
@@ -105,6 +107,14 @@ public class Suggest implements Dictionary.WordCallback {
 
     public Suggest(Context context, int[] dictionaryResId) {
         mMainDict = new BinaryDictionary(context, dictionaryResId, DIC_MAIN);
+        if (!hasMainDictionary()) {
+        	Locale locale = context.getResources().getConfiguration().locale;
+        	BinaryDictionary plug = PluginManager.getDictionary(context, locale.getLanguage());
+        	if (plug != null) {
+        		mMainDict.close();
+        		mMainDict = plug;
+        	}
+        }
         initPool();
     }
 

@@ -107,6 +107,13 @@ public class InputLanguageSelection extends PreferenceActivity {
         // 4000-5000 words, whereas the LARGE_DICTIONARY is about 20000+ words.
         if (bd.getSize() > Suggest.LARGE_DICTIONARY_THRESHOLD / 4) {
             haveDictionary = true;
+        } else {
+        	BinaryDictionary plug = PluginManager.getDictionary(getApplicationContext(), locale.getLanguage());
+        	if (plug != null) {
+        		bd.close();
+        		bd = plug;
+        		haveDictionary = true;
+        	}
         }
         bd.close();
         conf.locale = saveLocale;
