@@ -35,7 +35,7 @@ namespace latinime {
 
 class Dictionary {
 public:
-    Dictionary(void *dict, int typedLetterMultipler, int fullWordMultiplier);
+    Dictionary(void *dict, int typedLetterMultipler, int fullWordMultiplier, int dictSize);
     int getSuggestions(int *codes, int codesSize, unsigned short *outWords, int *frequencies,
             int maxWordLength, int maxWords, int maxAlternatives, int skipPos,
             int *nextLetters, int nextLettersSize);
@@ -93,6 +93,7 @@ private:
 
     int mFullWordMultiplier;
     int mTypedLetterMultiplier;
+    int mDictSize;
     int *mNextLettersFrequencies;
     int mNextLettersSize;
     int mVersion;
