@@ -39,4 +39,8 @@ class ModifierKeyState {
     public boolean isMomentary() {
         return mState == MOMENTARY;
     }
+    
+    public String toString() {
+    	return "ModifierKeyState:" + mState;
+    }
 }

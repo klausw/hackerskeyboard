@@ -85,7 +85,7 @@ import java.util.regex.Matcher;
 public class LatinIME extends InputMethodService implements
         LatinKeyboardBaseView.OnKeyboardActionListener, VoiceInput.UiListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String TAG = "LatinIME";
+    private static final String TAG = "PCKeyboardIME";
     private static final boolean PERF_DEBUG = false;
     static final boolean DEBUG = false;
     static final boolean TRACE = false;
@@ -206,6 +206,7 @@ public class LatinIME extends InputMethodService implements
     private boolean mAutoCorrectOn;
     // TODO move this state variable outside LatinIME
     private boolean mCapsLock;
+    private boolean mModShift;
     private boolean mModCtrl;
     private boolean mModAlt;
     private boolean mModFn;
@@ -664,6 +665,7 @@ public class LatinIME extends InputMethodService implements
         mCompletionOn = false;
         mCompletions = null;
         mCapsLock = false;
+        mModShift = false;
         mModCtrl = false;
         mModAlt = false;
         mModFn = false;
@@ -1166,6 +1168,7 @@ public class LatinIME extends InputMethodService implements
     public void updateShiftKeyState(EditorInfo attr) {
         InputConnection ic = getCurrentInputConnection();
         if (ic != null && attr != null && mKeyboardSwitcher.isAlphabetMode()) {
+        	//Log.i(TAG, "updateShiftKeyState capsLock=" +mCapsLock + " isMomentary=" + mShiftKeyState.isMomentary() + " cursorCaps=" + getCursorCapsMode(ic, attr));
             mKeyboardSwitcher.setShifted(mShiftKeyState.isMomentary()
                     || mCapsLock || getCursorCapsMode(ic, attr) != 0);
         }
@@ -1314,39 +1317,41 @@ public class LatinIME extends InputMethodService implements
         return (pkg.equalsIgnoreCase("org.connectbot") && ei.inputType == 0); // FIXME
     }
 
-    private void sendModifierKeysDown() {
+    
+    private void sendKeyDown(InputConnection ic, int key) {
+    	if (ic != null) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, key));
+    }
+
+    private void sendKeyUp(InputConnection ic, int key) {
+    	if (ic != null) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, key));
+    }
+
+    private void sendModifierKeysDown(boolean mayShift) {
         InputConnection ic = getCurrentInputConnection();
+        if (mayShift && mModShift) {
+            sendKeyDown(ic, KeyEvent.KEYCODE_SHIFT_LEFT);
+        }
         if (mModCtrl && !mCtrlKeyState.isMomentary()) {
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 113/*
-                                                                       * KeyEvent.
-                                                                       * KEYCODE_CTRL_LEFT
-                                                                       */));
+            sendKeyDown(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
         }
         if (mModAlt && !mAltKeyState.isMomentary()) {
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 57/*
-                                                                      * KeyEvent.
-                                                                      * KEYCODE_ALT_LEFT
-                                                                      */));
+            sendKeyDown(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
         }
     }
 
-    private void sendModifierKeysUp() {
+    private void sendModifierKeysUp(boolean mayShift) {
         InputConnection ic = getCurrentInputConnection();
         if (mModAlt && !mAltKeyState.isMomentary()) {
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 57/*
-                                                                    * KeyEvent.KEYCODE_ALT_LEFT
-                                                                    */));
-            setModAlt(false);
+            sendKeyUp(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
+            setModShift(false);
         }
         if (mModCtrl && !mCtrlKeyState.isMomentary()) {
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 113/*
-                                                                     * KeyEvent.KEYCODE_CTRL_LEFT
-                                                                     */));
+            sendKeyUp(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
             setModCtrl(false);
+        }
+        if (mayShift && mModShift) {
+            sendKeyUp(ic, KeyEvent.KEYCODE_SHIFT_LEFT);
+            if (!mShiftKeyState.isMomentary()) setModAlt(false);
         }
     }
 
@@ -1534,14 +1539,14 @@ public class LatinIME extends InputMethodService implements
             }
             break;
         case 9 /* Tab */:
-            sendModifierKeysDown();
+            sendModifierKeysDown(true);
             sendTab();
-            sendModifierKeysUp();
+            sendModifierKeysUp(true);
             break;
         case LatinKeyboardView.KEYCODE_ESCAPE:
-            sendModifierKeysDown();
+            sendModifierKeysDown(true);
             sendEscape();
-            sendModifierKeysUp();
+            sendModifierKeysUp(true);
             break;
         case LatinKeyboardView.KEYCODE_DPAD_UP:
         case LatinKeyboardView.KEYCODE_DPAD_DOWN:
@@ -1571,9 +1576,9 @@ public class LatinIME extends InputMethodService implements
         case LatinKeyboardView.KEYCODE_NUM_LOCK:
         case LatinKeyboardView.KEYCODE_SCROLL_LOCK:
             // send as plain keys, or as escape sequence if needed
-            sendModifierKeysDown();
+            sendModifierKeysDown(true);
             sendSpecialKey(primaryCode);
-            sendModifierKeysUp();
+            sendModifierKeysUp(true);
             break;
         default:
             if (primaryCode != KEYCODE_ENTER) {
@@ -1582,9 +1587,9 @@ public class LatinIME extends InputMethodService implements
             RingCharBuffer.getInstance().push((char) primaryCode, x, y);
             LatinImeLogger.logOnInputChar();
             if (mModCtrl || mModAlt) {
-                sendModifierKeysDown();
+                sendModifierKeysDown(false);
                 sendCharWithModifiers(primaryCode, keyCodes);
-                sendModifierKeysUp();
+                sendModifierKeysUp(false);
             } else if (isWordSeparator(primaryCode)) {
                 handleSeparator(primaryCode);
             } else {
@@ -1702,6 +1707,10 @@ public class LatinIME extends InputMethodService implements
         ic.endBatchEdit();
     }
 
+    private void setModShift(boolean val) {
+        mModShift = val;
+    }
+
     private void setModCtrl(boolean val) {
         // Log.i("LatinIME", "setModCtrl "+ mModCtrl + "->" + val + ", momentary=" + mCtrlKeyState.isMomentary());
         mModCtrl = val;
@@ -1727,7 +1736,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void handleShiftInternal(boolean forceNormal) {
-        //Log.i("PCKeyboard", "handleShiftInternal " + forceNormal);
+        //Log.i(TAG, "handleShiftInternal " + forceNormal);
         mHandler.removeMessages(MSG_UPDATE_SHIFT_STATE);
         KeyboardSwitcher switcher = mKeyboardSwitcher;
         LatinKeyboardView inputView = switcher.getInputView();
@@ -2776,9 +2785,8 @@ public class LatinIME extends InputMethodService implements
         if (distinctMultiTouch && primaryCode == Keyboard.KEYCODE_SHIFT) {
             mShiftKeyState.onPress();
             handleShift();
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,
-                        KeyEvent.KEYCODE_SHIFT_LEFT));
+            setModShift(!mModShift);
+            // sendKeyDown(ic, KeyEvent.KEYCODE_SHIFT_LEFT); // disabled, issue #24
         } else if (distinctMultiTouch
                 && primaryCode == Keyboard.KEYCODE_MODE_CHANGE) {
             changeKeyboardMode();
@@ -2788,20 +2796,12 @@ public class LatinIME extends InputMethodService implements
                 && primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT) {
             setModCtrl(!mModCtrl);
             mCtrlKeyState.onPress();
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 113/*
-                                                                       * KeyEvent.
-                                                                       * KEYCODE_CTRL_LEFT
-                                                                       */));
+            sendKeyDown(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT) {
             setModAlt(!mModAlt);
             mAltKeyState.onPress();
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 57/*
-                                                                      * KeyEvent.
-                                                                      * KEYCODE_ALT_LEFT
-                                                                      */));
+            sendKeyDown(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
             setModFn(!mModFn);
@@ -2826,9 +2826,8 @@ public class LatinIME extends InputMethodService implements
         if (distinctMultiTouch && primaryCode == Keyboard.KEYCODE_SHIFT) {
             if (mShiftKeyState.isMomentary())
                 resetShift();
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
-                        KeyEvent.KEYCODE_SHIFT_LEFT));
+            //sendKeyUp(ic, KeyEvent.KEYCODE_SHIFT_LEFT); // disabled, issue #24
+            setModShift(false);
             mShiftKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == Keyboard.KEYCODE_MODE_CHANGE) {
@@ -2843,20 +2842,14 @@ public class LatinIME extends InputMethodService implements
             if (mCtrlKeyState.isMomentary()) {
                 setModCtrl(false);
             }
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 113/*
-                                                                     * KeyEvent.KEYCODE_CTRL_LEFT
-                                                                     */));
+            sendKeyUp(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
             mCtrlKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT) {
             if (mAltKeyState.isMomentary()) {
                 setModAlt(false);
             }
-            if (ic != null)
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 57/*
-                                                                    * KeyEvent.KEYCODE_ALT_LEFT
-                                                                    */));
+            sendKeyUp(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
             mAltKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
