@@ -81,6 +81,18 @@ public class BinaryDictionary extends Dictionary {
     }
 
     /**
+     * Create a dictionary from input streams
+     * @param context application context for reading resources
+     * @param streams the resource streams containing the raw binary dictionary
+     */
+    public BinaryDictionary(Context context, InputStream[] streams, int dicTypeId) {
+        if (streams != null && streams.length > 0) {
+            loadDictionary(streams);
+        }
+        mDicTypeId = dicTypeId;
+    }
+
+    /**
      * Create a dictionary from a byte buffer. This is used for testing.
      * @param context application context for reading resources
      * @param byteBuffer a ByteBuffer containing the binary dictionary
@@ -112,21 +124,19 @@ public class BinaryDictionary extends Dictionary {
             int[] inputCodes, int inputCodesLength, char[] outputChars, int[] frequencies,
             int maxWordLength, int maxBigrams, int maxAlternatives);
 
-    private final void loadDictionary(Context context, int[] resId) {
-        InputStream[] is = null;
-        try {
-            // merging separated dictionary into one if dictionary is separated
-            int total = 0;
-            is = new InputStream[resId.length];
-            for (int i = 0; i < resId.length; i++) {
-                is[i] = context.getResources().openRawResource(resId[i]);
-                total += is[i].available();
-            }
+    private final void loadDictionary(InputStream[] is) {
+    	try {
+    		// merging separated dictionary into one if dictionary is separated
+    		int total = 0;
+
+    		for (int i = 0; i < is.length; i++) {
+    			total += is[i].available();
+    		}
 
             mNativeDictDirectBuffer =
                 ByteBuffer.allocateDirect(total).order(ByteOrder.nativeOrder());
             int got = 0;
-            for (int i = 0; i < resId.length; i++) {
+            for (int i = 0; i < is.length; i++) {
                  got += Channels.newChannel(is[i]).read(mNativeDictDirectBuffer);
             }
             if (got != total) {
@@ -150,6 +160,15 @@ public class BinaryDictionary extends Dictionary {
                 Log.w(TAG, "Failed to close input stream");
             }
         }
+    }
+    
+    private final void loadDictionary(Context context, int[] resId) {
+        InputStream[] is = null;
+        is = new InputStream[resId.length];
+        for (int i = 0; i < resId.length; i++) {
+            is[i] = context.getResources().openRawResource(resId[i]);
+        }
+        loadDictionary(is);
     }
 
 
