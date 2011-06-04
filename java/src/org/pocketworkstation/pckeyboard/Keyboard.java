@@ -138,7 +138,7 @@ public class Keyboard {
 
     // Variables for pre-computing nearest keys.
 
-    private static final int GRID_WIDTH = 10;
+    private static final int GRID_WIDTH = 14;
     private static final int GRID_HEIGHT = 5;
     private static final int GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
     private int mCellWidth;
@@ -508,6 +508,14 @@ public class Keyboard {
             }
             return states;
         }
+        
+        public String toString() {
+        	int code = (codes != null && codes.length > 0) ? codes[0] : 0;
+        	return "KeyDebugFIXME(label=" + label + " text=" + text +
+        	    " code=" + code + ":'" + (char)code + "'" +
+        	    " x0=" + x + " x1=" + (x+width) + " y0=" + y + " y1=" + (y+height) +
+        	    ")";  
+        }
     }
 
     /**
@@ -706,6 +714,10 @@ public class Keyboard {
         return mTotalHeight;
     }
 
+    public int getScreenHeight() {
+        return mDisplayHeight;
+    }
+
     public int getMinWidth() {
         return mTotalWidth;
     }
@@ -742,11 +754,19 @@ public class Keyboard {
                 int count = 0;
                 for (int i = 0; i < mKeys.size(); i++) {
                     final Key key = mKeys.get(i);
+                    boolean isSpace = key.codes != null && key.codes.length > 0 &&
+                    		key.codes[0] == LatinIME.KEYCODE_SPACE;
                     if (key.squaredDistanceFrom(x, y) < mProximityThreshold ||
                             key.squaredDistanceFrom(x + mCellWidth - 1, y) < mProximityThreshold ||
                             key.squaredDistanceFrom(x + mCellWidth - 1, y + mCellHeight - 1)
                                 < mProximityThreshold ||
-                            key.squaredDistanceFrom(x, y + mCellHeight - 1) < mProximityThreshold) {
+                            key.squaredDistanceFrom(x, y + mCellHeight - 1) < mProximityThreshold ||
+                            isSpace && !(
+                            		x + mCellWidth - 1 < key.x ||
+                            		x > key.x + key.width ||
+                            		y + mCellHeight - 1 < key.y ||
+                            		y > key.y + key.height)) {
+                    	//if (isSpace) Log.i(TAG, "space at grid" + x + "," + y);
                         indices[count++] = i;
                     }
                 }

@@ -40,8 +40,8 @@ import java.util.Locale;
 
 public class LatinKeyboard extends Keyboard {
 
-    private static final boolean DEBUG_PREFERRED_LETTER = false;
-    private static final String TAG = "LatinKeyboard";
+    private static final boolean DEBUG_PREFERRED_LETTER = true;
+    private static final String TAG = "PCKeyboardLK";
     private static final int OPACITY_FULLY_OPAQUE = 255;
     private static final int SPACE_LED_LENGTH_PERCENT = 80;
 
@@ -98,11 +98,13 @@ public class LatinKeyboard extends Keyboard {
 
     private int mShiftState = SHIFT_OFF;
 
-    private static final float SPACEBAR_DRAG_THRESHOLD = 0.8f;
+    private static final float SPACEBAR_DRAG_THRESHOLD = 0.51f;
     private static final float OVERLAP_PERCENTAGE_LOW_PROB = 0.70f;
     private static final float OVERLAP_PERCENTAGE_HIGH_PROB = 0.85f;
     // Minimum width of space key preview (proportional to keyboard width)
     private static final float SPACEBAR_POPUP_MIN_RATIO = 0.4f;
+    // Minimum width of space key preview (proportional to screen height)
+    private static final float SPACEBAR_POPUP_MAX_RATIO = 0.4f;
     // Height in space key the language name will be drawn. (proportional to space key height)
     private static final float SPACEBAR_LANGUAGE_BASELINE = 0.6f;
     // If the full language name needs to be smaller than this value to be drawn on space key,
@@ -557,10 +559,16 @@ public class LatinKeyboard extends Keyboard {
         return buffer;
     }
 
+    private int getSpacePreviewWidth() {
+        final int width = Math.min(
+        		Math.max(mSpaceKey.width, (int)(getMinWidth() * SPACEBAR_POPUP_MIN_RATIO)), 
+        		(int)(getScreenHeight() * SPACEBAR_POPUP_MAX_RATIO));
+        return width;
+    }
+    
     private void updateLocaleDrag(int diff) {
         if (mSlidingLocaleIcon == null) {
-            final int width = Math.max(mSpaceKey.width,
-                    (int)(getMinWidth() * SPACEBAR_POPUP_MIN_RATIO));
+            final int width = getSpacePreviewWidth();
             final int height = mSpacePreviewIcon.getIntrinsicHeight();
             mSlidingLocaleIcon = new SlidingLocaleDrawable(mSpacePreviewIcon, width, height);
             mSlidingLocaleIcon.setBounds(0, 0, width, height);
@@ -577,7 +585,7 @@ public class LatinKeyboard extends Keyboard {
 
     public int getLanguageChangeDirection() {
         if (mSpaceKey == null || mLanguageSwitcher.getLocaleCount() < 2
-                || Math.abs(mSpaceDragLastDiff) < mSpaceKey.width * SPACEBAR_DRAG_THRESHOLD ) {
+                || Math.abs(mSpaceDragLastDiff) < getSpacePreviewWidth() * SPACEBAR_DRAG_THRESHOLD) {
             return 0; // No change
         }
         return mSpaceDragLastDiff > 0 ? 1 : -1;
@@ -772,8 +780,7 @@ public class LatinKeyboard extends Keyboard {
                 style, new int[] { android.R.attr.textSize });
         int resId = array.getResourceId(0, 0);
         if (resId >= array.length()) {
-            Log.i("PCKeyboard",
-                    "getTextSizeFromTheme error: resId " + resId + " > " + array.length());
+            Log.i(TAG, "getTextSizeFromTheme error: resId " + resId + " > " + array.length());
             return defValue;
         }
         int textSize = array.getDimensionPixelSize(resId, defValue);
