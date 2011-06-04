@@ -96,13 +96,13 @@ public class BinaryDictionary extends Dictionary {
             }
             mDictLength = byteBuffer.capacity();
             mNativeDict = openNative(mNativeDictDirectBuffer,
-                    TYPED_LETTER_MULTIPLIER, FULL_WORD_FREQ_MULTIPLIER);
+                    TYPED_LETTER_MULTIPLIER, FULL_WORD_FREQ_MULTIPLIER, mDictLength);
         }
         mDicTypeId = dicTypeId;
     }
 
     private native int openNative(ByteBuffer bb, int typedLetterMultiplier,
-            int fullWordMultiplier);
+            int fullWordMultiplier, int dictSize);
     private native void closeNative(int dict);
     private native boolean isValidWordNative(int nativeData, char[] word, int wordLength);
     private native int getSuggestionsNative(int dict, int[] inputCodes, int codesSize,
@@ -133,7 +133,7 @@ public class BinaryDictionary extends Dictionary {
                 Log.e(TAG, "Read " + got + " bytes, expected " + total);
             } else {
                 mNativeDict = openNative(mNativeDictDirectBuffer,
-                        TYPED_LETTER_MULTIPLIER, FULL_WORD_FREQ_MULTIPLIER);
+                        TYPED_LETTER_MULTIPLIER, FULL_WORD_FREQ_MULTIPLIER, total);
                 mDictLength = total;
             }
             Log.i("PCKeyboard", "Loaded dictionary, len=" + mDictLength);

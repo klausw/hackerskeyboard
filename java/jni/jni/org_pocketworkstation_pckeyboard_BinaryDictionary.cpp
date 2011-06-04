@@ -42,14 +42,14 @@ static void throwException(JNIEnv *env, const char* ex, const char* fmt, int dat
 
 static jint latinime_BinaryDictionary_open
         (JNIEnv *env, jobject object, jobject dictDirectBuffer,
-         jint typedLetterMultiplier, jint fullWordMultiplier)
+         jint typedLetterMultiplier, jint fullWordMultiplier, jint size)
 {
     void *dict = env->GetDirectBufferAddress(dictDirectBuffer);
     if (dict == NULL) {
         fprintf(stderr, "DICT: Dictionary buffer is null\n");
         return 0;
     }
-    Dictionary *dictionary = new Dictionary(dict, typedLetterMultiplier, fullWordMultiplier);
+    Dictionary *dictionary = new Dictionary(dict, typedLetterMultiplier, fullWordMultiplier, size);
     return (jint) dictionary;
 }
 
@@ -130,7 +130,7 @@ static void latinime_BinaryDictionary_close
 // ----------------------------------------------------------------------------
 
 static JNINativeMethod gMethods[] = {
-    {"openNative",           "(Ljava/nio/ByteBuffer;II)I",
+    {"openNative",           "(Ljava/nio/ByteBuffer;III)I",
                                           (void*)latinime_BinaryDictionary_open},
     {"closeNative",          "(I)V",            (void*)latinime_BinaryDictionary_close},
     {"getSuggestionsNative", "(I[II[C[IIIII[II)I",  (void*)latinime_BinaryDictionary_getSuggestions},
