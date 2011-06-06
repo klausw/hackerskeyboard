@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+**
+** Copyright 2010, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="alternates_for_a">aAáàâãäå</string>
+    <string name="alternates_for_b">bB</string>
+    <string name="alternates_for_c">cCçčć¢</string>
+    <string name="alternates_for_d">dDđ</string>
+    <string name="alternates_for_e">3eEéèêëē€</string>
+    <string name="alternates_for_f">fF₣</string>
+    <string name="alternates_for_g">gG</string>
+    <string name="alternates_for_h">hH</string>
+    <string name="alternates_for_i">8iIíìîïī</string>
+    <string name="alternates_for_j">jJ</string>
+    <string name="alternates_for_k">kK</string>
+    <string name="alternates_for_l">lL£₤λ</string>
+    <string name="alternates_for_m">mMμ</string>
+    <string name="alternates_for_n">nNñ</string>
+    <string name="alternates_for_o">9oOóòôõö</string>
+    <string name="alternates_for_p">0pPπ₱</string>
+    <string name="alternates_for_q">1qQ</string>
+    <string name="alternates_for_r">4rR</string>
+    <string name="alternates_for_s">sS§ßš</string>
+    <string name="alternates_for_t">5tT</string>
+    <string name="alternates_for_u">7uUúùûü</string>
+    <string name="alternates_for_v">vV</string>
+    <string name="alternates_for_w">2wW</string>
+    <string name="alternates_for_x">xX</string>
+    <string name="alternates_for_y">6yYýÿ¥</string>
+    <string name="alternates_for_z">zZž</string>
+</resources>
