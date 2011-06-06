@@ -19,7 +19,10 @@ package org.pocketworkstation.pckeyboard;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -31,13 +34,32 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class InputLanguageSelection extends PreferenceActivity {
-
+	private static final String TAG = "PCKeyboardILS";
     private String mSelectedLanguages;
     private ArrayList<Loc> mAvailableLanguages = new ArrayList<Loc>();
     private static final String[] BLACKLIST_LANGUAGES = {
         "ko", "ja", "zh", "el"
+    };
+    
+    // Run the GetLanguages.sh script to update the following lists based on
+    // the available keyboard resources and dictionaries.
+    private static final String[] KBD_LOCALIZATIONS = {
+        "ar", "bg", "ca", "cs", "da", "de", "el", "en", "en-rGB", "es",
+        "es-rUS", "fa", "fi", "fr", "fr-rCA", "hr", "hu", "in", "it", "iw",
+        "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl", "pt", "pt-rPT",
+        "rm", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tl", "tr", "uk",
+        "vi", "zh-rCN", "zh-rTW"
+    };
+
+    private static final String[] KBD_5_ROW = {
+        "de", "en", "es", "fr", "hr", "ru", "sl"
+    };
+
+    private static final String[] KBD_4_ROW = {
+        "da", "de", "en", "fr", "iw", "nb", "ru", "sr", "sv"
     };
 
     private static class Loc implements Comparable<Object> {
@@ -77,8 +99,22 @@ public class InputLanguageSelection extends PreferenceActivity {
             pref.setTitle(LanguageSwitcher.toTitleCase(locale.getDisplayName(locale)) + " " + locale.getLanguage());
             boolean checked = isLocaleIn(locale, languageList);
             pref.setChecked(checked);
+            String language = locale.getLanguage();
+            boolean has4Row = arrayContains(KBD_4_ROW, language);
+            boolean has5Row = arrayContains(KBD_5_ROW, language);
+            List<String> summaries = new ArrayList<String>(3);
+            if (has5Row) summaries.add("5-row");           
+            if (has4Row) summaries.add("4-row");           
             if (hasDictionary(locale)) {
-                pref.setSummary(R.string.has_dictionary);
+            	summaries.add(getResources().getString(R.string.has_dictionary));
+            }
+            if (!summaries.isEmpty()) {
+            	StringBuilder summary = new StringBuilder();
+            	for (int j = 0; j < summaries.size(); ++j) {
+            		if (j > 0) summary.append(", ");
+            		summary.append(summaries.get(j));
+            	}
+            	pref.setSummary(summary.toString());
             }
             parent.addPreference(pref);
         }
@@ -154,8 +190,38 @@ public class InputLanguageSelection extends PreferenceActivity {
     }
 
     ArrayList<Loc> getUniqueLocales() {
-        String[] locales = getAssets().getLocales();
+        Set<String> localeSet = new HashSet<String>();
+        Set<String> langSet = new HashSet<String>();
+        String[] sysLocales = getAssets().getLocales();
+        
+        // First, add zz_ZZ style full language+country locales
+        for (int i = 0; i < sysLocales.length; ++i) {
+        	String sl = sysLocales[i];
+        	if (sl.length() != 5) continue;
+        	localeSet.add(sl);
+        	langSet.add(sl.substring(0, 2));
+        }
+        
+        // Add entries for system languages without country, but only if there's
+        // no full locale for that language yet.
+        for (int i = 0; i < sysLocales.length; ++i) {
+        	String sl = sysLocales[i];
+        	if (sl.length() == 2 && langSet.contains(sl)) continue;
+        	localeSet.add(sl);
+        }
+        
+        // Add entries for additional languages supported by the keyboard.
+        for (int i = 0; i < KBD_LOCALIZATIONS.length; ++i) {
+        	String kl = KBD_LOCALIZATIONS[i];
+        	if (kl.length() == 2 && langSet.contains(kl)) continue;
+        	localeSet.add(kl);
+        }
+
+        // Now build the locale list for display
+        String[] locales = new String[localeSet.size()];
+        locales = localeSet.toArray(locales);
         Arrays.sort(locales);
+        
         ArrayList<Loc> uniqueLocales = new ArrayList<Loc>();
 
         final int origSize = locales.length;
@@ -164,11 +230,16 @@ public class InputLanguageSelection extends PreferenceActivity {
         for (int i = 0 ; i < origSize; i++ ) {
             String s = locales[i];
             int len = s.length();
-            if (len == 5) {
+            if (len >= 2) {
                 String language = s.substring(0, 2);
-                String country = s.substring(3, 5);
-                Locale l = new Locale(language, country);
-
+                Locale l;
+                if (len == 5) {
+                    String country = s.substring(3, 5);
+                    l = new Locale(language, country);
+                } else {
+                    l = new Locale(language);                	
+                }
+                
                 // Exclude languages that are not relevant to LatinIME
                 if (arrayContains(BLACKLIST_LANGUAGES, language)) continue;
 
