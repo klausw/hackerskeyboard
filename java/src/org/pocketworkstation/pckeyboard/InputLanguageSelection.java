@@ -96,7 +96,8 @@ public class InputLanguageSelection extends PreferenceActivity {
         for (int i = 0; i < mAvailableLanguages.size(); i++) {
             CheckBoxPreference pref = new CheckBoxPreference(this);
             Locale locale = mAvailableLanguages.get(i).locale;
-            pref.setTitle(LanguageSwitcher.toTitleCase(locale.getDisplayName(locale)) + " " + locale.getLanguage());
+            pref.setTitle(LanguageSwitcher.toTitleCase(locale.getDisplayName(locale)) +
+            		" [" + locale.toString() + "]");
             boolean checked = isLocaleIn(locale, languageList);
             pref.setChecked(checked);
             String language = locale.getLanguage();
@@ -189,6 +190,20 @@ public class InputLanguageSelection extends PreferenceActivity {
         SharedPreferencesCompat.apply(editor);
     }
 
+    private static String asString(Set<String> set) {
+    	StringBuilder out = new StringBuilder();
+    	out.append("set(");
+    	String[] parts = new String[set.size()];
+    	parts = set.toArray(parts);
+        Arrays.sort(parts);
+        for (int i = 0; i < parts.length; ++i) {
+    		if (i > 0) out.append(", ");
+    		out.append(parts[i]);
+    	}
+    	out.append(")");
+    	return out.toString();
+    }
+    
     ArrayList<Loc> getUniqueLocales() {
         Set<String> localeSet = new HashSet<String>();
         Set<String> langSet = new HashSet<String>();
@@ -216,6 +231,8 @@ public class InputLanguageSelection extends PreferenceActivity {
         	if (kl.length() == 2 && langSet.contains(kl)) continue;
         	localeSet.add(kl);
         }
+        Log.i(TAG, "localeSet=" + asString(localeSet));
+        Log.i(TAG, "langSet=" + asString(langSet));
 
         // Now build the locale list for display
         String[] locales = new String[localeSet.size()];
@@ -230,7 +247,7 @@ public class InputLanguageSelection extends PreferenceActivity {
         for (int i = 0 ; i < origSize; i++ ) {
             String s = locales[i];
             int len = s.length();
-            if (len >= 2) {
+            if (len == 2 || len == 5) {
                 String language = s.substring(0, 2);
                 Locale l;
                 if (len == 5) {
