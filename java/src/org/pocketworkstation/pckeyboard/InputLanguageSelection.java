@@ -55,7 +55,7 @@ public class InputLanguageSelection extends PreferenceActivity {
     };
 
     private static final String[] KBD_5_ROW = {
-        "de", "en", "es", "fr", "hr", "ru", "sl"
+        "ar", "de", "en", "es", "fr", "hr", "iw", "ru", "sl"
     };
 
     private static final String[] KBD_4_ROW = {
@@ -206,7 +206,7 @@ public class InputLanguageSelection extends PreferenceActivity {
         // no full locale for that language yet.
         for (int i = 0; i < sysLocales.length; ++i) {
         	String sl = sysLocales[i];
-        	if (sl.length() == 2 && langSet.contains(sl)) continue;
+        	if (sl.length() != 2 || langSet.contains(sl)) continue;
         	localeSet.add(sl);
         }
         
