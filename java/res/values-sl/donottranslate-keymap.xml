@@ -15,6 +15,13 @@
 ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ** See the License for the specific language governing permissions and
 ** limitations under the License.
+**
+**
+** 5-row layout for Slovenian, Bosnian, Croatian, and Latin Serbian,
+** contributed by Uroš Vampl.
+**
+** See http://code.google.com/p/hackerskeyboard/wiki/AddingNewLayouts for
+** more information.
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
