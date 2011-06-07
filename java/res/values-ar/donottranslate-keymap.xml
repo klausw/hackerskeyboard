@@ -79,43 +79,43 @@
 
     <string name="key_ad01_main">ض</string>
     <string name="key_ad01_shift">َ</string>
-    <string name="key_ad01_alt">@string/alternates_for_q</string>
+    <string name="key_ad01_alt"></string>
     
     <string name="key_ad02_main">ص</string>
     <string name="key_ad02_shift">ً</string>
-    <string name="key_ad02_alt">@string/alternates_for_w</string>
+    <string name="key_ad02_alt"></string>
     
     <string name="key_ad03_main">ث</string>
     <string name="key_ad03_shift">ُ</string>
-    <string name="key_ad03_alt">@string/alternates_for_e</string>
+    <string name="key_ad03_alt"></string>
 
     <string name="key_ad04_main">ق</string>
     <string name="key_ad04_shift">ٌ</string>
-    <string name="key_ad04_alt">@string/alternates_for_r</string>
+    <string name="key_ad04_alt"></string>
     
     <string name="key_ad05_main">ف</string>
     <string name="key_ad05_shift">ﻹ</string>
-    <string name="key_ad05_alt">@string/alternates_for_t</string>
+    <string name="key_ad05_alt"></string>
     
     <string name="key_ad06_main">غ</string>
     <string name="key_ad06_shift">إ</string>
-    <string name="key_ad06_alt">@string/alternates_for_y</string>
+    <string name="key_ad06_alt"></string>
 
     <string name="key_ad07_main">ع</string>
     <string name="key_ad07_shift">`</string>
-    <string name="key_ad07_alt">@string/alternates_for_u</string>
+    <string name="key_ad07_alt"></string>
     
     <string name="key_ad08_main">ه</string>
     <string name="key_ad08_shift">÷</string>
-    <string name="key_ad08_alt">@string/alternates_for_i</string>
+    <string name="key_ad08_alt"></string>
     
     <string name="key_ad09_main">خ</string>
     <string name="key_ad09_shift">×</string>
-    <string name="key_ad09_alt">@string/alternates_for_o</string>
+    <string name="key_ad09_alt"></string>
     
     <string name="key_ad10_main">ح</string>
     <string name="key_ad10_shift">؛</string>
-    <string name="key_ad10_alt">@string/alternates_for_p</string>
+    <string name="key_ad10_alt">;</string>
     
     <string name="key_ad11_main">ج</string>
     <string name="key_ad11_shift">&lt;</string>
@@ -132,39 +132,39 @@
     
     <string name="key_ac01_main">ش</string>
     <string name="key_ac01_shift">ِ</string>
-    <string name="key_ac01_alt">@string/alternates_for_a</string>
+    <string name="key_ac01_alt"></string>
 
     <string name="key_ac02_main">س</string>
     <string name="key_ac02_shift">ٍ</string>
-    <string name="key_ac02_alt">@string/alternates_for_s</string>
+    <string name="key_ac02_alt"></string>
 
     <string name="key_ac03_main">ي</string>
     <string name="key_ac03_shift">]</string>
-    <string name="key_ac03_alt">@string/alternates_for_d</string>
+    <string name="key_ac03_alt"></string>
 
     <string name="key_ac04_main">ب</string>
     <string name="key_ac04_shift">[</string>
-    <string name="key_ac04_alt">@string/alternates_for_f</string>
+    <string name="key_ac04_alt"></string>
 
     <string name="key_ac05_main">ل</string>
     <string name="key_ac05_shift">ﻷ</string>
-    <string name="key_ac05_alt">@string/alternates_for_g</string>
+    <string name="key_ac05_alt"></string>
 
     <string name="key_ac06_main">ا</string>
     <string name="key_ac06_shift">أ</string>
-    <string name="key_ac06_alt">@string/alternates_for_h</string>
+    <string name="key_ac06_alt"></string>
 
     <string name="key_ac07_main">ت</string>
     <string name="key_ac07_shift">ـ</string>
-    <string name="key_ac07_alt">@string/alternates_for_j</string>
+    <string name="key_ac07_alt"></string>
 
     <string name="key_ac08_main">ن</string>
     <string name="key_ac08_shift">،</string>
-    <string name="key_ac08_alt">@string/alternates_for_k</string>
+    <string name="key_ac08_alt"></string>
 
     <string name="key_ac09_main">م</string>
     <string name="key_ac09_shift">/</string>
-    <string name="key_ac09_alt">@string/alternates_for_l</string>
+    <string name="key_ac09_alt"></string>
 
     <string name="key_ac10_main">ك</string>
     <string name="key_ac10_shift">:</string>
@@ -181,31 +181,31 @@
 
     <string name="key_ab01_main">ئ</string>
     <string name="key_ab01_shift">~</string>
-    <string name="key_ab01_alt">@string/alternates_for_z</string>
+    <string name="key_ab01_alt"></string>
 
     <string name="key_ab02_main">ء</string>
     <string name="key_ab02_shift">ْ</string>
-    <string name="key_ab02_alt">@string/alternates_for_x</string>
+    <string name="key_ab02_alt"></string>
 
     <string name="key_ab03_main">ؤ</string>
     <string name="key_ab03_shift">}</string>
-    <string name="key_ab03_alt">@string/alternates_for_c</string>
+    <string name="key_ab03_alt"></string>
 
     <string name="key_ab04_main">ر</string>
     <string name="key_ab04_shift">{</string>
-    <string name="key_ab04_alt">@string/alternates_for_v</string>
+    <string name="key_ab04_alt"></string>
 
     <string name="key_ab05_main">ﻻ</string>
     <string name="key_ab05_shift">ﻵ</string>
-    <string name="key_ab05_alt">@string/alternates_for_b</string>
+    <string name="key_ab05_alt"></string>
 
     <string name="key_ab06_main">ى</string>
     <string name="key_ab06_shift">آ</string>
-    <string name="key_ab06_alt">@string/alternates_for_n</string>
+    <string name="key_ab06_alt"></string>
 
     <string name="key_ab07_main">ة</string>
     <string name="key_ab07_shift">\'</string>
-    <string name="key_ab07_alt">@string/alternates_for_m</string>
+    <string name="key_ab07_alt"></string>
 
     <string name="key_ab08_main">و</string>
     <string name="key_ab08_shift">,</string>
