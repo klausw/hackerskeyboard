@@ -440,11 +440,13 @@
     </string-array>
 
     <string name="recorrect_warning">FYI: recorrection does not work correctly on pre-Gingerbread devices due to missing operating system support.</string>
+    <string name="no_market_warning">Unable to launch Market.</string>
     <!-- Title for Latin keyboard debug settings activity / dialog -->
     <string name="english_ime_debug_settings" translatable="false">Debug settings</string>
     <string name="prefs_debug_mode" translatable="false">Debug Mode</string>
     <string name="main_setup_1">Configure input methods</string>
     <string name="main_setup_2">Set current input method</string>
+    <string name="main_setup_3">Get dictionaries</string>
     <string name="main_body"><Data>
       <![CDATA["
         <h2>Enabling the keyboard</h2>
@@ -461,8 +463,13 @@
         
         <h3>Choose the currently active input method:</h3>
         <blockquote>
-          <p>&#8226; Press the <B>Set current input method</b> button above.
+          <p>&#8226; Press the <b>Set current input method</b> button above.
           <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.
+        </blockquote>
+
+        <h3>Optionally, install completion dictionary packages:</h3>
+        <blockquote>
+          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.
         </blockquote>
         
         <h2>Additional information</h2>
