@@ -146,7 +146,7 @@ public class BinaryDictionary extends Dictionary {
                         TYPED_LETTER_MULTIPLIER, FULL_WORD_FREQ_MULTIPLIER, total);
                 mDictLength = total;
             }
-            Log.i("PCKeyboard", "Loaded dictionary, len=" + mDictLength);
+            if (mDictLength > 10000) Log.i("PCKeyboard", "Loaded dictionary, len=" + mDictLength);
         } catch (IOException e) {
             Log.w(TAG, "No available memory for binary dictionary");
         } finally {
