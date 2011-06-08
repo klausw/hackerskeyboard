@@ -17,8 +17,10 @@
 package org.pocketworkstation.pckeyboard;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -27,10 +29,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.TextView.BufferType;
 
 public class Main extends Activity {
 
+	private final static String MARKET_URI = "market://search?q=pub:\"Klaus Weidner\"";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +49,6 @@ public class Main extends Activity {
         final Button setup1 = (Button) findViewById(R.id.main_setup_btn_1);
         setup1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
                 startActivityForResult(new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS), 0);
             }
         });
@@ -53,9 +56,23 @@ public class Main extends Activity {
         final Button setup2 = (Button) findViewById(R.id.main_setup_btn_2);
         setup2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
                 InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mgr.showInputMethodPicker();
+            }
+        });
+        
+        final Button setup3 = (Button) findViewById(R.id.main_setup_btn_3);
+        setup3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET_URI));
+                try {
+                	startActivity(it);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(
+                            		R.string.no_market_warning), Toast.LENGTH_LONG)
+                            .show();
+                }
             }
         });
         
