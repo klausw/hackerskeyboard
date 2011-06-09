@@ -72,6 +72,15 @@
             android:defaultValue="@string/default_hint_mode"
             />
 
+    <ListPreference
+            android:key="pref_label_scale"
+            android:title="@string/title_label_scale"
+            android:persistent="true"
+            android:entryValues="@array/label_scale_values"
+            android:entries="@array/label_scale_entries"
+            android:defaultValue="1.0"
+            />
+
     <PreferenceCategory
             android:title="@string/title_application_category"
             android:key="application_settings">

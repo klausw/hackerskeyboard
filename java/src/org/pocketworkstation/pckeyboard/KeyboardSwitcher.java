@@ -61,6 +61,7 @@ public class KeyboardSwitcher implements
 
     public static final String DEFAULT_LAYOUT_ID = "4";
     public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout_20100902";
+    public static final String PREF_LABEL_SCALE = "pref_label_scale";
     private static final int[] THEMES = new int[] { R.layout.input_basic,
             R.layout.input_basic_highcontrast, R.layout.input_stone_normal,
             R.layout.input_stone_bold, R.layout.input_gingerbread };
@@ -118,6 +119,8 @@ public class KeyboardSwitcher implements
     private float mRowHeight;
     private boolean mIsPortrait;
     private boolean mFullMode;
+    private float mLabelScale = 1.0f;
+    private float mLabelScalePref = 1.0f;
     private int mHintMode;
 
     private static final int AUTO_MODE_SWITCH_STATE_ALPHA = 0;
@@ -162,6 +165,8 @@ public class KeyboardSwitcher implements
                 .getDefaultSharedPreferences(ims);
         sInstance.mLayoutId = Integer.valueOf(prefs.getString(
                 PREF_KEYBOARD_LAYOUT, DEFAULT_LAYOUT_ID));
+        sInstance.mLabelScalePref = Float.valueOf(prefs.getString(
+        		PREF_LABEL_SCALE, "1.0"));
 
         sInstance.updateSettingsKeyState(prefs);
         prefs.registerOnSharedPreferenceChangeListener(sInstance);
@@ -319,6 +324,8 @@ public class KeyboardSwitcher implements
         mIsSymbols = isSymbols;
 
         mInputView.setPreviewEnabled(mInputMethodService.getPopupOn());
+      	mInputView.setLabelScale(mLabelScale * mLabelScalePref);
+
         KeyboardId id = getKeyboardId(mode, imeOptions, isSymbols);
         LatinKeyboard keyboard = null;
         keyboard = getKeyboard(id);
@@ -379,7 +386,7 @@ public class KeyboardSwitcher implements
         int screenHeightPercent = mIsPortrait ? heightPercentPortrait : heightPercentLandscape;
         mRowHeight = (float) screenHeightPercent / nRows;;
         mHintMode = hintMode;
-
+        mLabelScale = 5.0f / nRows;
     }
 
     public boolean isFullMode() {
@@ -696,6 +703,10 @@ public class KeyboardSwitcher implements
         if (PREF_KEYBOARD_LAYOUT.equals(key)) {
             changeLatinKeyboardView(Integer.valueOf(sharedPreferences
                     .getString(key, DEFAULT_LAYOUT_ID)), false);
+        } else if (PREF_LABEL_SCALE.equals(key)) {
+            mLabelScalePref = Float.valueOf(sharedPreferences
+            		.getString(key, "1.0"));
+            recreateInputView();
         } else if (LatinIMESettings.PREF_SETTINGS_KEY.equals(key)) {
             updateSettingsKeyState(sharedPreferences);
             recreateInputView();
