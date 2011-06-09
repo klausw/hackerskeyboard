@@ -423,6 +423,38 @@
     </string-array>
     <string name="percent">percent</string>
 
+	<string name="title_label_scale">Key label scaling</string>
+    <string-array name="label_scale_entries">
+        <item>50%</item>
+        <item>60%</item>
+        <item>70%</item>
+        <item>80%</item>
+        <item>90%</item>
+        <item>100%</item>
+        <item>110%</item>
+        <item>120%</item>
+        <item>130%</item>
+        <item>140%</item>
+        <item>150%</item>
+        <item>175%</item>
+        <item>200%</item>
+    </string-array>
+    <string-array name="label_scale_values">
+        <item>0.5</item>
+        <item>0.6</item>
+        <item>0.7</item>
+        <item>0.8</item>
+        <item>0.9</item>
+        <item>1.0</item>
+        <item>1.1</item>
+        <item>1.2</item>
+        <item>1.3</item>
+        <item>1.4</item>
+        <item>1.5</item>
+        <item>1.75</item>
+        <item>2.00</item>
+    </string-array>
+
     <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
         dependent and may require overriding with a device specific overlay. Default is in durations.xml -->
     <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->

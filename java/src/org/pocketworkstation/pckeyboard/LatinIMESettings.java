@@ -57,11 +57,8 @@ public class LatinIMESettings extends PreferenceActivity
     private ListPreference mHeightInPortraitPreference;
     private ListPreference mHeightInLandscapePreference;
     private ListPreference mHintModePreference;
+    private ListPreference mLabelScalePreference;
     private ListPreference mVibrateDurationPreference;
-    private CheckBoxPreference mFullInPortraitPreference;
-    private CheckBoxPreference mSuggestionsInLandscapePreference;
-    private CheckBoxPreference mStandardViewInLandscapePreference;
-    private CheckBoxPreference mConnectbotHackPreference;
     private boolean mVoiceOn;
 
     private VoiceInputLogger mLogger;
@@ -79,11 +76,8 @@ public class LatinIMESettings extends PreferenceActivity
         mHeightInPortraitPreference = (ListPreference) findPreference(LatinIME.PREF_HEIGHT_PORTRAIT);
         mHeightInLandscapePreference = (ListPreference) findPreference(LatinIME.PREF_HEIGHT_LANDSCAPE);
         mHintModePreference = (ListPreference) findPreference(LatinIME.PREF_HINT_MODE);
+        mLabelScalePreference = (ListPreference) findPreference(KeyboardSwitcher.PREF_LABEL_SCALE);
         mVibrateDurationPreference = (ListPreference) findPreference(LatinIME.PREF_VIBRATE_LEN);
-        mFullInPortraitPreference = (CheckBoxPreference) findPreference(LatinIME.PREF_FULL_KEYBOARD_IN_PORTRAIT);
-        mSuggestionsInLandscapePreference = (CheckBoxPreference) findPreference(LatinIME.PREF_SUGGESTIONS_IN_LANDSCAPE);
-        mStandardViewInLandscapePreference = (CheckBoxPreference) findPreference(LatinIME.PREF_FULLSCREEN_OVERRIDE);
-        mConnectbotHackPreference = (CheckBoxPreference) findPreference(LatinIME.PREF_CONNECTBOT_TAB_HACK);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -147,6 +141,7 @@ public class LatinIMESettings extends PreferenceActivity
         setSummaryToEntry(mHeightInPortraitPreference, res.getString(R.string.default_height_portrait));
         setSummaryToEntry(mHeightInLandscapePreference, res.getString(R.string.default_height_landscape));
         setSummaryToEntry(mHintModePreference, res.getString(R.string.default_hint_mode));
+        setSummaryToEntry(mLabelScalePreference, "1.0");
         setSummaryToEntry(mVibrateDurationPreference, res.getString(R.string.vibrate_duration_ms));
     }
 
