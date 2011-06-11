@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +23,13 @@ public class PluginManager extends BroadcastReceiver {
     private static String TAG = "PCKeyboard";
     private static String HK_INTENT_DICT = "org.pocketworkstation.DICT";
     private static String SOFTKEYBOARD_INTENT_DICT = "com.menny.android.anysoftkeyboard.DICTIONARY";
-
+    private LatinIME mIME;
+    
+    PluginManager(LatinIME ime) {
+    	super();
+    	mIME = ime;
+    }
+    
     private static Map<String, DictPluginSpec> mPluginDicts =
         new HashMap<String, DictPluginSpec>();
     
@@ -108,6 +113,7 @@ public class PluginManager extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Package information changed, updating dictionaries.");
         getPluginDictionaries(context);
+        mIME.toggleLanguage(true, true);
     }
 
     static void getSoftKeyboardDictionaries(PackageManager packageManager) {
@@ -209,7 +215,7 @@ public class PluginManager extends BroadcastReceiver {
             return null;
         }
         BinaryDictionary dict = spec.getDict(context);
-        Log.i(TAG, "Found plugin dictionary for " + lang + ", size=" + dict.getSize());
+        Log.i(TAG, "Found plugin dictionary for " + lang + (dict == null ? " is null" : ", size=" + dict.getSize()));
         return dict;
     }
 }
