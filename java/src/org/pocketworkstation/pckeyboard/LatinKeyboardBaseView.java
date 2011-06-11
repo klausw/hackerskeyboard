@@ -164,10 +164,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private static final int NUMBER_HINT_VERTICAL_ADJUSTMENT_PIXEL = -1;
 
     // XML attribute
-    private int mKeyTextSize;
+    private float mKeyTextSize;
     private int mKeyTextColor;
     private Typeface mKeyTextStyle = Typeface.DEFAULT;
-    private int mLabelTextSize;
+    private float mLabelTextSize;
     private int mSymbolColorScheme = 0;
     private int mShadowColor;
     private float mShadowRadius;
@@ -882,7 +882,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // For characters, use large font. For labels like "Done", use small font.
                 final int labelSize;
                 if (label.length() > 1 && key.codes.length < 2) {
-                	Log.i(TAG, "mLabelTextSize=" + mLabelTextSize + " mLabelScale=" + mLabelScale);
+                    //Log.i(TAG, "mLabelTextSize=" + mLabelTextSize + " mLabelScale=" + mLabelScale);
                     labelSize = (int)(mLabelTextSize * mLabelScale);
                     paint.setTypeface(Typeface.DEFAULT);
                 } else {
@@ -1229,6 +1229,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             mMiniKeyboardCache.put(popupKey, container);
         }
         mMiniKeyboard = (LatinKeyboardBaseView)container.findViewById(R.id.LatinKeyboardBaseView);
+        mMiniKeyboard.setLabelScale(mLabelScale);
         if (mWindowOffset == null) {
             mWindowOffset = new int[2];
             getLocationInWindow(mWindowOffset);
