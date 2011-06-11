@@ -278,6 +278,8 @@ public class LatinIME extends InputMethodService implements
     private Map<String, List<CharSequence>> mWordToSuggestions = new HashMap<String, List<CharSequence>>();
 
     private ArrayList<WordAlternatives> mWordHistory = new ArrayList<WordAlternatives>();
+    
+    private PluginManager mPluginManager;
 
     private class VoiceResults {
         List<String> candidates;
@@ -403,6 +405,14 @@ public class LatinIME extends InputMethodService implements
         mHintMode = Integer.parseInt(prefs.getString(PREF_HINT_MODE, res.getString(R.string.default_hint_mode)));
         mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
                 mHeightPortrait, mHeightLandscape, mHintMode);
+
+        mPluginManager = new PluginManager(this);
+        final IntentFilter pFilter = new IntentFilter();
+        pFilter.addDataScheme("package");
+        pFilter.addAction("android.intent.action.PACKAGE_ADDED");
+        pFilter.addAction("android.intent.action.PACKAGE_REPLACED");
+        pFilter.addAction("android.intent.action.PACKAGE_REMOVED");
+        registerReceiver(mPluginManager, pFilter);
 
         LatinIMEUtil.GCUtils.getInstance().reset();
         boolean tryGC = true;
@@ -548,6 +558,7 @@ public class LatinIME extends InputMethodService implements
             mContactsDictionary.close();
         }
         unregisterReceiver(mReceiver);
+        unregisterReceiver(mPluginManager);
         if (VOICE_INSTALLED && mVoiceInput != null) {
             mVoiceInput.destroy();
         }
@@ -2676,7 +2687,7 @@ public class LatinIME extends InputMethodService implements
         return mWord.isFirstCharCapitalized();
     }
 
-    private void toggleLanguage(boolean reset, boolean next) {
+    void toggleLanguage(boolean reset, boolean next) {
         if (reset) {
             mLanguageSwitcher.reset();
         } else {
