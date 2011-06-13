@@ -551,7 +551,9 @@ public class Keyboard {
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
         loadKeyboard(context, context.getResources().getXml(xmlLayoutResId));
-        fixAltChars();
+        //Locale locale = context.getResources().getConfiguration().locale;
+        Locale locale = Locale.US; // FIXME: this isn't consistently set in LatinKeyboard{,Base}View
+        fixAltChars(locale);
     }
 
     public Keyboard(Context context, int xmlLayoutResId, int modeId) {
@@ -611,14 +613,15 @@ public class Keyboard {
         mTotalHeight = y + mDefaultHeight;
     }
 
-    private void fixAltChars() {
+    private void fixAltChars(Locale locale) {
         Set<Character> mainKeys = new HashSet<Character>();
         for (Key key : mKeys) {
             // Remember characters on the main keyboard so that they can be removed from popups.
             // This makes it easy to share popup char maps between the normal and shifted
             // keyboards.
             if (key.label != null && !key.modifier && key.label.length() == 1) {
-                mainKeys.add(key.label.charAt(0));
+                char c = key.label.charAt(0);
+                mainKeys.add(c);
             }
         }
 
@@ -636,6 +639,9 @@ public class Keyboard {
 
             // Uppercase the alt chars if the main key is uppercase
             boolean needUpcase = key.label != null && key.label.length() == 1 && Character.isUpperCase(key.label.charAt(0));
+            if (needUpcase) {
+            	key.popupCharacters = key.popupCharacters.toString().toUpperCase(locale);
+            }
 
             StringBuilder newPopup = new StringBuilder(popupLen);
             for (int i = 0; i < popupLen; ++i) {
@@ -658,11 +664,7 @@ public class Keyboard {
             }
 
             if (key.popupReversed) newPopup.reverse();
-            if (needUpcase) {
-                key.popupCharacters = newPopup.toString().toUpperCase(Locale.US);
-            } else {
-                key.popupCharacters = newPopup.toString();
-            }
+            key.popupCharacters = newPopup.toString();
         }
     }
 
