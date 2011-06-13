@@ -406,6 +406,7 @@ public class LatinIME extends InputMethodService implements
         mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
                 mHeightPortrait, mHeightLandscape, mHintMode);
 
+        PluginManager.getPluginDictionaries(getApplicationContext());
         mPluginManager = new PluginManager(this);
         final IntentFilter pFilter = new IntentFilter();
         pFilter.addDataScheme("package");
