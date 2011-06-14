@@ -149,6 +149,8 @@ public class BinaryDictionary extends Dictionary {
             if (mDictLength > 10000) Log.i("PCKeyboard", "Loaded dictionary, len=" + mDictLength);
         } catch (IOException e) {
             Log.w(TAG, "No available memory for binary dictionary");
+        } catch (UnsatisfiedLinkError e) {
+            Log.w(TAG, "Failed to load native dictionary", e);
         } finally {
             try {
                 if (is != null) {
