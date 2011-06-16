@@ -47,20 +47,21 @@ public class InputLanguageSelection extends PreferenceActivity {
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
-        "ar", "bg", "ca", "cs", "da", "de", "el", "en", "en-rGB", "es",
-        "es-rUS", "fa", "fi", "fr", "fr-rCA", "hr", "hu", "in", "it", "iw",
-        "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl", "pt", "pt-rPT",
-        "rm", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tl", "tr", "uk",
-        "vi", "zh-rCN", "zh-rTW"
+        "ar", "bg", "ca", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB",
+        "es", "es-rUS", "fa", "fi", "fr", "fr-rCA", "hr", "hu", "in",
+        "it", "iw", "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl", "pt",
+        "pt-rPT", "rm", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tl",
+        "tr", "uk", "vi", "zh-rCN", "zh-rTW"
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "de", "en", "es", "fr", "fr-rCA", "hr", "iw", "ro", "ru",
-        "si", "sl"
+        "ar", "cs", "de", "en", "en-rDV", "es", "fr", "fr-rCA", "hr", "iw",
+        "ro", "ru", "si", "sl"
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "da", "de", "en", "fr", "fr-rCA", "iw", "nb", "ro", "ru", "sr", "sv"
+        "ar", "cs", "da", "de", "en", "en-rDV", "fr", "fr-rCA", "iw", "nb",
+        "ru", "sr", "sv"
     };
 
     private static class Loc implements Comparable<Object> {
