@@ -18,17 +18,26 @@
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="alternates_for_a">áàâãäåæ</string>
-    <string name="alternates_for_e">3éěèêë</string>
-    <string name="alternates_for_i">8ïîìí</string>
-    <string name="alternates_for_o">9øœöõôòó</string>
-    <string name="alternates_for_u">7üûùúů</string>
-    <string name="alternates_for_s">š§ß</string>
-    <string name="alternates_for_n">ňñ</string>
-    <string name="alternates_for_c">čç</string>
-    <string name="alternates_for_y">6ÿý</string>
-    <string name="alternates_for_d">ď</string>
+    <string name="alternates_for_a">áäàâãåæ</string>
+    <string name="alternates_for_b">{</string>
+    <string name="alternates_for_c">&amp;čç</string>
+    <string name="alternates_for_d">ďĐ</string>
+    <string name="alternates_for_e">3éě€èêë</string>
+    <string name="alternates_for_f">[</string>
+    <string name="alternates_for_g">]</string>
+    <string name="alternates_for_i">8íïîìí</string>
+    <string name="alternates_for_k">ł</string>
+    <string name="alternates_for_l">Ł</string>
+    <string name="alternates_for_n">}ňñ</string>
+    <string name="alternates_for_o">9óøœöõôò</string>
+    <string name="alternates_for_q">1\\</string>
     <string name="alternates_for_r">4ř</string>
+    <string name="alternates_for_s">š§ßđ</string>
     <string name="alternates_for_t">5ť</string>
-    <string name="alternates_for_z">ž</string>
+    <string name="alternates_for_u">7úůüûù</string>
+    <string name="alternates_for_v">\@</string>
+    <string name="alternates_for_w">2|</string>
+    <string name="alternates_for_x">#</string>
+    <string name="alternates_for_y">ýÿ</string>
+    <string name="alternates_for_z">6ž</string>
 </resources>
