@@ -86,17 +86,25 @@
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_d" />
         <Key
-            android:keyLabel="f" />
+            android:keyLabel="f"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_f" />
         <Key
             android:keyLabel="g"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_g" />
         <Key
-            android:keyLabel="h" />
+            android:keyLabel="h"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_h" />
         <Key
-            android:keyLabel="j" />
+            android:keyLabel="j"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_j" />
         <Key
-            android:keyLabel="k" />
+            android:keyLabel="k"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_k" />
         <Key
             android:keyLabel="l"
             android:popupKeyboard="@xml/kbd_popup_template"
@@ -117,7 +125,9 @@
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_z" />
         <Key
-            android:keyLabel="x" />
+            android:keyLabel="x"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_x" />
         <Key
             android:keyLabel="c"
             android:popupKeyboard="@xml/kbd_popup_template"
@@ -127,13 +137,17 @@
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_v" />
         <Key
-            android:keyLabel="b" />
+            android:keyLabel="b"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_b" />
         <Key
             android:keyLabel="n"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_n" />
         <Key
-            android:keyLabel="m" />
+            android:keyLabel="m"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_m" />
         <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
