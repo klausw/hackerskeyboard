@@ -42,6 +42,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
     static final int KEYCODE_DPAD_LEFT = -21;
     static final int KEYCODE_DPAD_RIGHT = -22;
     static final int KEYCODE_DPAD_CENTER = -23;
+    static final int KEYCODE_DPAD_CENTER_LONGPRESS = -24;
     static final int KEYCODE_ALT_LEFT = -57;
     static final int KEYCODE_PAGE_UP = -92;
     static final int KEYCODE_PAGE_DOWN = -93;
@@ -127,6 +128,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         int primaryCode = key.codes[0];
         if (primaryCode == KEYCODE_OPTIONS) {
             return invokeOnKey(KEYCODE_OPTIONS_LONGPRESS);
+        } else if (primaryCode == KEYCODE_DPAD_CENTER) {
+            return invokeOnKey(KEYCODE_DPAD_CENTER_LONGPRESS);
         } else if (primaryCode == '0' && getKeyboard() == mPhoneKeyboard) {
             // Long pressing on 0 in phone number keypad gives you a '+'.
             return invokeOnKey('+');
