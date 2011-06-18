@@ -55,8 +55,8 @@ public class InputLanguageSelection extends PreferenceActivity {
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "cs", "de", "en", "en-rDV", "es", "fr", "fr-rCA", "hr", "iw",
-        "ro", "ru", "si", "sl"
+        "ar", "cs", "de", "en", "en-rDV", "es", "fi", "fr", "fr-rCA", "hr",
+        "iw", "ro", "ru", "si", "sl"
     };
 
     private static final String[] KBD_4_ROW = {
