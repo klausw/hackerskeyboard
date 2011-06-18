@@ -23,8 +23,8 @@
     <!-- <string name="english_ime_name" msgid="7252517407088836577">"Android keyboard"</string> -->
     <!-- <string name="english_ime_settings" msgid="6661589557206947774">"Android keyboard settings"</string> -->
     <string name="english_ime_input_options" msgid="3909945612939668554">"Input options"</string>
-    <string name="vibrate_on_keypress" msgid="5258079494276955460">"Vibrate on key-press"</string>
-    <string name="sound_on_keypress" msgid="6093592297198243644">"Sound on key-press"</string>
+    <string name="vibrate_on_keypress" msgid="5258079494276955460">"Vibrate on key press"</string>
+    <string name="sound_on_keypress" msgid="6093592297198243644">"Sound on key press"</string>
     <string name="popup_on_keypress" msgid="123894815723512944">"Pop-up on key press"</string>
     <string name="hit_correction" msgid="4855351009261318389">"Correct typing errors"</string>
     <string name="hit_correction_summary" msgid="8761701873008070796">"Enable input error correction"</string>
@@ -66,7 +66,7 @@
     <string name="tip_long_press" msgid="6101270866284343344">"Hold a key down to see accents (ø, ö, etc.)"</string>
     <string name="tip_dismiss" msgid="7585579046862204381">"Press the back key ↶ to close the keyboard at any point"</string>
     <string name="tip_access_symbols" msgid="6344098517525531652">"Access numbers and symbols"</string>
-    <string name="tip_add_to_dictionary" msgid="1487293888469227817">"press and hold the left-most word to add it to the dictionary"</string>
+    <string name="tip_add_to_dictionary" msgid="1487293888469227817">"Press and hold the leftmost word to add it to the dictionary"</string>
     <string name="touch_to_continue" msgid="7869803257948414531">"Touch this hint to continue »"</string>
     <string name="touch_to_finish" msgid="7990196086480585789">"Touch here to close this hint and start typing!"</string>
     <string name="tip_to_open_keyboard" msgid="6821200275486950452"><b>"The keyboard opens any time you touch a text field"</b></string>
@@ -123,8 +123,8 @@
     <string name="popular_domain_0" msgid="3745279225122472969">".com"</string>
     <string name="popular_domain_1" msgid="1370572248164278467">".net"</string>
     <string name="popular_domain_2" msgid="3036812463748402878">".org"</string>
-    <string name="popular_domain_3" msgid="8718639560809452028">".gov"</string>
-    <string name="popular_domain_4" msgid="35359437471311470">".edu"</string>
+    <string name="popular_domain_3" msgid="8718639560809452028">".co.uk"</string>
+    <string name="popular_domain_4" msgid="35359437471311470">".ac.uk"</string>
     <string name="selectInputMethod" msgid="315076553378705821">"Select input method"</string>
     <string name="language_selection_title" msgid="1651299598555326750">"Input languages"</string>
     <string name="language_selection_summary" msgid="187110938289512256">"Slide finger on spacebar to change language"</string>
@@ -137,4 +137,5 @@
     <string name="keyboard_layout" msgid="437433231038683666">"Keyboard Theme"</string>
     <string name="subtype_mode_keyboard" msgid="2242090416595003881">"keyboard"</string>
     <string name="subtype_mode_voice" msgid="4394113125441627771">"voice"</string>
+    <string name="title_hint_mode">Labelled alternative keys</string>
 </resources>
