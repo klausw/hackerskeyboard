@@ -172,6 +172,8 @@ public class LanguageSwitcher {
 
     public void reset() {
         mCurrentIndex = 0;
+        mSelectedLanguages = "";
+        loadLocales(PreferenceManager.getDefaultSharedPreferences(mIme));
     }
 
     public void next() {
