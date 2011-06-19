@@ -16,60 +16,9 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import android.inputmethodservice.InputMethodService;
-import android.view.inputmethod.EditorInfo;
-
-import java.util.HashMap;
-
-interface ComposeSequencing {
-    public void onText(CharSequence text);
-    public void updateShiftKeyState(EditorInfo attr);
-    public EditorInfo getCurrentInputEditorInfo();
-}
-
-public class ComposeSequence {
-    private static class ComposeSequenceMap {
-        private static HashMap<Character, HashMap<String, String>> map =
-                new HashMap<Character, HashMap<String, String>>();
-
-        public static String get(String key) {
-            if (key == null || key.length() == 0) {
-                return null;
-            }
-            Character first = key.charAt(0);
-            HashMap<String, String> submap = map.get(first);
-            return submap == null ? null : submap.get(key);
-        }
-
-        public static boolean isValid(String partialKey) {
-            if (partialKey == null || partialKey.length() == 0) {
-                return false;
-            }
-            Character first = partialKey.charAt(0);
-            HashMap<String, String> submap = map.get(first);
-            if (submap != null) {
-                for (String search : submap.keySet()) {
-                    if (search.startsWith(partialKey)) {
-                        return true; // partial match found
-                    }
-                }
-            }
-            return false;
-        }
-
-        private static void put(String key, String value) {
-            Character first = key.charAt(0);
-            HashMap<String, String> submap = map.get(first);
-            if (submap == null) {
-                submap = new HashMap<String, String>();
-                map.put(first, submap);
-            }
-            submap.put(key, value);
-        }
-
-        public ComposeSequenceMap() {}
-
-        static {
+public class ComposeSequence extends ComposeBase {
+    public ComposeSequence(ComposeSequencing user) {
+            init(user);
             put("++", "#");
             put("' ", "'");
             put(" '", "'");
@@ -947,40 +896,5 @@ public class ComposeSequence {
             put("(49)", "㊾");
             put("(50)", "㊿");
             put("\\o/", "🙌");
-        }
-    }
-
-    private String composeBuffer;
-    ComposeSequencing composeUser;
-
-    public ComposeSequence(ComposeSequencing user) {
-        composeBuffer = "";
-        composeUser = user;
-        new ComposeSequenceMap(); // force instantiation
-    }
-
-    // returns true if the compose sequence is valid but incomplete
-    public boolean execute(int code) {
-        KeyboardSwitcher ks = KeyboardSwitcher.getInstance();
-        if (ks.getInputView().isShifted()
-                && ks.isAlphabetMode()
-                && Character.isLowerCase(code)) {
-            code = Character.toUpperCase(code);
-        }
-        composeBuffer += (char) code;
-        composeUser.updateShiftKeyState(composeUser.getCurrentInputEditorInfo());
-
-        String composed = ComposeSequenceMap.get(composeBuffer);
-        if (composed != null) {
-            // If we get here, we have a complete compose sequence
-            composeUser.onText(composed);
-            composeBuffer = "";
-            return false;
-        } else if (!ComposeSequenceMap.isValid(composeBuffer)) {
-            // If we get here, then the sequence typed isn't recognised
-            composeBuffer = "";
-            return false;
-        }
-        return true;
-    }
+   }
 }
