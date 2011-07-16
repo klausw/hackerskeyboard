@@ -24,9 +24,9 @@
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="key_tlde_main">.</string>
+    <string name="key_tlde_main">²</string>
     <string name="key_tlde_shift">²</string>
-    <string name="key_tlde_alt">.²³¹</string>
+    <string name="key_tlde_alt">²³¹</string>
     
     <string name="key_ae01_main">&amp;</string>
     <string name="key_ae01_shift">1</string>
