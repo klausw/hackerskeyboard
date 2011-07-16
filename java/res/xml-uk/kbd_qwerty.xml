@@ -48,7 +48,7 @@
         <Key
             android:keyLabel="е"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_cyrillic_e" />
+            android:popupCharacters="5ё" />
         <Key
             android:keyLabel="н"
             android:popupKeyboard="@xml/kbd_popup_template"
@@ -80,7 +80,9 @@
             android:keyWidth="8.75%p"
             android:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="і" />
+            android:keyLabel="і"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="ы" />
         <Key
             android:keyLabel="в" />
         <Key
@@ -99,6 +101,8 @@
             android:keyLabel="ж" />
         <Key
             android:keyLabel="є"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="э"
             android:keyWidth="8.75%p"
             android:keyEdgeFlags="right" />
     </Row>
@@ -128,7 +132,7 @@
         <Key
             android:keyLabel="ї"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="" />
+            android:popupCharacters="ьъ" />
         <Key
             android:keyLabel="б" />
         <Key
