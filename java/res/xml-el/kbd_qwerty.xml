@@ -21,7 +21,9 @@
 -->
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard" android:keyWidth="10%p" android:horizontalGap="0px" android:verticalGap="@dimen/key_bottom_gap">
     <Row android:rowEdgeFlags="top">
-        <Key android:keyLabel=";" android:popupKeyboard="@xml/kbd_popup_template" android:popupCharacters=";:" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel=";" android:popupKeyboard="@xml/kbd_popup_template"
+             android:popupCharacters=";:&#301;&#308;&#300;&#306;&#304;&#302;&#313;&#314;"
+             android:keyEdgeFlags="left"/>
         <Key android:keyLabel="ς" android:popupKeyboard="@xml/kbd_popup_template" android:popupCharacters="ςΣσ"/>
         <Key android:keyLabel="ε" android:popupKeyboard="@xml/kbd_popup_template" android:popupCharacters="εΕέΈ"/>
         <Key android:keyLabel="ρ" android:popupKeyboard="@xml/kbd_popup_template" android:popupCharacters="ρΡ"/>
