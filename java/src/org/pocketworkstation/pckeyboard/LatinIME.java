@@ -258,7 +258,9 @@ public class LatinIME extends InputMethodService implements
 
     // Compose sequence handling
     private boolean compose = false;
-    private ComposeSequence composeBuffer = new ComposeSequence(this);
+    private boolean deadAccent = false;
+    private ComposeBase composeBuffer = new ComposeSequence(this);
+    private ComposeBase deadAccentBuffer = new DeadAccentSequence(this);
 
     private Tutorial mTutorial;
 
@@ -1488,6 +1490,26 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
+    private boolean processMultiKey(int primaryCode) {
+        if (deadAccent) {
+            if (compose) {
+                String result = composeBuffer.executeToString(primaryCode);
+                if (result != null) {
+                    deadAccent = deadAccentBuffer.execute(result);
+                }
+            }
+            else {
+                deadAccent = deadAccentBuffer.execute(primaryCode);
+            }
+            return true;
+        }
+        if (compose) {
+            compose = composeBuffer.execute(primaryCode);
+            return true;
+        }
+        return false;
+    }
+
     // Implementation of KeyboardViewListener
 
     public void onKey(int primaryCode, int[] keyCodes, int x, int y) {
@@ -1501,8 +1523,7 @@ public class LatinIME extends InputMethodService implements
                 .hasDistinctMultitouch();
         switch (primaryCode) {
         case Keyboard.KEYCODE_DELETE:
-            if (compose) {
-                compose = composeBuffer.execute(primaryCode);
+            if (processMultiKey(primaryCode)) {
                 break;
             }
             handleBackspace();
@@ -1550,6 +1571,7 @@ public class LatinIME extends InputMethodService implements
             break;
         case LatinKeyboardView.KEYCODE_DPAD_CENTER_LONGPRESS:
             compose = !compose;
+            composeBuffer.clear();
             break;
         case LatinKeyboardView.KEYCODE_NEXT_LANGUAGE:
             toggleLanguage(false, true);
@@ -1563,8 +1585,7 @@ public class LatinIME extends InputMethodService implements
             }
             break;
         case 9 /* Tab */:
-            if (compose) {
-                compose = composeBuffer.execute(primaryCode);
+            if (processMultiKey(primaryCode)) {
                 break;
             }
             sendModifierKeysDown(true);
@@ -1572,8 +1593,7 @@ public class LatinIME extends InputMethodService implements
             sendModifierKeysUp(true);
             break;
         case LatinKeyboardView.KEYCODE_ESCAPE:
-            if (compose) {
-                compose = composeBuffer.execute(primaryCode);
+            if (processMultiKey(primaryCode)) {
                 break;
             }
             sendModifierKeysDown(true);
@@ -1607,8 +1627,7 @@ public class LatinIME extends InputMethodService implements
         case LatinKeyboardView.KEYCODE_BREAK:
         case LatinKeyboardView.KEYCODE_NUM_LOCK:
         case LatinKeyboardView.KEYCODE_SCROLL_LOCK:
-            if (compose) {
-                compose = composeBuffer.execute(primaryCode);
+            if (processMultiKey(primaryCode)) {
                 break;
             }
             // send as plain keys, or as escape sequence if needed
@@ -1617,8 +1636,12 @@ public class LatinIME extends InputMethodService implements
             sendModifierKeysUp(true);
             break;
         default:
-            if (compose) {
-                compose = composeBuffer.execute(primaryCode);
+            if (!compose && !deadAccent && primaryCode >= 0x300 && primaryCode <= 0x36F) {
+                deadAccentBuffer.clear();
+                deadAccent = deadAccentBuffer.execute(primaryCode);
+                break;
+            }
+            if (processMultiKey(primaryCode)) {
                 break;
             }
             if (primaryCode != KEYCODE_ENTER) {

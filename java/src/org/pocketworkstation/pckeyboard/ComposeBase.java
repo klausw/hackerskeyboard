@@ -74,8 +74,12 @@ public abstract class ComposeBase {
         composeUser = user;
     }
 
+    public void clear() {
+        composeBuffer = "";
+    }
+
     // returns true if the compose sequence is valid but incomplete
-    public boolean execute(int code) {
+    public String executeToString(int code) {
         KeyboardSwitcher ks = KeyboardSwitcher.getInstance();
         if (ks.getInputView().isShifted()
                 && ks.isAlphabetMode()
@@ -88,14 +92,31 @@ public abstract class ComposeBase {
         String composed = get(composeBuffer);
         if (composed != null) {
             // If we get here, we have a complete compose sequence
-            composeUser.onText(composed);
             composeBuffer = "";
-            return false;
+            return composed;
         } else if (!isValid(composeBuffer)) {
             // If we get here, then the sequence typed isn't recognised
             composeBuffer = "";
+            return "";
+        }
+        return null;
+    }
+
+    public boolean execute(int code) {
+        String composed = executeToString(code);
+        if (composed != null) {
+            composeUser.onText(composed);
             return false;
         }
         return true;
+    }
+
+    public boolean execute(CharSequence sequence) {
+        int i, len = sequence.length();
+        boolean result = true;
+        for (i = 0; i < len; ++i) {
+            result = execute(sequence.charAt(i));
+        }
+        return result; // only last one matters
     }
 }
