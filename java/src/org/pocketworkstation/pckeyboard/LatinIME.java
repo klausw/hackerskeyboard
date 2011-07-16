@@ -1362,7 +1362,7 @@ public class LatinIME extends InputMethodService implements
         InputConnection ic = getCurrentInputConnection();
         if (mModAlt && !mAltKeyState.isMomentary()) {
             sendKeyUp(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
-            setModShift(false);
+            setModAlt(false);
         }
         if (mModCtrl && !mCtrlKeyState.isMomentary()) {
             sendKeyUp(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
