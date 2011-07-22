@@ -51,6 +51,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̂2", "²");
         put("̂3", "³");
         put("̂1", "¹");
+/*
         put("̀A", "À");
         put("́A", "Á");
         put("̂A", "Â");
@@ -667,6 +668,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̉y", "ỷ");
         put("̃Y", "Ỹ");
         put("̃y", "ỹ");
+*/
         put("̂0", "⁰");
         put("̂4", "⁴");
         put("̂5", "⁵");
@@ -685,6 +687,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̣=", "⩦");
         put("̤̈=", "⩷");
         put("̤̈=", "⩷");
+/*
         put("̥|", "⫰");
         put("̇Ā", "Ǡ");
         put("̇ā", "ǡ");
@@ -709,6 +712,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̆à", "ằ");
         put("̆ả", "ẳ");
         put("̆ã", "ẵ");
+*/
         put("̌(", "₍");
         put("̌)", "₎");
         put("̌+", "₊");
@@ -724,6 +728,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̌8", "₈");
         put("̌9", "₉");
         put("̌=", "₌");
+/*
         put("̌ǲ", "ǅ");
         put("̌Ṡ", "Ṧ");
         put("̌ṡ", "ṧ");
@@ -972,11 +977,30 @@ public class DeadAccentSequence extends ComposeBase {
         put("̨ ̄o", "ǭ");
         put("̃ ̄O", "Ȭ");
         put("̃ ̄o", "ȭ");
+*/
    }
 
     public boolean execute(int code) {
         String composed = executeToString(code);
         if (composed != null) {
+          if (composed.equals("")) {
+            // Unrecognised - try to use the built-in Java text normalisation
+            int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
+            if (c < 0x300 || c >= 0x370) { // FIXME: combining code points
+              // Put the combining character(s) at the end, else this won't work
+              int cBEnd = composeBuffer.length() - 1;
+              String tmp = composeBuffer.substring(cBEnd) + composeBuffer.substring(0, cBEnd);
+              composed = Normalizer.normalize(tmp, Normalizer.Form.NFC);
+
+              if (composed.equals(""))
+                return true; // incomplete :-)
+            }
+            else {
+              return true; // there may be multiple combining accents
+            }
+          }
+
+          composeBuffer = "";
           composeUser.onText(composed);
           return false;
         }
