@@ -1636,7 +1636,7 @@ public class LatinIME extends InputMethodService implements
             sendModifierKeysUp(true);
             break;
         default:
-            if (!compose && !deadAccent && primaryCode >= 0x300 && primaryCode <= 0x36F) {
+            if (!compose && !deadAccent && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
                 deadAccentBuffer.clear();
                 deadAccent = deadAccentBuffer.execute(primaryCode);
                 break;
