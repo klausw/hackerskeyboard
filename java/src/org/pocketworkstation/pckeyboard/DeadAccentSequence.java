@@ -17,7 +17,6 @@
 package org.pocketworkstation.pckeyboard;
 
 import java.text.Normalizer;
-import android.util.Log;
 
 public class DeadAccentSequence extends ComposeBase {
     public DeadAccentSequence(ComposeSequencing user) {
@@ -986,7 +985,7 @@ public class DeadAccentSequence extends ComposeBase {
           if (composed.equals("")) {
             // Unrecognised - try to use the built-in Java text normalisation
             int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
-            if (c < 0x300 || c >= 0x370) { // FIXME: combining code points
+            if (Character.getType(c) != Character.NON_SPACING_MARK) {
               // Put the combining character(s) at the end, else this won't work
               int cBEnd = composeBuffer.length() - 1;
               String tmp = composeBuffer.substring(cBEnd) + composeBuffer.substring(0, cBEnd);
