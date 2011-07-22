@@ -66,8 +66,8 @@ public abstract class ComposeBase {
         submap.put(key, value);
     }
 
-    private String composeBuffer;
-    private ComposeSequencing composeUser;
+    protected String composeBuffer;
+    protected ComposeSequencing composeUser;
 
     protected void init(ComposeSequencing user) {
         composeBuffer = "";
@@ -92,11 +92,9 @@ public abstract class ComposeBase {
         String composed = get(composeBuffer);
         if (composed != null) {
             // If we get here, we have a complete compose sequence
-            composeBuffer = "";
             return composed;
         } else if (!isValid(composeBuffer)) {
             // If we get here, then the sequence typed isn't recognised
-            composeBuffer = "";
             return "";
         }
         return null;
@@ -105,6 +103,7 @@ public abstract class ComposeBase {
     public boolean execute(int code) {
         String composed = executeToString(code);
         if (composed != null) {
+            composeBuffer = "";
             composeUser.onText(composed);
             return false;
         }
