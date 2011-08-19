@@ -442,6 +442,8 @@
         <item>300%</item>
         <item>350%</item>
         <item>400%</item>
+        <item>600%</item>
+        <item>800%</item>
     </string-array>
     <string-array name="label_scale_values">
         <item>0.5</item>
@@ -461,6 +463,8 @@
         <item>3.0</item>
         <item>3.5</item>
         <item>4.0</item>
+        <item>6.0</item>
+        <item>8.0</item>
     </string-array>
 
     <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
