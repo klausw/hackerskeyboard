@@ -92,6 +92,7 @@ public class LatinIME extends InputMethodService implements
     static final boolean VOICE_INSTALLED = true;
     static final boolean ENABLE_VOICE_BUTTON = true;
     static Map<Integer, String> ESC_SEQUENCES;
+    static Map<Integer, Integer> CTRL_SEQUENCES;
 
     private static final String PREF_VIBRATE_ON = "vibrate_on";
     static final String PREF_VIBRATE_LEN = "vibrate_len";
@@ -1326,7 +1327,10 @@ public class LatinIME extends InputMethodService implements
     private boolean isConnectbot() {
         EditorInfo ei = getCurrentInputEditorInfo();
         String pkg = ei.packageName;
-        return (pkg.equalsIgnoreCase("org.connectbot") && ei.inputType == 0); // FIXME
+        return ((pkg.equalsIgnoreCase("org.connectbot")
+            || pkg.equalsIgnoreCase("org.woltage.irssiconnectbot")
+            || pkg.equalsIgnoreCase("com.pslib.connectbot")
+        ) && ei.inputType == 0); // FIXME
     }
 
     
@@ -1375,6 +1379,7 @@ public class LatinIME extends InputMethodService implements
 
         if (ESC_SEQUENCES == null) {
             ESC_SEQUENCES = new HashMap<Integer, String>();
+            CTRL_SEQUENCES = new HashMap<Integer, Integer>();
 
             // VT escape sequences without leading Escape
             ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_HOME, "[1~");
@@ -1396,6 +1401,18 @@ public class LatinIME extends InputMethodService implements
             ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FORWARD_DEL, "[3~");
             ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_INSERT, "[2~");
 
+            // Special ConnectBot hack: Ctrl-1 to Ctrl-0 for F1-F10.
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F1, KeyEvent.KEYCODE_1);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F2, KeyEvent.KEYCODE_2);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F3, KeyEvent.KEYCODE_3);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F4, KeyEvent.KEYCODE_4);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F5, KeyEvent.KEYCODE_5);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F6, KeyEvent.KEYCODE_6);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F7, KeyEvent.KEYCODE_7);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F8, KeyEvent.KEYCODE_8);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F9, KeyEvent.KEYCODE_9);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F10, KeyEvent.KEYCODE_8);
+
             // Natively supported by ConnectBot
             // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_UP, "OA");
             // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_DOWN, "OB");
@@ -1410,8 +1427,26 @@ public class LatinIME extends InputMethodService implements
             // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_SCROLL_LOCK, "");
         }
         InputConnection ic = getCurrentInputConnection();
+	Integer ctrlseq = null;
+	if (mConnectbotTabHack) {
+	   ctrlseq = CTRL_SEQUENCES.get(code);
+	}
         String seq = ESC_SEQUENCES.get(code);
-        if (seq != null) {
+
+	if (ctrlseq != null) {
+            if (mModAlt) {
+                // send ESC prefix for "Meta"
+                ic.commitText(Character.toString((char) 27), 1);
+            }
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,
+                    KeyEvent.KEYCODE_DPAD_CENTER));
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
+                    KeyEvent.KEYCODE_DPAD_CENTER));
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,
+                    ctrlseq));
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
+                    ctrlseq));
+	} else if (seq != null) {
             if (mModAlt) {
                 // send ESC prefix for "Meta"
                 ic.commitText(Character.toString((char) 27), 1);
