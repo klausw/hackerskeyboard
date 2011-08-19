@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* 
+**
+** Copyright 2009, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License"); 
+** you may not use this file except in compliance with the License. 
+** You may obtain a copy of the License at 
+**
+**     http://www.apache.org/licenses/LICENSE-2.0 
+**
+** Unless required by applicable law or agreed to in writing, software 
+** distributed under the License is distributed on an "AS IS" BASIS, 
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+** See the License for the specific language governing permissions and 
+** limitations under the License.
+*/
+-->
+
+<resources>
+    <integer name="key_tab">9</integer>
+    <integer name="key_return">10</integer>
+    <integer name="key_space">32</integer>
+    <integer name="key_shift">-1</integer>
+    <integer name="key_symbol">-2</integer>
+    <integer name="key_delete">-5</integer>
+    <!-- Keycode for F1 (function) key. This one switches between language switch & comma/.com -->
+    <integer name="key_settings">-100</integer>
+    <integer name="key_voice">-102</integer>
+    <integer name="key_f1">-103</integer>
+    <!--  Keycodes for special keys, using negative KeyEvent keycode numbers -->
+    <integer name="key_dpad_up">-19</integer>    
+    <integer name="key_dpad_down">-20</integer>
+    <integer name="key_dpad_left">-21</integer>
+    <integer name="key_dpad_right">-22</integer>
+    <integer name="key_dpad_center">-23</integer>
+    <integer name="key_alt_left">-57</integer>
+    <integer name="key_page_up">-92</integer>
+    <integer name="key_page_down">-93</integer>
+    <integer name="key_escape">-111</integer>
+    <integer name="key_forward_del">-112</integer>
+    <integer name="key_ctrl_left">-113</integer>
+    <integer name="key_caps_lock">-115</integer>
+    <integer name="key_scroll_lock">-116</integer>
+    <integer name="key_fn">-119</integer>
+    <integer name="key_sysrq">-120</integer>
+    <integer name="key_break">-121</integer>
+    <integer name="key_home">-122</integer>
+    <integer name="key_end">-123</integer>
+    <integer name="key_insert">-124</integer>
+    <integer name="key_fkey_f1">-131</integer>
+    <integer name="key_fkey_f2">-132</integer>
+    <integer name="key_fkey_f3">-133</integer>
+    <integer name="key_fkey_f4">-134</integer>
+    <integer name="key_fkey_f5">-135</integer>
+    <integer name="key_fkey_f6">-136</integer>
+    <integer name="key_fkey_f7">-137</integer>
+    <integer name="key_fkey_f8">-138</integer>
+    <integer name="key_fkey_f9">-139</integer>
+    <integer name="key_fkey_f10">-140</integer>
+    <integer name="key_fkey_f11">-141</integer>
+    <integer name="key_fkey_f12">-142</integer>
+    <integer name="key_num_lock">-143</integer>
+</resources>
