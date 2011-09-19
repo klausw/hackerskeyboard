@@ -285,9 +285,7 @@
             android:keyEdgeFlags="left" 
             android:isModifier="true" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            android:codes="@integer/key_f1"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_alt_left"
