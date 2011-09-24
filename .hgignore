@@ -1,0 +1,14 @@
+syntax: glob
+*.ap_
+*.apk
+*.class
+.classpath
+.project
+R.java
+classes.dex
+*~
+java/local.properties
+*.so
+*.a
+*.o
+*.o.d
