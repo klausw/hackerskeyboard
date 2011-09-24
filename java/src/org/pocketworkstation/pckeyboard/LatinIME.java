@@ -83,6 +83,7 @@ import java.util.regex.Matcher;
  * Input method implementation for Qwerty'ish keyboard.
  */
 public class LatinIME extends InputMethodService implements
+        ComposeSequencing,
         LatinKeyboardBaseView.OnKeyboardActionListener, VoiceInput.UiListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "PCKeyboardIME";
@@ -255,6 +256,12 @@ public class LatinIME extends InputMethodService implements
     private ModifierKeyState mCtrlKeyState = new ModifierKeyState();
     private ModifierKeyState mAltKeyState = new ModifierKeyState();
     private ModifierKeyState mFnKeyState = new ModifierKeyState();
+
+    // Compose sequence handling
+    private boolean compose = false;
+    private boolean deadAccent = false;
+    private ComposeBase composeBuffer = new ComposeSequence(this);
+    private ComposeBase deadAccentBuffer = new DeadAccentSequence(this);
 
     private Tutorial mTutorial;
 
@@ -1518,6 +1525,26 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
+    private boolean processMultiKey(int primaryCode) {
+        if (deadAccent) {
+            if (compose) {
+                String result = composeBuffer.executeToString(primaryCode);
+                if (result != null) {
+                    deadAccent = deadAccentBuffer.execute(result);
+                }
+            }
+            else {
+                deadAccent = deadAccentBuffer.execute(primaryCode);
+            }
+            return true;
+        }
+        if (compose) {
+            compose = composeBuffer.execute(primaryCode);
+            return true;
+        }
+        return false;
+    }
+
     // Implementation of KeyboardViewListener
 
     public void onKey(int primaryCode, int[] keyCodes, int x, int y) {
@@ -1531,6 +1558,9 @@ public class LatinIME extends InputMethodService implements
                 .hasDistinctMultitouch();
         switch (primaryCode) {
         case Keyboard.KEYCODE_DELETE:
+            if (processMultiKey(primaryCode)) {
+                break;
+            }
             handleBackspace();
             mDeleteCount++;
             LatinImeLogger.logOnDelete();
@@ -1574,6 +1604,10 @@ public class LatinIME extends InputMethodService implements
         case LatinKeyboardView.KEYCODE_OPTIONS_LONGPRESS:
             onOptionKeyLongPressed();
             break;
+        case LatinKeyboardView.KEYCODE_DPAD_CENTER_LONGPRESS:
+            compose = !compose;
+            composeBuffer.clear();
+            break;
         case LatinKeyboardView.KEYCODE_NEXT_LANGUAGE:
             toggleLanguage(false, true);
             break;
@@ -1586,11 +1620,17 @@ public class LatinIME extends InputMethodService implements
             }
             break;
         case 9 /* Tab */:
+            if (processMultiKey(primaryCode)) {
+                break;
+            }
             sendModifierKeysDown(true);
             sendTab();
             sendModifierKeysUp(true);
             break;
         case LatinKeyboardView.KEYCODE_ESCAPE:
+            if (processMultiKey(primaryCode)) {
+                break;
+            }
             sendModifierKeysDown(true);
             sendEscape();
             sendModifierKeysUp(true);
@@ -1622,12 +1662,23 @@ public class LatinIME extends InputMethodService implements
         case LatinKeyboardView.KEYCODE_BREAK:
         case LatinKeyboardView.KEYCODE_NUM_LOCK:
         case LatinKeyboardView.KEYCODE_SCROLL_LOCK:
+            if (processMultiKey(primaryCode)) {
+                break;
+            }
             // send as plain keys, or as escape sequence if needed
             sendModifierKeysDown(true);
             sendSpecialKey(primaryCode);
             sendModifierKeysUp(true);
             break;
         default:
+            if (!compose && !deadAccent && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
+                deadAccentBuffer.clear();
+                deadAccent = deadAccentBuffer.execute(primaryCode);
+                break;
+            }
+            if (processMultiKey(primaryCode)) {
+                break;
+            }
             if (primaryCode != KEYCODE_ENTER) {
                 mJustAddedAutoSpace = false;
             }
