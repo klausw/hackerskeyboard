@@ -53,6 +53,8 @@ public class LatinKeyboard extends Keyboard {
     private Drawable mSpacePreviewIcon;
     private Drawable mMicIcon;
     private Drawable mMicPreviewIcon;
+    private Drawable mSettingsIcon;
+    private Drawable mSettingsPreviewIcon;
     private Drawable m123MicIcon;
     private Drawable m123MicPreviewIcon;
     private final Drawable mButtonArrowLeftIcon;
@@ -76,6 +78,8 @@ public class LatinKeyboard extends Keyboard {
     // Whether voice icon is enabled at all
     private boolean mVoiceEnabled;
     private final boolean mIsAlphaKeyboard;
+    private final boolean mIsAlphaFullKeyboard;
+    private final boolean mIsFnFullKeyboard;
     private CharSequence m123Label;
     private boolean mCurrentlyInSpace;
     private SlidingLocaleDrawable mSlidingLocaleIcon;
@@ -133,6 +137,8 @@ public class LatinKeyboard extends Keyboard {
         mSpacePreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_space);
         mMicIcon = res.getDrawable(R.drawable.sym_keyboard_mic);
         mMicPreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_mic);
+        mSettingsIcon = res.getDrawable(R.drawable.sym_keyboard_settings);
+        mSettingsPreviewIcon = res.getDrawable(R.drawable.sym_keyboard_feedback_settings);
         setDefaultBounds(mMicPreviewIcon);
         mButtonArrowLeftIcon = res.getDrawable(R.drawable.sym_keyboard_language_arrows_left);
         mButtonArrowRightIcon = res.getDrawable(R.drawable.sym_keyboard_language_arrows_right);
@@ -144,6 +150,9 @@ public class LatinKeyboard extends Keyboard {
                 R.dimen.spacebar_vertical_correction);
         mIsAlphaKeyboard = xmlLayoutResId == R.xml.kbd_qwerty
                 || xmlLayoutResId == R.xml.kbd_qwerty_black;
+        mIsAlphaFullKeyboard = xmlLayoutResId == R.xml.kbd_full
+        	    || xmlLayoutResId == R.xml.kbd_full_shift;
+        mIsFnFullKeyboard = xmlLayoutResId == R.xml.kbd_full_fn;
         // The index of space key is available only after Keyboard constructor has finished.
         mSpaceKeyIndexArray = new int[] { indexOf(LatinIME.KEYCODE_SPACE) };
         // TODO remove this initialization after cleanup
@@ -356,6 +365,14 @@ public class LatinKeyboard extends Keyboard {
                     setNonMicF1Key(mF1Key, ",", R.xml.popup_comma);
                 }
             }
+        } else if (mIsAlphaFullKeyboard) {
+        	if (mVoiceEnabled && mHasVoiceButton) {
+        		setMicF1Key(mF1Key);
+        	} else {
+        		setSettingsF1Key(mF1Key);
+        	}
+        } else if (mIsFnFullKeyboard) {
+    		setMicF1Key(mF1Key);        	
         } else {  // Symbols keyboard
             if (mVoiceEnabled && mHasVoiceButton) {
                 setMicF1Key(mF1Key);
@@ -377,6 +394,16 @@ public class LatinKeyboard extends Keyboard {
         key.iconPreview = mMicPreviewIcon;
     }
 
+    private void setSettingsF1Key(Key key) {
+        final Drawable settingsHintDrawable = new BitmapDrawable(mRes,
+                drawSynthesizedSettingsHintImage(key.width, key.height, mSettingsIcon, mHintIcon));
+    	key.label = null;
+    	key.icon = settingsHintDrawable;
+    	key.codes = new int[] { LatinKeyboardView.KEYCODE_OPTIONS };
+    	key.popupResId = R.xml.popup_mic;
+    	key.iconPreview = mSettingsPreviewIcon;
+    }
+    
     private void setNonMicF1Key(Key key, String label, int popupResId) {
         key.label = label;
         key.codes = new int[] { label.charAt(0) };
