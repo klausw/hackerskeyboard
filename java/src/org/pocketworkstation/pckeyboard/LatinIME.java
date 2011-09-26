@@ -134,6 +134,7 @@ public class LatinIME extends InputMethodService implements
     public static final String PREF_INPUT_LANGUAGE = "input_language";
     private static final String PREF_RECORRECTION_ENABLED = "recorrection_enabled";
     static final String PREF_FULLSCREEN_OVERRIDE = "fullscreen_override";
+    static final String PREF_FORCE_KEYBOARD_ON = "force_keyboard_on";
     static final String PREF_CONNECTBOT_TAB_HACK = "connectbot_tab_hack";
     static final String PREF_FULL_KEYBOARD_IN_PORTRAIT = "full_keyboard_in_portrait";
     static final String PREF_SUGGESTIONS_IN_LANDSCAPE = "suggestions_in_landscape";
@@ -225,6 +226,7 @@ public class LatinIME extends InputMethodService implements
     private boolean mIsShowingHint;
     private boolean mConnectbotTabHack;
     private boolean mFullscreenOverride;
+    private boolean mForceKeyboardOn;
     private boolean mFullInPortrait;
     private boolean mSuggestionsInLandscape;
     private int mHeightPortrait;
@@ -397,6 +399,8 @@ public class LatinIME extends InputMethodService implements
                 res.getBoolean(R.bool.default_connectbot_tab_hack));
         mFullscreenOverride = prefs.getBoolean(PREF_FULLSCREEN_OVERRIDE,
                 res.getBoolean(R.bool.default_fullscreen_override));
+        mForceKeyboardOn = prefs.getBoolean(PREF_FORCE_KEYBOARD_ON,
+                res.getBoolean(R.bool.default_force_keyboard_on));
         mFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT,
                 res.getBoolean(R.bool.default_full_in_portrait));
         mSuggestionsInLandscape = prefs.getBoolean(PREF_SUGGESTIONS_IN_LANDSCAPE,
@@ -1041,7 +1045,15 @@ public class LatinIME extends InputMethodService implements
                             .isShown() : true));
         }
     }
-
+    
+    @Override
+    public boolean onEvaluateInputViewShown() {
+    	boolean parent = super.onEvaluateInputViewShown();
+    	boolean wanted = mForceKeyboardOn || parent;
+    	//Log.i(TAG, "OnEvaluateInputViewShown, parent=" + parent + " + " wanted=" + wanted);
+    	return wanted;
+    }
+    
     @Override
     public void setCandidatesViewShown(boolean shown) {
         setCandidatesViewShownInternal(shown, true /* needsInputViewShown */);
@@ -2769,6 +2781,12 @@ public class LatinIME extends InputMethodService implements
             mFullscreenOverride = sharedPreferences.getBoolean(
                     PREF_FULLSCREEN_OVERRIDE, res
                             .getBoolean(R.bool.default_fullscreen_override));
+            needReload = true;
+        } else if (PREF_FORCE_KEYBOARD_ON.equals(key)) {
+            mForceKeyboardOn = sharedPreferences.getBoolean(
+                    PREF_FORCE_KEYBOARD_ON, res
+                            .getBoolean(R.bool.default_force_keyboard_on));
+            needReload = true;
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
             mFullInPortrait = sharedPreferences.getBoolean(
                     PREF_FULL_KEYBOARD_IN_PORTRAIT, res
