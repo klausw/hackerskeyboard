@@ -63,6 +63,15 @@
             android:summaryOff="@string/summary_fullscreen_override_false"
             />
 
+    <CheckBoxPreference
+            android:key="force_keyboard_on"
+            android:title="@string/title_force_keyboard_on"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_force_keyboard_on"
+            android:summaryOn="@string/summary_force_keyboard_on_true"
+            android:summaryOff="@string/summary_force_keyboard_on_false"
+            />
+
     <ListPreference
             android:key="pref_hint_mode"
             android:title="@string/title_hint_mode"

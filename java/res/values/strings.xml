@@ -385,6 +385,10 @@
     <string name="summary_fullscreen_override_true">Always use standard view</string>
     <string name="summary_fullscreen_override_false">Use fullscreen editor on small devices</string>
 
+    <string name="title_force_keyboard_on">Show soft keyboard</string>
+    <string name="summary_force_keyboard_on_true">Always</string>
+    <string name="summary_force_keyboard_on_false">When no hardware keyboard is available</string>
+
     <string name="title_application_category">Application-specific settings</string>
     
     <string name="title_connectbot_tab_hack">ConnectBot tab key mode</string>
