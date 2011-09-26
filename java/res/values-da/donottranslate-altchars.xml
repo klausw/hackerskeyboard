@@ -15,13 +15,16 @@
 ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ** See the License for the specific language governing permissions and
 ** limitations under the License.
+**
+** Danish alternate glyphs for 4 row keyboard
+** Christian Holm Christensen <cholmcc@gmail.com>
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="alternates_for_a">áàâąã</string>
+    <string name="alternates_for_a">áàâąãåæ</string>
     <string name="alternates_for_e">3éèêëę€</string>
     <string name="alternates_for_i">8ïîìí</string>
-    <string name="alternates_for_o">9õôòó</string>
+    <string name="alternates_for_o">9õôòóø</string>
     <string name="alternates_for_u">7ūûùú</string>
     <string name="alternates_for_s">śšşß</string>
     <string name="alternates_for_n">ńñň</string>
@@ -33,6 +36,6 @@
     <string name="alternates_for_z">źžż</string>
     <string name="alternates_for_l">ł</string>
     <string name="alternates_for_v">w</string>
-    <string name="alternates_for_ae">ä</string>
-    <string name="alternates_for_oe">öœ</string>
+    <string name="alternates_for_a_umlaut">æ</string>
+    <string name="alternates_for_o_umlaut">øœ</string>
 </resources>
