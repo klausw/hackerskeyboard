@@ -55,14 +55,14 @@ public class InputLanguageSelection extends PreferenceActivity {
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB", "es", "fi",
-	"fr", "fr-rCA", "hr", "iw", "ro", "ru", "si", "sl", "sv", "th",
-	"uk"
+        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB", "es",
+        "fi", "fr", "fr-rCA", "hr", "iw", "ro", "ru", "si", "sl", "sv",
+        "th", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "cs", "da", "de", "el", "en", "en-rDV", "fr", "fr-rCA", "iw",
-	"nb", "ru", "sl", "sr", "sv", "uk"
+        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "fr", "fr-rCA",
+        "iw", "nb", "ru", "sl", "sr", "sv", "uk"
     };
 
     private static class Loc implements Comparable<Object> {
