@@ -166,6 +166,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     // XML attribute
     private float mKeyTextSize;
     private int mKeyTextColor;
+    private int mKeyCursorColor;
     private Typeface mKeyTextStyle = Typeface.DEFAULT;
     private float mLabelTextSize;
     private int mSymbolColorScheme = 0;
@@ -452,6 +453,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_keyTextColor:
                 mKeyTextColor = a.getColor(attr, 0xFF000000);
+                break;
+            case R.styleable.LatinKeyboardBaseView_keyCursorColor:
+                mKeyCursorColor = a.getColor(attr, 0xFF000000);
                 break;
             case R.styleable.LatinKeyboardBaseView_labelTextSize:
                 mLabelTextSize = a.getDimensionPixelSize(attr, 14);
@@ -832,7 +836,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         final Key[] keys = mKeys;
         final Key invalidKey = mInvalidatedKey;
 
-        paint.setColor(mKeyTextColor);
         boolean drawSingleKey = false;
         if (invalidKey != null && canvas.getClipBounds(clipRegion)) {
             // TODO we should use Rect.inset and Rect.contains here.
@@ -852,6 +855,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             if (drawSingleKey && invalidKey != key) {
                 continue;
             }
+            paint.setColor(key.isCursor ? mKeyCursorColor : mKeyTextColor);
+
             int[] drawableState = key.getCurrentDrawableState();
             keyBackground.setState(drawableState);
 
@@ -888,6 +893,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 } else {
                     labelSize = (int)(mKeyTextSize * mLabelScale);
                     paint.setTypeface(mKeyTextStyle);
+                    paint.setFakeBoldText(key.isCursor);
                 }
                 paint.setTextSize(labelSize);
 
@@ -915,6 +921,13 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 canvas.drawText(label, centerX, baseline, paint);
+                if (key.isCursor) {
+                	// poor man's bold
+                    canvas.drawText(label, centerX+0.5f, baseline, paint);
+                    canvas.drawText(label, centerX-0.5f, baseline, paint);
+                    canvas.drawText(label, centerX, baseline+0.5f, paint);
+                    canvas.drawText(label, centerX, baseline-0.5f, paint);
+                }
 
                 // Turn off drop shadow
                 paint.setShadowLayer(0, 0, 0, 0);
