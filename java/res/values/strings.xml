@@ -389,6 +389,10 @@
     <string name="summary_force_keyboard_on_true">Always</string>
     <string name="summary_force_keyboard_on_false">When no hardware keyboard is available</string>
 
+    <string name="title_keyboard_notification">Use permanent notification</string>
+    <string name="summary_keyboard_notification_true">Activate the keyboard by tapping the notification</string>
+    <string name="summary_keyboard_notification_false">No notification</string>
+
     <string name="title_application_category">Application-specific settings</string>
     
     <string name="title_connectbot_tab_hack">ConnectBot tab key mode</string>
