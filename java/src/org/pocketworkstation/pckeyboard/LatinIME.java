@@ -25,6 +25,9 @@ import com.android.inputmethod.voice.VoiceInput;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,6 +41,7 @@ import android.inputmethodservice.InputMethodService;
 import android.media.AudioManager;
 import android.os.Debug;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -135,6 +139,7 @@ public class LatinIME extends InputMethodService implements
     private static final String PREF_RECORRECTION_ENABLED = "recorrection_enabled";
     static final String PREF_FULLSCREEN_OVERRIDE = "fullscreen_override";
     static final String PREF_FORCE_KEYBOARD_ON = "force_keyboard_on";
+    static final String PREF_KEYBOARD_NOTIFICATION = "keyboard_notification";
     static final String PREF_CONNECTBOT_TAB_HACK = "connectbot_tab_hack";
     static final String PREF_FULL_KEYBOARD_IN_PORTRAIT = "full_keyboard_in_portrait";
     static final String PREF_SUGGESTIONS_IN_LANDSCAPE = "suggestions_in_landscape";
@@ -227,6 +232,7 @@ public class LatinIME extends InputMethodService implements
     private boolean mConnectbotTabHack;
     private boolean mFullscreenOverride;
     private boolean mForceKeyboardOn;
+    private boolean mKeyboardNotification;
     private boolean mFullInPortrait;
     private boolean mSuggestionsInLandscape;
     private int mHeightPortrait;
@@ -283,6 +289,7 @@ public class LatinIME extends InputMethodService implements
     private ArrayList<WordAlternatives> mWordHistory = new ArrayList<WordAlternatives>();
     
     private PluginManager mPluginManager;
+    private NotificationReceiver mNotificationReceiver;
 
     private class VoiceResults {
         List<String> candidates;
@@ -401,6 +408,8 @@ public class LatinIME extends InputMethodService implements
                 res.getBoolean(R.bool.default_fullscreen_override));
         mForceKeyboardOn = prefs.getBoolean(PREF_FORCE_KEYBOARD_ON,
                 res.getBoolean(R.bool.default_force_keyboard_on));
+        mKeyboardNotification = prefs.getBoolean(PREF_FORCE_KEYBOARD_ON,
+                res.getBoolean(R.bool.default_keyboard_notification));
         mFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT,
                 res.getBoolean(R.bool.default_full_in_portrait));
         mSuggestionsInLandscape = prefs.getBoolean(PREF_SUGGESTIONS_IN_LANDSCAPE,
@@ -452,8 +461,42 @@ public class LatinIME extends InputMethodService implements
             });
         }
         prefs.registerOnSharedPreferenceChangeListener(this);
+        setNotification(mKeyboardNotification);
     }
 
+    private void setNotification(boolean visible) {
+    	final String ACTION = "org.pocketworkstation.pckeyboard.SHOW";
+        final int ID = 1;
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+        
+        if (visible && mNotificationReceiver == null) {
+            int icon = R.drawable.sym_keyboard_return;
+            CharSequence text = "Show keyboard";
+            long when = System.currentTimeMillis();
+            Notification notification = new Notification(icon, text, when);
+
+            // TODO: clean this up?
+            mNotificationReceiver = new NotificationReceiver(this);
+            final IntentFilter pFilter = new IntentFilter(ACTION);
+            registerReceiver(mNotificationReceiver, pFilter);
+            
+            Intent notificationIntent = new Intent(ACTION);
+            
+            PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, 0);
+            //PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            
+            String title = "Show Hacker's Keyboard";
+            String body = "Select this to open the keyboard. Disable in settings.";
+            notification.setLatestEventInfo(getApplicationContext(), title, body, contentIntent);
+            mNotificationManager.notify(ID, notification);
+        } else if (mNotificationReceiver != null) {
+            mNotificationManager.cancel(ID);
+            unregisterReceiver(mNotificationReceiver);
+            mNotificationReceiver = null;
+        }
+    }
+    
     private boolean isPortrait() {
         return (mOrientation == Configuration.ORIENTATION_PORTRAIT);
     }
@@ -565,6 +608,10 @@ public class LatinIME extends InputMethodService implements
         }
         unregisterReceiver(mReceiver);
         unregisterReceiver(mPluginManager);
+        if (mNotificationReceiver != null) {
+        	unregisterReceiver(mNotificationReceiver);
+            mNotificationReceiver = null;
+        }
         if (VOICE_INSTALLED && mVoiceInput != null) {
             mVoiceInput.destroy();
         }
@@ -619,6 +666,23 @@ public class LatinIME extends InputMethodService implements
         return mKeyboardSwitcher.getInputView();
     }
 
+    @Override
+    public AbstractInputMethodImpl onCreateInputMethodInterface() {
+    	return new MyInputMethodImpl();
+    }
+    
+    IBinder mToken;
+    public class MyInputMethodImpl extends InputMethodImpl {
+    	@Override
+    	public void attachToken(IBinder token) {
+    		super.attachToken(token);
+    		Log.i(TAG, "attachToken " + token);
+    		if (mToken == null) {
+    			mToken = token;
+    		}
+    	}
+    }
+    
     @Override
     public View onCreateCandidatesView() {
         mKeyboardSwitcher.makeKeyboards(true);
@@ -2787,6 +2851,11 @@ public class LatinIME extends InputMethodService implements
                     PREF_FORCE_KEYBOARD_ON, res
                             .getBoolean(R.bool.default_force_keyboard_on));
             needReload = true;
+        } else if (PREF_KEYBOARD_NOTIFICATION.equals(key)) {
+            mKeyboardNotification = sharedPreferences.getBoolean(
+                    PREF_KEYBOARD_NOTIFICATION, res
+                            .getBoolean(R.bool.default_keyboard_notification));
+            setNotification(mKeyboardNotification);
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
             mFullInPortrait = sharedPreferences.getBoolean(
                     PREF_FULL_KEYBOARD_IN_PORTRAIT, res
