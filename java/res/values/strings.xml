@@ -506,22 +506,22 @@
           <p>&#8226; Open the system input settings configuration by pressing the <b>Configure input methods</b> button above.</p>
           <p>&#8226; Find <i>Hacker's Keyboard</i> in the input method list, tap the checkmark to switch it on.</p>
           <p>&#8226; Acknowledge the warning shown by the system. The system always shows this message when enabling a third-party input method.</p>
-          <p>&#8226; Press the <i>Back</i> button to return to this page.</li>
+          <p>&#8226; Press the <i>Back</i> button to return to this page.</p>
         </blockquote>
         
         <h3>Choose the currently active input method:</h3>
         <blockquote>
-          <p>&#8226; Press the <b>Set current input method</b> button above.
-          <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.
+          <p>&#8226; Press the <b>Set current input method</b> button above.</p>
+          <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.</p>
         </blockquote>
 
         <h3>Optionally, install completion dictionary packages:</h3>
         <blockquote>
-          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.
+          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.</p>
         </blockquote>
         
         <h2>Additional information</h2>
-        Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.
+        <p>Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.</p>
       "]]>
     </Data></string>
     <string name="text_test">Test</string>
