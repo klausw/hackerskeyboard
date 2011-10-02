@@ -471,8 +471,8 @@ public class LatinIME extends InputMethodService implements
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
         
         if (visible && mNotificationReceiver == null) {
-            int icon = R.drawable.sym_keyboard_return;
-            CharSequence text = "Show keyboard";
+            int icon = R.drawable.icon;
+            CharSequence text = "Keyboard notification enabled.";
             long when = System.currentTimeMillis();
             Notification notification = new Notification(icon, text, when);
 
@@ -488,6 +488,8 @@ public class LatinIME extends InputMethodService implements
             
             String title = "Show Hacker's Keyboard";
             String body = "Select this to open the keyboard. Disable in settings.";
+            
+            notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_NO_CLEAR;
             notification.setLatestEventInfo(getApplicationContext(), title, body, contentIntent);
             mNotificationManager.notify(ID, notification);
         } else if (mNotificationReceiver != null) {
