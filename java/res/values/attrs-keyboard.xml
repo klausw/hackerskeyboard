@@ -58,6 +58,8 @@
         <attr name="isModifier" format="boolean" />
         <!-- Whether this is a toggle key. -->
         <attr name="isSticky" format="boolean" />
+        <!-- Whether this is a cursor key (modifies styling). -->
+        <attr name="isCursor" format="boolean" />
         <!-- Whether long-pressing on this key will make it repeat. -->
         <attr name="isRepeatable" format="boolean" />
         <!-- The icon to show in the popup preview. -->

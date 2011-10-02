@@ -265,6 +265,7 @@ public class Keyboard {
         /** Popup characters */
         public CharSequence popupCharacters;
         public boolean popupReversed;
+        public boolean isCursor;
 
         /**
          * Flags that specify the anchoring to edges of the keyboard for detecting touch events
@@ -383,6 +384,8 @@ public class Keyboard {
                     R.styleable.Keyboard_Key_isModifier, false);
             sticky = a.getBoolean(
                     R.styleable.Keyboard_Key_isSticky, false);
+            isCursor = a.getBoolean(
+                    R.styleable.Keyboard_Key_isCursor, false);
             edgeFlags = a.getInt(R.styleable.Keyboard_Key_keyEdgeFlags, 0);
             edgeFlags |= parent.rowEdgeFlags;
 
