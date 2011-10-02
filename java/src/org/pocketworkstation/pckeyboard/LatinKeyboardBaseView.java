@@ -893,8 +893,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 } else {
                     labelSize = (int)(mKeyTextSize * mLabelScale);
                     paint.setTypeface(mKeyTextStyle);
-                    paint.setFakeBoldText(key.isCursor);
                 }
+                paint.setFakeBoldText(key.isCursor);
                 paint.setTextSize(labelSize);
 
                 final int labelHeight = getLabelHeight(paint, labelSize);
