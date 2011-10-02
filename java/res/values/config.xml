@@ -20,7 +20,7 @@
 
 <resources>
     <integer name="config_delay_before_preview">0</integer>
-    <integer name="config_delay_before_space_preview">100</integer>
+    <integer name="config_delay_before_space_preview">200</integer>
     <integer name="config_delay_after_preview">10</integer>
     <integer name="config_preview_fadein_anim_time">0</integer>
     <integer name="config_preview_fadeout_anim_time">70</integer>
