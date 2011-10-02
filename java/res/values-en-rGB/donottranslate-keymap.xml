@@ -207,7 +207,7 @@
 
     <string name="key_ab09_main">.</string>
     <string name="key_ab09_shift">&gt;</string>
-    <string name="key_ab09_alt">&gt;≥»›…</string>
+    <string name="key_ab09_alt">.&gt;≥»›…</string>
 
     <string name="key_ab10_main">/</string>
     <string name="key_ab10_shift">\?</string>
