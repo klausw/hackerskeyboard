@@ -31,12 +31,22 @@ import java.util.List;
 
 public class LatinKeyboardView extends LatinKeyboardBaseView {
 
+	// The keycode list needs to stay in sync with the
+	// res/values/keycodes.xml file.
+
+	// FIXME: The following keycodes should really be renumbered
+	// since they conflict with existing KeyEvent keycodes.
     static final int KEYCODE_OPTIONS = -100;
     static final int KEYCODE_OPTIONS_LONGPRESS = -101;
     static final int KEYCODE_VOICE = -102;
     static final int KEYCODE_F1 = -103;
     static final int KEYCODE_NEXT_LANGUAGE = -104;
     static final int KEYCODE_PREV_LANGUAGE = -105;
+    static final int KEYCODE_COMPOSE = -10024;
+    
+	// The following keycodes match (negative) KeyEvent keycodes.
+    // Would be better to use the real KeyEvent values, but many
+    // don't exist prior to the Honeycomb API (level 11).
     static final int KEYCODE_DPAD_UP = -19;
     static final int KEYCODE_DPAD_DOWN = -20;
     static final int KEYCODE_DPAD_LEFT = -21;
@@ -127,6 +137,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         int primaryCode = key.codes[0];
         if (primaryCode == KEYCODE_OPTIONS) {
             return invokeOnKey(KEYCODE_OPTIONS_LONGPRESS);
+        } else if (primaryCode == KEYCODE_DPAD_CENTER) {
+            return invokeOnKey(KEYCODE_COMPOSE);
         } else if (primaryCode == '0' && getKeyboard() == mPhoneKeyboard) {
             // Long pressing on 0 in phone number keypad gives you a '+'.
             return invokeOnKey('+');

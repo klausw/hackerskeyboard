@@ -266,9 +266,10 @@
             android:popupCharacters="@string/key_ab10_alt" />            
         <Key
             android:codes="@integer/key_dpad_up"
-            android:isModifier="true"
             android:isRepeatable="true"            
-            android:keyLabel="&#8593;" />
+            android:keyLabel="&#x25b3;" 
+            android:isCursor="true"
+            android:isModifier="true" />
         <Key
             android:codes="@integer/key_shift"
             android:keyIcon="@drawable/sym_keyboard_shift"
@@ -285,9 +286,7 @@
             android:keyEdgeFlags="left" 
             android:isModifier="true" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            android:codes="@integer/key_f1"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_alt_left"
@@ -306,23 +305,26 @@
         <Key
             android:codes="@integer/key_dpad_center"
             android:isModifier="true"
-            android:keyLabel="&#10003;"
-             />
+            android:isCursor="true"
+            android:keyLabel="&#x25cb;" />
         <Key
             android:codes="@integer/key_dpad_left"
             android:isModifier="true"
             android:isRepeatable="true"            
-            android:keyLabel="&#8592;" />
+            android:isCursor="true"
+            android:keyLabel="&#x25c1;" />
         <Key
             android:codes="@integer/key_dpad_down"
             android:isModifier="true"
             android:isRepeatable="true"
-            android:keyLabel="&#8595;" />
+            android:isCursor="true"
+            android:keyLabel="&#x25bd;" />
         <Key
             android:codes="@integer/key_dpad_right"
             android:isModifier="true"            
-            android:keyLabel="&#8594;"
+            android:keyLabel="&#x25b7;"
             android:isRepeatable="true"            
+            android:isCursor="true"
             android:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

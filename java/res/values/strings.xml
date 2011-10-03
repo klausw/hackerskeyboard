@@ -385,6 +385,14 @@
     <string name="summary_fullscreen_override_true">Always use standard view</string>
     <string name="summary_fullscreen_override_false">Use fullscreen editor on small devices</string>
 
+    <string name="title_force_keyboard_on">Show soft keyboard</string>
+    <string name="summary_force_keyboard_on_true">Always</string>
+    <string name="summary_force_keyboard_on_false">When no hardware keyboard is available</string>
+
+    <string name="title_keyboard_notification">Use permanent notification</string>
+    <string name="summary_keyboard_notification_true">Activate the keyboard by tapping the notification</string>
+    <string name="summary_keyboard_notification_false">No notification</string>
+
     <string name="title_application_category">Application-specific settings</string>
     
     <string name="title_connectbot_tab_hack">ConnectBot tab key mode</string>
@@ -442,6 +450,8 @@
         <item>300%</item>
         <item>350%</item>
         <item>400%</item>
+        <item>600%</item>
+        <item>800%</item>
     </string-array>
     <string-array name="label_scale_values">
         <item>0.5</item>
@@ -461,6 +471,8 @@
         <item>3.0</item>
         <item>3.5</item>
         <item>4.0</item>
+        <item>6.0</item>
+        <item>8.0</item>
     </string-array>
 
     <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
@@ -498,22 +510,22 @@
           <p>&#8226; Open the system input settings configuration by pressing the <b>Configure input methods</b> button above.</p>
           <p>&#8226; Find <i>Hacker's Keyboard</i> in the input method list, tap the checkmark to switch it on.</p>
           <p>&#8226; Acknowledge the warning shown by the system. The system always shows this message when enabling a third-party input method.</p>
-          <p>&#8226; Press the <i>Back</i> button to return to this page.</li>
+          <p>&#8226; Press the <i>Back</i> button to return to this page.</p>
         </blockquote>
         
         <h3>Choose the currently active input method:</h3>
         <blockquote>
-          <p>&#8226; Press the <b>Set current input method</b> button above.
-          <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.
+          <p>&#8226; Press the <b>Set current input method</b> button above.</p>
+          <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.</p>
         </blockquote>
 
         <h3>Optionally, install completion dictionary packages:</h3>
         <blockquote>
-          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.
+          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.</p>
         </blockquote>
         
         <h2>Additional information</h2>
-        Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.
+        <p>Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.</p>
       "]]>
     </Data></string>
     <string name="text_test">Test</string>

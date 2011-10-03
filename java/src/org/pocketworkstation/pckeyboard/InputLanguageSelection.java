@@ -41,7 +41,7 @@ public class InputLanguageSelection extends PreferenceActivity {
     private String mSelectedLanguages;
     private ArrayList<Loc> mAvailableLanguages = new ArrayList<Loc>();
     private static final String[] BLACKLIST_LANGUAGES = {
-        "ko", "ja", "zh", "el"
+        "ko", "ja", "zh"
     };
     
     // Run the GetLanguages.sh script to update the following lists based on
@@ -55,13 +55,14 @@ public class InputLanguageSelection extends PreferenceActivity {
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "cs", "de", "en", "en-rDV", "en-rGB", "es", "fi", "fr",
-        "fr-rCA", "hr", "iw", "ro", "ru", "si", "sl"
+        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB", "es",
+        "fi", "fr", "fr-rCA", "hr", "iw", "lo", "ro", "ru", "si", "sl",
+        "sv", "th", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "cs", "da", "de", "en", "en-rDV", "fr", "fr-rCA", "iw", "nb",
-        "ru", "sl", "sr", "sv"
+        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "fr", "fr-rCA",
+        "iw", "nb", "ru", "sl", "sr", "sv", "uk"
     };
 
     private static class Loc implements Comparable<Object> {
