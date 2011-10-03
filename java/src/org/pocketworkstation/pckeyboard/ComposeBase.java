@@ -78,6 +78,10 @@ public abstract class ComposeBase {
         composeBuffer = "";
     }
 
+    public void bufferKey(char code) {
+    	composeBuffer += code;
+    }
+
     // returns true if the compose sequence is valid but incomplete
     public String executeToString(int code) {
         KeyboardSwitcher ks = KeyboardSwitcher.getInstance();

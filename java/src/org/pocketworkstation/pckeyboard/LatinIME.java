@@ -266,10 +266,9 @@ public class LatinIME extends InputMethodService implements
     private ModifierKeyState mFnKeyState = new ModifierKeyState();
 
     // Compose sequence handling
-    private boolean compose = false;
-    private boolean deadAccent = false;
-    private ComposeBase composeBuffer = new ComposeSequence(this);
-    private ComposeBase deadAccentBuffer = new DeadAccentSequence(this);
+    private boolean mComposeMode = false;
+    private ComposeBase mComposeBuffer = new ComposeSequence(this);
+    private ComposeBase mDeadAccentBuffer = new DeadAccentSequence(this);
 
     private Tutorial mTutorial;
 
@@ -1604,20 +1603,13 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean processMultiKey(int primaryCode) {
-        if (deadAccent) {
-            if (compose) {
-                String result = composeBuffer.executeToString(primaryCode);
-                if (result != null) {
-                    deadAccent = deadAccentBuffer.execute(result);
-                }
-            }
-            else {
-                deadAccent = deadAccentBuffer.execute(primaryCode);
-            }
+        if (mDeadAccentBuffer.composeBuffer.length() > 0) {
+        	mDeadAccentBuffer.execute(primaryCode);
+        	mDeadAccentBuffer.clear();
             return true;
         }
-        if (compose) {
-            compose = composeBuffer.execute(primaryCode);
+        if (mComposeMode) {
+            mComposeMode = mComposeBuffer.execute(primaryCode);
             return true;
         }
         return false;
@@ -1682,9 +1674,9 @@ public class LatinIME extends InputMethodService implements
         case LatinKeyboardView.KEYCODE_OPTIONS_LONGPRESS:
             onOptionKeyLongPressed();
             break;
-        case LatinKeyboardView.KEYCODE_DPAD_CENTER_LONGPRESS:
-            compose = !compose;
-            composeBuffer.clear();
+        case LatinKeyboardView.KEYCODE_COMPOSE:
+            mComposeMode = !mComposeMode;
+            mComposeBuffer.clear();
             break;
         case LatinKeyboardView.KEYCODE_NEXT_LANGUAGE:
             toggleLanguage(false, true);
@@ -1749,9 +1741,10 @@ public class LatinIME extends InputMethodService implements
             sendModifierKeysUp(true);
             break;
         default:
-            if (!compose && !deadAccent && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
-                deadAccentBuffer.clear();
-                deadAccent = deadAccentBuffer.execute(primaryCode);
+            if (!mComposeMode && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
+            	Log.i(TAG, "possible dead character: " + primaryCode);
+                mDeadAccentBuffer.bufferKey((char) primaryCode);
+                updateShiftKeyState(getCurrentInputEditorInfo());
                 break;
             }
             if (processMultiKey(primaryCode)) {
@@ -1777,12 +1770,14 @@ public class LatinIME extends InputMethodService implements
         mKeyboardSwitcher.onKey(primaryCode);
         // Reset after any single keystroke
         mEnteredText = null;
+        //mDeadAccentBuffer.clear();  // FIXME
     }
 
     public void onText(CharSequence text) {
         if (VOICE_INSTALLED && mVoiceInputHighlighted) {
             commitVoiceInput();
         }
+        //mDeadAccentBuffer.clear();  // FIXME
         InputConnection ic = getCurrentInputConnection();
         if (ic == null)
             return;

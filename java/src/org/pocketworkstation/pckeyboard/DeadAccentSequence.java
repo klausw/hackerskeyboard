@@ -18,7 +18,11 @@ package org.pocketworkstation.pckeyboard;
 
 import java.text.Normalizer;
 
+import android.util.Log;
+
 public class DeadAccentSequence extends ComposeBase {
+    private static final String TAG = "HK/DeadAccent";
+
     public DeadAccentSequence(ComposeSequencing user) {
         init(user);
         put("̃ ", "~");
@@ -978,9 +982,13 @@ public class DeadAccentSequence extends ComposeBase {
         put("̃ ̄o", "ȭ");
 */
    }
-
+	
     public boolean execute(int code) {
         String composed = executeToString(code);
+//        Log.i(TAG, "DeadAccent execute, code=" + code +
+//        		" composed=\"" + composed + "\"" + " len=" + composed.length() +
+//        		" composeBuffer=\"" + composeBuffer + "\"" + " len=" + composeBuffer.length()
+//        		);
         if (composed != null) {
           if (composed.equals("")) {
             // Unrecognised - try to use the built-in Java text normalisation
@@ -990,11 +998,11 @@ public class DeadAccentSequence extends ComposeBase {
               int cBEnd = composeBuffer.length() - 1;
               String tmp = composeBuffer.substring(cBEnd) + composeBuffer.substring(0, cBEnd);
               composed = Normalizer.normalize(tmp, Normalizer.Form.NFC);
+//              Log.i(TAG, "DeadAccent post-normalize: composed=\"" + composed + "\"" + " len=" + composed.length());              
 
               if (composed.equals(""))
                 return true; // incomplete :-)
-            }
-            else {
+            } else {
               return true; // there may be multiple combining accents
             }
           }
