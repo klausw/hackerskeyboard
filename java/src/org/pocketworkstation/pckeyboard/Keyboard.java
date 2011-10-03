@@ -266,6 +266,7 @@ public class Keyboard {
         public CharSequence popupCharacters;
         public boolean popupReversed;
         public boolean isCursor;
+        public boolean isDeadKey;
 
         /**
          * Flags that specify the anchoring to edges of the keyboard for detecting touch events
@@ -314,6 +315,8 @@ public class Keyboard {
             android.R.attr.state_pressed
         };
 
+        private final static char DEAD_KEY_PLACEHOLDER = 0x25cc; // dotted small circle
+        
         /** Create an empty key with no attributes. */
         public Key(Row parent) {
             keyboard = parent.parent;
@@ -398,11 +401,31 @@ public class Keyboard {
             text = a.getText(R.styleable.Keyboard_Key_keyOutputText);
 
             if (codes == null && !TextUtils.isEmpty(label)) {
-                codes = new int[] { Character.toLowerCase(label.charAt(0)) };
+            	setFromString(label);
             }
             a.recycle();
         }
 
+        public void setFromString(CharSequence str) {
+        	if (str.length() > 1) {
+        		if (str.charAt(0) == DEAD_KEY_PLACEHOLDER && str.length() >= 2) {
+        			isDeadKey = true;
+        			codes = new int[] { str.charAt(1) }; // FIXME: >1 length?
+        		} else {
+        			text = str; // TODO: add space?
+        			codes = new int[] { 0 };
+        		}
+        	} else {
+        		char c = str.charAt(0);
+        		if (Character.getType(c) == Character.NON_SPACING_MARK) {
+        			label = Character.toString(DEAD_KEY_PLACEHOLDER) + label;
+        			isDeadKey = true;
+        		}
+        		//codes = new int[] { Character.toLowerCase(c) };
+        		codes = new int[] { c };
+        	}
+        }
+        
         /**
          * Informs the key that it has been pressed, in case it needs to change its appearance or
          * state.
@@ -605,7 +628,7 @@ public class Keyboard {
             key.realX = x;
             key.y = y;
             key.label = String.valueOf(c);
-            key.codes = new int[] { c };
+            key.setFromString(key.label);
             column++;
             x += key.width + key.gap;
             mKeys.add(key);
