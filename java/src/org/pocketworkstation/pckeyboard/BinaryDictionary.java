@@ -222,6 +222,9 @@ public class BinaryDictionary extends Dictionary {
         Arrays.fill(mOutputChars, (char) 0);
         Arrays.fill(mFrequencies, 0);
 
+        if (mNativeDict == 0)
+            return;
+
         int count = getSuggestionsNative(mNativeDict, mInputCodes, codesSize,
                 mOutputChars, mFrequencies,
                 MAX_WORD_LENGTH, MAX_WORDS, MAX_ALTERNATIVES, -1,
@@ -259,7 +262,7 @@ public class BinaryDictionary extends Dictionary {
 
     @Override
     public boolean isValidWord(CharSequence word) {
-        if (word == null) return false;
+        if (word == null || mNativeDict == 0) return false;
         char[] chars = word.toString().toCharArray();
         return isValidWordNative(mNativeDict, chars, chars.length);
     }
