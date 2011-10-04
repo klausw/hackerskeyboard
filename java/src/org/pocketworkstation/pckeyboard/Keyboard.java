@@ -667,6 +667,7 @@ public class Keyboard {
             boolean needUpcase = key.label != null && key.label.length() == 1 && Character.isUpperCase(key.label.charAt(0));
             if (needUpcase) {
             	key.popupCharacters = key.popupCharacters.toString().toUpperCase(locale);
+            	popupLen = key.popupCharacters.length();
             }
 
             StringBuilder newPopup = new StringBuilder(popupLen);
