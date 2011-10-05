@@ -25,6 +25,29 @@ public class DeadAccentSequence extends ComposeBase {
 
     public DeadAccentSequence(ComposeSequencing user) {
         init(user);
+    }
+    
+    {
+        // space + combining diacritical
+        put(" \u0300", "\u02cb");  // grave
+        put(" \u0301", "\u02ca");  // acute
+        put(" \u0302", "\u02c6");  // circumflex
+        put(" \u0303", "\u02dc");  // small tilde
+        put(" \u0304", "\u02c9");  // macron
+        put(" \u0305", "\u00af");  // overline
+        put(" \u0306", "\u02d8");  // breve
+        put(" \u0307", "\u02d9");  // dot above
+        put(" \u0308", "\u00a8");  // diaeresis
+        put(" \u0309", "\u02c0");  // hook above
+        put(" \u030a", "\u02da");  // ring aboce
+        put(" \u030b", "\u02dd");  // double acute 
+        put(" \u030c", "\u02c7");  // caron
+        put(" \u030d", "\u02c8");  // vertical line above
+        put(" \u030e", "\"");  // double vertical line above
+        put(" \u0313", "\u02bc");  // comma above
+        put(" \u0314", "\u02bd");  // reversed comma above
+/*
+// include?
         put("̃ ", "~");
         put("̃̃", "~");
         put("́ ", "'");
@@ -54,7 +77,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̂2", "²");
         put("̂3", "³");
         put("̂1", "¹");
-/*
+// include end?
         put("̀A", "À");
         put("́A", "Á");
         put("̂A", "Â");
@@ -671,7 +694,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̉y", "ỷ");
         put("̃Y", "Ỹ");
         put("̃y", "ỹ");
-*/
+// include?
         put("̂0", "⁰");
         put("̂4", "⁴");
         put("̂5", "⁵");
@@ -690,7 +713,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̣=", "⩦");
         put("̤̈=", "⩷");
         put("̤̈=", "⩷");
-/*
+// include end?
         put("̥|", "⫰");
         put("̇Ā", "Ǡ");
         put("̇ā", "ǡ");
@@ -715,7 +738,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̆à", "ằ");
         put("̆ả", "ẳ");
         put("̆ã", "ẵ");
-*/
+// include?
         put("̌(", "₍");
         put("̌)", "₎");
         put("̌+", "₊");
@@ -731,7 +754,7 @@ public class DeadAccentSequence extends ComposeBase {
         put("̌8", "₈");
         put("̌9", "₉");
         put("̌=", "₌");
-/*
+// include end?
         put("̌ǲ", "ǅ");
         put("̌Ṡ", "Ṧ");
         put("̌ṡ", "ṧ");
@@ -983,34 +1006,34 @@ public class DeadAccentSequence extends ComposeBase {
 */
    }
 	
+    public static String normalize(String input) {
+    	String lookup = mMap.get(input);
+    	if (lookup != null) return lookup;
+    	return Normalizer.normalize(input, Normalizer.Form.NFC);
+    }
+    
     public boolean execute(int code) {
-        String composed = executeToString(code);
-//        Log.i(TAG, "DeadAccent execute, code=" + code +
-//        		" composed=\"" + composed + "\"" + " len=" + composed.length() +
-//        		" composeBuffer=\"" + composeBuffer + "\"" + " len=" + composeBuffer.length()
-//        		);
-        if (composed != null) {
-          if (composed.equals("")) {
-            // Unrecognised - try to use the built-in Java text normalisation
-            int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
-            if (Character.getType(c) != Character.NON_SPACING_MARK) {
-              // Put the combining character(s) at the end, else this won't work
-              int cBEnd = composeBuffer.length() - 1;
-              String tmp = composeBuffer.substring(cBEnd) + composeBuffer.substring(0, cBEnd);
-              composed = Normalizer.normalize(tmp, Normalizer.Form.NFC);
-//              Log.i(TAG, "DeadAccent post-normalize: composed=\"" + composed + "\"" + " len=" + composed.length());              
+    	String composed = executeToString(code);
+    	if (composed != null) {
+    		if (composed.equals("")) {
+    			// Unrecognised - try to use the built-in Java text normalisation
+    			int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
+    			if (Character.getType(c) != Character.NON_SPACING_MARK) {
+    				// Put the combining character(s) at the end, else this won't work
+    				composeBuffer.reverse();
+    				composed = Normalizer.normalize(composeBuffer.toString(), Normalizer.Form.NFC);
+    				if (composed.equals("")) {
+    					return true; // incomplete :-)
+    				}
+    			} else {
+    				return true; // there may be multiple combining accents
+    			}
+    		}
 
-              if (composed.equals(""))
-                return true; // incomplete :-)
-            } else {
-              return true; // there may be multiple combining accents
-            }
-          }
-
-          composeBuffer = "";
-          composeUser.onText(composed);
-          return false;
-        }
-        return true;
+    		clear();
+    		composeUser.onText(composed);
+    		return false;
+    	}
+    	return true;
     }
 }
