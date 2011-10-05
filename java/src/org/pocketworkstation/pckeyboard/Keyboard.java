@@ -315,7 +315,7 @@ public class Keyboard {
             android.R.attr.state_pressed
         };
 
-        private final static char DEAD_KEY_PLACEHOLDER = 0x25cc; // dotted small circle
+        public final static char DEAD_KEY_PLACEHOLDER = 0x25cc; // dotted small circle
         
         /** Create an empty key with no attributes. */
         public Key(Row parent) {
@@ -418,7 +418,7 @@ public class Keyboard {
         	} else {
         		char c = str.charAt(0);
         		if (Character.getType(c) == Character.NON_SPACING_MARK) {
-        			label = Character.toString(DEAD_KEY_PLACEHOLDER) + label;
+        			//label = Character.toString(DEAD_KEY_PLACEHOLDER) + label;
         			isDeadKey = true;
         		}
         		//codes = new int[] { Character.toLowerCase(c) };

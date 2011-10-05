@@ -537,7 +537,11 @@ public class PointerTracker {
             mPreviewLabel.append((char) key.codes[mTapCount < 0 ? 0 : mTapCount]);
             return mPreviewLabel;
         } else {
-            return key.label;
+        	if (key.isDeadKey) {
+        		return DeadAccentSequence.normalize(" " + key.label);
+        	} else {
+        		return key.label;
+        	}
         }
     }
 
