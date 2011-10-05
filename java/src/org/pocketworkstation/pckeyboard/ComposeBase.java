@@ -20,6 +20,9 @@ import android.inputmethodservice.InputMethodService;
 import android.view.inputmethod.EditorInfo;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 interface ComposeSequencing {
     public void onText(CharSequence text);
@@ -28,58 +31,47 @@ interface ComposeSequencing {
 }
 
 public abstract class ComposeBase {
-    private HashMap<Character, HashMap<String, String>> map =
-            new HashMap<Character, HashMap<String, String>>();
+    protected static final Map<String, String> mMap =
+    	new HashMap<String, String>();
 
-    private String get(String key) {
+    protected static final Set<String> mPrefixes =
+    	new HashSet<String>();
+    
+    private static String get(String key) {
         if (key == null || key.length() == 0) {
             return null;
         }
-        Character first = key.charAt(0);
-        HashMap<String, String> submap = map.get(first);
-        return submap == null ? null : submap.get(key);
+        return mMap.get(key);
     }
 
-    private boolean isValid(String partialKey) {
+    private static boolean isValid(String partialKey) {
         if (partialKey == null || partialKey.length() == 0) {
             return false;
         }
-        Character first = partialKey.charAt(0);
-        HashMap<String, String> submap = map.get(first);
-        if (submap != null) {
-            for (String search : submap.keySet()) {
-                if (search.startsWith(partialKey)) {
-                    return true; // partial match found
-                }
-            }
-        }
-        return false;
+        return mPrefixes.contains(partialKey);
     }
 
-    protected void put(String key, String value) {
-        Character first = key.charAt(0);
-        HashMap<String, String> submap = map.get(first);
-        if (submap == null) {
-            submap = new HashMap<String, String>();
-            map.put(first, submap);
-        }
-        submap.put(key, value);
+    protected static void put(String key, String value) {
+    	mMap.put(key, value);
+    	for (int i = 1; i < key.length() - 1; ++i) {
+    		mPrefixes.add(key.substring(0, i));
+    	}
     }
 
-    protected String composeBuffer;
+    protected StringBuilder composeBuffer = new StringBuilder(10);
     protected ComposeSequencing composeUser;
 
     protected void init(ComposeSequencing user) {
-        composeBuffer = "";
+        clear();
         composeUser = user;
     }
 
     public void clear() {
-        composeBuffer = "";
+        composeBuffer.setLength(0);
     }
 
     public void bufferKey(char code) {
-    	composeBuffer += code;
+    	composeBuffer.append(code);
     }
 
     // returns true if the compose sequence is valid but incomplete
@@ -90,14 +82,14 @@ public abstract class ComposeBase {
                 && Character.isLowerCase(code)) {
             code = Character.toUpperCase(code);
         }
-        composeBuffer += (char) code;
+        composeBuffer.append((char) code);
         composeUser.updateShiftKeyState(composeUser.getCurrentInputEditorInfo());
 
-        String composed = get(composeBuffer);
+        String composed = get(composeBuffer.toString());
         if (composed != null) {
             // If we get here, we have a complete compose sequence
             return composed;
-        } else if (!isValid(composeBuffer)) {
+        } else if (!isValid(composeBuffer.toString())) {
             // If we get here, then the sequence typed isn't recognised
             return "";
         }
@@ -107,7 +99,7 @@ public abstract class ComposeBase {
     public boolean execute(int code) {
         String composed = executeToString(code);
         if (composed != null) {
-            composeBuffer = "";
+            clear();
             composeUser.onText(composed);
             return false;
         }
