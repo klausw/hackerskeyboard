@@ -793,6 +793,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
         canvas.drawBitmap(mBuffer, 0, 0, null);
     }
+    
+    private void drawDeadKeyLabel(Canvas canvas, char c, int x, float baseline, Paint paint) {
+    	String accent = DeadAccentSequence.normalize(" " + c);
+    	canvas.drawText(Character.toString(Keyboard.Key.DEAD_KEY_PLACEHOLDER), x, baseline, paint);
+        canvas.drawText(accent, x, baseline, paint);
+    }
 
     private int getLabelHeight(Paint paint, int labelSize) {
     	Integer labelHeightValue = mTextHeightCache.get(labelSize);
@@ -909,10 +915,13 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                     paintHint.setTextSize(hintTextSize);
 
                     final int hintLabelHeight = getLabelHeight(paintHint, hintTextSize);
-                    canvas.drawText(Character.toString(hint),
-                            key.width - padding.right,
-                            padding.top + hintLabelHeight * 11/10,
-                            paintHint);
+                    int x = key.width - padding.right;
+                    int baseline = padding.top + hintLabelHeight * 11/10;
+                    if (Character.getType(hint) == Character.NON_SPACING_MARK) {
+                    	drawDeadKeyLabel(canvas, hint, x, baseline, paintHint);
+                    } else {
+                    	canvas.drawText(Character.toString(hint), x, baseline, paintHint);
+                    }
                 }
 
                 // Draw main key label
@@ -920,7 +929,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
-                canvas.drawText(label, centerX, baseline, paint);
+                if (key.isDeadKey) {
+                	drawDeadKeyLabel(canvas, label.charAt(0), centerX, baseline, paint);
+                } else {
+                	canvas.drawText(label, centerX, baseline, paint);
+                }
                 if (key.isCursor) {
                 	// poor man's bold
                     canvas.drawText(label, centerX+0.5f, baseline, paint);
