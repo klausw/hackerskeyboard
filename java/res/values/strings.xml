@@ -523,6 +523,7 @@
         <h3>Optional: Select input languages:</h3>
         <blockquote>
           <p>&#8226; Press the <b>Input languages</b> button above to select which keyboard layouts you want to use. You <b>must</b> configure this if you want to use a language or layout other than the one corresponding to your system's default language.</p>
+          <p>&#8226; Press the <i>Back</i> button to return to this page.</p>
           <p>&#8226; When typing, slide the space bar horizontally to switch between selected layouts.
         </blockquote>
 
