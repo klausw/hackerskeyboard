@@ -496,14 +496,15 @@
     <!-- Title for Latin keyboard debug settings activity / dialog -->
     <string name="english_ime_debug_settings" translatable="false">Debug settings</string>
     <string name="prefs_debug_mode" translatable="false">Debug Mode</string>
-    <string name="main_setup_1">Configure input methods</string>
-    <string name="main_setup_2">Set current input method</string>
-    <string name="main_setup_3">Get dictionaries</string>
+    <string name="main_setup_configure_imes">Configure input methods</string>
+    <string name="main_setup_set_ime">Set current input method</string>
+    <string name="main_setup_get_dicts">Get dictionaries</string>
+    <string name="main_setup_input_lang">Input languages</string>
     <string name="main_body"><Data>
       <![CDATA["
-        <h2>Enabling the keyboard</h2>
+        <h2>Enabling Hacker's Keyboard</h2>
         
-        <p><i>Hacker's Keyboard</i> provides a new Android input method. It is disabled by default, and for security reasons Android doesn't allow programs to change input method settings. Please follow the following steps to activate it.<p>
+        <p><i>Hacker's Keyboard</i> provides a new Android input method. It is <b>disabled by default</b>, and for security reasons Android doesn't allow programs to change input method settings. Please follow the following steps to activate it.<p>
         
         <h3>Add the keyboard to the system's input method list:</h3>
         <blockquote>
@@ -519,7 +520,13 @@
           <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.</p>
         </blockquote>
 
-        <h3>Optionally, install completion dictionary packages:</h3>
+        <h3>Optional: Select input languages:</h3>
+        <blockquote>
+          <p>&#8226; Press the <b>Input languages</b> button above to select which keyboard layouts you want to use. You <b>must</b> configure this if you want to use a language or layout other than the one corresponding to your system's default language.</p>
+          <p>&#8226; When typing, slide the space bar horizontally to switch between selected layouts.
+        </blockquote>
+
+        <h3>Optional: Install completion dictionary packages:</h3>
         <blockquote>
           <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.</p>
         </blockquote>
