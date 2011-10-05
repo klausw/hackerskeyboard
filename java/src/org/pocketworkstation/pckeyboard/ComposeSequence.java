@@ -19,6 +19,9 @@ package org.pocketworkstation.pckeyboard;
 public class ComposeSequence extends ComposeBase {
     public ComposeSequence(ComposeSequencing user) {
             init(user);
+    }
+    
+    {
             put("++", "#");
             put("' ", "'");
             put(" '", "'");
