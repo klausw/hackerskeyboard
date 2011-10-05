@@ -46,14 +46,14 @@ public class Main extends Activity {
         description.setText(content, BufferType.SPANNABLE);
 
 
-        final Button setup1 = (Button) findViewById(R.id.main_setup_btn_1);
+        final Button setup1 = (Button) findViewById(R.id.main_setup_btn_configure_imes);
         setup1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivityForResult(new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS), 0);
             }
         });
 
-        final Button setup2 = (Button) findViewById(R.id.main_setup_btn_2);
+        final Button setup2 = (Button) findViewById(R.id.main_setup_btn_set_ime);
         setup2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -61,7 +61,16 @@ public class Main extends Activity {
             }
         });
         
-        final Button setup3 = (Button) findViewById(R.id.main_setup_btn_3);
+        final Activity that = this;
+
+        final Button setup4 = (Button) findViewById(R.id.main_setup_btn_input_lang);
+        setup4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivityForResult(new Intent(that, InputLanguageSelection.class), 0);
+            }
+        });
+
+        final Button setup3 = (Button) findViewById(R.id.main_setup_btn_get_dicts);
         setup3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET_URI));
@@ -75,8 +84,7 @@ public class Main extends Activity {
                 }
             }
         });
-        
-        PluginManager.getPluginDictionaries(getApplicationContext());
+        // PluginManager.getPluginDictionaries(getApplicationContext()); // why?
     }    
 }
 
