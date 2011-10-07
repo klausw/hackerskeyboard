@@ -134,7 +134,9 @@
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_n" />
         <Key
-            android:keyLabel="\'" />
+            android:keyLabel="\'"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="&#x300;&#x301;&#x302;&#x308;&#x303;" />
         <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
