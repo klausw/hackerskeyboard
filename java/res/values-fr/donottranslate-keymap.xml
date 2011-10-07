@@ -34,7 +34,7 @@
 
     <string name="key_ae02_main">é</string>
     <string name="key_ae02_shift">2</string>
-    <string name="key_ae02_alt">é2~É\@⅔</string>
+    <string name="key_ae02_alt">é2É&#x301;&#x303;~\@⅔</string>
     
     <string name="key_ae03_main">\"</string>
     <string name="key_ae03_shift">3</string>
@@ -54,7 +54,7 @@
     
     <string name="key_ae07_main">è</string>
     <string name="key_ae07_shift">7</string>
-    <string name="key_ae07_alt">è7`È⅞♪</string>
+    <string name="key_ae07_alt">è7&#x300;`È⅞♪</string>
     
     <string name="key_ae08_main">_</string>
     <string name="key_ae08_shift">8</string>
@@ -66,7 +66,7 @@
     
     <string name="key_ae10_main">à</string>
     <string name="key_ae10_shift">0</string>
-    <string name="key_ae10_alt">à0\@ⁿ°</string>
+    <string name="key_ae10_alt">à0\@À°</string>
     
     <string name="key_ae11_main">)</string>
     <string name="key_ae11_shift">°</string>
@@ -117,9 +117,9 @@
     <string name="key_ad10_shift">P</string>
     <string name="key_ad10_alt">@string/alternates_for_p</string>
     
-    <string name="key_ad11_main">^</string>
-    <string name="key_ad11_shift">~</string>
-    <string name="key_ad11_alt">^~Å</string>
+    <string name="key_ad11_main">&#x302;</string>
+    <string name="key_ad11_shift">&#x308;</string>
+    <string name="key_ad11_alt">&#x302;&#x308;^Å</string>
     
     <string name="key_ad12_main">$</string>
     <string name="key_ad12_shift">£</string>
