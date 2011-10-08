@@ -34,12 +34,14 @@ import android.widget.TextView.BufferType;
 
 public class Main extends Activity {
 
-	private final static String MARKET_URI = "market://search?q=pub:\"Klaus Weidner\"";
+    private final static String MARKET_URI = "market://search?q=pub:\"Klaus Weidner\"";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         String html = getString(R.string.main_body);
+        html += "<p><i>Version: " + getString(R.string.auto_version) + "</i></p>";
         Spanned content = Html.fromHtml(html);
         TextView description = (TextView) findViewById(R.id.main_description);
         description.setMovementMethod(LinkMovementMethod.getInstance());

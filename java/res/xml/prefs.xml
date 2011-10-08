@@ -18,6 +18,13 @@
         android:title="@string/english_ime_settings"
         android:key="english_ime_settings">
 
+    <Preference
+            android:key="label_version"
+            android:title="Version"
+            android:summary="@string/auto_version"
+            android:enabled="false"
+            />
+
     <ListPreference
             android:key="settings_height_portrait"
             android:title="Keyboard height, portrait"
