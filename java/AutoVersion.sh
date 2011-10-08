@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Ver=$(Hg-ident)
+Ver="$(Hg-ident) $(date +%Y-%m-%d)"
 exec > res/values/auto-version.xml
 
 cat <<'EOF'
