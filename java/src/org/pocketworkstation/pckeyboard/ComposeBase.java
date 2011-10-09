@@ -37,7 +37,7 @@ public abstract class ComposeBase {
     protected static final Set<String> mPrefixes =
     	new HashSet<String>();
     
-    private static String get(String key) {
+    protected static String get(String key) {
         if (key == null || key.length() == 0) {
             return null;
         }

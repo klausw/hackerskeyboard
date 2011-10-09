@@ -795,8 +795,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
     
     private void drawDeadKeyLabel(Canvas canvas, char c, int x, float baseline, Paint paint) {
-    	String accent = DeadAccentSequence.normalize(" " + c);
-    	canvas.drawText(Character.toString(Keyboard.Key.DEAD_KEY_PLACEHOLDER), x, baseline, paint);
+    	String accent = DeadAccentSequence.getSpacing(c);
+    	canvas.drawText(Character.toString(Keyboard.DEAD_KEY_PLACEHOLDER), x, baseline, paint);
         canvas.drawText(accent, x, baseline, paint);
     }
 

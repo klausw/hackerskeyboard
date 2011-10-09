@@ -65,6 +65,8 @@ public class Keyboard {
 
     static final String TAG = "Keyboard";
 
+    public final static char DEAD_KEY_PLACEHOLDER = 0x25cc; // dotted small circle
+    
     // Keyboard XML Tags
     private static final String TAG_KEYBOARD = "Keyboard";
     private static final String TAG_ROW = "Row";
@@ -315,8 +317,6 @@ public class Keyboard {
             android.R.attr.state_pressed
         };
 
-        public final static char DEAD_KEY_PLACEHOLDER = 0x25cc; // dotted small circle
-        
         /** Create an empty key with no attributes. */
         public Key(Row parent) {
             keyboard = parent.parent;
