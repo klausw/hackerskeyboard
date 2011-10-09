@@ -25,7 +25,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="key_tlde_main">ذّ</string>
-    <string name="key_tlde_shift">ذّ</string>
+    <string name="key_tlde_shift">&#x0651;</string>
     <string name="key_tlde_alt">ذّ</string>
     
     <string name="key_ae01_main">1</string>

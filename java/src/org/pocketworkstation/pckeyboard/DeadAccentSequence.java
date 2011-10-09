@@ -35,7 +35,10 @@ public class DeadAccentSequence extends ComposeBase {
     }
     
     public static String getSpacing(char nonSpacing) {
-        return get("" + Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing);
+        String spacing = get("" + Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing);
+        if (spacing == null) spacing = DeadAccentSequence.normalize(" " + nonSpacing);
+        if (spacing == null) return "" + nonSpacing;
+        return spacing;
     }
     
     {
