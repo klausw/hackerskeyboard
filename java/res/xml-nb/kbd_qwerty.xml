@@ -37,7 +37,6 @@
             android:keyLabel="q"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_q"
-            android:keyWidth="8.75%p"
             android:keyEdgeFlags="left" />
         <Key
             android:keyLabel="w"
@@ -77,7 +76,6 @@
             android:popupCharacters="@string/alternates_for_p" />
         <Key
             android:keyLabel="å"
-            android:keyWidth="8.75%p"
             android:keyEdgeFlags="right" />
     </Row>
     <Row>
@@ -85,7 +83,6 @@
             android:keyLabel="a"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_a"
-            android:keyWidth="8.75%p"
             android:keyEdgeFlags="left" />
         <Key
             android:keyLabel="s"
@@ -119,17 +116,14 @@
             android:keyLabel="æ"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_ae"
-            android:keyWidth="8.75%p"
             android:keyEdgeFlags="right" />
     </Row>
-    <Row
-        android:keyWidth="10%p"
-    >
+    <Row>
         <Key
             android:codes="@integer/key_shift"
             android:keyIcon="@drawable/sym_keyboard_shift"
             android:iconPreview="@drawable/sym_keyboard_feedback_shift"
-            android:keyWidth="15%p"
+            android:keyWidth="13.63%p"
             android:isModifier="true"
             android:isSticky="true"
             android:keyEdgeFlags="left" />
@@ -156,10 +150,14 @@
         <Key
             android:keyLabel="m" />
         <Key
+            android:keyLabel="\'"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="&#x300;&#x301;&#x302;&#x308;&#x303;" />
+        <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
             android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:keyWidth="15%p"
+            android:keyWidth="13.63%p"
             android:isModifier="true"
             android:isRepeatable="true"
             android:keyEdgeFlags="right" />
