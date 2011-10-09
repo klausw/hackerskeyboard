@@ -27,25 +27,37 @@ public class DeadAccentSequence extends ComposeBase {
         init(user);
     }
     
+    private static void putAccent(String nonSpacing, String spacing, String ascii) {
+        if (ascii == null) ascii = spacing;
+        put("" + nonSpacing + " ", ascii);
+        put(nonSpacing + nonSpacing, spacing);
+        put(Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing, spacing);
+    }
+    
+    public static String getSpacing(char nonSpacing) {
+        return get("" + Keyboard.DEAD_KEY_PLACEHOLDER + nonSpacing);
+    }
+    
     {
         // space + combining diacritical
-        put(" \u0300", "\u02cb");  // grave
-        put(" \u0301", "\u02ca");  // acute
-        put(" \u0302", "\u02c6");  // circumflex
-        put(" \u0303", "\u02dc");  // small tilde
-        put(" \u0304", "\u02c9");  // macron
-        put(" \u0305", "\u00af");  // overline
-        put(" \u0306", "\u02d8");  // breve
-        put(" \u0307", "\u02d9");  // dot above
-        put(" \u0308", "\u00a8");  // diaeresis
-        put(" \u0309", "\u02c0");  // hook above
-        put(" \u030a", "\u02da");  // ring aboce
-        put(" \u030b", "\u02dd");  // double acute 
-        put(" \u030c", "\u02c7");  // caron
-        put(" \u030d", "\u02c8");  // vertical line above
-        put(" \u030e", "\"");  // double vertical line above
-        put(" \u0313", "\u02bc");  // comma above
-        put(" \u0314", "\u02bd");  // reversed comma above
+        // cf. http://unicode.org/charts/PDF/U0300.pdf
+        putAccent("\u0300", "\u02cb", "`");  // grave
+        putAccent("\u0301", "\u02ca", "´");  // acute
+        putAccent("\u0302", "\u02c6", "^");  // circumflex
+        putAccent("\u0303", "\u02dc", "~");  // small tilde
+        putAccent("\u0304", "\u02c9", "¯");  // macron
+        putAccent("\u0305", "\u00af", "¯");  // overline
+        putAccent("\u0306", "\u02d8", null);  // breve
+        putAccent("\u0307", "\u02d9", null);  // dot above
+        putAccent("\u0308", "\u00a8", "¨");  // diaeresis
+        putAccent("\u0309", "\u02c0", null);  // hook above
+        putAccent("\u030a", "\u02da", "°");  // ring above
+        putAccent("\u030b", "\u02dd", "\"");  // double acute 
+        putAccent("\u030c", "\u02c7", null);  // caron
+        putAccent("\u030d", "\u02c8", null);  // vertical line above
+        putAccent("\u030e", "\"", "\"");  // double vertical line above
+        putAccent("\u0313", "\u02bc", null);  // comma above
+        putAccent("\u0314", "\u02bd", null);  // reversed comma above
 /*
 // include?
         put("̃ ", "~");

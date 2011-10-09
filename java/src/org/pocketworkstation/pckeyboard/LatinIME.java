@@ -1743,6 +1743,9 @@ public class LatinIME extends InputMethodService implements
         default:
             if (!mComposeMode && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
             	Log.i(TAG, "possible dead character: " + primaryCode);
+                if (processMultiKey(primaryCode)) {
+                    break; // pressing a dead key twice produces spacing equivalent
+                }
                 mDeadAccentBuffer.bufferKey((char) primaryCode);
                 updateShiftKeyState(getCurrentInputEditorInfo());
                 break;
