@@ -78,7 +78,7 @@
     
     <string name="key_ae12_main">\\</string>
     <string name="key_ae12_shift">`</string>
-    <string name="key_ae12_alt">&#x301;&#x300;\'</string>
+    <string name="key_ae12_alt">\\`´&#x301;&#x300;</string>
 
 
     <string name="key_ad01_main">q</string>
@@ -126,8 +126,8 @@
     <string name="key_ad11_alt">&#x308;&#x30a;</string>
     
     <string name="key_ad12_main">&#x308;</string>
-    <string name="key_ad12_shift">&#x302;</string>
-    <string name="key_ad12_alt">&#x308;&#x302;~&#x303;&#x30c;</string>  
+    <string name="key_ad12_shift">^</string>
+    <string name="key_ad12_alt">&#x308;^~¨ˇ&#x302;&#x303;&#x30c;</string>
 
     <string name="key_bksl_main">\'</string>
     <string name="key_bksl_shift">*</string>
@@ -135,7 +135,7 @@
 
     <string name="key_ac01_main">a</string>
     <string name="key_ac01_shift">A</string>
-    <string name="key_ac01_alt">äâãáàā@ªº</string>
+    <string name="key_ac01_alt">äâãáàā\@ªº</string>
 
     <string name="key_ac02_main">s</string>
     <string name="key_ac02_shift">S</string>
@@ -171,7 +171,7 @@
 
     <string name="key_ac10_main">ø</string>
     <string name="key_ac10_shift">Ø</string>
-    <string name="key_ac10_alt">ö^ˇ</string>
+    <string name="key_ac10_alt">ö&#x30c;</string>
 
     <string name="key_ac11_main">æ</string>
     <string name="key_ac11_shift">Æ</string>
