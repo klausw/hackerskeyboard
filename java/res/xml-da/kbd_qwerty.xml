@@ -109,13 +109,13 @@
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_l" />
         <Key
-            android:keyLabel="ø"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_oe" />
-        <Key
             android:keyLabel="æ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_ae"
+            android:popupCharacters="@string/alternates_for_ae" />
+        <Key
+            android:keyLabel="ø"
+            android:popupKeyboard="@xml/kbd_popup_template"
+            android:popupCharacters="@string/alternates_for_oe"
             android:keyEdgeFlags="right" />
     </Row>
     <Row>
