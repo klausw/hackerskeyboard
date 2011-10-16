@@ -46,21 +46,21 @@ public class InputLanguageSelection extends PreferenceActivity {
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
-        "ar", "bg", "ca", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB",
-        "es", "es-rUS", "fa", "fi", "fr", "fr-rCA", "hr", "hu", "in",
-        "it", "iw", "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl", "pt",
-        "pt-rPT", "rm", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tl",
-        "tr", "uk", "vi", "zh-rCN", "zh-rTW"
+        "ar", "bg", "ca", "cs", "da", "de", "el", "en", "en_DV", "en_GB",
+        "es", "es_US", "fa", "fi", "fr", "fr_CA", "hr", "hu", "in", "it",
+        "iw", "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl", "pt", "pt_PT",
+        "rm", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tl", "tr", "uk",
+        "vi", "zh_CN", "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB", "es",
-        "fi", "fr", "fr-rCA", "hr", "iw", "lo", "nb", "ro", "ru", "si",
-        "sl", "sv", "th", "uk"
+        "ar", "bg", "cs", "da", "de", "el", "en", "en_DV", "en_GB", "es",
+        "fi", "fr", "fr_CA", "hr", "iw", "lo", "nb", "pt_PT", "ro", "ru",
+        "si", "sl", "sv", "th", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "fr", "fr-rCA",
+        "ar", "bg", "cs", "da", "de", "el", "en", "en_DV", "fr", "fr_CA",
         "hr", "iw", "nb", "ru", "sl", "sr", "sv", "uk"
     };
 
@@ -122,11 +122,12 @@ public class InputLanguageSelection extends PreferenceActivity {
             Locale locale = mAvailableLanguages.get(i).locale;
             pref.setTitle(mAvailableLanguages.get(i).label +
             		" [" + locale.toString() + "]");
-            boolean checked = languageSelections.contains(get5Code(locale));
-            pref.setChecked(checked);
+            String fivecode = get5Code(locale);
             String language = locale.getLanguage();
-            boolean has4Row = arrayContains(KBD_4_ROW, language);
-            boolean has5Row = arrayContains(KBD_5_ROW, language);
+            boolean checked = languageSelections.contains(fivecode);
+            pref.setChecked(checked);
+            boolean has4Row = arrayContains(KBD_4_ROW, fivecode) || arrayContains(KBD_4_ROW, language);
+            boolean has5Row = arrayContains(KBD_5_ROW, fivecode) || arrayContains(KBD_5_ROW, language);
             List<String> summaries = new ArrayList<String>(3);
             if (has5Row) summaries.add("5-row");           
             if (has4Row) summaries.add("4-row");           
