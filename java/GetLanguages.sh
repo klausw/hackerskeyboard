@@ -6,7 +6,10 @@ getLangsForFiles () {
 	do
 		find res/ -name "$F"
 	done \
-	| sed -n 's/.*res.[a-z]*-\(..\(-...\)*\).*/\1/p'
+	| sed -n '
+            s/.*res.[a-z]*-\(..\)-r\(..\).*/\1_\2/p; # yy-rXX => yy_XX
+            s/.*res.[a-z]*-\(..\)\/.*/\1/p; # yy => yy
+        '
 }
 
 getLangsForDicts () {
