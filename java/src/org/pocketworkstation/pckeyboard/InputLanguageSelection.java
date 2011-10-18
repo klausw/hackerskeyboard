@@ -43,6 +43,20 @@ public class InputLanguageSelection extends PreferenceActivity {
         "ko", "ja", "zh"
     };
     
+    // Languages for which auto-caps should be disabled
+    public static final Set<String> NOCAPS_LANGUAGES = new HashSet<String>();
+    static {
+        NOCAPS_LANGUAGES.add("ar");
+        NOCAPS_LANGUAGES.add("iw");
+        NOCAPS_LANGUAGES.add("th");
+    }
+    
+    // Languages which should not use dead key logic. The modifier is entered after the base character.
+    public static final Set<String> NODEADKEY_LANGUAGES = new HashSet<String>();
+    static {
+        NODEADKEY_LANGUAGES.add("ar");
+    }
+    
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
