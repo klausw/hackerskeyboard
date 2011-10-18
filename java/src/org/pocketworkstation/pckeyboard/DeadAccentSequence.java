@@ -41,7 +41,7 @@ public class DeadAccentSequence extends ComposeBase {
         return spacing;
     }
     
-    {
+    static {
         // space + combining diacritical
         // cf. http://unicode.org/charts/PDF/U0300.pdf
         putAccent("\u0300", "\u02cb", "`");  // grave

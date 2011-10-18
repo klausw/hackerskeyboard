@@ -21,7 +21,7 @@ public class ComposeSequence extends ComposeBase {
             init(user);
     }
     
-    {
+    static {
             put("++", "#");
             put("' ", "'");
             put(" '", "'");
