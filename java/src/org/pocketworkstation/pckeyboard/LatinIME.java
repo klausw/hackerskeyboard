@@ -223,7 +223,9 @@ public class LatinIME extends InputMethodService implements
     private int mVibrateLen;
     private boolean mSoundOn;
     private boolean mPopupOn;
-    private boolean mAutoCap;
+    private boolean mAutoCapPref;
+    private boolean mAutoCapActive;
+    private boolean mDeadKeysActive;
     private boolean mQuickFixes;
     private boolean mHasUsedVoiceInput;
     private boolean mHasUsedVoiceInputUnsupportedLocale;
@@ -1274,7 +1276,7 @@ public class LatinIME extends InputMethodService implements
     private int getCursorCapsMode(InputConnection ic, EditorInfo attr) {
         int caps = 0;
         EditorInfo ei = getCurrentInputEditorInfo();
-        if (mAutoCap && ei != null && ei.inputType != EditorInfo.TYPE_NULL) {
+        if (mAutoCapActive && ei != null && ei.inputType != EditorInfo.TYPE_NULL) {
             caps = ic.getCursorCapsMode(attr.inputType);
         }
         return caps;
@@ -1741,8 +1743,8 @@ public class LatinIME extends InputMethodService implements
             sendModifierKeysUp(true);
             break;
         default:
-            if (!mComposeMode && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
-            	Log.i(TAG, "possible dead character: " + primaryCode);
+            if (!mComposeMode && mDeadKeysActive && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
+                Log.i(TAG, "possible dead character: " + primaryCode);
                 if (processMultiKey(primaryCode)) {
                     break; // pressing a dead key twice produces spacing equivalent
                 }
@@ -2867,6 +2869,8 @@ public class LatinIME extends InputMethodService implements
                 mEnableVoiceButton && mEnableVoice);
         initSuggest(mLanguageSwitcher.getInputLanguage());
         mLanguageSwitcher.persist();
+        mAutoCapActive = mAutoCapPref && mLanguageSwitcher.allowAutoCap();
+        mDeadKeysActive = mLanguageSwitcher.allowDeadKeys();
         updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
@@ -3220,7 +3224,7 @@ public class LatinIME extends InputMethodService implements
         mSoundOn = sp.getBoolean(PREF_SOUND_ON, false);
         mPopupOn = sp.getBoolean(PREF_POPUP_ON, mResources
                 .getBoolean(R.bool.default_popup_preview));
-        mAutoCap = sp.getBoolean(PREF_AUTO_CAP, getResources().getBoolean(
+        mAutoCapPref = sp.getBoolean(PREF_AUTO_CAP, getResources().getBoolean(
                 R.bool.default_auto_cap));
         mQuickFixes = sp.getBoolean(PREF_QUICK_FIXES, true);
         mHasUsedVoiceInput = sp.getBoolean(PREF_HAS_USED_VOICE_INPUT, false);
@@ -3272,6 +3276,8 @@ public class LatinIME extends InputMethodService implements
         updateCorrectionMode();
         updateAutoTextEnabled(mResources.getConfiguration().locale);
         mLanguageSwitcher.loadLocales(sp);
+        mAutoCapActive = mAutoCapPref && mLanguageSwitcher.allowAutoCap();
+        mDeadKeysActive = mLanguageSwitcher.allowDeadKeys();
     }
 
     private void initSuggestPuncList() {

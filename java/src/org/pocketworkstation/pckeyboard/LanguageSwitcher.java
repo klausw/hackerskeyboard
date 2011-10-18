@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 /**
  * Keeps track of list of selected input languages and the current
@@ -29,6 +30,7 @@ import android.text.TextUtils;
  */
 public class LanguageSwitcher {
 
+    private static final String TAG = "HK/LanguageSwitcher";
     private Locale[] mLocales;
     private LatinIME mIme;
     private String[] mSelectedLanguageArray;
@@ -114,6 +116,18 @@ public class LanguageSwitcher {
         return mSelectedLanguageArray[mCurrentIndex];
     }
 
+    public boolean allowAutoCap() {
+        String lang = getInputLanguage();
+        if (lang.length() > 2) lang = lang.substring(0, 2);
+        return !InputLanguageSelection.NOCAPS_LANGUAGES.contains(lang);
+    }
+    
+    public boolean allowDeadKeys() {
+        String lang = getInputLanguage();
+        if (lang.length() > 2) lang = lang.substring(0, 2);
+        return !InputLanguageSelection.NODEADKEY_LANGUAGES.contains(lang);        
+    }
+    
     /**
      * Returns the list of enabled language codes.
      */
