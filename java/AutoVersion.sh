@@ -1,6 +1,12 @@
 #!/bin/bash
 
-Ver="$(Hg-ident) $(date +%Y-%m-%d)"
+# Use the fancy id generator if present, fall back to plain "hg id" if not.
+Id="$(Hg-ident)" 2>/dev/null
+[ -z "$Id" ] && Id="$(hg id)"
+
+Ver="$Id $(date +%Y-%m-%d)"
+
+# Create the auto-version file with this version string
 exec > res/values/auto-version.xml
 
 cat <<'EOF'
