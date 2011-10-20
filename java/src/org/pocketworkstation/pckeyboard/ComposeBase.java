@@ -53,7 +53,7 @@ public abstract class ComposeBase {
 
     protected static void put(String key, String value) {
     	mMap.put(key, value);
-    	for (int i = 1; i < key.length() - 1; ++i) {
+    	for (int i = 1; i < key.length(); ++i) {
     		mPrefixes.add(key.substring(0, i));
     	}
     }
