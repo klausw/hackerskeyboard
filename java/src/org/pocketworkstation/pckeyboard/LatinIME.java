@@ -1597,17 +1597,16 @@ public class LatinIME extends InputMethodService implements
         if (isConnectbot()) {
             sendKeyChar((char) 27);
         } else {
-            ic
-                    .sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 111 /* KEYCODE_ESCAPE */));
-            ic
-                    .sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 111 /* KEYCODE_ESCAPE */));
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 111 /* KEYCODE_ESCAPE */));
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 111 /* KEYCODE_ESCAPE */));
         }
     }
 
     private boolean processMultiKey(int primaryCode) {
         if (mDeadAccentBuffer.composeBuffer.length() > 0) {
-        	mDeadAccentBuffer.execute(primaryCode);
-        	mDeadAccentBuffer.clear();
+            //Log.i(TAG, "processMultiKey: pending DeadAccent, length=" + mDeadAccentBuffer.composeBuffer.length());
+            mDeadAccentBuffer.execute(primaryCode);
+            mDeadAccentBuffer.clear();
             return true;
         }
         if (mComposeMode) {
@@ -1744,11 +1743,11 @@ public class LatinIME extends InputMethodService implements
             break;
         default:
             if (!mComposeMode && mDeadKeysActive && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
-                Log.i(TAG, "possible dead character: " + primaryCode);
-                if (processMultiKey(primaryCode)) {
+                //Log.i(TAG, "possible dead character: " + primaryCode);
+                if (!mDeadAccentBuffer.execute(primaryCode)) {
+                    //Log.i(TAG, "double dead key");
                     break; // pressing a dead key twice produces spacing equivalent
                 }
-                mDeadAccentBuffer.bufferKey((char) primaryCode);
                 updateShiftKeyState(getCurrentInputEditorInfo());
                 break;
             }
