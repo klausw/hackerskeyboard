@@ -17,6 +17,7 @@
 package org.pocketworkstation.pckeyboard;
 
 import android.inputmethodservice.InputMethodService;
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 
 import java.util.HashMap;
@@ -31,17 +32,32 @@ interface ComposeSequencing {
 }
 
 public abstract class ComposeBase {
+    private static final String TAG = "HK/ComposeBase";
+    
     protected static final Map<String, String> mMap =
     	new HashMap<String, String>();
 
     protected static final Set<String> mPrefixes =
     	new HashSet<String>();
-    
+
     protected static String get(String key) {
         if (key == null || key.length() == 0) {
             return null;
         }
+        //Log.i(TAG, "ComposeBase get, key=" + showString(key) + " result=" + mMap.get(key));
         return mMap.get(key);
+    }
+
+    private static String showString(String in) {
+        // TODO Auto-generated method stub
+        StringBuilder out = new StringBuilder(in);
+        out.append("{");
+        for (int i = 0; i < in.length(); ++i) {
+            if (i > 0) out.append(",");
+            out.append((int) in.charAt(i));
+        }
+        out.append("}");
+        return out.toString();
     }
 
     private static boolean isValid(String partialKey) {
@@ -72,6 +88,7 @@ public abstract class ComposeBase {
 
     public void bufferKey(char code) {
     	composeBuffer.append(code);
+    	//Log.i(TAG, "bufferKey code=" + (int) code + " => " + showString(composeBuffer.toString()));
     }
 
     // returns true if the compose sequence is valid but incomplete
@@ -82,7 +99,7 @@ public abstract class ComposeBase {
                 && Character.isLowerCase(code)) {
             code = Character.toUpperCase(code);
         }
-        composeBuffer.append((char) code);
+        bufferKey((char) code);
         composeUser.updateShiftKeyState(composeUser.getCurrentInputEditorInfo());
 
         String composed = get(composeBuffer.toString());

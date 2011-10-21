@@ -61,6 +61,14 @@ public class DeadAccentSequence extends ComposeBase {
         putAccent("\u030e", "\"", "\"");  // double vertical line above
         putAccent("\u0313", "\u02bc", null);  // comma above
         putAccent("\u0314", "\u02bd", null);  // reversed comma above
+
+        put("\u0308\u0301\u03b9", "\u0390");  // Greek Dialytika+Tonos, iota
+        put("\u0301\u0308\u03b9", "\u0390");  // Greek Dialytika+Tonos, iota
+        put("\u0301\u03ca", "\u0390");        // Greek Dialytika+Tonos, iota
+        put("\u0308\u0301\u03c5", "\u03b0");  // Greek Dialytika+Tonos, upsilon
+        put("\u0301\u0308\u03c5", "\u03b0");  // Greek Dialytika+Tonos, upsilon
+        put("\u0301\u03cb", "\u03b0");        // Greek Dialytika+Tonos, upsilon
+
 /*
 // include?
         put("̃ ", "~");
@@ -1030,6 +1038,7 @@ public class DeadAccentSequence extends ComposeBase {
     public boolean execute(int code) {
     	String composed = executeToString(code);
     	if (composed != null) {
+    	        //Log.i(TAG, "composed=" + composed + " len=" + composed.length());
     		if (composed.equals("")) {
     			// Unrecognised - try to use the built-in Java text normalisation
     			int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
