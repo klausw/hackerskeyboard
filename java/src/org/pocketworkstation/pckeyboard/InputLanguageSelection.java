@@ -60,24 +60,39 @@ public class InputLanguageSelection extends PreferenceActivity {
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
-        "ar", "bg", "ca", "cs", "da", "de", "el", "en", "en_DV", "en_GB",
-        "es", "es_US", "fa", "fi", "fr", "fr_CA", "hr", "hu", "in", "it",
-        "iw", "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl", "pt", "pt_PT",
-        "rm", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tl", "tr", "uk",
-        "vi", "zh_CN", "zh_TW"
+        "ar", "bg", "ca", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
+        "en_GB", "es", "es_US", "fa", "fi", "fr", "fr_CA", "hr", "hu",
+        "in", "it", "iw", "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl",
+        "pt", "pt_PT", "rm", "ro", "ru", "sk", "sk_QY", "sl", "sr", "sv",
+        "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "bg", "cs", "da", "de", "el", "en", "en_DV", "en_GB", "es",
-        "fi", "fr", "fr_CA", "hr", "iw", "lo", "nb", "pt_PT", "ro", "ru",
-        "si", "sl", "sv", "th", "uk"
+        "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "en_GB",
+        "es", "fi", "fr", "fr_CA", "hr", "iw", "lo", "nb", "pt_PT", "ro",
+        "ru", "si", "sk", "sk_QY", "sl", "sv", "th", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "bg", "cs", "da", "de", "el", "en", "en_DV", "fr", "fr_CA",
-        "hr", "iw", "nb", "ru", "sl", "sr", "sv", "uk"
+        "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "fr",
+        "fr_CA", "hr", "iw", "nb", "ru", "sk", "sk_QY", "sl", "sr", "sv",
+        "uk"
     };
 
+    private static String getLocaleName(Locale l) {
+        String lang = l.getLanguage();
+        String country = l.getCountry();
+        if (lang.equals("en") && country.equals("DV")) {
+            return "English (Dvorak)";
+        } else if (lang.equals("cs") && country.equals("QY")) {
+            return "Čeština (QWERTY)";
+        } else if (lang.equals("sk") && country.equals("QY")) {
+            return "Slovenčina (QWERTY)";
+        } else {
+            return LanguageSwitcher.toTitleCase(l.getDisplayName(l));
+        }
+    }
+    
     private static class Loc implements Comparable<Object> {
         static Collator sCollator = Collator.getInstance();
 
@@ -234,14 +249,6 @@ public class InputLanguageSelection extends PreferenceActivity {
     	}
     	out.append(")");
     	return out.toString();
-    }
-    
-    static private String getLocaleName(Locale l) {
-        if (l.getLanguage().equals("en") && l.getCountry().equals("DV")) {
-            return "English (Dvorak)";
-        } else {
-            return LanguageSwitcher.toTitleCase(l.getDisplayName(l));
-        }
     }
     
     ArrayList<Loc> getUniqueLocales() {

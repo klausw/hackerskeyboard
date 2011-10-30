@@ -17,7 +17,7 @@
 ** limitations under the License.
 **
 **
-** 5-row layout for Czech QWERTZ.
+** 5-row layout for Slovak QWERTZ.
 **
 ** See http://code.google.com/p/hackerskeyboard/wiki/AddingNewLayouts for
 ** more information.
@@ -32,9 +32,9 @@
     <string name="key_ae01_shift">1</string>
     <string name="key_ae01_alt">+1~!¹¡½⅓¼⅛</string>
 
-    <string name="key_ae02_main">ě</string>
+    <string name="key_ae02_main">ľ</string>
     <string name="key_ae02_shift">2</string>
-    <string name="key_ae02_alt">ě2\@²⅛⅔</string>
+    <string name="key_ae02_alt">ľ2\@²⅛⅔</string>
     
     <string name="key_ae03_main">š</string>
     <string name="key_ae03_shift">3</string>
@@ -44,9 +44,9 @@
     <string name="key_ae04_shift">4</string>
     <string name="key_ae04_alt">č4$¼¤⁴¢¥</string>
     
-    <string name="key_ae05_main">ř</string>
+    <string name="key_ae05_main">ť</string>
     <string name="key_ae05_shift">5</string>
-    <string name="key_ae05_alt">ř5%½⅜‰</string>
+    <string name="key_ae05_alt">ť5%½⅜‰</string>
     
     <string name="key_ae06_main">ž</string>
     <string name="key_ae06_shift">6</string>
@@ -121,13 +121,13 @@
     <string name="key_ad11_shift">/</string>
     <string name="key_ad11_alt">ú/÷[{</string>
     
-    <string name="key_ad12_main">)</string>
+    <string name="key_ad12_main">ä</string>
     <string name="key_ad12_shift">(</string>
-    <string name="key_ad12_alt">)(×]}</string>
+    <string name="key_ad12_alt">ä(×]}</string>
 
-    <string name="key_bksl_main">\'</string>
-    <string name="key_bksl_shift">\\</string>
-    <string name="key_bksl_alt">\'\\|¤</string>
+    <string name="key_bksl_main">ň</string>
+    <string name="key_bksl_shift">)</string>
+    <string name="key_bksl_alt">ň)\|¤</string>
     
     
     <string name="key_ac01_main">a</string>
@@ -166,9 +166,9 @@
     <string name="key_ac09_shift">L</string>
     <string name="key_ac09_alt">@string/alternates_for_l</string>
 
-    <string name="key_ac10_main">ů</string>
+    <string name="key_ac10_main">ô</string>
     <string name="key_ac10_shift">\"</string>
-    <string name="key_ac10_alt">ů\"$;:</string>
+    <string name="key_ac10_alt">ô\"$;:</string>
 
     <string name="key_ac11_main">§</string>
     <string name="key_ac11_shift">!</string>
