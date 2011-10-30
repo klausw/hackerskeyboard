@@ -416,7 +416,7 @@ public class LatinIME extends InputMethodService implements
                 res.getBoolean(R.bool.default_fullscreen_override));
         mForceKeyboardOn = prefs.getBoolean(PREF_FORCE_KEYBOARD_ON,
                 res.getBoolean(R.bool.default_force_keyboard_on));
-        mKeyboardNotification = prefs.getBoolean(PREF_FORCE_KEYBOARD_ON,
+        mKeyboardNotification = prefs.getBoolean(PREF_KEYBOARD_NOTIFICATION,
                 res.getBoolean(R.bool.default_keyboard_notification));
         mFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT,
                 res.getBoolean(R.bool.default_full_in_portrait));
