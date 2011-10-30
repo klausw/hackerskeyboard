@@ -714,7 +714,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
-        //Log.i("PCKeyboard", "onStartInputView " + attribute + " " + restarting);
+        //Log.i("PCKeyboard", "onStartInputView " + attribute + ", inputType= " + Integer.toHexString(attribute.inputType) + ", restarting=" + restarting);
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
         // In landscape mode, this method gets called without the input view
         // being created.
@@ -731,16 +731,18 @@ public class LatinIME extends InputMethodService implements
 
         TextEntryState.newSession(this);
 
-        // Most such things we decide below in the switch statement, but we need
-        // to know
-        // now whether this is a password text field, because we need to know
-        // now (before
+        // Most such things we decide below in the switch statement, but we need to know
+        // now whether this is a password text field, because we need to know now (before
         // the switch statement) whether we want to enable the voice button.
         mPasswordText = false;
         int variation = attribute.inputType & EditorInfo.TYPE_MASK_VARIATION;
         if (variation == EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
-                || variation == EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
-            mPasswordText = true;
+                || variation == EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                || variation == 0xe0 /* EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD */
+        ) {
+            if ((attribute.inputType & EditorInfo.TYPE_MASK_CLASS) == EditorInfo.TYPE_CLASS_TEXT) {
+                mPasswordText = true;
+            }
         }
 
         mEnableVoiceButton = shouldShowVoiceButton(makeFieldContext(),
@@ -780,8 +782,7 @@ public class LatinIME extends InputMethodService implements
             // startPrediction();
             mPredictionOn = true;
             // Make sure that passwords are not displayed in candidate view
-            if (variation == EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
-                    || variation == EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+            if (mPasswordText) {
                 mPredictionOn = false;
             }
             if (variation == EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
