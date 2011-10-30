@@ -17,7 +17,7 @@
 ** limitations under the License.
 **
 **
-** 5-row layout for Czech QWERTZ.
+** 5-row layout for Czech QWERTY.
 **
 ** See http://code.google.com/p/hackerskeyboard/wiki/AddingNewLayouts for
 ** more information.
@@ -97,9 +97,9 @@
     <string name="key_ad05_shift">T</string>
     <string name="key_ad05_alt">@string/alternates_for_t</string>
     
-    <string name="key_ad06_main">z</string>
-    <string name="key_ad06_shift">Z</string>
-    <string name="key_ad06_alt">@string/alternates_for_z</string>
+    <string name="key_ad06_main">y</string>
+    <string name="key_ad06_shift">Y</string>
+    <string name="key_ad06_alt">@string/alternates_for_y</string>
 
     <string name="key_ad07_main">u</string>
     <string name="key_ad07_shift">U</string>
@@ -179,9 +179,9 @@
     <string name="key_lsgt_shift"></string>
     <string name="key_lsgt_alt"></string>
 
-    <string name="key_ab01_main">y</string>
-    <string name="key_ab01_shift">Y</string>
-    <string name="key_ab01_alt">@string/alternates_for_y</string>
+    <string name="key_ab01_main">z</string>
+    <string name="key_ab01_shift">Z</string>
+    <string name="key_ab01_alt">@string/alternates_for_z</string>
 
     <string name="key_ab02_main">x</string>
     <string name="key_ab02_shift">X</string>
