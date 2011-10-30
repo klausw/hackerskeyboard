@@ -73,8 +73,8 @@
     <string name="key_ae11_alt">=%-_\?\¿</string>
     
     <string name="key_ae12_main">&#x0301;</string>
-    <string name="key_ae12_shift">&#x02C7;</string>
-    <string name="key_ae12_alt">&#x0301;&#x02C7;&lt;|</string>
+    <string name="key_ae12_shift">&#x030c;</string>
+    <string name="key_ae12_alt">&#x0301;&#x030c;&lt;&gt;|</string>
 
 
     <string name="key_ad01_main">q</string>
