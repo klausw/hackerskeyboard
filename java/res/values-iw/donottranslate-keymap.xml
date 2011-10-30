@@ -170,14 +170,10 @@
     <string name="key_ac10_shift">:</string>
     <string name="key_ac10_alt">ף:</string>
 
-    <string name="key_ac11_main">\'</string>
+    <string name="key_ac11_main">,</string>
     <string name="key_ac11_shift">\"</string>
-    <string name="key_ac11_alt">\'\"‘’“”</string>
+    <string name="key_ac11_alt">,\"‘’“”</string>
 
-
-    <string name="key_lsgt_main">&lt;</string>
-    <string name="key_lsgt_shift">&gt;</string>
-    <string name="key_lsgt_alt">&lt;&gt;|</string>
 
     <string name="key_ab01_main">ז</string>
     <string name="key_ab01_shift">Z</string>
@@ -209,7 +205,7 @@
 
     <string name="key_ab08_main">ת</string>
     <string name="key_ab08_shift">&gt;</string>
-    <string name="key_ab08_alt">,&gt;≥»›</string>
+    <string name="key_ab08_alt">&gt;≥»›</string>
 
     <string name="key_ab09_main">ץ</string>
     <string name="key_ab09_shift">&lt;</string>
