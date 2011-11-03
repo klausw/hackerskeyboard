@@ -1498,7 +1498,7 @@ public class LatinIME extends InputMethodService implements
             CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F7, KeyEvent.KEYCODE_7);
             CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F8, KeyEvent.KEYCODE_8);
             CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F9, KeyEvent.KEYCODE_9);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F10, KeyEvent.KEYCODE_8);
+            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F10, KeyEvent.KEYCODE_0);
 
             // Natively supported by ConnectBot
             // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_UP, "OA");
