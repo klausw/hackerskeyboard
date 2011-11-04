@@ -1340,7 +1340,7 @@ public class LatinIME extends InputMethodService implements
 
     private void maybeRemovePreviousPeriod(CharSequence text) {
         final InputConnection ic = getCurrentInputConnection();
-        if (ic == null)
+        if (ic == null || text.length() == 0)
             return;
 
         // When the text's first character is '.', remove the previous period
