@@ -2346,7 +2346,8 @@ public class LatinIME extends InputMethodService implements
             boolean haveMinimalSuggestion) {
 
         if (mIsShowingHint) {
-            setCandidatesView(mCandidateViewContainer);
+            if (mCandidateViewContainer != null)
+                setCandidatesView(mCandidateViewContainer);
             mIsShowingHint = false;
         }
 
