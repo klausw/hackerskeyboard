@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InflateException;
+import android.view.ViewParent;
 
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
@@ -688,10 +689,16 @@ public class KeyboardSwitcher implements
             mInputView.setOnKeyboardActionListener(mInputMethodService);
             mLayoutId = newLayout;
         }
+        final RuntimeException where = new RuntimeException(); // FIXME: remove
         mInputMethodService.mHandler.post(new Runnable() {
             public void run() {
                 if (mInputView != null) {
-                    mInputMethodService.setInputView(mInputView);
+                    ViewParent parent = mInputView.getParent();
+                    if (parent == null) {
+                        mInputMethodService.setInputView(mInputView);
+                    } else {
+                        Log.w(TAG, "unexpected non-null parent " + parent + " for " + mInputView, where);
+                    }
                 }
                 mInputMethodService.updateInputViewShown();
             }
