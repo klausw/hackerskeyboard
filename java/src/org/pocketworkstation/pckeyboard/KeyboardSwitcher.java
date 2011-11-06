@@ -689,7 +689,7 @@ public class KeyboardSwitcher implements
             mInputView.setOnKeyboardActionListener(mInputMethodService);
             mLayoutId = newLayout;
         }
-        final RuntimeException where = new RuntimeException(); // FIXME: remove
+        //final RuntimeException where = new RuntimeException(); // FIXME: remove
         mInputMethodService.mHandler.post(new Runnable() {
             public void run() {
                 if (mInputView != null) {
@@ -697,7 +697,7 @@ public class KeyboardSwitcher implements
                     if (parent == null) {
                         mInputMethodService.setInputView(mInputView);
                     } else {
-                        Log.w(TAG, "unexpected non-null parent " + parent + " for " + mInputView, where);
+                        Log.w(TAG, "unexpected non-null parent " + parent + " for " + mInputView);
                     }
                 }
                 mInputMethodService.updateInputViewShown();
