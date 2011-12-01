@@ -32,7 +32,7 @@ makeStrings () {
 	echo
 }
 
-LOCS=$(getLangsForFiles donottranslate-altchars.xml strings.xml)
+LOCS=$(getLangsForFiles donottranslate-altchars.xml donottranslate-keymap.xml strings.xml)
 DICTS=$(getLangsForDicts)
 
 makeStrings KBD_LOCALIZATIONS $LOCS $DICTS
