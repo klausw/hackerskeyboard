@@ -25,6 +25,13 @@ public class PluginManager extends BroadcastReceiver {
     private static String SOFTKEYBOARD_INTENT_DICT = "com.menny.android.anysoftkeyboard.DICTIONARY";
     private LatinIME mIME;
     
+    // Apparently anysoftkeyboard doesn't use ISO 639-1 language codes for its locales?
+    // Add exceptions as needed.
+    private static Map<String, String> SOFTKEYBOARD_LANG_MAP = new HashMap<String, String>();
+    static {
+        SOFTKEYBOARD_LANG_MAP.put("dk", "da");
+    }
+    
     PluginManager(LatinIME ime) {
     	super();
     	mIME = ime;
@@ -142,6 +149,8 @@ public class PluginManager extends BroadcastReceiver {
                                 if (tag.equals("Dictionary")) {
                                     assetName = xrp.getAttributeValue(null, "dictionaryAssertName"); // sic
                                     lang = xrp.getAttributeValue(null, "locale");
+                                    String convLang = SOFTKEYBOARD_LANG_MAP.get(lang);
+                                    if (convLang != null) lang = convLang;
                                     //Log.i(TAG, "asset=" + assetName + " lang=" + lang);
                                 }
                             }
