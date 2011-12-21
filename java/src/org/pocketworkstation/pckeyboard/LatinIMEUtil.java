@@ -76,11 +76,6 @@ public class LatinIMEUtil {
         }
     }
 
-    public static boolean hasMultipleEnabledIMEs(Context context) {
-        return ((InputMethodManager) context.getSystemService(
-                Context.INPUT_METHOD_SERVICE)).getEnabledInputMethodList().size() > 1;
-    }
-
     /* package */ static class RingCharBuffer {
         private static RingCharBuffer sRingCharBuffer = new RingCharBuffer();
         private static final char PLACEHOLDER_DELIMITER_CHAR = '\uFFFC';
