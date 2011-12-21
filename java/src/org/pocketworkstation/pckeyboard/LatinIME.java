@@ -162,9 +162,9 @@ public class LatinIME extends InputMethodService implements
     // Key events coming any faster than this are long-presses.
     private static final int QUICK_PRESS = 200;
 
-    static final int KEYCODE_ENTER = '\n';
-    static final int KEYCODE_SPACE = ' ';
-    static final int KEYCODE_PERIOD = '.';
+    static final int ASCII_ENTER = '\n';
+    static final int ASCII_SPACE = ' ';
+    static final int ASCII_PERIOD = '.';
 
     // Contextual menu positions
     private static final int POS_METHOD = 0;
@@ -1305,7 +1305,7 @@ public class LatinIME extends InputMethodService implements
             return;
         CharSequence lastTwo = ic.getTextBeforeCursor(2, 0);
         if (lastTwo != null && lastTwo.length() == 2
-                && lastTwo.charAt(0) == KEYCODE_SPACE
+                && lastTwo.charAt(0) == ASCII_SPACE
                 && isSentenceSeparator(lastTwo.charAt(1))) {
             ic.beginBatchEdit();
             ic.deleteSurroundingText(2, 0);
@@ -1322,9 +1322,9 @@ public class LatinIME extends InputMethodService implements
             return;
         CharSequence lastThree = ic.getTextBeforeCursor(3, 0);
         if (lastThree != null && lastThree.length() == 3
-                && lastThree.charAt(0) == KEYCODE_PERIOD
-                && lastThree.charAt(1) == KEYCODE_SPACE
-                && lastThree.charAt(2) == KEYCODE_PERIOD) {
+                && lastThree.charAt(0) == ASCII_PERIOD
+                && lastThree.charAt(1) == ASCII_SPACE
+                && lastThree.charAt(2) == ASCII_PERIOD) {
             ic.beginBatchEdit();
             ic.deleteSurroundingText(3, 0);
             ic.commitText(" ..", 1);
@@ -1343,8 +1343,8 @@ public class LatinIME extends InputMethodService implements
         CharSequence lastThree = ic.getTextBeforeCursor(3, 0);
         if (lastThree != null && lastThree.length() == 3
                 && Character.isLetterOrDigit(lastThree.charAt(0))
-                && lastThree.charAt(1) == KEYCODE_SPACE
-                && lastThree.charAt(2) == KEYCODE_SPACE) {
+                && lastThree.charAt(1) == ASCII_SPACE
+                && lastThree.charAt(2) == ASCII_SPACE) {
             ic.beginBatchEdit();
             ic.deleteSurroundingText(2, 0);
             ic.commitText(". ", 1);
@@ -1363,8 +1363,8 @@ public class LatinIME extends InputMethodService implements
         // if there is one.
         CharSequence lastOne = ic.getTextBeforeCursor(1, 0);
         if (lastOne != null && lastOne.length() == 1
-                && lastOne.charAt(0) == KEYCODE_PERIOD
-                && text.charAt(0) == KEYCODE_PERIOD) {
+                && lastOne.charAt(0) == ASCII_PERIOD
+                && text.charAt(0) == ASCII_PERIOD) {
             ic.deleteSurroundingText(1, 0);
         }
     }
@@ -1376,7 +1376,7 @@ public class LatinIME extends InputMethodService implements
 
         CharSequence lastOne = ic.getTextBeforeCursor(1, 0);
         if (lastOne != null && lastOne.length() == 1
-                && lastOne.charAt(0) == KEYCODE_SPACE) {
+                && lastOne.charAt(0) == ASCII_SPACE) {
             ic.deleteSurroundingText(1, 0);
         }
     }
@@ -1763,7 +1763,7 @@ public class LatinIME extends InputMethodService implements
             if (processMultiKey(primaryCode)) {
                 break;
             }
-            if (primaryCode != KEYCODE_ENTER) {
+            if (primaryCode != ASCII_ENTER) {
                 mJustAddedAutoSpace = false;
             }
             RingCharBuffer.getInstance().push((char) primaryCode, x, y);
@@ -2061,14 +2061,14 @@ public class LatinIME extends InputMethodService implements
                 pickedDefault = pickDefaultSuggestion();
                 // Picked the suggestion by the space key. We consider this
                 // as "added an auto space".
-                if (primaryCode == KEYCODE_SPACE) {
+                if (primaryCode == ASCII_SPACE) {
                     mJustAddedAutoSpace = true;
                 }
             } else {
                 commitTyped(ic);
             }
         }
-        if (mJustAddedAutoSpace && primaryCode == KEYCODE_ENTER) {
+        if (mJustAddedAutoSpace && primaryCode == ASCII_ENTER) {
             removeTrailingSpace();
             mJustAddedAutoSpace = false;
         }
@@ -2077,15 +2077,15 @@ public class LatinIME extends InputMethodService implements
         // Handle the case of ". ." -> " .." with auto-space if necessary
         // before changing the TextEntryState.
         if (TextEntryState.getState() == TextEntryState.State.PUNCTUATION_AFTER_ACCEPTED
-                && primaryCode == KEYCODE_PERIOD) {
+                && primaryCode == ASCII_PERIOD) {
             reswapPeriodAndSpace();
         }
 
         TextEntryState.typedCharacter((char) primaryCode, true);
         if (TextEntryState.getState() == TextEntryState.State.PUNCTUATION_AFTER_ACCEPTED
-                && primaryCode != KEYCODE_ENTER) {
+                && primaryCode != ASCII_ENTER) {
             swapPunctuationAndSpace();
-        } else if (isPredictionOn() && primaryCode == KEYCODE_SPACE) {
+        } else if (isPredictionOn() && primaryCode == ASCII_SPACE) {
             doubleSpace();
         }
         if (pickedDefault) {
@@ -2540,7 +2540,7 @@ public class LatinIME extends InputMethodService implements
             // a revert, unless
             // we just did a correction, in which case we need to stay in
             // TextEntryState.State.PICKED_SUGGESTION state.
-            TextEntryState.typedCharacter((char) KEYCODE_SPACE, true);
+            TextEntryState.typedCharacter((char) ASCII_SPACE, true);
             setNextSuggestions();
         } else if (!showingAddToDictionaryHint) {
             // If we're not showing the "Touch again to save", then show
@@ -2852,7 +2852,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void sendSpace() {
-        sendKeyChar((char) KEYCODE_SPACE);
+        sendKeyChar((char) ASCII_SPACE);
         updateShiftKeyState(getCurrentInputEditorInfo());
         // onKey(KEY_SPACE[0], KEY_SPACE);
     }
@@ -3119,10 +3119,10 @@ public class LatinIME extends InputMethodService implements
             case Keyboard.KEYCODE_DELETE:
                 sound = AudioManager.FX_KEYPRESS_DELETE;
                 break;
-            case KEYCODE_ENTER:
+            case ASCII_ENTER:
                 sound = AudioManager.FX_KEYPRESS_RETURN;
                 break;
-            case KEYCODE_SPACE:
+            case ASCII_SPACE:
                 sound = AudioManager.FX_KEYPRESS_SPACEBAR;
                 break;
             }

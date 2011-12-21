@@ -152,7 +152,7 @@ public class LatinKeyboard extends Keyboard {
         	    || xmlLayoutResId == R.xml.kbd_full_shift;
         mIsFnFullKeyboard = xmlLayoutResId == R.xml.kbd_full_fn;
         // The index of space key is available only after Keyboard constructor has finished.
-        mSpaceKeyIndexArray = new int[] { indexOf(LatinIME.KEYCODE_SPACE) };
+        mSpaceKeyIndexArray = new int[] { indexOf(LatinIME.ASCII_SPACE) };
         // TODO remove this initialization after cleanup
         mVerticalGap = super.getVerticalGap();
     }
@@ -163,13 +163,13 @@ public class LatinKeyboard extends Keyboard {
         Key key = new LatinKey(res, parent, x, y, parser);
         if (key.codes == null) return key;
         switch (key.codes[0]) {
-        case LatinIME.KEYCODE_ENTER:
+        case LatinIME.ASCII_ENTER:
             mEnterKey = key;
             break;
         case LatinKeyboardView.KEYCODE_F1:
             mF1Key = key;
             break;
-        case LatinIME.KEYCODE_SPACE:
+        case LatinIME.ASCII_SPACE:
             mSpaceKey = key;
             break;
         case KEYCODE_MODE_CHANGE:
@@ -663,7 +663,7 @@ public class LatinKeyboard extends Keyboard {
             	}
             }
             if (code == KEYCODE_DELETE) x -= key.width / 6;
-        } else if (code == LatinIME.KEYCODE_SPACE) {
+        } else if (code == LatinIME.ASCII_SPACE) {
             y += LatinKeyboard.sSpacebarVerticalCorrection;
             if (mLanguageSwitcher.getLocaleCount() > 1) {
                 if (mCurrentlyInSpace) {
