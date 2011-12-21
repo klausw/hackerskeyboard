@@ -795,7 +795,7 @@ public class Keyboard {
                 for (int i = 0; i < mKeys.size(); i++) {
                     final Key key = mKeys.get(i);
                     boolean isSpace = key.codes != null && key.codes.length > 0 &&
-                    		key.codes[0] == LatinIME.KEYCODE_SPACE;
+                    		key.codes[0] == LatinIME.ASCII_SPACE;
                     if (key.squaredDistanceFrom(x, y) < mProximityThreshold ||
                             key.squaredDistanceFrom(x + mCellWidth - 1, y) < mProximityThreshold ||
                             key.squaredDistanceFrom(x + mCellWidth - 1, y + mCellHeight - 1)
