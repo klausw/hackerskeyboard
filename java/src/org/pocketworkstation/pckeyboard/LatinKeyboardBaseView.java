@@ -30,6 +30,7 @@ import android.graphics.Region.Op;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
+
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -45,6 +46,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -176,7 +178,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private float mBackgroundDimAmount;
     private float mKeyHysteresisDistance;
     private float mVerticalCorrection;
-    private float mLabelScale = 1.0f;
     private int mPreviewOffset;
     private int mPreviewHeight;
     private int mPopupLayout;
@@ -233,10 +234,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private final SwipeTracker mSwipeTracker = new SwipeTracker();
     private final int mSwipeThreshold;
     private final boolean mDisambiguateSwipe;
-
-    // Configuration
-    private boolean mHintsOnOtherKeys = true;
-    private boolean mHintsOnLetters = true;
 
     // Drawing
     /** Whether the keyboard bitmap needs to be redrawn before it's blitted. **/
@@ -583,10 +580,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mKeyRepeatInterval = res.getInteger(R.integer.config_key_repeat_interval);
     }
 
-    public void setHintMode(int hintMode) {
-        //Log.i("PCKeyboard", "set hintMode=" + hintMode);
-        mHintsOnOtherKeys = (hintMode >= 1);
-        mHintsOnLetters = (hintMode >= 2);
+    private boolean showHintsOnOtherKeys() {
+        return LatinIME.sKeyboardSettings.hintMode >= 1;
+    }
+
+    private boolean showHintsOnLetters() {
+        return LatinIME.sKeyboardSettings.hintMode >= 2;
     }
 
     public void setOnKeyboardActionListener(OnKeyboardActionListener listener) {
@@ -634,10 +633,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mMiniKeyboardCache.clear();
     }
     
-    public void setLabelScale(float scale) {
-    	mLabelScale = scale;
-    }
-
     /**
      * Returns the current keyboard being displayed by this view.
      * @return the currently attached keyboard
@@ -795,22 +790,22 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
     
     private void drawDeadKeyLabel(Canvas canvas, char c, int x, float baseline, Paint paint) {
-    	String accent = DeadAccentSequence.getSpacing(c);
-    	canvas.drawText(Character.toString(Keyboard.DEAD_KEY_PLACEHOLDER), x, baseline, paint);
+        String accent = DeadAccentSequence.getSpacing(c);
+        canvas.drawText(Character.toString(Keyboard.DEAD_KEY_PLACEHOLDER), x, baseline, paint);
         canvas.drawText(accent, x, baseline, paint);
     }
 
     private int getLabelHeight(Paint paint, int labelSize) {
-    	Integer labelHeightValue = mTextHeightCache.get(labelSize);
-    	if (labelHeightValue != null) {
-    		return labelHeightValue;
-    	} else {
-    		Rect textBounds = new Rect();
-    		paint.getTextBounds(KEY_LABEL_HEIGHT_REFERENCE_CHAR, 0, 1, textBounds);
-    		int labelHeight = textBounds.height();
-    		mTextHeightCache.put(labelSize, labelHeight);
-    		return labelHeight;
-    	}
+        Integer labelHeightValue = mTextHeightCache.get(labelSize);
+        if (labelHeightValue != null) {
+            return labelHeightValue;
+        } else {
+            Rect textBounds = new Rect();
+            paint.getTextBounds(KEY_LABEL_HEIGHT_REFERENCE_CHAR, 0, 1, textBounds);
+            int labelHeight = textBounds.height();
+            mTextHeightCache.put(labelSize, labelHeight);
+            return labelHeight;
+        }
     }
 
     private void onBufferDraw() {
@@ -893,11 +888,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // For characters, use large font. For labels like "Done", use small font.
                 final int labelSize;
                 if (label.length() > 1 && key.codes.length < 2) {
-                    //Log.i(TAG, "mLabelTextSize=" + mLabelTextSize + " mLabelScale=" + mLabelScale);
-                    labelSize = (int)(mLabelTextSize * mLabelScale);
+                    //Log.i(TAG, "mLabelTextSize=" + mLabelTextSize + " LatinIME.sKeyboardSettings.labelScale=" + LatinIME.sKeyboardSettings.labelScale);
+                    labelSize = (int)(mLabelTextSize * LatinIME.sKeyboardSettings.labelScale);
                     paint.setTypeface(Typeface.DEFAULT);
                 } else {
-                    labelSize = (int)(mKeyTextSize * mLabelScale);
+                    labelSize = (int)(mKeyTextSize * LatinIME.sKeyboardSettings.labelScale);
                     paint.setTypeface(mKeyTextStyle);
                 }
                 paint.setFakeBoldText(key.isCursor);
@@ -911,16 +906,16 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // Draw hint label (if present) behind the main key
                 char hint = getHintLabel(key);
                 if (hint != 0) {
-                    int hintTextSize = (int)(mKeyTextSize * 0.6 * mLabelScale);
+                    int hintTextSize = (int)(mKeyTextSize * 0.6 * LatinIME.sKeyboardSettings.labelScale);
                     paintHint.setTextSize(hintTextSize);
 
                     final int hintLabelHeight = getLabelHeight(paintHint, hintTextSize);
                     int x = key.width - padding.right;
                     int baseline = padding.top + hintLabelHeight * 11/10;
                     if (Character.getType(hint) == Character.NON_SPACING_MARK) {
-                    	drawDeadKeyLabel(canvas, hint, x, baseline, paintHint);
+                        drawDeadKeyLabel(canvas, hint, x, baseline, paintHint);
                     } else {
-                    	canvas.drawText(Character.toString(hint), x, baseline, paintHint);
+                        canvas.drawText(Character.toString(hint), x, baseline, paintHint);
                     }
                 }
 
@@ -946,9 +941,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 if (key.isDeadKey) {
-                	drawDeadKeyLabel(canvas, label.charAt(0), centerX, baseline, paint);
+                    drawDeadKeyLabel(canvas, label.charAt(0), centerX, baseline, paint);
                 } else {
-                	canvas.drawText(label, centerX, baseline, paint);
+                    canvas.drawText(label, centerX, baseline, paint);
                 }
                 if (key.isCursor) {
                 	// poor man's bold
@@ -1271,7 +1266,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             mMiniKeyboardCache.put(popupKey, container);
         }
         mMiniKeyboard = (LatinKeyboardBaseView)container.findViewById(R.id.LatinKeyboardBaseView);
-        mMiniKeyboard.setLabelScale(mLabelScale);
         if (mWindowOffset == null) {
             mWindowOffset = new int[2];
             getLocationInWindow(mWindowOffset);
@@ -1371,11 +1365,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             // Ascii char such as '@' or '?'. Otherwise check the hint mode setting.
             boolean show = false;
             if (popupIsDigit) show = true;
-            if (mHintsOnLetters) show = true;
-            if (mHintsOnOtherKeys && popupIs7BitAscii) show = true;
+            if (showHintsOnLetters()) show = true;
+            if (showHintsOnOtherKeys() && popupIs7BitAscii) show = true;
             if (!show) return 0;
         } else {
-            if (!mHintsOnOtherKeys) return 0;
+            if (!showHintsOnOtherKeys()) return 0;
         }
 
         return label;
