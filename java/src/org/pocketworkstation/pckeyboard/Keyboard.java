@@ -271,7 +271,8 @@ public class Keyboard {
         public boolean isCursor;
         public boolean isDeadKey;
         public String hint; // Set by LatinKeyboardBaseView
-
+        public String altHint; // Set by LatinKeyboardBaseView
+        
         /**
          * Flags that specify the anchoring to edges of the keyboard for detecting touch events
          * that are just out of the boundary of the key. This is a bit mask of
