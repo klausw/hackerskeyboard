@@ -106,6 +106,15 @@
             android:defaultValue="1.0"
             />
 
+    <ListPreference
+            android:key="pref_keyboard_layout_20100902"
+            android:title="@string/keyboard_layout"
+            android:persistent="true"
+            android:entryValues="@array/keyboard_layout_modes_values"
+            android:entries="@array/keyboard_layout_modes"
+            android:defaultValue="4"
+            />
+
     <PreferenceCategory
             android:title="@string/title_application_category"
             android:key="application_settings">
