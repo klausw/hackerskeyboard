@@ -22,6 +22,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
+
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -396,7 +397,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mExtension.setPopupOffset(0, -windowLocation[1]);
             Keyboard keyboard;
             mExtension.setKeyboard(keyboard = new LatinKeyboard(getContext(),
-                    ((LatinKeyboard) getKeyboard()).getExtension()));
+                    ((LatinKeyboard) getKeyboard()).getExtension(), 0, LatinIME.sKeyboardSettings.rowHeightPercent));
             mExtensionPopup.setContentView(mExtension);
             mExtensionPopup.setWidth(getWidth());
             mExtensionPopup.setHeight(keyboard.getHeight());
