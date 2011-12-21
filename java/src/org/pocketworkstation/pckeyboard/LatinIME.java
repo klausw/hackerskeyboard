@@ -732,6 +732,11 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
+        sKeyboardSettings.editorPackageName = attribute.packageName;
+        sKeyboardSettings.editorFieldName = attribute.fieldName;
+        sKeyboardSettings.editorFieldId = attribute.fieldId;
+        sKeyboardSettings.editorInputType = attribute.inputType;
+        
         //Log.i("PCKeyboard", "onStartInputView " + attribute + ", inputType= " + Integer.toHexString(attribute.inputType) + ", restarting=" + restarting);
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
         // In landscape mode, this method gets called without the input view
