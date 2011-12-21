@@ -40,6 +40,12 @@
         <!-- Color to use for cursor key labels. -->
         <attr name="keyCursorColor" format="color" />
 
+	<!--  Do symbols need to be recolored? -->
+	<attr name="recolorSymbols" format="boolean" />
+
+	<!--  Transparent key background? 0=fully transparent, 255=opaque (fast) -->
+	<attr name="backgroundAlpha" format="integer" />
+	
         <!-- Layout resource for key press feedback.-->
         <attr name="keyPreviewLayout" format="reference" />
 

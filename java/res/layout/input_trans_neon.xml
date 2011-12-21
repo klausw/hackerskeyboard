@@ -25,14 +25,16 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
+        android:background="#b0000000"
         android:verticalCorrection="0dip"
 
-        latin:keyBackground="@drawable/btn_keyboard_key_fulltrans"
+        latin:keyBackground="@drawable/btn_keyboard_key_gingerbread"
         latin:keyTextColor="#FFEEEEFF"
         latin:keyHintColor="#FF000066"
         latin:keyCursorColor="#FFFFFFFF"
         latin:shadowColor="#FF8866FF"
         latin:shadowRadius="9"
         latin:keyTextStyle="bold"
+        latin:recolorSymbols="true"
+        latin:backgroundAlpha="48"
         />
