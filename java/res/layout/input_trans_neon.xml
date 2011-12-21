@@ -28,7 +28,7 @@
         android:background="#b0000000"
         android:verticalCorrection="0dip"
 
-        latin:keyBackground="@drawable/btn_keyboard_key_gingerbread"
+        latin:keyBackground="@drawable/btn_keyboard_key_ics"
         latin:keyTextColor="#FFEEEEFF"
         latin:keyHintColor="#FF000066"
         latin:keyCursorColor="#FFFFFFFF"
