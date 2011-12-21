@@ -90,6 +90,9 @@ public class Keyboard {
 
     /** Horizontal gap default for all rows */
     private float mDefaultHorizontalGap;
+    
+    private float mHorizontalPad;
+    private float mVerticalPad;
 
     /** Default key width */
     private float mDefaultWidth;
@@ -342,7 +345,7 @@ public class Keyboard {
          */
         public Key(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
             this(parent);
-
+            
             this.x = x;
             this.y = y;
 
@@ -352,19 +355,24 @@ public class Keyboard {
             realWidth = getDimensionOrFraction(a,
                     R.styleable.Keyboard_keyWidth,
                     keyboard.mDisplayWidth, parent.defaultWidth);
-            height = Math.round(getDimensionOrFraction(a,
+            float realHeight = getDimensionOrFraction(a,
                     R.styleable.Keyboard_keyHeight,
-                    keyboard.mDisplayHeight, parent.defaultHeight));
+                    keyboard.mDisplayHeight, parent.defaultHeight);
+            realHeight -= parent.parent.mVerticalPad;
+            height = Math.round(realHeight);
+            this.y += parent.parent.mVerticalPad / 2;
             realGap = getDimensionOrFraction(a,
                     R.styleable.Keyboard_horizontalGap,
                     keyboard.mDisplayWidth, parent.defaultHorizontalGap);
+            realGap += parent.parent.mHorizontalPad;
+            realWidth -= parent.parent.mHorizontalPad;
             width = Math.round(realWidth);
             gap = Math.round(realGap);
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
                     R.styleable.Keyboard_Key);
-            this.realX = this.x + realGap;
-            this.x += gap;
+            this.realX = this.x + realGap - parent.parent.mHorizontalPad / 2;
+            this.x = Math.round(this.realX);
             TypedValue codesValue = new TypedValue();
             a.getValue(R.styleable.Keyboard_Key_codes,
                     codesValue);
@@ -950,6 +958,12 @@ public class Keyboard {
         mDefaultVerticalGap = Math.round(getDimensionOrFraction(a,
                 R.styleable.Keyboard_verticalGap,
                 mDisplayHeight, 0));
+        mHorizontalPad = getDimensionOrFraction(a,
+                R.styleable.Keyboard_horizontalPad,
+                mDisplayWidth, res.getDimension(R.dimen.key_horizontal_pad));
+        mVerticalPad = getDimensionOrFraction(a,
+                R.styleable.Keyboard_verticalPad,
+                mDisplayHeight, res.getDimension(R.dimen.key_vertical_pad));
         mProximityThreshold = (int) (mDefaultWidth * SEARCH_DISTANCE);
         mProximityThreshold = mProximityThreshold * mProximityThreshold; // Square it for comparison
         a.recycle();
