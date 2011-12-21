@@ -34,6 +34,9 @@
         <!-- Color to use for the label in a key. -->
         <attr name="keyTextColor" format="color" />
 
+        <!-- Color to use for key hint labels. -->
+        <attr name="keyHintColor" format="color" />
+
         <!-- Color to use for cursor key labels. -->
         <attr name="keyCursorColor" format="color" />
 
