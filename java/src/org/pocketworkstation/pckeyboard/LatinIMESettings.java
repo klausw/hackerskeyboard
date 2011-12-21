@@ -17,7 +17,9 @@
 package org.pocketworkstation.pckeyboard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,11 +30,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.speech.SpeechRecognizer;
 import android.text.AutoText;
+import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import com.android.inputmethod.voice.SettingsUtil;
 import com.android.inputmethod.voice.VoiceInputLogger;
@@ -45,6 +50,7 @@ public class LatinIMESettings extends PreferenceActivity
     private static final String PREDICTION_SETTINGS_KEY = "prediction_settings";
     private static final String VOICE_SETTINGS_KEY = "voice_mode";
     /* package */ static final String PREF_SETTINGS_KEY = "settings_key";
+    static final String INPUT_CONNECTION_INFO = "input_connection_info";    
 
     private static final String TAG = "LatinIMESettings";
 
@@ -59,6 +65,7 @@ public class LatinIMESettings extends PreferenceActivity
     private ListPreference mHintModePreference;
     private ListPreference mLabelScalePreference;
     private ListPreference mVibrateDurationPreference;
+    private Preference mInputConnectionInfo;
     private boolean mVoiceOn;
 
     private VoiceInputLogger mLogger;
@@ -78,6 +85,7 @@ public class LatinIMESettings extends PreferenceActivity
         mHintModePreference = (ListPreference) findPreference(LatinIME.PREF_HINT_MODE);
         mLabelScalePreference = (ListPreference) findPreference(KeyboardSwitcher.PREF_LABEL_SCALE);
         mVibrateDurationPreference = (ListPreference) findPreference(LatinIME.PREF_VIBRATE_LEN);
+        mInputConnectionInfo = (Preference) findPreference(INPUT_CONNECTION_INFO);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -124,6 +132,86 @@ public class LatinIMESettings extends PreferenceActivity
         updateSummaries();
     }
 
+    static Map<Integer, String> INPUT_CLASSES = new HashMap<Integer, String>();
+    static Map<Integer, String> DATETIME_VARIATIONS = new HashMap<Integer, String>();
+    static Map<Integer, String> TEXT_VARIATIONS = new HashMap<Integer, String>();
+    static Map<Integer, String> NUMBER_VARIATIONS = new HashMap<Integer, String>();
+    static {
+        INPUT_CLASSES.put(0x00000004, "DATETIME");
+        INPUT_CLASSES.put(0x00000002, "NUMBER");
+        INPUT_CLASSES.put(0x00000003, "PHONE");
+        INPUT_CLASSES.put(0x00000001, "TEXT"); 
+        INPUT_CLASSES.put(0x00000000, "NULL");
+        
+        DATETIME_VARIATIONS.put(0x00000010, "DATE");
+        DATETIME_VARIATIONS.put(0x00000020, "TIME");
+
+        NUMBER_VARIATIONS.put(0x00000010, "PASSWORD");
+
+        TEXT_VARIATIONS.put(0x00000020, "EMAIL_ADDRESS");
+        TEXT_VARIATIONS.put(0x00000030, "EMAIL_SUBJECT");
+        TEXT_VARIATIONS.put(0x000000b0, "FILTER");
+        TEXT_VARIATIONS.put(0x00000050, "LONG_MESSAGE");
+        TEXT_VARIATIONS.put(0x00000080, "PASSWORD");
+        TEXT_VARIATIONS.put(0x00000060, "PERSON_NAME");
+        TEXT_VARIATIONS.put(0x000000c0, "PHONETIC");
+        TEXT_VARIATIONS.put(0x00000070, "POSTAL_ADDRESS");
+        TEXT_VARIATIONS.put(0x00000040, "SHORT_MESSAGE");
+        TEXT_VARIATIONS.put(0x00000010, "URI");
+        TEXT_VARIATIONS.put(0x00000090, "VISIBLE_PASSWORD");
+        TEXT_VARIATIONS.put(0x000000a0, "WEB_EDIT_TEXT");
+        TEXT_VARIATIONS.put(0x000000d0, "WEB_EMAIL_ADDRESS");
+        TEXT_VARIATIONS.put(0x000000e0, "WEB_PASSWORD");
+
+    }
+    
+    private static void addBit(StringBuffer buf, int bit, String str) {
+        if (bit != 0) {
+            buf.append("|");
+            buf.append(str);
+        }
+    }
+
+    private static String inputTypeDesc(int type) {
+        int cls = type & 0x0000000f; // MASK_CLASS
+        int flags = type & 0x00fff000; // MASK_FLAGS
+        int var = type &  0x00000ff0; // MASK_VARIATION
+
+        StringBuffer out = new StringBuffer();
+        String clsName = INPUT_CLASSES.get(cls);
+        out.append(clsName != null ? clsName : "?");
+        
+        if (cls == InputType.TYPE_CLASS_TEXT) {
+            String varName = TEXT_VARIATIONS.get(var);
+            if (varName != null) {
+                out.append(".");
+                out.append(varName);
+            }
+            addBit(out, flags & 0x00010000, "AUTO_COMPLETE");
+            addBit(out, flags & 0x00008000, "AUTO_CORRECT");
+            addBit(out, flags & 0x00001000, "CAP_CHARACTERS");
+            addBit(out, flags & 0x00004000, "CAP_SENTENCES");
+            addBit(out, flags & 0x00002000, "CAP_WORDS");
+            addBit(out, flags & 0x00040000, "IME_MULTI_LINE");
+            addBit(out, flags & 0x00020000, "MULTI_LINE");
+            addBit(out, flags & 0x00080000, "NO_SUGGESTIONS");
+        } else if (cls == InputType.TYPE_CLASS_NUMBER) {
+            String varName = NUMBER_VARIATIONS.get(var);
+            if (varName != null) {
+                out.append(".");
+                out.append(varName);
+            }
+            addBit(out, flags & 0x00002000, "DECIMAL");
+            addBit(out, flags & 0x00001000, "SIGNED");        
+        } else if (cls == InputType.TYPE_CLASS_DATETIME) {
+            String varName = DATETIME_VARIATIONS.get(var);
+            if (varName != null) {
+                out.append(".");
+                out.append(varName);
+            }
+        }
+        return out.toString();
+    }
     private void setSummaryToEntry(ListPreference pref, CharSequence defVal) {
         CharSequence val = pref.getEntry();
         //Log.i("PCKeyboard", "setSummaryToEntry " + pref.getKey() + " val=" + val + " defVal=" + defVal);
@@ -143,6 +231,11 @@ public class LatinIMESettings extends PreferenceActivity
         setSummaryToEntry(mHintModePreference, res.getString(R.string.default_hint_mode));
         setSummaryToEntry(mLabelScalePreference, "1.0");
         setSummaryToEntry(mVibrateDurationPreference, res.getString(R.string.vibrate_duration_ms));
+        
+        mInputConnectionInfo.setSummary(String.format("%s type=%s",
+                LatinIME.sKeyboardSettings.editorPackageName,
+                inputTypeDesc(LatinIME.sKeyboardSettings.editorInputType)
+                ));
     }
 
     private void showVoiceConfirmation() {
