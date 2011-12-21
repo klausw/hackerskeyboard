@@ -277,7 +277,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
     @Override
     public boolean onTouchEvent(MotionEvent me) {
         LatinKeyboard keyboard = (LatinKeyboard) getKeyboard();
-        if (DEBUG_LINE) {
+        if (LatinIME.sKeyboardSettings.showTouchPos || DEBUG_LINE) {
             mLastX = (int) me.getX();
             mLastY = (int) me.getY();
             invalidate();
@@ -356,7 +356,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             MotionEvent down = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
                     MotionEvent.ACTION_DOWN,
                     me.getX(), me.getY(), me.getMetaState());
-            super.onTouchEvent(down);
+            super.onTouchEvent(down, true);
             down.recycle();
             // Send the actual event
             return super.onTouchEvent(me);
@@ -374,6 +374,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         if (!isShown() || popupKeyboardIsShowing()) {
             return false;
         }
+        PointerTracker.clearSlideKeys();
         if (((LatinKeyboard) getKeyboard()).getExtension() == 0) return false;
         makePopupWindow();
         mExtensionVisible = true;
@@ -584,7 +585,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 }
             }
         }
-        if (DEBUG_LINE) {
+        if (LatinIME.sKeyboardSettings.showTouchPos || DEBUG_LINE) {
             if (mPaint == null) {
                 mPaint = new Paint();
                 mPaint.setColor(0x80FFFFFF);

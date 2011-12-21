@@ -16,6 +16,9 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.OnKeyboardActionListener;
 import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.UIHandler;
 
@@ -79,6 +82,8 @@ public class PointerTracker {
 
     // pressed key
     private int mPreviousKey = NOT_A_KEY;
+    
+    private static List<Key> sSlideKeys = new ArrayList<Key>(10);
 
     // This class keeps track of a key index and a position where this pointer is.
     private static class KeyState {
@@ -199,6 +204,10 @@ public class PointerTracker {
         return mIsInSlidingKeyInput;
     }
 
+    public void setSlidingKeyInputState(boolean state) {
+        mIsInSlidingKeyInput = state;
+    }
+
     private boolean isValidKeyIndex(int keyIndex) {
         return keyIndex >= 0 && keyIndex < mKeys.length;
     }
@@ -307,6 +316,27 @@ public class PointerTracker {
         showKeyPreviewAndUpdateKey(keyIndex);
     }
 
+    private static void addSlideKey(Key key) {
+        if (!LatinIME.sKeyboardSettings.sendSlideKeys) return;
+        if (key == null) return;
+        if (key.modifier) {
+            clearSlideKeys();
+        } else {
+            sSlideKeys.add(key);
+        }
+    }
+    
+    /*package*/ static void clearSlideKeys() {
+        sSlideKeys.clear();
+    }
+    
+    void sendSlideKeys() {
+        for (Key key : sSlideKeys) {
+            detectAndSendKey(key, key.x, key.y, -1);            
+        }
+        clearSlideKeys();
+    }
+    
     public void onMoveEvent(int x, int y, long eventTime) {
         if (DEBUG_MOVE)
             debugLog("onMoveEvent:", x, y);
@@ -316,6 +346,8 @@ public class PointerTracker {
         int keyIndex = keyState.onMoveKey(x, y);
         final Key oldKey = getKey(keyState.getKeyIndex());
         if (isValidKeyIndex(keyIndex)) {
+            boolean isMinorMoveBounce = isMinorMoveBounce(x, y, keyIndex);
+            if (DEBUG_MOVE) Log.i(TAG, "isMinorMoveBounce=" +isMinorMoveBounce + " oldKey=" + (oldKey== null ? "null" : oldKey));
             if (oldKey == null) {
                 // The pointer has been slid in to the new key, but the finger was not on any keys.
                 // In this case, we must call onPress() to notify that the new key is being pressed.
@@ -332,7 +364,7 @@ public class PointerTracker {
                 }
                 keyState.onMoveToNewKey(keyIndex, x, y);
                 startLongPressTimer(keyIndex);
-            } else if (!isMinorMoveBounce(x, y, keyIndex)) {
+            } else if (!isMinorMoveBounce) {
                 // The pointer has been slid in to the new key from the previous key, we must call
                 // onRelease() first to notify that the previous key has been released, then call
                 // onPress() to notify that the new key is being pressed.
@@ -350,6 +382,7 @@ public class PointerTracker {
                         mKeyboardLayoutHasBeenChanged = false;
                         keyIndex = keyState.onMoveKey(x, y);
                     }
+                    addSlideKey(oldKey);
                 }
                 keyState.onMoveToNewKey(keyIndex, x, y);
                 startLongPressTimer(keyIndex);
@@ -376,6 +409,7 @@ public class PointerTracker {
         mHandler.cancelPopupPreview();
         showKeyPreviewAndUpdateKey(NOT_A_KEY);
         mIsInSlidingKeyInput = false;
+        sendSlideKeys();
         if (mKeyAlreadyProcessed)
             return;
         int keyIndex = mKeyState.onUpKey(x, y);
@@ -442,6 +476,7 @@ public class PointerTracker {
         if (newKey == curKey) {
             return true;
         } else if (isValidKeyIndex(curKey)) {
+            //return false; // TODO(klausw): tweak this?
             return getSquareDistanceToKeyEdge(x, y, mKeys[curKey]) < mKeyHysteresisDistanceSquared;
         } else {
             return false;
@@ -482,8 +517,12 @@ public class PointerTracker {
     }
 
     private void detectAndSendKey(int index, int x, int y, long eventTime) {
+        detectAndSendKey(getKey(index), x, y, eventTime);
+        mLastSentIndex = index;
+    }
+    
+    private void detectAndSendKey(Key key, int x, int y, long eventTime) {
         final OnKeyboardActionListener listener = mListener;
-        final Key key = getKey(index);
 
         if (key == null) {
             if (listener != null)
@@ -522,7 +561,6 @@ public class PointerTracker {
                     listener.onRelease(code);
                 }
             }
-            mLastSentIndex = index;
             mLastTapTime = eventTime;
         }
     }
