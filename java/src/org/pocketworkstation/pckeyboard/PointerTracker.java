@@ -42,7 +42,6 @@ public class PointerTracker {
 
     // Timing constants
     private final int mDelayBeforeKeyRepeatStart;
-    private final int mLongPressKeyTimeout;
     private final int mMultiTapKeyTimeout;
 
     // Miscellaneous constants
@@ -182,7 +181,6 @@ public class PointerTracker {
         mKeyState = new KeyState(keyDetector);
         mHasDistinctMultitouch = proxy.hasDistinctMultitouch();
         mDelayBeforeKeyRepeatStart = res.getInteger(R.integer.config_delay_before_key_repeat_start);
-        mLongPressKeyTimeout = res.getInteger(R.integer.config_long_press_key_timeout);
         mMultiTapKeyTimeout = res.getInteger(R.integer.config_multi_tap_key_timeout);
         resetMultiTap();
     }
@@ -510,9 +508,9 @@ public class PointerTracker {
     private void startLongPressTimer(int keyIndex) {
         if (mKeyboardSwitcher.isInMomentaryAutoModeSwitchState()) {
             // We use longer timeout for sliding finger input started from the symbols mode key.
-            mHandler.startLongPressTimer(mLongPressKeyTimeout * 3, keyIndex, this);
+            mHandler.startLongPressTimer(LatinIME.sKeyboardSettings.longpressTimeout * 3, keyIndex, this);
         } else {
-            mHandler.startLongPressTimer(mLongPressKeyTimeout, keyIndex, this);
+            mHandler.startLongPressTimer(LatinIME.sKeyboardSettings.longpressTimeout, keyIndex, this);
         }
     }
 

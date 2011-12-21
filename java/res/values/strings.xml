@@ -489,6 +489,7 @@
     <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
         dependent and may require overriding with a device specific overlay. Default is in durations.xml -->
     <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
+	<string name="title_vibrate_len">Vibrate duration</string>
     <string-array name="vibrate_duration_entries">
         <item>5 ms</item>
         <item>10 ms</item>
@@ -501,6 +502,21 @@
         <item>100 ms</item>
         <item>200 ms</item>
     </string-array>
+
+	<string name="title_long_press_duration">Long-press duration</string>
+    <string-array name="long_press_duration_entries">
+        <item>100 ms</item>
+        <item>200 ms</item>
+        <item>300 ms</item>
+        <item>400 ms</item>
+        <item>500 ms</item>
+        <item>600 ms</item>
+        <item>700 ms</item>
+        <item>800 ms</item>
+        <item>1000 ms</item>
+        <item>2000 ms</item>
+    </string-array>
+
 
     <string name="recorrect_warning">FYI: recorrection does not work correctly on pre-Gingerbread devices due to missing operating system support.</string>
     <string name="no_market_warning">Unable to launch Market.</string>

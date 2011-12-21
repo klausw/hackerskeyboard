@@ -149,6 +149,7 @@ public class LatinIME extends InputMethodService implements
     static final String PREF_HINT_MODE = "pref_hint_mode";
     static final String PREF_TOUCH_POS = "pref_touch_pos";
     static final String PREF_SLIDE_KEYS = "pref_slide_keys";
+    static final String PREF_LONGPRESS_TIMEOUT = "pref_long_press_duration";
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
@@ -428,6 +429,7 @@ public class LatinIME extends InputMethodService implements
         mHeightPortrait = getHeight(prefs, PREF_HEIGHT_PORTRAIT, res.getString(R.string.default_height_portrait));
         mHeightLandscape = getHeight(prefs, PREF_HEIGHT_LANDSCAPE, res.getString(R.string.default_height_landscape));
         LatinIME.sKeyboardSettings.hintMode = Integer.parseInt(prefs.getString(PREF_HINT_MODE, res.getString(R.string.default_hint_mode)));
+        LatinIME.sKeyboardSettings.longpressTimeout = getPrefInt(prefs, PREF_LONGPRESS_TIMEOUT, res.getString(R.string.default_long_press_duration));
         LatinIME.sKeyboardSettings.showTouchPos = prefs.getBoolean(PREF_TOUCH_POS, false);
         LatinIME.sKeyboardSettings.sendSlideKeys = prefs.getBoolean(PREF_SLIDE_KEYS, false);
 
@@ -2940,6 +2942,9 @@ public class LatinIME extends InputMethodService implements
             LatinIME.sKeyboardSettings.hintMode = Integer.parseInt(sharedPreferences.getString(PREF_HINT_MODE,
                     res.getString(R.string.default_hint_mode)));
             needReload = true;
+        } else if (PREF_LONGPRESS_TIMEOUT.equals(key)) {
+               LatinIME.sKeyboardSettings.longpressTimeout =getPrefInt(sharedPreferences, PREF_LONGPRESS_TIMEOUT,
+                       res.getString(R.string.default_long_press_duration));
         } else if (PREF_TOUCH_POS.equals(key)) {
             LatinIME.sKeyboardSettings.showTouchPos = sharedPreferences.getBoolean(PREF_TOUCH_POS, false);
         } else if (PREF_SLIDE_KEYS.equals(key)) {
