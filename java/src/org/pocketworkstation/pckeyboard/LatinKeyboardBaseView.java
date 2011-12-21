@@ -414,6 +414,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     public LatinKeyboardBaseView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        
+        Log.i(TAG, "Creating new LatinKeyboardBaseView");
 
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
@@ -439,6 +441,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_keyPreviewLayout:
                 previewLayout = a.getResourceId(attr, 0);
+                if (previewLayout == R.layout.null_layout) previewLayout = 0;
                 break;
             case R.styleable.LatinKeyboardBaseView_keyPreviewOffset:
                 mPreviewOffset = a.getDimensionPixelOffset(attr, 0);
@@ -460,6 +463,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_popupLayout:
                 mPopupLayout = a.getResourceId(attr, 0);
+                if (mPopupLayout == R.layout.null_layout) mPopupLayout = 0;
                 break;
             case R.styleable.LatinKeyboardBaseView_shadowColor:
                 mShadowColor = a.getColor(attr, 0);
@@ -494,17 +498,18 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         final Resources res = getResources();
 
-        mPreviewPopup = new PopupWindow(context);
         if (previewLayout != 0) {
+            mPreviewPopup = new PopupWindow(context);
+            Log.i(TAG, "new mPreviewPopup " + mPreviewPopup);
             mPreviewText = (TextView) inflate.inflate(previewLayout, null);
             mPreviewTextSizeLarge = (int) res.getDimension(R.dimen.key_preview_text_size_large);
             mPreviewPopup.setContentView(mPreviewText);
             mPreviewPopup.setBackgroundDrawable(null);
+            mPreviewPopup.setTouchable(false);
+            mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
         } else {
             mShowPreview = false;
         }
-        mPreviewPopup.setTouchable(false);
-        mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
         mDelayBeforePreview = res.getInteger(R.integer.config_delay_before_preview);
         mDelayBeforeSpacePreview = res.getInteger(R.integer.config_delay_before_space_preview);
         mDelayAfterPreview = res.getInteger(R.integer.config_delay_after_preview);
@@ -1675,8 +1680,13 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mHandler.cancelAllMessages();
 
         dismissPopupKeyboard();
-        mBuffer = null;
-        mCanvas = null;
+        // TODO(klausw): use a global bitmap repository, keeping two bitmaps permanently -
+        // one for main and one for popup.
+        //
+        // Allow having the backup bitmap be bigger than the canvas needed, only shrinking in rare cases -
+        // for example if reducing the size of the main keyboard.
+        //mBuffer = null;
+        //mCanvas = null;
         mMiniKeyboardCache.clear();
     }
 
@@ -1687,11 +1697,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     protected boolean popupKeyboardIsShowing() {
-        return mMiniKeyboardPopup.isShowing();
+        return mMiniKeyboardPopup != null && mMiniKeyboardPopup.isShowing();
     }
     
     protected void dismissPopupKeyboard() {
-        if (mMiniKeyboardPopup.isShowing()) {
+        if (mMiniKeyboardPopup != null && mMiniKeyboardPopup.isShowing()) {
             mMiniKeyboardPopup.dismiss();
             mMiniKeyboard = null;
             mMiniKeyboardOriginX = 0;
@@ -1701,7 +1711,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     public boolean handleBack() {
-        if (mMiniKeyboardPopup.isShowing()) {
+        if (mMiniKeyboardPopup != null && mMiniKeyboardPopup.isShowing()) {
             dismissPopupKeyboard();
             return true;
         }
