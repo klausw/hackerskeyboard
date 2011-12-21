@@ -913,7 +913,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                     final int hintLabelHeight = getLabelHeight(paintHint, hintTextSize);
                     int x = key.width - padding.right;
                     int baseline = padding.top + hintLabelHeight * 11/10;
-                    if (key.isDeadKey) {
+                    if (Character.getType(hint.charAt(0)) == Character.NON_SPACING_MARK) {
                         drawDeadKeyLabel(canvas, hint, x, baseline, paintHint);
                     } else {
                         canvas.drawText(hint, x, baseline, paintHint);
@@ -921,18 +921,18 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 }
 
                 // Draw alternate hint label (if present) behind the main key
-                char altHint = getAltHintLabel(key);
-                if (altHint != 0) {
-                    int hintTextSize = (int)(mKeyTextSize * 0.6 * mLabelScale);
+                String altHint = getAltHintLabel(key);
+                if (!altHint.equals("")) {
+                    int hintTextSize = (int)(mKeyTextSize * 0.6 * LatinIME.sKeyboardSettings.labelScale);
                     paintHint.setTextSize(hintTextSize);
 
                     final int hintLabelHeight = getLabelHeight(paintHint, hintTextSize);
                     int x = key.width - padding.right;
                     int baseline = padding.top + hintLabelHeight * 24/10;
-                    if (Character.getType(hint) == Character.NON_SPACING_MARK) {
+                    if (Character.getType(altHint.charAt(0)) == Character.NON_SPACING_MARK) {
                         drawDeadKeyLabel(canvas, altHint, x, baseline, paintHint);
                     } else {
-                        canvas.drawText(Character.toString(altHint), x, baseline, paintHint);
+                        canvas.drawText(altHint, x, baseline, paintHint);
                     }
                 }
 
@@ -1386,34 +1386,41 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return key.hint;
     }
 
-    private char getAltHintLabel(Key key) {
+    private String getAltHintLabel(Key key) {
+        if (key.altHint != null) return key.altHint;
+
+        String altHint = "";
         CharSequence popupChars = key.popupCharacters;
-        if (key.modifier || popupChars == null || popupChars.length() == 0) {
-                return 0;
+        VALIDATION:
+        {
+            if (key.modifier || popupChars == null || popupChars.length() == 0) {
+                break VALIDATION;
+            }
+
+            // Must keep this algorithm in sync with onLongPress() method for consistency!
+            boolean alignLeftmost = shouldAlignLeftmost(key);
+            int popupLen = popupChars.length();
+            int pos = alignLeftmost ? 1 : popupLen - 2;
+            if (pos >= popupLen || pos < 0) break VALIDATION;
+
+            // Use the character at this position as the label?
+            char label = popupChars.charAt(pos);
+            boolean popupIs7BitAscii = label >= 32 && label < 127;
+            if (!popupIs7BitAscii) break VALIDATION;
+            boolean letterKey = isLetterKey(key);
+
+            if (letterKey) {
+                boolean show = false;
+                if (showHintsOnLetters()) show = true;
+                if (showHintsOnOtherKeys()) show = true;
+                if (!show) break VALIDATION;
+            } else {
+                if (!showHintsOnOtherKeys()) break VALIDATION;
+            }
+            altHint = Character.toString(label);
         }
-
-        // Must keep this algorithm in sync with onLongPress() method for consistency!
-        boolean alignLeftmost = shouldAlignLeftmost(key);
-        int popupLen = popupChars.length();
-        int pos = alignLeftmost ? 1 : popupLen - 2;
-        if (pos >= popupLen || pos < 0) return 0;
-
-        // Use the character at this position as the label?
-        char label = popupChars.charAt(pos);
-        boolean popupIs7BitAscii = label >= 32 && label < 127;
-        if (!popupIs7BitAscii) return 0;
-        boolean letterKey = isLetterKey(key);
-
-        if (letterKey) {
-            boolean show = false;
-            if (mHintsOnLetters) show = true;
-            if (mHintsOnOtherKeys) show = true;
-            if (!show) return 0;
-        } else {
-            if (!mHintsOnOtherKeys) return 0;
-        }
-
-        return label;
+        key.altHint = altHint;
+        return altHint;
     }
 
     private boolean isLetterKey(Key key) {
