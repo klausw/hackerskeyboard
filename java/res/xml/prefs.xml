@@ -18,12 +18,9 @@
         android:title="@string/english_ime_settings"
         android:key="english_ime_settings">
 
-    <Preference
-            android:key="label_version"
-            android:title="Version"
-            android:summary="@string/auto_version"
-            android:enabled="false"
-            />
+    <PreferenceCategory
+            android:title="Keyboard view settings"
+            android:key="graphics_settings">
 
     <ListPreference
             android:key="settings_height_portrait"
@@ -61,33 +58,6 @@
             android:summaryOff="@string/summary_suggestions_in_landscape_false"
             />
    
-    <CheckBoxPreference
-            android:key="fullscreen_override"
-            android:title="@string/title_fullscreen_override"
-            android:persistent="true" 
-            android:defaultValue="@bool/default_fullscreen_override"
-            android:summaryOn="@string/summary_fullscreen_override_true"
-            android:summaryOff="@string/summary_fullscreen_override_false"
-            />
-
-    <CheckBoxPreference
-            android:key="force_keyboard_on"
-            android:title="@string/title_force_keyboard_on"
-            android:persistent="true" 
-            android:defaultValue="@bool/default_force_keyboard_on"
-            android:summaryOn="@string/summary_force_keyboard_on_true"
-            android:summaryOff="@string/summary_force_keyboard_on_false"
-            />
-
-    <CheckBoxPreference
-            android:key="keyboard_notification"
-            android:title="@string/title_keyboard_notification"
-            android:persistent="true" 
-            android:defaultValue="@bool/default_keyboard_notification"
-            android:summaryOn="@string/summary_keyboard_notification_true"
-            android:summaryOff="@string/summary_keyboard_notification_false"
-            />
-
     <ListPreference
             android:key="pref_hint_mode"
             android:title="@string/title_hint_mode"
@@ -114,52 +84,58 @@
             android:entries="@array/keyboard_layout_modes"
             android:defaultValue="0"
             />
-
-    <CheckBoxPreference
-            android:key="pref_touch_pos"
-            android:title="@string/title_touch_pos"
-            android:persistent="true" 
-            android:defaultValue="false"
-            android:summaryOn="@string/summary_touch_pos_true"
-            android:summaryOff="@string/summary_touch_pos_false"
-            />
-
-    <CheckBoxPreference
-            android:key="pref_slide_keys"
-            android:title="@string/title_slide_keys"
-            android:persistent="true" 
-            android:defaultValue="false"
-            android:summaryOn="@string/summary_slide_keys_true"
-            android:summaryOff="@string/summary_slide_keys_false"
-            />
-
-    <ListPreference
-            android:key="pref_long_press_duration"
-            android:title="@string/title_long_press_duration"
-            android:persistent="true"
-            android:entryValues="@array/long_press_duration_entries"
-            android:entries="@array/long_press_duration_entries"
-            android:defaultValue="@string/default_long_press_duration"
-            />
-
-    <PreferenceCategory
-            android:title="@string/title_application_category"
-            android:key="application_settings">
-
-        <CheckBoxPreference
-            android:key="connectbot_tab_hack"
-            android:title="@string/title_connectbot_tab_hack"
-            android:persistent="true" 
-            android:defaultValue="true"
-            android:summaryOn="@string/summary_connectbot_tab_hack_true"
-            android:summaryOff="@string/summary_connectbot_tab_hack_false"
-            />
-
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Gingerbread keyboard settings"
-            android:key="gingerbread_settings">
+            android:title="Input mode settings"
+            android:key="graphics_settings">
+
+    <CheckBoxPreference
+            android:key="recorrection_enabled"
+            android:title="@string/prefs_enable_recorrection"
+            android:summary="@string/prefs_enable_recorrection_summary"
+            android:persistent="true"
+            android:defaultValue="@bool/default_recorrection_enabled"
+            />
+
+    <CheckBoxPreference
+            android:key="fullscreen_override"
+            android:title="@string/title_fullscreen_override"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_fullscreen_override"
+            android:summaryOn="@string/summary_fullscreen_override_true"
+            android:summaryOff="@string/summary_fullscreen_override_false"
+            />
+
+    <CheckBoxPreference
+            android:key="force_keyboard_on"
+            android:title="@string/title_force_keyboard_on"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_force_keyboard_on"
+            android:summaryOn="@string/summary_force_keyboard_on_true"
+            android:summaryOff="@string/summary_force_keyboard_on_false"
+            />
+
+    <CheckBoxPreference
+            android:key="keyboard_notification"
+            android:title="@string/title_keyboard_notification"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_keyboard_notification"
+            android:summaryOn="@string/summary_keyboard_notification_true"
+            android:summaryOff="@string/summary_keyboard_notification_false"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Key behavior settings"
+            android:key="key_settings">
+
+    <CheckBoxPreference
+            android:key="auto_cap"
+            android:title="@string/auto_cap"
+            android:persistent="true"
+            android:defaultValue="@bool/default_auto_cap"
+            />
 
     <CheckBoxPreference
             android:key="vibrate_on"
@@ -188,20 +164,29 @@
             android:defaultValue="@bool/default_popup_preview"
             />
 
-    <CheckBoxPreference
-            android:key="recorrection_enabled"
-            android:title="@string/prefs_enable_recorrection"
-            android:summary="@string/prefs_enable_recorrection_summary"
+    <ListPreference
+            android:key="pref_long_press_duration"
+            android:title="@string/title_long_press_duration"
             android:persistent="true"
-            android:defaultValue="@bool/default_recorrection_enabled"
+            android:entryValues="@array/long_press_duration_entries"
+            android:entries="@array/long_press_duration_entries"
+            android:defaultValue="@string/default_long_press_duration"
             />
 
     <CheckBoxPreference
-            android:key="auto_cap"
-            android:title="@string/auto_cap"
-            android:persistent="true"
-            android:defaultValue="@bool/default_auto_cap"
+            android:key="pref_slide_keys"
+            android:title="@string/title_slide_keys"
+            android:persistent="true" 
+            android:defaultValue="false"
+            android:summaryOn="@string/summary_slide_keys_true"
+            android:summaryOff="@string/summary_slide_keys_false"
             />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Key layout options"
+            android:key="layout_settings">
 
     <ListPreference
             android:key="settings_key"
@@ -260,5 +245,45 @@
             android:dependency="show_suggestions"
             />
     </PreferenceCategory>            
+
+    <PreferenceCategory
+            android:title="@string/title_application_category"
+            android:key="application_settings">
+
+        <CheckBoxPreference
+            android:key="connectbot_tab_hack"
+            android:title="@string/title_connectbot_tab_hack"
+            android:persistent="true" 
+            android:defaultValue="true"
+            android:summaryOn="@string/summary_connectbot_tab_hack_true"
+            android:summaryOff="@string/summary_connectbot_tab_hack_false"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Debugging"
+            android:key="debugging">
+
+    <CheckBoxPreference
+            android:key="pref_touch_pos"
+            android:title="@string/title_touch_pos"
+            android:persistent="true" 
+            android:defaultValue="false"
+            android:summaryOn="@string/summary_touch_pos_true"
+            android:summaryOff="@string/summary_touch_pos_false"
+            />
+
+    <Preference
+            android:key="input_connection_info"
+            android:title="Input connection details"
+            />
+
+    <Preference
+            android:key="label_version"
+            android:title="Version"
+            android:summary="@string/auto_version"
+            />
+    </PreferenceCategory>
 
 </PreferenceScreen>

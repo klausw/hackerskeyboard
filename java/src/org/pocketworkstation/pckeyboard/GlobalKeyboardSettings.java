@@ -37,6 +37,13 @@ public final class GlobalKeyboardSettings {
 	// Read by PointerTracker
 	public boolean sendSlideKeys = false;
 	public int longpressTimeout = 400;
+	//
+	// Read by LatinIMESettings
+	// These are cached values for informational display, don't use for other purposes
+	public String editorPackageName; 
+        public String editorFieldName; 
+        public int editorFieldId; 
+        public int editorInputType; 
 
 	/* Updated by KeyboardSwitcher */
 	//
