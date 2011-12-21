@@ -107,12 +107,12 @@
             />
 
     <ListPreference
-            android:key="pref_keyboard_layout_20100902"
+            android:key="pref_keyboard_layout"
             android:title="@string/keyboard_layout"
             android:persistent="true"
             android:entryValues="@array/keyboard_layout_modes_values"
             android:entries="@array/keyboard_layout_modes"
-            android:defaultValue="4"
+            android:defaultValue="0"
             />
 
     <CheckBoxPreference

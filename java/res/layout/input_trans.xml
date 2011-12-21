@@ -28,5 +28,7 @@
         android:background="@color/latinkeyboard_extension_background"
         android:verticalCorrection="0dip"
 
-        latin:keyBackground="@drawable/btn_keyboard_key_fulltrans"
+        latin:keyBackground="@drawable/btn_keyboard_key_ics"
+        latin:recolorSymbols="true"
+        latin:backgroundAlpha="128"
         />
