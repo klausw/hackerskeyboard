@@ -115,6 +115,24 @@
             android:defaultValue="4"
             />
 
+    <CheckBoxPreference
+            android:key="pref_touch_pos"
+            android:title="@string/title_touch_pos"
+            android:persistent="true" 
+            android:defaultValue="false"
+            android:summaryOn="@string/summary_touch_pos_true"
+            android:summaryOff="@string/summary_touch_pos_false"
+            />
+
+    <CheckBoxPreference
+            android:key="pref_slide_keys"
+            android:title="@string/title_slide_keys"
+            android:persistent="true" 
+            android:defaultValue="false"
+            android:summaryOn="@string/summary_slide_keys_true"
+            android:summaryOff="@string/summary_slide_keys_false"
+            />
+
     <PreferenceCategory
             android:title="@string/title_application_category"
             android:key="application_settings">

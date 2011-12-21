@@ -714,7 +714,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     public void setPopupOffset(int x, int y) {
         mPopupPreviewOffsetX = x;
         mPopupPreviewOffsetY = y;
-        mPreviewPopup.dismiss();
+        if (mPreviewPopup != null) mPreviewPopup.dismiss();
     }
 
     /**
@@ -1013,8 +1013,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
         }
 
-        if (DEBUG) {
-            if (mShowTouchPoints) {
+        if (LatinIME.sKeyboardSettings.showTouchPos || DEBUG) {
+            if (LatinIME.sKeyboardSettings.showTouchPos || mShowTouchPoints) {
                 for (PointerTracker tracker : mPointerTrackers) {
                     int startX = tracker.getStartX();
                     int startY = tracker.getStartY();
@@ -1182,6 +1182,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         Key popupKey = tracker.getKey(keyIndex);
         if (popupKey == null)
             return false;
+        if (tracker.isInSlidingKeyInput())
+            return false;
         boolean result = onLongPress(popupKey);
         if (result) {
             dismissKeyPreview();
@@ -1282,6 +1284,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         if (popupKey.popupResId == 0)
             return false;
 
+        PointerTracker.clearSlideKeys();
+        
         View container = mMiniKeyboardCache.get(popupKey);
         if (container == null) {
             container = inflateMiniKeyboardContainer(popupKey);
@@ -1520,11 +1524,15 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     @Override
     public boolean onTouchEvent(MotionEvent me) {
+        return onTouchEvent(me, false);
+    }
+
+    public boolean onTouchEvent(MotionEvent me, boolean continuing) {
         final int action = me.getActionMasked();
         final int pointerCount = me.getPointerCount();
         final int oldPointerCount = mOldPointerCount;
         mOldPointerCount = pointerCount;
-
+        
         // TODO: cleanup this code into a multi-touch to single-touch event converter class?
         // If the device does not have distinct multi-touch support panel, ignore all multi-touch
         // events except a transition from/to single-touch.
@@ -1598,6 +1606,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 Log.w(TAG, "Unknown touch panel behavior: pointer count is " + pointerCount
                         + " (old " + oldPointerCount + ")");
             }
+            if (continuing)
+                tracker.setSlidingKeyInputState(true);
             return true;
         }
 
@@ -1621,6 +1631,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 onCancelEvent(tracker, x, y, eventTime);
                 break;
             }
+            if (continuing)
+                tracker.setSlidingKeyInputState(true);
         }
 
         return true;
@@ -1676,7 +1688,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     public void closing() {
-        mPreviewPopup.dismiss();
+        if (mPreviewPopup != null) mPreviewPopup.dismiss();
         mHandler.cancelAllMessages();
 
         dismissPopupKeyboard();
