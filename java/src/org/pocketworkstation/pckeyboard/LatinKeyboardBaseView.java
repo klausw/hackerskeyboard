@@ -1658,7 +1658,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         closing();
     }
 
-    private void dismissPopupKeyboard() {
+    protected boolean popupKeyboardIsShowing() {
+        return mMiniKeyboardPopup.isShowing();
+    }
+    
+    protected void dismissPopupKeyboard() {
         if (mMiniKeyboardPopup.isShowing()) {
             mMiniKeyboardPopup.dismiss();
             mMiniKeyboard = null;

@@ -365,6 +365,10 @@ public class KeyboardSwitcher implements
             keyboard.setLanguageSwitcher(mLanguageSwitcher,
                     mIsAutoCompletionActive, isBlackSym());
 
+            if (isAlphabetMode()) { // TODO: not in full keyboard mode? Per-mode extension kbd?
+                keyboard.setExtension(R.xml.kbd_extension);
+            }
+
             if (id.mEnableShiftLock) {
                 keyboard.enableShiftLock();
             }
@@ -686,6 +690,7 @@ public class KeyboardSwitcher implements
                             mLayoutId + "," + newLayout, e);
                 }
             }
+            mInputView.setExtensionLayoutResId(THEMES[newLayout]);
             mInputView.setOnKeyboardActionListener(mInputMethodService);
             mLayoutId = newLayout;
         }

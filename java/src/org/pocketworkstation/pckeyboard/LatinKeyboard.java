@@ -89,6 +89,7 @@ public class LatinKeyboard extends Keyboard {
     private int mPrefLetterY;
     private int mPrefDistance;
 
+    private int mExtensionResId;
     // TODO: generalize for any keyboardId
     private boolean mIsBlackSym;
 
@@ -297,6 +298,14 @@ public class LatinKeyboard extends Keyboard {
 
     /* package */ boolean isAlphaKeyboard() {
         return mIsAlphaKeyboard;
+    }
+
+    public void setExtension(int resId) {
+        mExtensionResId = resId;
+    }
+
+    public int getExtension() {
+        return mExtensionResId;
     }
 
     public void setColorOfSymbolIcons(boolean isAutoCompletion, boolean isBlack) {
