@@ -133,6 +133,15 @@
             android:summaryOff="@string/summary_slide_keys_false"
             />
 
+    <ListPreference
+            android:key="pref_long_press_duration"
+            android:title="@string/title_long_press_duration"
+            android:persistent="true"
+            android:entryValues="@array/long_press_duration_entries"
+            android:entries="@array/long_press_duration_entries"
+            android:defaultValue="@string/default_long_press_duration"
+            />
+
     <PreferenceCategory
             android:title="@string/title_application_category"
             android:key="application_settings">
@@ -160,7 +169,7 @@
 
     <ListPreference
             android:key="vibrate_len"
-            android:title="Vibrate duration"
+            android:title="@string/title_vibrate_len"
             android:entryValues="@array/vibrate_duration_entries"
             android:entries="@array/vibrate_duration_entries"
             android:persistent="true"

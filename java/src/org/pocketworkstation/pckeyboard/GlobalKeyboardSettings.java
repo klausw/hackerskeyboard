@@ -36,7 +36,8 @@ public final class GlobalKeyboardSettings {
 	//
 	// Read by PointerTracker
 	public boolean sendSlideKeys = false;
-	
+	public int longpressTimeout = 400;
+
 	/* Updated by KeyboardSwitcher */
 	//
 	// Used by LatinKeyboardBaseView and LatinIME
