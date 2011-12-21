@@ -169,6 +169,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     // XML attribute
     private float mKeyTextSize;
     private int mKeyTextColor;
+    private int mKeyHintColor;
     private int mKeyCursorColor;
     private Typeface mKeyTextStyle = Typeface.DEFAULT;
     private float mLabelTextSize;
@@ -455,6 +456,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             case R.styleable.LatinKeyboardBaseView_keyTextColor:
                 mKeyTextColor = a.getColor(attr, 0xFF000000);
                 break;
+            case R.styleable.LatinKeyboardBaseView_keyHintColor:
+                mKeyHintColor = a.getColor(attr, 0xFFBBBBBB);
+                break;
             case R.styleable.LatinKeyboardBaseView_keyCursorColor:
                 mKeyCursorColor = a.getColor(attr, 0xFF000000);
                 break;
@@ -703,8 +707,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return mShowPreview;
     }
 
-    public int getSymbolColorScheme() {
-        return mSymbolColorScheme;
+    private boolean isBlackSym() {
+        return mSymbolColorScheme == 1;
     }
 
     public void setPopupParent(View v) {
@@ -841,6 +845,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         final Paint paint = mPaint;
         final Paint paintHint = mPaintHint;
+        paintHint.setColor(mKeyHintColor);
         final Drawable keyBackground = mKeyBackground;
         final Rect clipRegion = mClipRegion;
         final Rect padding = mPadding;
@@ -981,7 +986,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // hint and popup hint.
                 shouldDrawIcon = shouldDrawLabelAndIcon(key);
             }
-            if (key.icon != null && shouldDrawIcon) {
+            Drawable icon = key.icon;
+            if (icon != null && shouldDrawIcon) {
                 // Special handing for the upper-right number hint icons
                 final int drawableWidth;
                 final int drawableHeight;
@@ -993,14 +999,14 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                     drawableX = 0;
                     drawableY = NUMBER_HINT_VERTICAL_ADJUSTMENT_PIXEL;
                 } else {
-                    drawableWidth = key.icon.getIntrinsicWidth();
-                    drawableHeight = key.icon.getIntrinsicHeight();
+                    drawableWidth = icon.getIntrinsicWidth();
+                    drawableHeight = icon.getIntrinsicHeight();
                     drawableX = (key.width + padding.left - padding.right - drawableWidth) / 2;
                     drawableY = (key.height + padding.top - padding.bottom - drawableHeight) / 2;
                 }
                 canvas.translate(drawableX, drawableY);
-                key.icon.setBounds(0, 0, drawableWidth, drawableHeight);
-                key.icon.draw(canvas);
+                icon.setBounds(0, 0, drawableWidth, drawableHeight);
+                icon.draw(canvas);
                 canvas.translate(-drawableX, -drawableY);
             }
             canvas.translate(-key.x - kbdPaddingLeft, -key.y - kbdPaddingTop);
@@ -1072,9 +1078,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         if (key == null)
             return;
         // Should not draw hint icon in key preview
-        if (key.icon != null && !shouldDrawLabelAndIcon(key)) {
+        Drawable icon = key.icon;
+        if (icon != null && !shouldDrawLabelAndIcon(key)) {
             mPreviewText.setCompoundDrawables(null, null, null,
-                    key.iconPreview != null ? key.iconPreview : key.icon);
+                    key.iconPreview != null ? key.iconPreview : icon);
             mPreviewText.setText(null);
         } else {
             mPreviewText.setCompoundDrawables(null, null, null, null);

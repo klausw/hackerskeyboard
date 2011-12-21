@@ -30,6 +30,8 @@
 
         latin:keyBackground="@drawable/btn_keyboard_key_stone"
         latin:keyTextColor="@color/latinkeyboard_key_color_black"
+        latin:keyHintColor="#FF777777"
+        latin:keyCursorColor="@color/latinkeyboard_dim_color_black"
         latin:shadowColor="@color/latinkeyboard_key_color_white"
         latin:keyTextStyle="bold"
         latin:symbolColorScheme="black"
