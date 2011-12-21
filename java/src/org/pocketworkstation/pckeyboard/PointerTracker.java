@@ -236,7 +236,7 @@ public class PointerTracker {
 
     public boolean isSpaceKey(int keyIndex) {
         Key key = getKey(keyIndex);
-        return key != null && key.codes != null && key.codes[0] == LatinIME.KEYCODE_SPACE;
+        return key != null && key.codes != null && key.codes[0] == LatinIME.ASCII_SPACE;
     }
 
     public void updateKey(int keyIndex) {

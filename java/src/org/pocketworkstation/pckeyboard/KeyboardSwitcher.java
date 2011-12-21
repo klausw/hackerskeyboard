@@ -607,7 +607,7 @@ public class KeyboardSwitcher implements
             }
             break;
         case AUTO_MODE_SWITCH_STATE_SYMBOL_BEGIN:
-            if (key != LatinIME.KEYCODE_SPACE && key != LatinIME.KEYCODE_ENTER
+            if (key != LatinIME.ASCII_SPACE && key != LatinIME.ASCII_ENTER
                     && key >= 0) {
                 mAutoModeSwitchState = AUTO_MODE_SWITCH_STATE_SYMBOL;
             }
@@ -616,7 +616,7 @@ public class KeyboardSwitcher implements
             // Snap back to alpha keyboard mode if user types one or more
             // non-space/enter
             // characters followed by a space/enter.
-            if (key == LatinIME.KEYCODE_ENTER || key == LatinIME.KEYCODE_SPACE) {
+            if (key == LatinIME.ASCII_ENTER || key == LatinIME.ASCII_SPACE) {
                 mInputMethodService.changeKeyboardMode();
             }
             break;
