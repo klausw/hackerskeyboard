@@ -151,6 +151,7 @@ public class LatinIME extends InputMethodService implements
     static final String PREF_TOUCH_POS = "pref_touch_pos";
     static final String PREF_SLIDE_KEYS = "pref_slide_keys";
     static final String PREF_LONGPRESS_TIMEOUT = "pref_long_press_duration";
+    static final String PREF_RENDER_MODE = "pref_render_mode";
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
@@ -433,6 +434,7 @@ public class LatinIME extends InputMethodService implements
         LatinIME.sKeyboardSettings.longpressTimeout = getPrefInt(prefs, PREF_LONGPRESS_TIMEOUT, res.getString(R.string.default_long_press_duration));
         LatinIME.sKeyboardSettings.showTouchPos = prefs.getBoolean(PREF_TOUCH_POS, false);
         LatinIME.sKeyboardSettings.sendSlideKeys = prefs.getBoolean(PREF_SLIDE_KEYS, false);
+        LatinIME.sKeyboardSettings.renderMode = getPrefInt(prefs, PREF_RENDER_MODE, res.getString(R.string.default_render_mode));
 
         updateKeyboardOptions();
 
@@ -3110,12 +3112,16 @@ public class LatinIME extends InputMethodService implements
                     res.getString(R.string.default_hint_mode)));
             needReload = true;
         } else if (PREF_LONGPRESS_TIMEOUT.equals(key)) {
-               LatinIME.sKeyboardSettings.longpressTimeout =getPrefInt(sharedPreferences, PREF_LONGPRESS_TIMEOUT,
+               LatinIME.sKeyboardSettings.longpressTimeout = getPrefInt(sharedPreferences, PREF_LONGPRESS_TIMEOUT,
                        res.getString(R.string.default_long_press_duration));
         } else if (PREF_TOUCH_POS.equals(key)) {
             LatinIME.sKeyboardSettings.showTouchPos = sharedPreferences.getBoolean(PREF_TOUCH_POS, false);
         } else if (PREF_SLIDE_KEYS.equals(key)) {
             LatinIME.sKeyboardSettings.sendSlideKeys = sharedPreferences.getBoolean(PREF_SLIDE_KEYS, false);
+        } else if (PREF_RENDER_MODE.equals(key)) {
+            LatinIME.sKeyboardSettings.renderMode = getPrefInt(sharedPreferences, PREF_RENDER_MODE,
+                    res.getString(R.string.default_render_mode));
+            needReload = true;
         }
 
         updateKeyboardOptions();

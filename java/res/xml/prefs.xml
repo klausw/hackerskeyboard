@@ -84,6 +84,16 @@
             android:entries="@array/keyboard_layout_modes"
             android:defaultValue="0"
             />
+
+    <ListPreference
+            android:key="pref_render_mode"
+            android:title="@string/title_render_mode"
+            android:persistent="true"
+            android:entryValues="@array/render_mode_values"
+            android:entries="@array/render_mode_entries"
+            android:defaultValue="@string/default_render_mode"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory
