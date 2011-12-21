@@ -14,7 +14,7 @@
 
     <application android:label="@string/english_ime_name"
             android:backupAgent="LatinIMEBackupAgent"
-            android:hardwareAccelerated="true"
+            android:hardwareAccelerated="false"
             android:killAfterRestore="false" android:icon="@drawable/icon">
 
         <service android:name="LatinIME"
