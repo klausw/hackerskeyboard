@@ -318,6 +318,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 MotionEvent translated = MotionEvent.obtain(me.getEventTime(), me.getEventTime(),
                         action,
                         me.getX(), me.getY() + mExtension.getHeight(), me.getMetaState());
+                if (me.getActionIndex() > 0)
+                    return true;  // ignore second touches to avoid "pointerIndex out of range"
                 boolean result = mExtension.onTouchEvent(translated);
                 translated.recycle();
                 if (me.getAction() == MotionEvent.ACTION_UP
