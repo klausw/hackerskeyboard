@@ -66,6 +66,7 @@ public class Keyboard {
     static final String TAG = "Keyboard";
 
     public final static char DEAD_KEY_PLACEHOLDER = 0x25cc; // dotted small circle
+    public final static String DEAD_KEY_PLACEHOLDER_STRING = Character.toString(DEAD_KEY_PLACEHOLDER);
     
     // Keyboard XML Tags
     private static final String TAG_KEYBOARD = "Keyboard";
@@ -269,6 +270,7 @@ public class Keyboard {
         public boolean popupReversed;
         public boolean isCursor;
         public boolean isDeadKey;
+        public String hint; // Set by LatinKeyboardBaseView
 
         /**
          * Flags that specify the anchoring to edges of the keyboard for detecting touch events
