@@ -354,6 +354,7 @@
     <string name="layout_stone_normal"  translatable="false">Stone (normal)</string>
     <string name="layout_gingerbread"  translatable="false">Gingerbread</string>
     <string name="layout_trans"  translatable="false">Transparent</string>
+    <string name="layout_trans_neon"  translatable="false">Transparent Glow</string>
 
     <string-array name="keyboard_layout_modes" translatable="false">
         <item>@string/layout_basic</item>
@@ -362,6 +363,7 @@
         <item>@string/layout_stone_bold</item>
         <item>@string/layout_gingerbread</item>
         <item>@string/layout_trans</item>
+        <item>@string/layout_trans_neon</item>
     </string-array>
 
     <string-array name="keyboard_layout_modes_values" translatable="false">
@@ -371,6 +373,7 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
+        <item>6</item>
     </string-array>
 
     <string name="subtype_mode_keyboard">keyboard</string>
