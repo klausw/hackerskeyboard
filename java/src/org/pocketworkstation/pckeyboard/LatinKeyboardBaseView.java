@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff;
@@ -783,10 +784,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //Log.i(TAG, "onDraw called " + canvas.getClipBounds());
+        mCanvas = canvas;
         if (mDrawPending || mBuffer == null || mKeyboardChanged) {
-            onBufferDraw();
+            onBufferDraw(canvas);
         }
-        canvas.drawBitmap(mBuffer, 0, 0, null);
+        if (mBuffer != null) canvas.drawBitmap(mBuffer, 0, 0, null);
     }
     
     private void drawDeadKeyLabel(Canvas canvas, String hint, int x, float baseline, Paint paint) {
@@ -809,22 +812,25 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
     }
 
-    private void onBufferDraw() {
-        if (mBuffer == null || mKeyboardChanged) {
+    private void onBufferDraw(Canvas canvas) {
+        //Log.i(TAG, "onBufferDraw called");
+        if (/*mBuffer == null ||*/ mKeyboardChanged) {
             mKeyboard.setKeyboardWidth(mViewWidth);
-            if (mBuffer == null || mKeyboardChanged &&
-                    (mBuffer.getWidth() != getWidth() || mBuffer.getHeight() != getHeight())) {
-                // Make sure our bitmap is at least 1x1
-                final int width = Math.max(1, getWidth());
-                final int height = Math.max(1, getHeight());
-                mBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                mCanvas = new Canvas(mBuffer);
-            }
+//            if (mBuffer == null || mKeyboardChanged &&
+//                    (mBuffer.getWidth() != getWidth() || mBuffer.getHeight() != getHeight())) {
+//                // Make sure our bitmap is at least 1x1
+//                final int width = Math.max(1, getWidth());
+//                final int height = Math.max(1, getHeight());
+//                mBuffer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+//                mCanvas = new Canvas(mBuffer);
+//            }
             invalidateAllKeys();
             mKeyboardChanged = false;
         }
-        final Canvas canvas = mCanvas;
-        canvas.clipRect(mDirtyRect, Op.REPLACE);
+        //final Canvas canvas = mCanvas;
+        //canvas.clipRect(mDirtyRect, Op.REPLACE);
+        canvas.getClipBounds(mDirtyRect);
+        //canvas.drawColor(Color.BLACK);
 
         if (mKeyboard == null) return;
 
@@ -849,14 +855,23 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 drawSingleKey = true;
             }
         }
-        canvas.drawColor(0x00000000, PorterDuff.Mode.CLEAR);
+        //canvas.drawColor(0x00000000, PorterDuff.Mode.CLEAR);
         final int keyCount = keys.length;
 
+        int keysDrawn = 0;
         for (int i = 0; i < keyCount; i++) {
             final Key key = keys[i];
             if (drawSingleKey && invalidKey != key) {
                 continue;
             }
+            if (!mDirtyRect.intersects(
+                    key.x + kbdPaddingLeft,
+                    key.y + kbdPaddingTop,
+                    key.x + key.width + kbdPaddingLeft,
+                    key.y + key.height + kbdPaddingTop)) {
+                continue;
+            }
+            keysDrawn++;
             paint.setColor(key.isCursor ? mKeyCursorColor : mKeyTextColor);
 
             int[] drawableState = key.getCurrentDrawableState();
@@ -985,6 +1000,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             }
             canvas.translate(-key.x - kbdPaddingLeft, -key.y - kbdPaddingTop);
         }
+        //Log.i(TAG, "keysDrawn=" + keysDrawn);
         mInvalidatedKey = null;
         // Overlay a dark rectangle to dim the keyboard
         if (mMiniKeyboard != null) {
@@ -1147,7 +1163,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // TODO we should clean up this and record key's region to use in onBufferDraw.
         mDirtyRect.union(key.x + getPaddingLeft(), key.y + getPaddingTop(),
                 key.x + key.width + getPaddingLeft(), key.y + key.height + getPaddingTop());
-        onBufferDraw();
+        //onBufferDraw();
         invalidate(key.x + getPaddingLeft(), key.y + getPaddingTop(),
                 key.x + key.width + getPaddingLeft(), key.y + key.height + getPaddingTop());
     }
