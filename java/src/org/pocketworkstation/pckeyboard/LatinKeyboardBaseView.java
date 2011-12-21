@@ -458,13 +458,13 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         super(context, attrs, defStyle);
         
         Log.i(TAG, "Creating new LatinKeyboardBaseView");
+        setRenderModeIfPossible(LatinIME.sKeyboardSettings.renderMode);
 
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
         LayoutInflater inflate =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int previewLayout = 0;
-        int keyTextSize = 0;
 
         int n = a.getIndexCount();
 
