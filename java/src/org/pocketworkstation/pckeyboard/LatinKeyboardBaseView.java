@@ -21,9 +21,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Paint.Align;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -171,12 +174,14 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private int mKeyTextColor;
     private int mKeyHintColor;
     private int mKeyCursorColor;
+    private boolean mRecolorSymbols;
     private Typeface mKeyTextStyle = Typeface.DEFAULT;
     private float mLabelTextSize;
     private int mSymbolColorScheme = 0;
     private int mShadowColor;
     private float mShadowRadius;
     private Drawable mKeyBackground;
+    private int mBackgroundAlpha;
     private float mBackgroundDimAmount;
     private float mKeyHysteresisDistance;
     private float mVerticalCorrection;
@@ -462,6 +467,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             case R.styleable.LatinKeyboardBaseView_keyCursorColor:
                 mKeyCursorColor = a.getColor(attr, 0xFF000000);
                 break;
+            case R.styleable.LatinKeyboardBaseView_recolorSymbols:
+                mRecolorSymbols = a.getBoolean(attr, false);
+                break;
             case R.styleable.LatinKeyboardBaseView_labelTextSize:
                 mLabelTextSize = a.getDimensionPixelSize(attr, 14);
                 break;
@@ -478,6 +486,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             // TODO: Use Theme (android.R.styleable.Theme_backgroundDimAmount)
             case R.styleable.LatinKeyboardBaseView_backgroundDimAmount:
                 mBackgroundDimAmount = a.getFloat(attr, 0.5f);
+                break;
+            case R.styleable.LatinKeyboardBaseView_backgroundAlpha:
+                mBackgroundAlpha = a.getInteger(attr, 255);
                 break;
             //case android.R.styleable.
             case R.styleable.LatinKeyboardBaseView_keyTextStyle:
@@ -854,6 +865,16 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         final Key[] keys = mKeys;
         final Key invalidKey = mInvalidatedKey;
 
+        ColorFilter iconColorFilter = null;
+        ColorFilter shadowColorFilter = null;
+        if (mRecolorSymbols) {
+            // TODO: cache these?
+            iconColorFilter = new PorterDuffColorFilter(
+                    mKeyTextColor, PorterDuff.Mode.SRC_ATOP);
+            shadowColorFilter = new PorterDuffColorFilter(
+                    mShadowColor, PorterDuff.Mode.SRC_ATOP);
+        }
+
         boolean drawSingleKey = false;
         if (invalidKey != null && canvas.getClipBounds(clipRegion)) {
             // TODO we should use Rect.inset and Rect.contains here.
@@ -905,6 +926,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             if (yscale != 1.0f) {
                 canvas.save();
                 canvas.scale(1.0f, yscale);
+            }
+            if (mBackgroundAlpha != 255) {
+                keyBackground.setAlpha(mBackgroundAlpha);
             }
             keyBackground.draw(canvas);
             if (yscale != 1.0f)  canvas.restore();
@@ -972,7 +996,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                     canvas.drawText(label, centerX, baseline, paint);
                 }
                 if (key.isCursor) {
-                    // poor man's bold
+                    // poor man's bold - FIXME
+                    // Turn off drop shadow
+                    paint.setShadowLayer(0, 0, 0, 0);
+
                     canvas.drawText(label, centerX+0.5f, baseline, paint);
                     canvas.drawText(label, centerX-0.5f, baseline, paint);
                     canvas.drawText(label, centerX, baseline+0.5f, paint);
@@ -1006,7 +1033,32 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 }
                 canvas.translate(drawableX, drawableY);
                 icon.setBounds(0, 0, drawableWidth, drawableHeight);
-                icon.draw(canvas);
+
+                if (shadowColorFilter != null && iconColorFilter != null) {
+                    // Re-color the icon to match the theme, and draw a shadow for it manually.
+                    //
+                    // This doesn't seem to look quite right, possibly a problem with using 
+                    // premultiplied icon images?
+
+                    // Try EmbossMaskFilter, and/or offset? Configurable?
+                    BlurMaskFilter shadowBlur = new BlurMaskFilter(mShadowRadius, BlurMaskFilter.Blur.OUTER);
+                    Paint blurPaint = new Paint();
+                    blurPaint.setMaskFilter(shadowBlur);
+                    Bitmap tmpIcon = Bitmap.createBitmap(key.width, key.height, Bitmap.Config.ARGB_8888);
+                    Canvas tmpCanvas = new Canvas(tmpIcon);
+                    icon.draw(tmpCanvas);
+                    int[] offsets = new int[2];
+                    Bitmap shadowBitmap = tmpIcon.extractAlpha(blurPaint, offsets);
+                    Paint shadowPaint = new Paint();
+                    shadowPaint.setColorFilter(shadowColorFilter);
+                    canvas.drawBitmap(shadowBitmap, offsets[0], offsets[1], shadowPaint);
+
+                    icon.setColorFilter(iconColorFilter);
+                    icon.draw(canvas);
+                    icon.setColorFilter(null);
+                } else {
+                    icon.draw(canvas);                    
+                }
                 canvas.translate(-drawableX, -drawableY);
             }
             canvas.translate(-key.x - kbdPaddingLeft, -key.y - kbdPaddingTop);
