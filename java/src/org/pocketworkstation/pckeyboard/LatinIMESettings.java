@@ -65,6 +65,8 @@ public class LatinIMESettings extends PreferenceActivity
     private ListPreference mHintModePreference;
     private ListPreference mLabelScalePreference;
     private ListPreference mVibrateDurationPreference;
+    private ListPreference mThemePreference;
+    private ListPreference mRenderModePreference;
     private Preference mInputConnectionInfo;
     private boolean mVoiceOn;
 
@@ -85,6 +87,8 @@ public class LatinIMESettings extends PreferenceActivity
         mHintModePreference = (ListPreference) findPreference(LatinIME.PREF_HINT_MODE);
         mLabelScalePreference = (ListPreference) findPreference(KeyboardSwitcher.PREF_LABEL_SCALE);
         mVibrateDurationPreference = (ListPreference) findPreference(LatinIME.PREF_VIBRATE_LEN);
+        mThemePreference = (ListPreference) findPreference(KeyboardSwitcher.PREF_KEYBOARD_LAYOUT);
+        mRenderModePreference = (ListPreference) findPreference(LatinIME.PREF_RENDER_MODE);
         mInputConnectionInfo = (Preference) findPreference(INPUT_CONNECTION_INFO);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -109,6 +113,10 @@ public class LatinIMESettings extends PreferenceActivity
             updateVoiceModeSummary();
         }
         updateSummaries();
+        if (LatinKeyboardBaseView.sSetRenderMode == null) {
+            mRenderModePreference.setEnabled(false);
+            mRenderModePreference.setSummary(R.string.render_mode_unavailable);
+        }
     }
 
     @Override
@@ -231,6 +239,8 @@ public class LatinIMESettings extends PreferenceActivity
         setSummaryToEntry(mHintModePreference, res.getString(R.string.default_hint_mode));
         setSummaryToEntry(mLabelScalePreference, "1.0");
         setSummaryToEntry(mVibrateDurationPreference, res.getString(R.string.vibrate_duration_ms));
+        setSummaryToEntry(mThemePreference, "0");
+        setSummaryToEntry(mRenderModePreference, res.getString(R.string.default_render_mode));
         
         mInputConnectionInfo.setSummary(String.format("%s type=%s",
                 LatinIME.sKeyboardSettings.editorPackageName,
