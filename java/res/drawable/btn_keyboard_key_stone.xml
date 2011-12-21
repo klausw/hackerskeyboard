@@ -31,6 +31,6 @@
     <!-- Normal keys -->
 
     <item android:state_pressed="true"
-          android:drawable="@drawable/btn_keyboard_key_fulltrans_pressed" />
+          android:drawable="@drawable/btn_keyboard_key_pressed_stone" />
     <item android:drawable="@drawable/btn_keyboard_key_normal_stone" />
 </selector>

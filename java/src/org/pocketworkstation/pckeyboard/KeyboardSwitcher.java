@@ -60,17 +60,13 @@ public class KeyboardSwitcher implements
     // Symbols keyboard layout with the settings key
     public static final int KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY = R.id.mode_symbols_with_settings_key;
 
-    public static final String DEFAULT_LAYOUT_ID = "4";
-    public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout_20100902";
+    public static final String DEFAULT_LAYOUT_ID = "0";
+    public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout";
     public static final String PREF_LABEL_SCALE = "pref_label_scale";
     private static final int[] THEMES = new int[] {
-        R.layout.input_basic,
-        R.layout.input_basic_highcontrast,
-        R.layout.input_stone_normal,
-        R.layout.input_stone_bold,
-        R.layout.input_gingerbread,
         R.layout.input_ics,
-        R.layout.input_trans,
+        R.layout.input_gingerbread,
+        R.layout.input_stone_bold,
         R.layout.input_trans_neon,
     };
 
