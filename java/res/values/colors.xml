@@ -16,6 +16,9 @@
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
 */
+//    <color name="candidate_recommended">#FF33B5E5</color>
+//    <color name="candidate_other">#FF33B5E5</color>
+//    android:color/holo_blue_light=#FF33B5E5
 -->
 <resources>
     <color name="candidate_normal">#FFFFFFFF</color>

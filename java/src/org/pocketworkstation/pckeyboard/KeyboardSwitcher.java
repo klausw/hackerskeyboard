@@ -69,6 +69,7 @@ public class KeyboardSwitcher implements
         R.layout.input_stone_normal,
         R.layout.input_stone_bold,
         R.layout.input_gingerbread,
+        R.layout.input_ics,
         R.layout.input_trans,
         R.layout.input_trans_neon,
     };
