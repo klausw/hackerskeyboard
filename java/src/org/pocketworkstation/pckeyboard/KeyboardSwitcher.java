@@ -63,9 +63,15 @@ public class KeyboardSwitcher implements
     public static final String DEFAULT_LAYOUT_ID = "4";
     public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout_20100902";
     public static final String PREF_LABEL_SCALE = "pref_label_scale";
-    private static final int[] THEMES = new int[] { R.layout.input_basic,
-            R.layout.input_basic_highcontrast, R.layout.input_stone_normal,
-            R.layout.input_stone_bold, R.layout.input_gingerbread, R.layout.input_trans };
+    private static final int[] THEMES = new int[] {
+        R.layout.input_basic,
+        R.layout.input_basic_highcontrast,
+        R.layout.input_stone_normal,
+        R.layout.input_stone_bold,
+        R.layout.input_gingerbread,
+        R.layout.input_trans,
+        R.layout.input_trans_neon,
+    };
 
     // Tables which contains resource ids for each character theme color
     private static final int KBD_PHONE = R.xml.kbd_phone;
