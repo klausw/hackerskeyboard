@@ -1399,21 +1399,13 @@ public class LatinIME extends InputMethodService implements
 
     private void onOptionKeyPressed() {
         if (!isShowingOptionDialog()) {
-            if (LatinIMEUtil.hasMultipleEnabledIMEs(this)) {
-                showOptionsMenu();
-            } else {
-                launchSettings();
-            }
+            showOptionsMenu();
         }
     }
 
     private void onOptionKeyLongPressed() {
         if (!isShowingOptionDialog()) {
-            if (LatinIMEUtil.hasMultipleEnabledIMEs(this)) {
-                showInputMethodPicker();
-            } else {
-                launchSettings();
-            }
+            showInputMethodPicker();
         }
     }
 
