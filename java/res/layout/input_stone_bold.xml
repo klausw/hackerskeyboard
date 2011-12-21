@@ -35,5 +35,6 @@
         latin:shadowColor="@color/latinkeyboard_key_color_white"
         latin:keyTextStyle="bold"
         latin:symbolColorScheme="black"
+        latin:recolorSymbols="true"
         latin:popupLayout="@layout/input_stone_popup"
         />

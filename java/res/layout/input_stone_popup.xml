@@ -38,6 +38,7 @@
 	    	latin:keyHintColor="#FF777777"
             latin:keyCursorColor="@color/latinkeyboard_dim_color_black"
             latin:shadowColor="@color/latinkeyboard_key_color_white"
+            latin:recolorSymbols="true"
             latin:popupLayout="@layout/input_stone_popup"
         />
 </LinearLayout>
