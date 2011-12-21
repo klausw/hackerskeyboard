@@ -335,10 +335,6 @@ public class KeyboardSwitcher implements
         keyboard.setImeOptions(mInputMethodService.getResources(), mMode,
                 imeOptions);
         keyboard.setColorOfSymbolIcons(mIsAutoCompletionActive, isBlackSym());
-        // Update the settings key state because number of enabled IMEs could
-        // have been changed
-        updateSettingsKeyState(PreferenceManager
-                .getDefaultSharedPreferences(mInputMethodService));
     }
 
     private LatinKeyboard getKeyboard(KeyboardId id) {
@@ -740,8 +736,7 @@ public class KeyboardSwitcher implements
         if (settingsKeyMode.equals(resources
                 .getString(SETTINGS_KEY_MODE_ALWAYS_SHOW))
                 || (settingsKeyMode.equals(resources
-                        .getString(SETTINGS_KEY_MODE_AUTO)) && LatinIMEUtil
-                        .hasMultipleEnabledIMEs(mInputMethodService))) {
+                        .getString(SETTINGS_KEY_MODE_AUTO)))) {
             mHasSettingsKey = true;
         } else {
             mHasSettingsKey = false;
