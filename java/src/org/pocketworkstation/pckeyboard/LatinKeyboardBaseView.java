@@ -789,9 +789,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         canvas.drawBitmap(mBuffer, 0, 0, null);
     }
     
-    private void drawDeadKeyLabel(Canvas canvas, char c, int x, float baseline, Paint paint) {
+    private void drawDeadKeyLabel(Canvas canvas, String hint, int x, float baseline, Paint paint) {
+        char c = hint.charAt(0);
         String accent = DeadAccentSequence.getSpacing(c);
-        canvas.drawText(Character.toString(Keyboard.DEAD_KEY_PLACEHOLDER), x, baseline, paint);
+        canvas.drawText(Keyboard.DEAD_KEY_PLACEHOLDER_STRING, x, baseline, paint);
         canvas.drawText(accent, x, baseline, paint);
     }
 
@@ -904,18 +905,18 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 paint.setShadowLayer(mShadowRadius, 0, 0, mShadowColor);
 
                 // Draw hint label (if present) behind the main key
-                char hint = getHintLabel(key);
-                if (hint != 0) {
+                String hint = getHintLabel(key);
+                if (!hint.equals("")) {
                     int hintTextSize = (int)(mKeyTextSize * 0.6 * LatinIME.sKeyboardSettings.labelScale);
                     paintHint.setTextSize(hintTextSize);
 
                     final int hintLabelHeight = getLabelHeight(paintHint, hintTextSize);
                     int x = key.width - padding.right;
                     int baseline = padding.top + hintLabelHeight * 11/10;
-                    if (Character.getType(hint) == Character.NON_SPACING_MARK) {
+                    if (key.isDeadKey) {
                         drawDeadKeyLabel(canvas, hint, x, baseline, paintHint);
                     } else {
-                        canvas.drawText(Character.toString(hint), x, baseline, paintHint);
+                        canvas.drawText(hint, x, baseline, paintHint);
                     }
                 }
 
@@ -941,12 +942,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
                 if (key.isDeadKey) {
-                    drawDeadKeyLabel(canvas, label.charAt(0), centerX, baseline, paint);
+                    drawDeadKeyLabel(canvas, label, centerX, baseline, paint);
                 } else {
                     canvas.drawText(label, centerX, baseline, paint);
                 }
                 if (key.isCursor) {
-                	// poor man's bold
+                    // poor man's bold
                     canvas.drawText(label, centerX+0.5f, baseline, paint);
                     canvas.drawText(label, centerX-0.5f, baseline, paint);
                     canvas.drawText(label, centerX, baseline+0.5f, paint);
@@ -1333,8 +1334,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     private boolean shouldDrawLabelAndIcon(Key key) {
-    	// isNumberAtEdgeOfPopupChars(key) ||
-    	return isNonMicLatinF1Key(key)
+        // isNumberAtEdgeOfPopupChars(key) ||
+        return isNonMicLatinF1Key(key)
                 || LatinKeyboard.hasPuncOrSmileysPopup(key);
     }
 
@@ -1342,10 +1343,13 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return !key.popupReversed;
     }
 
-    private char getHintLabel(Key key) {
+    private String getHintLabel(Key key) {
+        if (key.hint != null) return key.hint;
+
         CharSequence popupChars = key.popupCharacters;
         if (key.modifier || popupChars == null || popupChars.length() == 0) {
-        	return 0;
+                key.hint = "";
+                return key.hint;
         }
 
         // Must keep this algorithm in sync with onLongPress() method for consistency!
@@ -1367,12 +1371,19 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             if (popupIsDigit) show = true;
             if (showHintsOnLetters()) show = true;
             if (showHintsOnOtherKeys() && popupIs7BitAscii) show = true;
-            if (!show) return 0;
+            if (!show) {
+                key.hint = "";
+                return key.hint;
+            }
         } else {
-            if (!showHintsOnOtherKeys()) return 0;
+            if (!showHintsOnOtherKeys()) {
+                key.hint = "";
+                return key.hint;
+            }
         }
 
-        return label;
+        key.hint = Character.toString(label);
+        return key.hint;
     }
 
     private char getAltHintLabel(Key key) {
