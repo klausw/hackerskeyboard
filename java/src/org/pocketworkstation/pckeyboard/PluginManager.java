@@ -133,7 +133,7 @@ public class PluginManager extends BroadcastReceiver {
             boolean success = false;
             try {
                 Resources res = packageManager.getResourcesForApplication(appInfo);
-                Log.i(TAG, "Found dictionary plugin package: " + pkgName);
+                //Log.i(TAG, "Found dictionary plugin package: " + pkgName);
                 int dictId = res.getIdentifier("dictionaries", "xml", pkgName);
                 if (dictId == 0) continue;
                 XmlResourceParser xrp = res.getXml(dictId);
@@ -167,13 +167,13 @@ public class PluginManager extends BroadcastReceiver {
                 if (assetName == null || lang == null) continue;
                 DictPluginSpec spec = new DictPluginSpecSoftKeyboard(pkgName, assetName);
                 mPluginDicts.put(lang, spec);
-                Log.i(TAG, "Loaded plugin dictionary: lang=" + lang);
+                Log.i(TAG, "Found plugin dictionary: lang=" + lang + ", pkg=" + pkgName);
                 success = true;
             } catch (NameNotFoundException e) {
                 Log.i(TAG, "bad");
             } finally {
                 if (!success) {
-                    Log.i(TAG, "failed to load plugin dictionary from " + pkgName);
+                    Log.i(TAG, "failed to load plugin dictionary spec from " + pkgName);
                 }
             }
         }
@@ -188,7 +188,7 @@ public class PluginManager extends BroadcastReceiver {
             boolean success = false;
             try {
                 Resources res = packageManager.getResourcesForApplication(appInfo);
-                Log.i(TAG, "Found dictionary plugin package: " + pkgName);
+                //Log.i(TAG, "Found dictionary plugin package: " + pkgName);
                 int langId = res.getIdentifier("dict_language", "string", pkgName);
                 if (langId == 0) continue;
                 String lang = res.getString(langId);
@@ -196,13 +196,13 @@ public class PluginManager extends BroadcastReceiver {
                 if (rawId == 0) continue;
                 DictPluginSpec spec = new DictPluginSpecHK(pkgName, rawId);
                 mPluginDicts.put(lang, spec);
-                Log.i(TAG, "Loaded plugin dictionary: lang=" + lang);
+                Log.i(TAG, "Found plugin dictionary: lang=" + lang + ", pkg=" + pkgName);
                 success = true;
             } catch (NameNotFoundException e) {
                 Log.i(TAG, "bad");
             } finally {
                 if (!success) {
-                    Log.i(TAG, "failed to load plugin dictionary from " + pkgName);
+                    Log.i(TAG, "failed to load plugin dictionary spec from " + pkgName);
                 }
             }
         }
