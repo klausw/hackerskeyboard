@@ -29,9 +29,13 @@ public final class GlobalKeyboardSettings {
 	//
 	// Read by LatinKeyboardView
 	public float rowHeightPercent = 10.0f; // percent of screen height
+	public boolean showTouchPos = false;
 	//
 	// Read by LatinKeyboardBaseView
 	public int hintMode = 0;
+	//
+	// Read by PointerTracker
+	public boolean sendSlideKeys = false;
 	
 	/* Updated by KeyboardSwitcher */
 	//
