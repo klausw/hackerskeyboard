@@ -65,7 +65,7 @@ public class KeyboardSwitcher implements
     public static final String PREF_LABEL_SCALE = "pref_label_scale";
     private static final int[] THEMES = new int[] { R.layout.input_basic,
             R.layout.input_basic_highcontrast, R.layout.input_stone_normal,
-            R.layout.input_stone_bold, R.layout.input_gingerbread };
+            R.layout.input_stone_bold, R.layout.input_gingerbread, R.layout.input_trans };
 
     // Ids for each characters' color in the keyboard
     private static final int CHAR_THEME_COLOR_WHITE = 0;
