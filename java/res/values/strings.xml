@@ -353,6 +353,7 @@
     <string name="layout_stone_bold"  translatable="false">Stone (bold)</string>
     <string name="layout_stone_normal"  translatable="false">Stone (normal)</string>
     <string name="layout_gingerbread"  translatable="false">Gingerbread</string>
+    <string name="layout_ics"  translatable="false">Ice Cream Sandwich</string>
     <string name="layout_trans"  translatable="false">Transparent</string>
     <string name="layout_trans_neon"  translatable="false">Transparent Glow</string>
 
@@ -362,6 +363,7 @@
         <item>@string/layout_stone_normal</item>
         <item>@string/layout_stone_bold</item>
         <item>@string/layout_gingerbread</item>
+        <item>@string/layout_ics</item>
         <item>@string/layout_trans</item>
         <item>@string/layout_trans_neon</item>
     </string-array>
@@ -374,6 +376,7 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+        <item>7</item>
     </string-array>
 
     <string name="subtype_mode_keyboard">keyboard</string>
