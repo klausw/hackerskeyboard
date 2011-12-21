@@ -236,11 +236,12 @@ public class LatinIME extends InputMethodService implements
     private boolean mFullscreenOverride;
     private boolean mForceKeyboardOn;
     private boolean mKeyboardNotification;
-    private boolean mFullInPortrait;
     private boolean mSuggestionsInLandscape;
+
+    public static final GlobalKeyboardSettings sKeyboardSettings = new GlobalKeyboardSettings(); 
+    
     private int mHeightPortrait;
     private int mHeightLandscape;
-    private int mHintMode;
     private int mCorrectionMode;
     private boolean mEnableVoice = true;
     private boolean mVoiceOnPrimary;
@@ -418,15 +419,15 @@ public class LatinIME extends InputMethodService implements
                 res.getBoolean(R.bool.default_force_keyboard_on));
         mKeyboardNotification = prefs.getBoolean(PREF_KEYBOARD_NOTIFICATION,
                 res.getBoolean(R.bool.default_keyboard_notification));
-        mFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT,
+        LatinIME.sKeyboardSettings.wantFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT,
                 res.getBoolean(R.bool.default_full_in_portrait));
         mSuggestionsInLandscape = prefs.getBoolean(PREF_SUGGESTIONS_IN_LANDSCAPE,
                 res.getBoolean(R.bool.default_suggestions_in_landscape));
         mHeightPortrait = getHeight(prefs, PREF_HEIGHT_PORTRAIT, res.getString(R.string.default_height_portrait));
         mHeightLandscape = getHeight(prefs, PREF_HEIGHT_LANDSCAPE, res.getString(R.string.default_height_landscape));
-        mHintMode = Integer.parseInt(prefs.getString(PREF_HINT_MODE, res.getString(R.string.default_hint_mode)));
-        mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
-                mHeightPortrait, mHeightLandscape, mHintMode);
+        LatinIME.sKeyboardSettings.hintMode = Integer.parseInt(prefs.getString(PREF_HINT_MODE, res.getString(R.string.default_hint_mode)));
+
+        updateKeyboardOptions();
 
         PluginManager.getPluginDictionaries(getApplicationContext());
         mPluginManager = new PluginManager(this);
@@ -472,6 +473,18 @@ public class LatinIME extends InputMethodService implements
         setNotification(mKeyboardNotification);
     }
 
+    private void updateKeyboardOptions() {
+        //Log.i(TAG, "setFullKeyboardOptions " + fullInPortrait + " " + heightPercentPortrait + " " + heightPercentLandscape);
+        int orientation = getResources().getConfiguration().orientation;
+        boolean isPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
+        LatinIME.sKeyboardSettings.isPortrait = isPortrait;
+        // Convert overall keyboard height to per-row percentage
+        int nRows = isPortrait && !LatinIME.sKeyboardSettings.wantFullInPortrait ? 4 : 5;
+        int screenHeightPercent = LatinIME.sKeyboardSettings.isPortrait ? mHeightPortrait : mHeightLandscape;
+        LatinIME.sKeyboardSettings.rowHeightPercent = (float) screenHeightPercent / nRows;
+        LatinIME.sKeyboardSettings.labelScale = 5.0f * LatinIME.sKeyboardSettings.labelScalePref / nRows;
+    }
+    
     private void setNotification(boolean visible) {
     	final String ACTION = "org.pocketworkstation.pckeyboard.SHOW";
         final int ID = 1;
@@ -512,9 +525,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean suggestionsDisabled() {
-        return /*mKeyboardSwitcher.isFullMode() &&*/
-                !mSuggestionsInLandscape &&
-                !isPortrait();
+        return !mSuggestionsInLandscape && !isPortrait();
     }
 
     /**
@@ -1237,8 +1248,7 @@ public class LatinIME extends InputMethodService implements
             mKeyboardSwitcher.setVoiceMode(mEnableVoice && mEnableVoiceButton,
                     mVoiceOnPrimary);
         }
-        mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
-                mHeightPortrait, mHeightLandscape, mHintMode);
+        updateKeyboardOptions();
         mKeyboardSwitcher.makeKeyboards(true);
     }
 
@@ -2913,7 +2923,7 @@ public class LatinIME extends InputMethodService implements
                             .getBoolean(R.bool.default_keyboard_notification));
             setNotification(mKeyboardNotification);
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
-            mFullInPortrait = sharedPreferences.getBoolean(
+            LatinIME.sKeyboardSettings.wantFullInPortrait = sharedPreferences.getBoolean(
                     PREF_FULL_KEYBOARD_IN_PORTRAIT, res
                             .getBoolean(R.bool.default_full_in_portrait));
             needReload = true;
@@ -2931,13 +2941,12 @@ public class LatinIME extends InputMethodService implements
                     PREF_HEIGHT_LANDSCAPE, res.getString(R.string.default_height_landscape));
             needReload = true;
         } else if (PREF_HINT_MODE.equals(key)) {
-            mHintMode = Integer.parseInt(sharedPreferences.getString(PREF_HINT_MODE,
+            LatinIME.sKeyboardSettings.hintMode = Integer.parseInt(sharedPreferences.getString(PREF_HINT_MODE,
                     res.getString(R.string.default_hint_mode)));
             needReload = true;
         }
 
-        mKeyboardSwitcher.setFullKeyboardOptions(mFullInPortrait,
-                mHeightPortrait, mHeightLandscape, mHintMode);
+        updateKeyboardOptions();
         if (needReload) {
             mKeyboardSwitcher.makeKeyboards(true);
         }
