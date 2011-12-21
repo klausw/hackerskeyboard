@@ -55,6 +55,7 @@ import android.util.Log;
 import android.util.PrintWriterPrinter;
 import android.util.Printer;
 import android.view.HapticFeedbackConstants;
+import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -1275,6 +1276,9 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void postUpdateShiftKeyState() {
+        //updateShiftKeyState(getCurrentInputEditorInfo());
+
+        // FIXME: why the delay?
         mHandler.removeMessages(MSG_UPDATE_SHIFT_STATE);
         // TODO: Should remove this 300ms delay?
         mHandler.sendMessageDelayed(mHandler
@@ -1284,9 +1288,11 @@ public class LatinIME extends InputMethodService implements
     public void updateShiftKeyState(EditorInfo attr) {
         InputConnection ic = getCurrentInputConnection();
         if (ic != null && attr != null && mKeyboardSwitcher.isAlphabetMode()) {
-        	//Log.i(TAG, "updateShiftKeyState capsLock=" +mCapsLock + " isMomentary=" + mShiftKeyState.isMomentary() + " cursorCaps=" + getCursorCapsMode(ic, attr));
-            mKeyboardSwitcher.setShifted(mShiftKeyState.isMomentary()
-                    || mCapsLock || getCursorCapsMode(ic, attr) != 0);
+            boolean isShifted = mShiftKeyState.isMomentary()
+            || mCapsLock || getCursorCapsMode(ic, attr) != 0;
+            //Log.i(TAG, "updateShiftKeyState capsLock=" +mCapsLock + " isMomentary=" + mShiftKeyState.isMomentary() + " cursorCaps=" + getCursorCapsMode(ic, attr));
+            setModShift(isShifted && !mCapsLock);
+            mKeyboardSwitcher.setShifted(isShifted);
         }
     }
 
@@ -1428,47 +1434,110 @@ public class LatinIME extends InputMethodService implements
         ) && ei.inputType == 0); // FIXME
     }
 
-    
-    private void sendKeyDown(InputConnection ic, int key) {
-    	if (ic != null) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, key));
+    private int getMetaState(boolean shifted) {
+        int meta = 0;
+        if (shifted) meta |= KeyEvent.META_SHIFT_ON | KeyEvent.META_SHIFT_LEFT_ON;
+        if (mModCtrl) meta |= 0x3000; // KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON;
+        if (mModAlt) meta |= 0x30000; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON;
+        return meta;
     }
 
-    private void sendKeyUp(InputConnection ic, int key) {
-    	if (ic != null) ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, key));
+    private void sendKeyDown(InputConnection ic, int key, int meta) {
+        long now = System.currentTimeMillis();
+        if (ic != null) ic.sendKeyEvent(new KeyEvent(
+                now, now, KeyEvent.ACTION_DOWN, key, 0, meta));
     }
 
-    private void sendModifierKeysDown(boolean mayShift) {
+    private void sendKeyUp(InputConnection ic, int key, int meta) {
+        long now = System.currentTimeMillis();
+        if (ic != null) ic.sendKeyEvent(new KeyEvent(
+                now, now, KeyEvent.ACTION_UP, key, 0, meta));
+    }
+
+    private void sendModifiedKeyDownUp(int key, boolean shifted) {
         InputConnection ic = getCurrentInputConnection();
-        if (mayShift && mModShift) {
-            sendKeyDown(ic, KeyEvent.KEYCODE_SHIFT_LEFT);
+        int meta = getMetaState(shifted);
+        sendModifierKeysDown(shifted);
+        sendKeyDown(ic, key, meta);
+        sendKeyUp(ic, key, meta);
+        sendModifierKeysUp(shifted);
+    }
+
+    private void sendModifiedKeyDownUp(int key) {
+        sendModifiedKeyDownUp(key, mModShift);
+    }
+
+    private void sendShiftKey(InputConnection ic, boolean isDown) {
+        int key = KeyEvent.KEYCODE_SHIFT_LEFT;
+        int meta = KeyEvent.META_SHIFT_ON | KeyEvent.META_SHIFT_LEFT_ON;
+        if (isDown) {
+            sendKeyDown(ic, key, meta);
+        } else {
+            sendKeyUp(ic, key, meta);
+        }
+    }
+
+    private void sendCtrlKey(InputConnection ic, boolean isDown) {
+        int key = 113; // KeyEvent.KEYCODE_CTRL_LEFT
+        int meta = 0x3000; // KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON
+        if (isDown) {
+            sendKeyDown(ic, key, meta);
+        } else {
+            sendKeyUp(ic, key, meta);
+        }
+    }
+
+    private void sendAltKey(InputConnection ic, boolean isDown) {
+        int key = 57; // KeyEvent.KEYCODE_ALT_LEFT
+        int meta = 0x30000; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON
+        if (isDown) {
+            sendKeyDown(ic, key, meta);
+        } else {
+            sendKeyUp(ic, key, meta);
+        }
+    }
+
+    private void sendModifierKeysDown(boolean shifted) {
+        InputConnection ic = getCurrentInputConnection();
+        if (shifted) {
+            //Log.i(TAG, "send SHIFT down");
+            sendShiftKey(ic, true);
         }
         if (mModCtrl && !mCtrlKeyState.isMomentary()) {
-            sendKeyDown(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
+            sendCtrlKey(ic, true);
         }
         if (mModAlt && !mAltKeyState.isMomentary()) {
-            sendKeyDown(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
+            sendAltKey(ic, true);
         }
     }
 
-    private void sendModifierKeysUp(boolean mayShift) {
+    private void handleModifierKeysUp(boolean shifted, boolean sendKey) {
         InputConnection ic = getCurrentInputConnection();
         if (mModAlt && !mAltKeyState.isMomentary()) {
-            sendKeyUp(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
+            if (sendKey) sendAltKey(ic, false);
             setModAlt(false);
         }
         if (mModCtrl && !mCtrlKeyState.isMomentary()) {
-            sendKeyUp(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
+            if (sendKey) sendCtrlKey(ic, false);
             setModCtrl(false);
         }
-        if (mayShift && mModShift) {
-            sendKeyUp(ic, KeyEvent.KEYCODE_SHIFT_LEFT);
-            if (!mShiftKeyState.isMomentary()) setModAlt(false);
+        if (shifted) {
+            //Log.i(TAG, "send SHIFT up");
+            if (sendKey) sendShiftKey(ic, false);
+            if (!mShiftKeyState.isMomentary()) {
+                resetShift(); // clears mModShift
+                //setModShift(false);
+            }
         }
+    }
+
+    private void sendModifierKeysUp(boolean shifted) {
+        handleModifierKeysUp(shifted, true);
     }
 
     private void sendSpecialKey(int code) {
         if (!isConnectbot()) {
-            sendDownUpKeyEvents(-code);
+            sendModifiedKeyDownUp(code);
             return;
         }
 
@@ -1477,58 +1546,58 @@ public class LatinIME extends InputMethodService implements
             CTRL_SEQUENCES = new HashMap<Integer, Integer>();
 
             // VT escape sequences without leading Escape
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_HOME, "[1~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_END, "[4~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_PAGE_UP, "[5~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_PAGE_DOWN, "[6~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F1, "OP");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F2, "OQ");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F3, "OR");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F4, "OS");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F5, "[15~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F6, "[17~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F7, "[18~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F8, "[19~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F9, "[20~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F10, "[21~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F11, "[23~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F12, "[24~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_FORWARD_DEL, "[3~");
-            ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_INSERT, "[2~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_HOME, "[1~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_END, "[4~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_PAGE_UP, "[5~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_PAGE_DOWN, "[6~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F1, "OP");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F2, "OQ");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F3, "OR");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F4, "OS");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F5, "[15~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F6, "[17~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F7, "[18~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F8, "[19~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F9, "[20~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F10, "[21~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F11, "[23~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F12, "[24~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FORWARD_DEL, "[3~");
+            ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_INSERT, "[2~");
 
             // Special ConnectBot hack: Ctrl-1 to Ctrl-0 for F1-F10.
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F1, KeyEvent.KEYCODE_1);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F2, KeyEvent.KEYCODE_2);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F3, KeyEvent.KEYCODE_3);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F4, KeyEvent.KEYCODE_4);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F5, KeyEvent.KEYCODE_5);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F6, KeyEvent.KEYCODE_6);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F7, KeyEvent.KEYCODE_7);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F8, KeyEvent.KEYCODE_8);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F9, KeyEvent.KEYCODE_9);
-            CTRL_SEQUENCES.put(LatinKeyboardView.KEYCODE_FKEY_F10, KeyEvent.KEYCODE_0);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F1, KeyEvent.KEYCODE_1);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F2, KeyEvent.KEYCODE_2);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F3, KeyEvent.KEYCODE_3);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F4, KeyEvent.KEYCODE_4);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F5, KeyEvent.KEYCODE_5);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F6, KeyEvent.KEYCODE_6);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F7, KeyEvent.KEYCODE_7);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F8, KeyEvent.KEYCODE_8);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F9, KeyEvent.KEYCODE_9);
+            CTRL_SEQUENCES.put(-LatinKeyboardView.KEYCODE_FKEY_F10, KeyEvent.KEYCODE_0);
 
             // Natively supported by ConnectBot
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_UP, "OA");
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_DOWN, "OB");
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_LEFT, "OD");
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_RIGHT, "OC");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_DPAD_UP, "OA");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_DPAD_DOWN, "OB");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_DPAD_LEFT, "OD");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_DPAD_RIGHT, "OC");
 
             // No VT equivalents?
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_DPAD_CENTER, "");
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_SYSRQ, "");
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_BREAK, "");
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_NUM_LOCK, "");
-            // ESC_SEQUENCES.put(LatinKeyboardView.KEYCODE_SCROLL_LOCK, "");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_DPAD_CENTER, "");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_SYSRQ, "");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_BREAK, "");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_NUM_LOCK, "");
+            // ESC_SEQUENCES.put(-LatinKeyboardView.KEYCODE_SCROLL_LOCK, "");
         }
         InputConnection ic = getCurrentInputConnection();
-	Integer ctrlseq = null;
-	if (mConnectbotTabHack) {
-	   ctrlseq = CTRL_SEQUENCES.get(code);
-	}
+        Integer ctrlseq = null;
+        if (mConnectbotTabHack) {
+            ctrlseq = CTRL_SEQUENCES.get(code);
+        }
         String seq = ESC_SEQUENCES.get(code);
 
-	if (ctrlseq != null) {
+        if (ctrlseq != null) {
             if (mModAlt) {
                 // send ESC prefix for "Meta"
                 ic.commitText(Character.toString((char) 27), 1);
@@ -1541,7 +1610,7 @@ public class LatinIME extends InputMethodService implements
                     ctrlseq));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
                     ctrlseq));
-	} else if (seq != null) {
+        } else if (seq != null) {
             if (mModAlt) {
                 // send ESC prefix for "Meta"
                 ic.commitText(Character.toString((char) 27), 1);
@@ -1551,63 +1620,157 @@ public class LatinIME extends InputMethodService implements
             ic.commitText(seq, 1);
         } else {
             // send key code, let connectbot handle it
-            sendDownUpKeyEvents(-code);
+            sendDownUpKeyEvents(code);
         }
     }
 
-    private void sendCharWithModifiers(int primaryCode, int[] keyCodes) {
-        InputConnection ic = getCurrentInputConnection();
-        if (isConnectbot()) {
-            if (mModAlt) {
-                // send ESC prefix
-                ic.commitText(Character.toString((char) 27), 1);
-            }
-            if (mModCtrl && primaryCode >= 32 && primaryCode < 127) {
-                int code = primaryCode & 31;
-                if (code == 9) {
-                    sendTab();
-                } else {
-                    ic.commitText(Character.toString((char) code), 1);
+    private final static int asciiToKeyCode[] = new int[127];
+    private final static int KF_MASK = 0xffff;
+    private final static int KF_SHIFTABLE = 0x10000;
+    private final static int KF_UPPER = 0x20000;
+    //private KeyCharacterMap mKeyCharacterMap;
+    //private int mKeyMapDeviceId;
+    
+//    private KeyEvent[] getKeyEventsForChar(char ch, int deviceId) {
+//        KeyEvent[] events = null;
+//
+//        return events;
+//    }
+
+    {
+        // Include RETURN in this set even though it's not printable.
+        // Most other non-printable keys get handled elsewhere.
+        asciiToKeyCode['\n'] = KeyEvent.KEYCODE_ENTER | KF_SHIFTABLE;
+
+        // Non-alphanumeric ASCII codes which have their own keys
+        // (on some keyboards)
+        asciiToKeyCode[' '] = KeyEvent.KEYCODE_SPACE | KF_SHIFTABLE;
+        //asciiToKeyCode['!'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['"'] = KeyEvent.KEYCODE_;
+        asciiToKeyCode['#'] = KeyEvent.KEYCODE_POUND;
+        //asciiToKeyCode['$'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['%'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['&'] = KeyEvent.KEYCODE_;
+        asciiToKeyCode['\''] = KeyEvent.KEYCODE_APOSTROPHE;
+        //asciiToKeyCode['('] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode[')'] = KeyEvent.KEYCODE_;
+        asciiToKeyCode['*'] = KeyEvent.KEYCODE_STAR;
+        asciiToKeyCode['+'] = KeyEvent.KEYCODE_PLUS;
+        asciiToKeyCode[','] = KeyEvent.KEYCODE_COMMA;
+        asciiToKeyCode['-'] = KeyEvent.KEYCODE_MINUS;
+        asciiToKeyCode['.'] = KeyEvent.KEYCODE_PERIOD;
+        asciiToKeyCode['/'] = KeyEvent.KEYCODE_SLASH;
+        //asciiToKeyCode[':'] = KeyEvent.KEYCODE_;
+        asciiToKeyCode[';'] = KeyEvent.KEYCODE_SEMICOLON;
+        //asciiToKeyCode['<'] = KeyEvent.KEYCODE_;
+        asciiToKeyCode['='] = KeyEvent.KEYCODE_EQUALS;
+        //asciiToKeyCode['>'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['?'] = KeyEvent.KEYCODE_;
+        asciiToKeyCode['@'] = KeyEvent.KEYCODE_AT;
+        asciiToKeyCode['['] = KeyEvent.KEYCODE_LEFT_BRACKET;
+        asciiToKeyCode['\\'] = KeyEvent.KEYCODE_BACKSLASH;
+        asciiToKeyCode[']'] = KeyEvent.KEYCODE_RIGHT_BRACKET;
+        //asciiToKeyCode['^'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['_'] = KeyEvent.KEYCODE_;
+        asciiToKeyCode['`'] = KeyEvent.KEYCODE_GRAVE;
+        //asciiToKeyCode['{'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['|'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['}'] = KeyEvent.KEYCODE_;
+        //asciiToKeyCode['~'] = KeyEvent.KEYCODE_;
+
+
+        for (int i = 0; i <= 25; ++i) {
+            asciiToKeyCode['a' + i] = KeyEvent.KEYCODE_A + i;
+            asciiToKeyCode['A' + i] = KeyEvent.KEYCODE_A + i | KF_UPPER;
+        }
+
+        for (int i = 0; i <= 9; ++i) {
+            asciiToKeyCode['0' + i] = KeyEvent.KEYCODE_0 + i;
+        }
+    }
+
+    public void sendModifiableKeyChar(char ch) {
+        // Support modified key events
+        if ((mModShift || mModCtrl || mModAlt) && ch > 0 && ch < 127) {
+            InputConnection ic = getCurrentInputConnection();
+            if (isConnectbot()) {
+                if (mModAlt) {
+                    // send ESC prefix
+                    ic.commitText(Character.toString((char) 27), 1);
                 }
-            } else {
-                handleCharacter(primaryCode, keyCodes);
+                if (mModCtrl) {
+                    int code = ch & 31;
+                    if (code == 9) {
+                        sendTab();
+                    } else {
+                        ic.commitText(Character.toString((char) code), 1);
+                    }
+                } else {
+                    ic.commitText(Character.toString(ch), 1);
+                }
+                handleModifierKeysUp(false, false);
+                return;
             }
-        } else {
-            sendKeyChar((char) primaryCode);
-            // handleCharacter(primaryCode, keyCodes);
-        }
-    }
 
+            // Non-ConnectBot
+
+            // Restrict Shift modifier to ENTER and SPACE, supporting Shift-Enter etc.
+            // Note that most special keys such as DEL or cursor keys aren't handled
+            // by this charcode-based method.
+
+            int combinedCode = asciiToKeyCode[ch];
+            if (combinedCode > 0) {
+                int code = combinedCode & KF_MASK;
+                boolean shiftable = (combinedCode & KF_SHIFTABLE) > 0;
+                boolean upper = (combinedCode & KF_UPPER) > 0;
+                boolean shifted = upper || (shiftable && mModShift);
+                sendModifiedKeyDownUp(code, shifted);
+                return;
+            }
+        }
+
+        if (ch >= '0' && ch <= '9') {
+            //WIP
+            InputConnection ic = getCurrentInputConnection();
+            ic.clearMetaKeyStates(KeyEvent.META_SHIFT_ON | KeyEvent.META_ALT_ON | KeyEvent.META_SYM_ON);
+            //EditorInfo ei = getCurrentInputEditorInfo();
+            //Log.i(TAG, "capsmode=" + ic.getCursorCapsMode(ei.inputType));
+            //sendModifiedKeyDownUp(KeyEvent.KEYCODE_0 + ch - '0');
+            //return;
+        }
+
+        // Default handling for anything else, including unmodified ENTER and SPACE.
+        sendKeyChar(ch);
+    }
+    
     private void sendTab() {
         InputConnection ic = getCurrentInputConnection();
         boolean tabHack = isConnectbot() && mConnectbotTabHack;
 
         // FIXME: tab and ^I don't work in connectbot, hackish workaround
         if (tabHack) {
+            if (mModAlt) {
+                // send ESC prefix
+                ic.commitText(Character.toString((char) 27), 1);
+            }
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,
                     KeyEvent.KEYCODE_DPAD_CENTER));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
                     KeyEvent.KEYCODE_DPAD_CENTER));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,
                     KeyEvent.KEYCODE_I));
-            ic
-                    .sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
-                            KeyEvent.KEYCODE_I));
-        } else {
-            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,
-                    KeyEvent.KEYCODE_TAB));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP,
-                    KeyEvent.KEYCODE_TAB));
+                    KeyEvent.KEYCODE_I));
+        } else {
+            sendModifiedKeyDownUp(KeyEvent.KEYCODE_TAB);
         }
     }
 
     private void sendEscape() {
-        InputConnection ic = getCurrentInputConnection();
         if (isConnectbot()) {
             sendKeyChar((char) 27);
         } else {
-            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, 111 /* KEYCODE_ESCAPE */));
-            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, 111 /* KEYCODE_ESCAPE */));
+            sendModifiedKeyDownUp(111 /*KeyEvent.KEYCODE_ESCAPE */);
         }
     }
 
@@ -1703,17 +1866,13 @@ public class LatinIME extends InputMethodService implements
             if (processMultiKey(primaryCode)) {
                 break;
             }
-            sendModifierKeysDown(true);
             sendTab();
-            sendModifierKeysUp(true);
             break;
         case LatinKeyboardView.KEYCODE_ESCAPE:
             if (processMultiKey(primaryCode)) {
                 break;
             }
-            sendModifierKeysDown(true);
             sendEscape();
-            sendModifierKeysUp(true);
             break;
         case LatinKeyboardView.KEYCODE_DPAD_UP:
         case LatinKeyboardView.KEYCODE_DPAD_DOWN:
@@ -1746,9 +1905,7 @@ public class LatinIME extends InputMethodService implements
                 break;
             }
             // send as plain keys, or as escape sequence if needed
-            sendModifierKeysDown(true);
-            sendSpecialKey(primaryCode);
-            sendModifierKeysUp(true);
+            sendSpecialKey(-primaryCode);
             break;
         default:
             if (!mComposeMode && mDeadKeysActive && Character.getType(primaryCode) == Character.NON_SPACING_MARK) {
@@ -1768,11 +1925,7 @@ public class LatinIME extends InputMethodService implements
             }
             RingCharBuffer.getInstance().push((char) primaryCode, x, y);
             LatinImeLogger.logOnInputChar();
-            if (mModCtrl || mModAlt) {
-                sendModifierKeysDown(false);
-                sendCharWithModifiers(primaryCode, keyCodes);
-                sendModifierKeysUp(false);
-            } else if (isWordSeparator(primaryCode)) {
+            if (isWordSeparator(primaryCode)) {
                 handleSeparator(primaryCode);
             } else {
                 handleCharacter(primaryCode, keyCodes);
@@ -1892,6 +2045,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void setModShift(boolean val) {
+        // Log.i("LatinIME", "setModShift "+ mModShift + "->" + val + ", momentary=" + mShiftKeyState.isMomentary());
         mModShift = val;
     }
 
@@ -1928,16 +2082,24 @@ public class LatinIME extends InputMethodService implements
             if (mCapsLock || forceNormal) {
                 mCapsLock = false;
                 switcher.setShifted(false);
+                setModShift(false);
             } else if (inputView != null) {
                 if (inputView.isShifted()) {
                     mCapsLock = true;
                     switcher.setShiftLocked(true);
+                    setModShift(false); // treat caps lock as not having shift pressed
                 } else {
                     switcher.setShifted(true);
+                    setModShift(true);
                 }
             }
         } else {
             switcher.toggleShift();
+            if (forceNormal) {
+                setModShift(false);
+            } else {
+                setModShift(!mModShift);
+            }
         }
     }
 
@@ -2012,7 +2174,7 @@ public class LatinIME extends InputMethodService implements
             }
             postUpdateSuggestions();
         } else {
-            sendKeyChar((char) primaryCode);
+            sendModifiableKeyChar((char) primaryCode);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
         if (LatinIME.PERF_DEBUG)
@@ -2072,7 +2234,7 @@ public class LatinIME extends InputMethodService implements
             removeTrailingSpace();
             mJustAddedAutoSpace = false;
         }
-        sendKeyChar((char) primaryCode);
+        sendModifiableKeyChar((char) primaryCode);
 
         // Handle the case of ". ." -> " .." with auto-space if necessary
         // before changing the TextEntryState.
@@ -2373,7 +2535,7 @@ public class LatinIME extends InputMethodService implements
         if ((mSuggest == null || !isPredictionOn()) && !mVoiceInputHighlighted) {
             return;
         }
-
+        
         if (!mPredicting) {
             setNextSuggestions();
             return;
@@ -2852,7 +3014,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void sendSpace() {
-        sendKeyChar((char) ASCII_SPACE);
+        sendModifiableKeyChar((char) ASCII_SPACE);
         updateShiftKeyState(getCurrentInputEditorInfo());
         // onKey(KEY_SPACE[0], KEY_SPACE);
     }
@@ -2988,9 +3150,8 @@ public class LatinIME extends InputMethodService implements
                 .hasDistinctMultitouch();
         if (distinctMultiTouch && primaryCode == Keyboard.KEYCODE_SHIFT) {
             mShiftKeyState.onPress();
-            handleShift();
-            setModShift(!mModShift);
-            // sendKeyDown(ic, KeyEvent.KEYCODE_SHIFT_LEFT); // disabled, issue #24
+            handleShift(); // this calls setModShift()
+            // sendShiftKey(ic, true); // disabled, issue #24
         } else if (distinctMultiTouch
                 && primaryCode == Keyboard.KEYCODE_MODE_CHANGE) {
             changeKeyboardMode();
@@ -3000,12 +3161,12 @@ public class LatinIME extends InputMethodService implements
                 && primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT) {
             setModCtrl(!mModCtrl);
             mCtrlKeyState.onPress();
-            sendKeyDown(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
+            sendCtrlKey(ic, true);
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT) {
             setModAlt(!mModAlt);
             mAltKeyState.onPress();
-            sendKeyDown(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
+            sendAltKey(ic, true);
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
             setModFn(!mModFn);
@@ -3029,9 +3190,8 @@ public class LatinIME extends InputMethodService implements
         InputConnection ic = getCurrentInputConnection();
         if (distinctMultiTouch && primaryCode == Keyboard.KEYCODE_SHIFT) {
             if (mShiftKeyState.isMomentary())
-                resetShift();
-            //sendKeyUp(ic, KeyEvent.KEYCODE_SHIFT_LEFT); // disabled, issue #24
-            setModShift(false);
+                resetShift(); // this calls setModShift()
+            //sendShiftKey(ic, false); // disabled, issue #24
             mShiftKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == Keyboard.KEYCODE_MODE_CHANGE) {
@@ -3046,14 +3206,14 @@ public class LatinIME extends InputMethodService implements
             if (mCtrlKeyState.isMomentary()) {
                 setModCtrl(false);
             }
-            sendKeyUp(ic, 113); // KeyEvent.KEYCODE_CTRL_LEFT
+            sendCtrlKey(ic, false);
             mCtrlKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT) {
             if (mAltKeyState.isMomentary()) {
                 setModAlt(false);
             }
-            sendKeyUp(ic, 57); // KeyEvent.KEYCODE_ALT_LEFT
+            sendAltKey(ic, false);
             mAltKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
