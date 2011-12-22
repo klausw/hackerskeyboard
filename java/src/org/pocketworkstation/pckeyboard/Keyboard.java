@@ -418,23 +418,23 @@ public class Keyboard {
         }
 
         public void setFromString(CharSequence str) {
-        	if (str.length() > 1) {
-        		if (str.charAt(0) == DEAD_KEY_PLACEHOLDER && str.length() >= 2) {
-        			isDeadKey = true;
-        			codes = new int[] { str.charAt(1) }; // FIXME: >1 length?
-        		} else {
-        			text = str; // TODO: add space?
-        			codes = new int[] { 0 };
-        		}
-        	} else {
-        		char c = str.charAt(0);
-        		if (Character.getType(c) == Character.NON_SPACING_MARK) {
-        			//label = Character.toString(DEAD_KEY_PLACEHOLDER) + label;
-        			isDeadKey = true;
-        		}
-        		//codes = new int[] { Character.toLowerCase(c) };
-        		codes = new int[] { c };
-        	}
+            if (str.length() > 1) {
+                if (str.charAt(0) == DEAD_KEY_PLACEHOLDER && str.length() >= 2) {
+                    isDeadKey = true;
+                    codes = new int[] { str.charAt(1) }; // FIXME: >1 length?
+                } else {
+                    text = str; // TODO: add space?
+                    codes = new int[] { 0 };
+                }
+            } else {
+                char c = str.charAt(0);
+                if (Character.getType(c) == Character.NON_SPACING_MARK) {
+                    //label = Character.toString(DEAD_KEY_PLACEHOLDER) + label;
+                    isDeadKey = true;
+                }
+                //codes = new int[] { Character.toLowerCase(c) };
+                codes = new int[] { c };
+            }
         }
         
         /**
