@@ -434,6 +434,8 @@ public class KeyboardSwitcher implements
             return false;
         }
         int currentMode = mCurrentId.mKeyboardMode;
+        if (mFullMode && currentMode == KEYBOARDMODE_NORMAL)
+            return true;
         for (Integer mode : ALPHABET_MODES) {
             if (currentMode == mode) {
                 return true;

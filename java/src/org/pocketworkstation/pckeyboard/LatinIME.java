@@ -2141,7 +2141,8 @@ public class LatinIME extends InputMethodService implements
                 mWord.reset();
             }
         }
-        if (mKeyboardSwitcher.getInputView().isShifted()) {
+        if (mKeyboardSwitcher.getInputView().isShifted() && !mKeyboardSwitcher.isFullMode()) {
+            // Uppercase the character for 4-row mode, where the code returned is lowercase
             if (keyCodes == null || keyCodes[0] < Character.MIN_CODE_POINT
                     || keyCodes[0] > Character.MAX_CODE_POINT) {
                 return;
