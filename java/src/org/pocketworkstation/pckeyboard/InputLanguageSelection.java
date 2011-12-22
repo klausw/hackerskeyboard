@@ -193,12 +193,12 @@ public class InputLanguageSelection extends PreferenceActivity {
         if (bd.getSize() > Suggest.LARGE_DICTIONARY_THRESHOLD / 4) {
             haveDictionary = true;
         } else {
-        	BinaryDictionary plug = PluginManager.getDictionary(getApplicationContext(), locale.getLanguage());
-        	if (plug != null) {
-        		bd.close();
-        		bd = plug;
-        		haveDictionary = true;
-        	}
+            BinaryDictionary plug = PluginManager.getDictionary(getApplicationContext(), locale.getLanguage());
+            if (plug != null) {
+                bd.close();
+                bd = plug;
+                haveDictionary = true;
+            }
         }
 
         bd.close();

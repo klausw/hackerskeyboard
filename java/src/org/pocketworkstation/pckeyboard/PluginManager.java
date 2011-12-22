@@ -2,6 +2,7 @@ package org.pocketworkstation.pckeyboard;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,18 +61,17 @@ public class PluginManager extends BroadcastReceiver {
             return res;
         }
 
-        abstract InputStream getStream(Resources res);
+        abstract InputStream[] getStreams(Resources res);
 
         public BinaryDictionary getDict(Context context) {
             Resources res = getResources(context);
             if (res == null) return null;
 
-            InputStream in = getStream(res);
-            if (in == null) return null;
-
-            InputStream[] dicts = new InputStream[] { in };
+            InputStream[] dicts = getStreams(res);
+            if (dicts == null) return null;
             BinaryDictionary dict = new BinaryDictionary(
                     context, dicts, Suggest.DIC_MAIN);
+            if (dict.getSize() == 0) return null;
             //Log.i(TAG, "dict size=" + dict.getSize());
             return dict;
         }
@@ -80,17 +80,21 @@ public class PluginManager extends BroadcastReceiver {
     static private class DictPluginSpecHK
             extends DictPluginSpecBase {
         
-        int mRawId;
+        int[] mRawIds;
 
-        public DictPluginSpecHK(String pkg, int id) {
+        public DictPluginSpecHK(String pkg, int[] ids) {
             mPackageName = pkg;
-            mRawId = id;
+            mRawIds = ids;
         }
 
         @Override
-        InputStream getStream(Resources res) {
-            if (mRawId == 0) return null;
-            return res.openRawResource(mRawId);
+        InputStream[] getStreams(Resources res) {
+            if (mRawIds == null || mRawIds.length == 0) return null;
+            InputStream[] streams = new InputStream[mRawIds.length];
+            for (int i = 0; i < mRawIds.length; ++i) {
+                streams[i] = res.openRawResource(mRawIds[i]);
+            }
+            return streams;
         }
     }
     
@@ -105,10 +109,11 @@ public class PluginManager extends BroadcastReceiver {
         }
 
         @Override
-        InputStream getStream(Resources res) {
+        InputStream[] getStreams(Resources res) {
             if (mAssetName == null) return null;
             try {
-                return res.getAssets().open(mAssetName);
+                InputStream in = res.getAssets().open(mAssetName);
+                return new InputStream[] {in};
             } catch (IOException e) {
                 Log.e(TAG, "Dictionary asset loading failure");
                 return null;
@@ -147,10 +152,15 @@ public class PluginManager extends BroadcastReceiver {
                             String tag = xrp.getName();
                             if (tag != null) {
                                 if (tag.equals("Dictionary")) {
-                                    assetName = xrp.getAttributeValue(null, "dictionaryAssertName"); // sic
                                     lang = xrp.getAttributeValue(null, "locale");
                                     String convLang = SOFTKEYBOARD_LANG_MAP.get(lang);
                                     if (convLang != null) lang = convLang;
+                                    String type = xrp.getAttributeValue(null, "type");
+                                    if (type == null || type.equals("raw")) {
+                                        assetName = xrp.getAttributeValue(null, "dictionaryAssertName"); // sic
+                                    } else {
+                                        Log.w(TAG, "Unsupported AnySoftKeyboard dict type " + type);
+                                    }
                                     //Log.i(TAG, "asset=" + assetName + " lang=" + lang);
                                 }
                             }
@@ -192,9 +202,27 @@ public class PluginManager extends BroadcastReceiver {
                 int langId = res.getIdentifier("dict_language", "string", pkgName);
                 if (langId == 0) continue;
                 String lang = res.getString(langId);
+                int[] rawIds = null;
+                
+                // Try single-file version first
                 int rawId = res.getIdentifier("main", "raw", pkgName);
-                if (rawId == 0) continue;
-                DictPluginSpec spec = new DictPluginSpecHK(pkgName, rawId);
+                if (rawId != 0) {
+                    rawIds = new int[] { rawId };
+                } else {
+                    // try multi-part version
+                    int parts = 0;
+                    List<Integer> ids = new ArrayList<Integer>();
+                    while (true) {
+                        int id = res.getIdentifier("main" + parts, "raw", pkgName);
+                        if (id == 0) break;
+                        ids.add(id);
+                        ++parts;
+                    }
+                    if (parts == 0) continue; // no parts found
+                    rawIds = new int[parts];
+                    for (int i = 0; i < parts; ++i) rawIds[i] = ids.get(i);
+                }
+                DictPluginSpec spec = new DictPluginSpecHK(pkgName, rawIds);
                 mPluginDicts.put(lang, spec);
                 Log.i(TAG, "Found plugin dictionary: lang=" + lang + ", pkg=" + pkgName);
                 success = true;

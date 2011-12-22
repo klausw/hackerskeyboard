@@ -125,19 +125,19 @@ public class BinaryDictionary extends Dictionary {
             int maxWordLength, int maxBigrams, int maxAlternatives);
 
     private final void loadDictionary(InputStream[] is) {
-    	try {
-    		// merging separated dictionary into one if dictionary is separated
-    		int total = 0;
+        try {
+            // merging separated dictionary into one if dictionary is separated
+            int total = 0;
 
-    		for (int i = 0; i < is.length; i++) {
-    			total += is[i].available();
-    		}
+            for (int i = 0; i < is.length; i++) {
+                total += is[i].available();
+            }
 
             mNativeDictDirectBuffer =
                 ByteBuffer.allocateDirect(total).order(ByteOrder.nativeOrder());
             int got = 0;
             for (int i = 0; i < is.length; i++) {
-                 got += Channels.newChannel(is[i]).read(mNativeDictDirectBuffer);
+                got += Channels.newChannel(is[i]).read(mNativeDictDirectBuffer);
             }
             if (got != total) {
                 Log.e(TAG, "Read " + got + " bytes, expected " + total);
