@@ -93,6 +93,7 @@ public class WordComposer {
     public void add(int primaryCode, int[] codes) {
         mTypedWord.append((char) primaryCode);
         correctPrimaryJuxtapos(primaryCode, codes);
+        correctCodesCase(codes);
         mCodes.add(codes);
         if (Character.isUpperCase((char) primaryCode)) mCapsCount++;
     }
@@ -112,6 +113,14 @@ public class WordComposer {
         }
     }
 
+    // Prediction expects the keyKodes to be lowercase
+    private void correctCodesCase(int[] codes) {
+        for (int i = 0; i < codes.length; ++i) {
+            int code = codes[i];
+            if (code > 0) codes[i] = Character.toLowerCase(code);
+        }
+    }
+    
     /**
      * Delete the last keystroke as a result of hitting backspace.
      */
