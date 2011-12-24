@@ -392,6 +392,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mExtension = (LatinKeyboardView) li.inflate(mExtensionLayoutResId == 0 ?
                     R.layout.input_trans : mExtensionLayoutResId, null);
             mExtension.setExtensionType(true);
+            mExtension.setPadding(0, 0, 0, 0);
             mExtension.setOnKeyboardActionListener(
                     new ExtensionKeyboardListener(getOnKeyboardActionListener()));
             mExtension.setPopupParent(this);
@@ -407,7 +408,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             // TODO: Fix the "- 30". 
             mExtension.setPopupOffset(0, -windowLocation[1] - 30);
             mExtensionPopup.showAtLocation(this, 0, 0, -keyboard.getHeight()
-                    + windowLocation[1]);
+                    + windowLocation[1] + this.getPaddingTop());
         } else {
             mExtension.setVisibility(VISIBLE);
         }
