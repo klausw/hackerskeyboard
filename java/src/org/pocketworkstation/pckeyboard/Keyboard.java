@@ -688,7 +688,7 @@ public class Keyboard {
                 if (mainKeys.contains(c)) continue;  // already present elsewhere
 
                 // Skip extra digit alt keys on 5-row keyboards
-                if (key.y > 0 && Character.isDigit(c)) continue;
+                if ((key.edgeFlags & EDGE_TOP) == 0 && Character.isDigit(c)) continue;
 
                 newPopup.append(c);
             }
