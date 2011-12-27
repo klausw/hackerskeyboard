@@ -716,19 +716,20 @@ public class LatinIME extends InputMethodService implements
     @Override
     public View onCreateCandidatesView() {
         mKeyboardSwitcher.makeKeyboards(true);
-        // Respect the suggestion settings in legacy Gingerbread mode,
-        // in portrait mode, or if suggestions in landscape enabled.
-        if (suggestionsDisabled()) {
-            mCandidateViewContainer = null;
-            mCandidateView = null;
-            return mCandidateView;
-        }
         mCandidateViewContainer = (LinearLayout) getLayoutInflater().inflate(
                 R.layout.candidates, null);
         mCandidateView = (CandidateView) mCandidateViewContainer
                 .findViewById(R.id.candidates);
+        mCandidateView.setPadding(0, 0, 0, 0);
         mCandidateView.setService(this);
-        setCandidatesViewShown(true);
+        // Respect the suggestion settings in legacy Gingerbread mode,
+        // in portrait mode, or if suggestions in landscape enabled.
+//        if (suggestionsDisabled()) {
+//            mCandidateViewContainer = null;
+//            mCandidateView = null;
+//            return mCandidateView;
+//        }
+        setCandidatesViewShown(!suggestionsDisabled());
         return mCandidateViewContainer;
     }
 
@@ -2317,7 +2318,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean isCandidateStripVisible() {
-        return isPredictionOn() && mShowSuggestions;
+        return isPredictionOn() && mShowSuggestions && !suggestionsDisabled();
     }
 
     public void onCancelVoice() {
@@ -3099,7 +3100,7 @@ public class LatinIME extends InputMethodService implements
             mSuggestionsInLandscape = sharedPreferences.getBoolean(
                     PREF_SUGGESTIONS_IN_LANDSCAPE, res
                             .getBoolean(R.bool.default_suggestions_in_landscape));
-            needReload = true;
+            onCreateCandidatesView();
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
             mHeightPortrait = getHeight(sharedPreferences,
                     PREF_HEIGHT_PORTRAIT, res.getString(R.string.default_height_portrait));
