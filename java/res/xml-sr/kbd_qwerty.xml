@@ -96,19 +96,15 @@
         <Key
             android:keyLabel="ч" />
         <Key
-            android:keyLabel="ћ" />
-        <Key
-            android:keyLabel="ђ"
+            android:keyLabel="ћ"
             android:keyEdgeFlags="right" />
     </Row>
-    <Row
-        android:keyWidth="8.5%p"
-    >
+    <Row>
         <Key
             android:codes="@integer/key_shift"
             android:keyIcon="@drawable/sym_keyboard_shift"
             android:iconPreview="@drawable/sym_keyboard_feedback_shift"
-            android:keyWidth="11.75%p"
+            android:keyWidth="13.64%p"
             android:isModifier="true"
             android:isSticky="true"
             android:keyEdgeFlags="left" />
@@ -127,10 +123,12 @@
         <Key
             android:keyLabel="м" />
         <Key
+            android:keyLabel="ђ" />
+        <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
             android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:keyWidth="11.75%p"
+            android:keyWidth="13.64%p"
             android:isModifier="true"
             android:isRepeatable="true"
             android:keyEdgeFlags="right" />
