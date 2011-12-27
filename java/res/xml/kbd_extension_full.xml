@@ -17,6 +17,10 @@
 ** limitations under the License.
 */
     android:keyHeight="@dimen/key_height"
+
+Unavailable accents:
+        <Key android:keyLabel="&#x309;"/>
+        <Key android:keyLabel="&#x30D;"/>
 -->
 
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
@@ -35,11 +39,20 @@
         <Key android:keyLabel="&#x306;"/>
         <Key android:keyLabel="&#x307;"/>
         <Key android:keyLabel="&#x308;"/>
-        <Key android:keyLabel="&#x309;"/>
         <Key android:keyLabel="&#x30A;"/>
         <Key android:keyLabel="&#x30B;"/>
         <Key android:keyLabel="&#x30C;"/>
-        <Key android:keyLabel="&#x30D;" android:keyEdgeFlags="right"
+	<Key
+            android:codes="@integer/key_home"
+            android:isModifier="true"            
+            android:keyLabel="Home" />
+	<Key
+            android:codes="@integer/key_end"
+            android:isModifier="true"            
+            android:keyLabel="End"
+            android:keyEdgeFlags="right" />
+        
+	
         />
     </Row>
 </Keyboard>
