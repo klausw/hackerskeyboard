@@ -67,7 +67,7 @@ public class Keyboard {
 
     public final static char DEAD_KEY_PLACEHOLDER = 0x25cc; // dotted small circle
     public final static String DEAD_KEY_PLACEHOLDER_STRING = Character.toString(DEAD_KEY_PLACEHOLDER);
-    
+
     // Keyboard XML Tags
     private static final String TAG_KEYBOARD = "Keyboard";
     private static final String TAG_ROW = "Row";
@@ -90,7 +90,7 @@ public class Keyboard {
 
     /** Horizontal gap default for all rows */
     private float mDefaultHorizontalGap;
-    
+
     private float mHorizontalPad;
     private float mVerticalPad;
 
@@ -275,7 +275,7 @@ public class Keyboard {
         public boolean isDeadKey;
         public String hint; // Set by LatinKeyboardBaseView
         public String altHint; // Set by LatinKeyboardBaseView
-        
+
         /**
          * Flags that specify the anchoring to edges of the keyboard for detecting touch events
          * that are just out of the boundary of the key. This is a bit mask of
@@ -345,7 +345,7 @@ public class Keyboard {
          */
         public Key(Resources res, Row parent, int x, int y, XmlResourceParser parser) {
             this(parent);
-            
+
             this.x = x;
             this.y = y;
 
@@ -436,7 +436,7 @@ public class Keyboard {
                 codes = new int[] { c };
             }
         }
-        
+
         /**
          * Informs the key that it has been pressed, in case it needs to change its appearance or
          * state.
@@ -545,7 +545,7 @@ public class Keyboard {
             }
             return states;
         }
-        
+
         public String toString() {
         	int code = (codes != null && codes.length > 0) ? codes[0] : 0;
         	return "KeyDebugFIXME(label=" + label + " text=" + text +
