@@ -62,7 +62,7 @@ public class InputLanguageSelection extends PreferenceActivity {
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
-        "ar", "bg", "ca", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
+        "ar", "bg", "ca", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "en_EX",
         "en_GB", "es", "es_US", "fa", "fi", "fr", "fr_CA", "hr", "hu",
         "in", "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb", "nl",
         "pl", "pt", "pt_PT", "rm", "ro", "ru", "si", "sk", "sk_QY", "sl",
@@ -76,9 +76,9 @@ public class InputLanguageSelection extends PreferenceActivity {
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "fr",
-        "fr_CA", "hr", "iw", "nb", "ru", "sk", "sk_QY", "sl", "sr", "sv",
-        "uk"
+        "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "en_EX",
+        "fr", "fr_CA", "hr", "iw", "nb", "ru", "sk", "sk_QY", "sl", "sr",
+        "sv", "uk"
     };
 
     private static String getLocaleName(Locale l) {
@@ -86,6 +86,8 @@ public class InputLanguageSelection extends PreferenceActivity {
         String country = l.getCountry();
         if (lang.equals("en") && country.equals("DV")) {
             return "English (Dvorak)";
+        } else if (lang.equals("en") && country.equals("EX")) {
+                return "English (4x11)";
         } else if (lang.equals("cs") && country.equals("QY")) {
             return "Čeština (QWERTY)";
         } else if (lang.equals("sk") && country.equals("QY")) {
