@@ -142,6 +142,8 @@ public class Keyboard {
     /** Keyboard mode, or zero, if none.  */
     private int mKeyboardMode;
 
+    public int mRowCount = 1;
+
     // Variables for pre-computing nearest keys.
 
     private static final int GRID_WIDTH = 14;
@@ -937,6 +939,7 @@ public class Keyboard {
             e.printStackTrace();
         }
         mTotalHeight = y - mDefaultVerticalGap;
+        mRowCount = row;
     }
 
     public void setKeyboardWidth(int newWidth) {

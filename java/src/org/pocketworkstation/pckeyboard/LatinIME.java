@@ -534,7 +534,18 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean suggestionsDisabled() {
-        return !mSuggestionsInLandscape && !isPortrait();
+        Keyboard keyboard = null;
+        if (mKeyboardSwitcher != null) {
+            if (mKeyboardSwitcher.getInputView() != null) {
+                keyboard = mKeyboardSwitcher.getInputView().getKeyboard();
+            }
+        }
+        if (keyboard == null) {
+            return !(mSuggestionsInLandscape || isPortrait());
+        } else {
+            return !(mSuggestionsInLandscape ||
+                (isPortrait() && (mKeyboardSwitcher.isFullMode() || keyboard.mRowCount < 5)));
+        }
     }
 
     /**
