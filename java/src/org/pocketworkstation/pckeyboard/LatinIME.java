@@ -688,14 +688,7 @@ public class LatinIME extends InputMethodService implements
                 ic.finishComposingText(); // For voice input
             mOrientation = conf.orientation;
             reloadKeyboards();
-            if (mCandidateViewContainer != null) {
-                mCandidateViewContainer.removeAllViews();
-                ViewParent parent = mCandidateViewContainer.getParent();
-                if (parent != null && parent instanceof ViewGroup) {
-                    ((ViewGroup) parent).removeView(mCandidateViewContainer);
-                }
-                mCandidateViewContainer = null;
-            }
+            removeCandidateViewContainer();
         }
         mConfigurationChanging = true;
         super.onConfigurationChanged(conf);
@@ -734,6 +727,7 @@ public class LatinIME extends InputMethodService implements
     
     @Override
     public View onCreateCandidatesView() {
+        //Log.i(TAG, "onCreateCandidatesView(), mCandidateViewContainer=" + mCandidateViewContainer);
         mKeyboardSwitcher.makeKeyboards(true);
         if (mCandidateViewContainer == null) {
             mCandidateViewContainer = (LinearLayout) getLayoutInflater().inflate(
@@ -743,10 +737,21 @@ public class LatinIME extends InputMethodService implements
             mCandidateView.setPadding(0, 0, 0, 0);
             mCandidateView.setService(this);
         }
-        // Respect the suggestion settings in legacy Gingerbread mode,
-        // in portrait mode, or if suggestions in landscape enabled.
-        setCandidatesViewShown(!suggestionsDisabled());
+        setCandidatesView(mCandidateViewContainer);
         return mCandidateViewContainer;
+    }
+
+    private void removeCandidateViewContainer() {
+        //Log.i(TAG, "removeCandidateViewContainer(), mCandidateViewContainer=" + mCandidateViewContainer);
+        if (mCandidateViewContainer != null) {
+            mCandidateViewContainer.removeAllViews();
+            ViewParent parent = mCandidateViewContainer.getParent();
+            if (parent != null && parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(mCandidateViewContainer);
+            }
+            mCandidateViewContainer = null;
+            mCandidateView = null;
+        }
     }
 
     @Override
@@ -1154,15 +1159,38 @@ public class LatinIME extends InputMethodService implements
 
     private void setCandidatesViewShownInternal(boolean shown,
             boolean needsInputViewShown) {
+        //Log.i(TAG, "setCandidatesViewShownInternal(" + shown + ", " + needsInputViewShown + "), mCandidateViewContainer=" + mCandidateViewContainer);
         // TODO: Remove this if we support candidates with hard keyboard
         if (onEvaluateInputViewShown()) {
-            super.setCandidatesViewShown(shown
-                    && mKeyboardSwitcher.getInputView() != null
-                    && (needsInputViewShown ? mKeyboardSwitcher.getInputView()
-                            .isShown() : true));
+            boolean visible = shown
+                && mKeyboardSwitcher.getInputView() != null
+                && (needsInputViewShown
+                        ? mKeyboardSwitcher.getInputView().isShown()
+                        : true);
+            if (visible) {
+                if (mCandidateViewContainer == null) {
+                    onCreateCandidatesView();
+                    mPredictionOn = true;
+                    setNextSuggestions();
+                }
+            } else {
+                if (mCandidateViewContainer != null) {
+                    removeCandidateViewContainer();
+                }               
+            }
+            super.setCandidatesViewShown(visible);
         }
     }
-    
+
+    @Override
+    public void onFinishCandidatesView(boolean finishingInput) {
+        //Log.i(TAG, "onFinishCandidatesView(), mCandidateViewContainer=" + mCandidateViewContainer);
+        super.onFinishCandidatesView(finishingInput);
+        if (mCandidateViewContainer != null) {
+            removeCandidateViewContainer();
+        }
+    }
+
     @Override
     public boolean onEvaluateInputViewShown() {
     	boolean parent = super.onEvaluateInputViewShown();
@@ -2518,13 +2546,7 @@ public class LatinIME extends InputMethodService implements
             boolean haveMinimalSuggestion) {
 
         if (mIsShowingHint) {
-            if (mCandidateViewContainer != null) {
-                ViewParent p = mCandidateViewContainer.getParent();
-                if (p != null && p instanceof ViewGroup) {
-                    ((ViewGroup) p).removeView(mCandidateViewContainer);
-                }
-                setCandidatesView(mCandidateViewContainer);
-            }
+            setCandidatesViewShown(true);
             mIsShowingHint = false;
         }
 
@@ -3045,7 +3067,7 @@ public class LatinIME extends InputMethodService implements
         mAutoCapActive = mAutoCapPref && mLanguageSwitcher.allowAutoCap();
         mDeadKeysActive = mLanguageSwitcher.allowDeadKeys();
         updateShiftKeyState(getCurrentInputEditorInfo());
-        onCreateCandidatesView();
+        setCandidatesViewShown(!suggestionsDisabled());
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
@@ -3094,7 +3116,9 @@ public class LatinIME extends InputMethodService implements
             mSuggestionsInLandscape = sharedPreferences.getBoolean(
                     PREF_SUGGESTIONS_IN_LANDSCAPE, res
                             .getBoolean(R.bool.default_suggestions_in_landscape));
-            onCreateCandidatesView();
+            // Respect the suggestion settings in legacy Gingerbread mode,
+            // in portrait mode, or if suggestions in landscape enabled.
+            setCandidatesViewShown(!suggestionsDisabled());
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
             mHeightPortrait = getHeight(sharedPreferences,
                     PREF_HEIGHT_PORTRAIT, res.getString(R.string.default_height_portrait));
