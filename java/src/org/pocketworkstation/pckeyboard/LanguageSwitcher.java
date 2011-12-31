@@ -141,9 +141,14 @@ public class LanguageSwitcher {
      * @return
      */
     public Locale getInputLocale() {
-        if (getLocaleCount() == 0) return mDefaultInputLocale;
-
-        return mLocales[mCurrentIndex];
+        Locale locale;
+        if (getLocaleCount() == 0) {
+            locale = mDefaultInputLocale;
+        } else {
+            locale = mLocales[mCurrentIndex];
+        }
+        LatinIME.sKeyboardSettings.inputLocale = (locale != null) ? locale : Locale.getDefault();
+        return locale;
     }
 
     /**

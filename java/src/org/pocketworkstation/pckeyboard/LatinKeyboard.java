@@ -100,6 +100,7 @@ public class LatinKeyboard extends Keyboard {
     private static final int SHIFT_LOCKED = 2;
 
     private int mShiftState = SHIFT_OFF;
+    private LatinKeyboard mExtensionKeyboard;
 
     private static final float SPACEBAR_DRAG_THRESHOLD = 0.51f;
     private static final float OVERLAP_PERCENTAGE_LOW_PROB = 0.70f;
@@ -148,8 +149,7 @@ public class LatinKeyboard extends Keyboard {
         sSpacebarVerticalCorrection = res.getDimensionPixelOffset(
                 R.dimen.spacebar_vertical_correction);
         mIsAlphaKeyboard = xmlLayoutResId == R.xml.kbd_qwerty;
-        mIsAlphaFullKeyboard = xmlLayoutResId == R.xml.kbd_full
-        	    || xmlLayoutResId == R.xml.kbd_full_shift;
+        mIsAlphaFullKeyboard = xmlLayoutResId == R.xml.kbd_full;
         mIsFnFullKeyboard = xmlLayoutResId == R.xml.kbd_full_fn;
         // The index of space key is available only after Keyboard constructor has finished.
         mSpaceKeyIndexArray = new int[] { indexOf(LatinIME.ASCII_SPACE) };
@@ -295,12 +295,12 @@ public class LatinKeyboard extends Keyboard {
         return mIsAlphaKeyboard;
     }
 
-    public void setExtension(int resId) {
-        mExtensionResId = resId;
+    public void setExtension(LatinKeyboard extKeyboard) {
+        mExtensionKeyboard = extKeyboard;
     }
 
-    public int getExtension() {
-        return mExtensionResId;
+    public LatinKeyboard getExtension() {
+        return mExtensionKeyboard;
     }
 
     public void updateSymbolIcons(boolean isAutoCompletion) {

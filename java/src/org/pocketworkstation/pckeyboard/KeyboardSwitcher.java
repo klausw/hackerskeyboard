@@ -22,7 +22,6 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InflateException;
-import android.view.ViewParent;
 
 import java.lang.ref.SoftReference;
 import java.util.Arrays;
@@ -77,7 +76,6 @@ public class KeyboardSwitcher implements
     private static final int KBD_SYMBOLS_SHIFT = R.xml.kbd_symbols_shift;
     private static final int KBD_QWERTY = R.xml.kbd_qwerty;
     private static final int KBD_FULL = R.xml.kbd_full;
-    private static final int KBD_FULL_SHIFT = R.xml.kbd_full_shift;
     private static final int KBD_FULL_FN = R.xml.kbd_full_fn;
 
     private LatinKeyboardView mInputView;
@@ -92,7 +90,6 @@ public class KeyboardSwitcher implements
     private LatinIME mInputMethodService;
 
     private KeyboardId mSymbolsId;
-    private KeyboardId mShiftedId;
     private KeyboardId mSymbolsShiftedId;
 
     private KeyboardId mCurrentId;
@@ -133,7 +130,6 @@ public class KeyboardSwitcher implements
 
     private int mLastDisplayWidth;
     private LanguageSwitcher mLanguageSwitcher;
-    private Locale mInputLocale;
 
     private int mLayoutId;
 
@@ -160,7 +156,6 @@ public class KeyboardSwitcher implements
         sInstance.updateSettingsKeyState(prefs);
         prefs.registerOnSharedPreferenceChangeListener(sInstance);
 
-        sInstance.mShiftedId = sInstance.makeShiftedId(false);
         sInstance.mSymbolsId = sInstance.makeSymbolsId(false);
         sInstance.mSymbolsShiftedId = sInstance.makeSymbolsShiftedId(false);
     }
@@ -175,15 +170,7 @@ public class KeyboardSwitcher implements
      */
     public void setLanguageSwitcher(LanguageSwitcher languageSwitcher) {
         mLanguageSwitcher = languageSwitcher;
-        mInputLocale = mLanguageSwitcher.getInputLocale();
-    }
-
-    private KeyboardId makeShiftedId(boolean hasVoice) {
-        if (mFullMode) {
-            return new KeyboardId(KBD_FULL_SHIFT, KEYBOARDMODE_NORMAL, true, hasVoice);
-        } else {
-            return null;
-        }
+        languageSwitcher.getInputLocale(); // for side effect
     }
 
     private KeyboardId makeSymbolsId(boolean hasVoice) {
@@ -208,7 +195,6 @@ public class KeyboardSwitcher implements
         } else {
             mFullMode = false;
         }
-        mShiftedId = makeShiftedId(mHasVoice && !mVoiceOnPrimary);
         mSymbolsId = makeSymbolsId(mHasVoice && !mVoiceOnPrimary);
         mSymbolsShiftedId = makeSymbolsShiftedId(mHasVoice && !mVoiceOnPrimary);
 
@@ -338,17 +324,18 @@ public class KeyboardSwitcher implements
             Resources orig = mInputMethodService.getResources();
             Configuration conf = orig.getConfiguration();
             Locale saveLocale = conf.locale;
-            conf.locale = mInputLocale;
+            conf.locale = LatinIME.sKeyboardSettings.inputLocale;
             orig.updateConfiguration(conf, null);
             keyboard = new LatinKeyboard(mInputMethodService, id.mXml,
                     id.mKeyboardMode, id.mRowHeightPercent);
             keyboard.setVoiceMode(hasVoiceButton(id.mXml == R.xml.kbd_symbols), mHasVoice);
             keyboard.setLanguageSwitcher(mLanguageSwitcher, mIsAutoCompletionActive);
-
             if (isFullMode()) {
-                keyboard.setExtension(R.xml.kbd_extension_full);
+                keyboard.setExtension(new LatinKeyboard(mInputMethodService,
+                        R.xml.kbd_extension_full, 0, id.mRowHeightPercent));
             } else if (isAlphabetMode()) { // TODO: not in full keyboard mode? Per-mode extension kbd?
-                keyboard.setExtension(R.xml.kbd_extension);
+                keyboard.setExtension(new LatinKeyboard(mInputMethodService,
+                        R.xml.kbd_extension, 0, id.mRowHeightPercent));
             }
 
             if (id.mEnableShiftLock) {
@@ -445,22 +432,6 @@ public class KeyboardSwitcher implements
     }
 
     public void setShifted(boolean wantShifted) {
-        //Log.i(TAG, "setShifted " + wantShifted + " mSettings.fullMode=" + mSettings.fullMode + " isShifted=" + (mCurrentId.equals(mShiftedId)));
-        if (mFullMode) {
-            boolean isShifted = (mCurrentId.equals(mShiftedId));
-            if (wantShifted) {
-                if (!isShifted) {
-                    Keyboard kbd = getKeyboard(mShiftedId);
-                    mInputView.setKeyboard(kbd);
-                    mCurrentId = mShiftedId;
-                    setShiftLocked(false);
-                }
-            } else {
-                if (isShifted) {
-                    setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
-                }
-            }
-        }
         if (mInputView != null) {
             mInputView.setShifted(wantShifted);
         }
@@ -474,7 +445,6 @@ public class KeyboardSwitcher implements
     }
 
     public void setFn(boolean useFn) {
-        if (!mFullMode) return;
         if (mInputView == null) return;
         if (useFn) {
             LatinKeyboard kbd = getKeyboard(mSymbolsId);
@@ -662,16 +632,10 @@ public class KeyboardSwitcher implements
             mInputView.setOnKeyboardActionListener(mInputMethodService);
             mLayoutId = newLayout;
         }
-        //final RuntimeException where = new RuntimeException(); // FIXME: remove
         mInputMethodService.mHandler.post(new Runnable() {
             public void run() {
                 if (mInputView != null) {
-                    ViewParent parent = mInputView.getParent();
-                    if (parent == null) {
-                        mInputMethodService.setInputView(mInputView);
-                    } else {
-                        Log.w(TAG, "unexpected non-null parent " + parent + " for " + mInputView);
-                    }
+                    mInputMethodService.setInputView(mInputView);
                 }
                 mInputMethodService.updateInputViewShown();
             }

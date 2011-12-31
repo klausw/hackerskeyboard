@@ -242,6 +242,7 @@ public class Keyboard {
 
         /** Label to display */
         public CharSequence label;
+        public CharSequence shiftLabel;
 
         /** Icon to display instead of a label. Icon takes precedence over a label */
         public Drawable icon;
@@ -272,7 +273,6 @@ public class Keyboard {
         public CharSequence popupCharacters;
         public boolean popupReversed;
         public boolean isCursor;
-        public boolean isDeadKey;
         public String hint; // Set by LatinKeyboardBaseView
         public String altHint; // Set by LatinKeyboardBaseView
 
@@ -409,31 +409,48 @@ public class Keyboard {
                 icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
             }
             label = a.getText(R.styleable.Keyboard_Key_keyLabel);
+            shiftLabel = a.getText(R.styleable.Keyboard_Key_shiftLabel);
             text = a.getText(R.styleable.Keyboard_Key_keyOutputText);
 
             if (codes == null && !TextUtils.isEmpty(label)) {
-            	setFromString(label);
+                codes = getFromString(label);
+                if (shiftLabel == null && codes != null && codes.length == 1 && Character.isLowerCase(codes[0])) {
+                    shiftLabel = label.toString().toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
+                    if (shiftLabel.length() != 1) shiftLabel = null;
+                }
             }
+            //Log.i(TAG, "added key definition: " + this);
             a.recycle();
         }
 
-        public void setFromString(CharSequence str) {
+        public int getPrimaryCode(boolean shifted) {
+            if (shifted && shiftLabel != null) {
+                if (shiftLabel.charAt(0) == DEAD_KEY_PLACEHOLDER && shiftLabel.length() >= 2) {
+                    return shiftLabel.charAt(1);
+                } else {
+                    return shiftLabel.charAt(0);
+                }
+            } else {
+                return codes[0];
+            }
+        }
+
+        public boolean isDeadKey() {
+            if (codes == null || codes.length < 1) return false;
+            return Character.getType(codes[0]) == Character.NON_SPACING_MARK;
+        }
+
+        public int[] getFromString(CharSequence str) {
             if (str.length() > 1) {
                 if (str.charAt(0) == DEAD_KEY_PLACEHOLDER && str.length() >= 2) {
-                    isDeadKey = true;
-                    codes = new int[] { str.charAt(1) }; // FIXME: >1 length?
+                    return new int[] { str.charAt(1) }; // FIXME: >1 length?
                 } else {
                     text = str; // TODO: add space?
-                    codes = new int[] { 0 };
+                    return new int[] { 0 };
                 }
             } else {
                 char c = str.charAt(0);
-                if (Character.getType(c) == Character.NON_SPACING_MARK) {
-                    //label = Character.toString(DEAD_KEY_PLACEHOLDER) + label;
-                    isDeadKey = true;
-                }
-                //codes = new int[] { Character.toLowerCase(c) };
-                codes = new int[] { c };
+                return new int[] { c };
             }
         }
 
@@ -547,11 +564,11 @@ public class Keyboard {
         }
 
         public String toString() {
-        	int code = (codes != null && codes.length > 0) ? codes[0] : 0;
-        	return "KeyDebugFIXME(label=" + label + " text=" + text +
-        	    " code=" + code + ":'" + (char)code + "'" +
-        	    " x0=" + x + " x1=" + (x+width) + " y0=" + y + " y1=" + (y+height) +
-        	    ")";  
+            int code = (codes != null && codes.length > 0) ? codes[0] : 0;
+            return "KeyDebugFIXME(label=" + label + " shiftLabel=" + shiftLabel +
+                " text=" + text + " code=" + code + ":'" + (char)code + "'" +
+                " x0=" + x + " x1=" + (x+width) + " y0=" + y + " y1=" + (y+height) +
+                ")";
         }
     }
 
@@ -588,9 +605,7 @@ public class Keyboard {
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
         loadKeyboard(context, context.getResources().getXml(xmlLayoutResId));
-        //Locale locale = context.getResources().getConfiguration().locale;
-        Locale locale = Locale.US; // FIXME: this isn't consistently set in LatinKeyboard{,Base}View
-        fixAltChars(locale);
+        fixAltChars(LatinIME.sKeyboardSettings.inputLocale);
     }
 
     public Keyboard(Context context, int xmlLayoutResId, int modeId) {
@@ -626,6 +641,7 @@ public class Keyboard {
         row.verticalGap = mDefaultVerticalGap;
         row.rowEdgeFlags = EDGE_TOP | EDGE_BOTTOM;
         final int maxColumns = columns == -1 ? Integer.MAX_VALUE : columns;
+        Locale locale = LatinIME.sKeyboardSettings.inputLocale;
         for (int i = 0; i < characters.length(); i++) {
             char c = characters.charAt(i);
             if (column >= maxColumns
@@ -639,7 +655,9 @@ public class Keyboard {
             key.realX = x;
             key.y = y;
             key.label = String.valueOf(c);
-            key.setFromString(key.label);
+            key.shiftLabel = key.label.toString().toUpperCase(locale);
+            if (key.shiftLabel.length() != 1) key.shiftLabel = null;
+            key.codes = key.getFromString(key.label);
             column++;
             x += key.width + key.gap;
             mKeys.add(key);
@@ -651,6 +669,7 @@ public class Keyboard {
     }
 
     private void fixAltChars(Locale locale) {
+        if (locale == null) locale = Locale.getDefault();
         Set<Character> mainKeys = new HashSet<Character>();
         for (Key key : mKeys) {
             // Remember characters on the main keyboard so that they can be removed from popups.
@@ -677,8 +696,8 @@ public class Keyboard {
             // Uppercase the alt chars if the main key is uppercase
             boolean needUpcase = key.label != null && key.label.length() == 1 && Character.isUpperCase(key.label.charAt(0));
             if (needUpcase) {
-            	key.popupCharacters = key.popupCharacters.toString().toUpperCase(locale);
-            	popupLen = key.popupCharacters.length();
+                key.popupCharacters = key.popupCharacters.toString().toUpperCase();
+                popupLen = key.popupCharacters.length();
             }
 
             StringBuilder newPopup = new StringBuilder(popupLen);

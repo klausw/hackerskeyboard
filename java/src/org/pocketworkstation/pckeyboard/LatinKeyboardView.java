@@ -107,8 +107,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
     private int mJumpThresholdSquare = Integer.MAX_VALUE;
     /** The y coordinate of the last row */
     private int mLastRowY;
-
     private int mExtensionLayoutResId = 0;
+    private LatinKeyboard mExtensionKeyboard;
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -125,7 +125,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
     public void setExtensionLayoutResId (int id) {
         mExtensionLayoutResId = id;
     }
-
+    
     @Override
     public void setPreviewEnabled(boolean previewEnabled) {
         if (getKeyboard() == mPhoneKeyboard) {
@@ -149,6 +149,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         mJumpThresholdSquare *= mJumpThresholdSquare;
         // Assuming there are 4 rows, this is the coordinate of the last row
         mLastRowY = (newKeyboard.getHeight() * 3) / 4;
+        mExtensionKeyboard = ((LatinKeyboard) newKeyboard).getExtension();
+        if (mExtensionKeyboard != null && mExtension != null) mExtension.setKeyboard(mExtensionKeyboard);
         setKeyboardLocal(newKeyboard);
     }
 
@@ -172,19 +174,6 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 LatinKeyboardBaseView.NOT_A_TOUCH_COORDINATE,
                 LatinKeyboardBaseView.NOT_A_TOUCH_COORDINATE);
         return true;
-    }
-
-    @Override
-    protected CharSequence adjustCase(CharSequence label) {
-        Keyboard keyboard = getKeyboard();
-        if (keyboard.isShifted()
-                && keyboard instanceof LatinKeyboard
-                && ((LatinKeyboard) keyboard).isAlphaKeyboard()
-                && !TextUtils.isEmpty(label) && label.length() < 3
-                && Character.isLowerCase(label.charAt(0))) {
-            label = label.toString().toUpperCase();
-        }
-        return label;
     }
 
     public boolean setShiftLocked(boolean shiftLocked) {
@@ -306,7 +295,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         }
 
         // If we don't have an extension keyboard, don't go any further.
-        if (keyboard.getExtension() == 0) {
+        if (keyboard.getExtension() == null) {
             return super.onTouchEvent(me);
         }
         // If the motion event is above the keyboard and it's not an UP event coming
@@ -375,7 +364,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             return false;
         }
         PointerTracker.clearSlideKeys();
-        if (((LatinKeyboard) getKeyboard()).getExtension() == 0) return false;
+        if (((LatinKeyboard) getKeyboard()).getExtension() == null) return false;
         makePopupWindow();
         mExtensionVisible = true;
         return true;
@@ -391,15 +380,14 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                     Context.LAYOUT_INFLATER_SERVICE);
             mExtension = (LatinKeyboardView) li.inflate(mExtensionLayoutResId == 0 ?
                     R.layout.input_trans : mExtensionLayoutResId, null);
+            Keyboard keyboard = mExtensionKeyboard;
+            mExtension.setKeyboard(keyboard);
             mExtension.setExtensionType(true);
             mExtension.setPadding(0, 0, 0, 0);
             mExtension.setOnKeyboardActionListener(
                     new ExtensionKeyboardListener(getOnKeyboardActionListener()));
             mExtension.setPopupParent(this);
             mExtension.setPopupOffset(0, -windowLocation[1]);
-            Keyboard keyboard;
-            mExtension.setKeyboard(keyboard = new LatinKeyboard(getContext(),
-                    ((LatinKeyboard) getKeyboard()).getExtension(), 0, LatinIME.sKeyboardSettings.rowHeightPercent));
             mExtensionPopup.setContentView(mExtension);
             mExtensionPopup.setWidth(getWidth());
             mExtensionPopup.setHeight(keyboard.getHeight());
@@ -412,6 +400,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         } else {
             mExtension.setVisibility(VISIBLE);
         }
+        mExtension.setShifted(isShifted()); // propagate shift state
     }
 
     @Override
