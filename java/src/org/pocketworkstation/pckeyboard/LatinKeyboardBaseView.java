@@ -786,12 +786,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return mKeyDetector.isProximityCorrectionEnabled();
     }
 
-    protected CharSequence adjustCase(CharSequence label) {
-        if (mKeyboard.isShifted() && label != null && label.length() < 3
-                && Character.isLowerCase(label.charAt(0))) {
-            label = label.toString().toUpperCase();
+    protected CharSequence adjustCase(Key key) {
+        if (mKeyboard.isShifted() && key.shiftLabel != null) {
+            return key.shiftLabel;
+        } else {
+            return key.label;
         }
-        return label;
     }
 
     @Override
@@ -946,7 +946,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             keyBackground.setState(drawableState);
 
             // Switch the character to uppercase if shift is pressed
-            String label = key.label == null? null : adjustCase(key.label).toString();
+            String label = key.label == null ? null : adjustCase(key).toString();
 
             float yscale = 1.0f;
             final Rect bounds = keyBackground.getBounds();
@@ -992,7 +992,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
                 // Draw hint label (if present) behind the main key
                 String hint = getHintLabel(key);
-                if (!hint.equals("")) {
+                if (!hint.equals("") && !(isShifted() && key.shiftLabel != null && hint.charAt(0) == key.shiftLabel.charAt(0))) {
                     int hintTextSize = (int)(mKeyTextSize * 0.6 * LatinIME.sKeyboardSettings.labelScale);
                     paintHint.setTextSize(hintTextSize);
 
@@ -1027,7 +1027,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
-                if (key.isDeadKey) {
+                if (key.isDeadKey()) {
                     drawDeadKeyLabel(canvas, label, centerX, baseline, paint);
                 } else {
                     canvas.drawText(label, centerX, baseline, paint);
@@ -1174,7 +1174,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             mPreviewText.setText(null);
         } else {
             mPreviewText.setCompoundDrawables(null, null, null, null);
-            mPreviewText.setText(adjustCase(tracker.getPreviewText(key)));
+            mPreviewText.setText(adjustCase(key));
             if (key.label.length() > 1 && key.codes.length < 2) {
                 mPreviewText.setTextSize(TypedValue.COMPLEX_UNIT_PX, mKeyTextSize);
                 mPreviewText.setTypeface(Typeface.DEFAULT_BOLD);
@@ -1333,7 +1333,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             }
         });
         // Override default ProximityKeyDetector.
-        miniKeyboard.mKeyDetector = new MiniKeyboardKeyDetector(mMiniKeyboardSlideAllowance);
+        miniKeyboard.mKeyDetector = new MiniKeyboardKeyDetector(mMiniKeyboardSlideAllowance, this);
         // Remove gesture detector on mini-keyboard
         miniKeyboard.mGestureDetector = null;
 
@@ -1467,10 +1467,16 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private String getHintLabel(Key key) {
         if (key.hint != null) return key.hint;
 
+        boolean letterKey = isLetterKey(key);
+        if (key.shiftLabel != null && !letterKey) {
+            key.hint = key.shiftLabel.toString();
+            return key.hint;
+        }
+        
         CharSequence popupChars = key.popupCharacters;
         if (key.modifier || popupChars == null || popupChars.length() == 0) {
-                key.hint = "";
-                return key.hint;
+            key.hint = "";
+            return key.hint;
         }
 
         // Must keep this algorithm in sync with onLongPress() method for consistency!
@@ -1482,7 +1488,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         char label = popupChars.charAt(pos);
         boolean popupIsDigit = Character.isDigit(label);
         boolean popupIs7BitAscii = label >= 32 && label < 127;
-        boolean letterKey = isLetterKey(key);
 
         if (letterKey) {
             // Always show number hints on 4-row keyboard, and show
@@ -1518,14 +1523,21 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break VALIDATION;
             }
 
-            // Must keep this algorithm in sync with onLongPress() method for consistency!
             boolean alignLeftmost = shouldAlignLeftmost(key);
             int popupLen = popupChars.length();
-            int pos = alignLeftmost ? 1 : popupLen - 2;
-            if (pos >= popupLen || pos < 0) break VALIDATION;
+            char label = 0;
+            
+            // If the first popupChar duplicates the primary hint (obsolescent),
+            // skip it and take the next one.
+            int startOffset = (key.hint != null && key.hint.length() > 0) ? 0 : 1;
+            for (int offset = startOffset; offset <= 1; ++offset) {
+                int pos = alignLeftmost ? offset : popupLen - 1 - offset;
+                if (pos >= popupLen || pos < 0) break VALIDATION;
+                label = popupChars.charAt(pos);
+                if (offset == 0 && key.hint.charAt(0) != label) break;
+            }   
 
             // Use the character at this position as the label?
-            char label = popupChars.charAt(pos);
             boolean popupIs7BitAscii = label >= 32 && label < 127;
             if (!popupIs7BitAscii) break VALIDATION;
             boolean letterKey = isLetterKey(key);

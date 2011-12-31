@@ -23,12 +23,14 @@ class MiniKeyboardKeyDetector extends KeyDetector {
 
     private final int mSlideAllowanceSquare;
     private final int mSlideAllowanceSquareTop;
+    private final LatinKeyboardBaseView mView;
 
-    public MiniKeyboardKeyDetector(float slideAllowance) {
+    public MiniKeyboardKeyDetector(float slideAllowance, LatinKeyboardBaseView view) {
         super();
         mSlideAllowanceSquare = (int)(slideAllowance * slideAllowance);
         // Top slide allowance is slightly longer (sqrt(2) times) than other edges.
         mSlideAllowanceSquareTop = mSlideAllowanceSquare * 2;
+        mView = view;
     }
 
     @Override
@@ -53,7 +55,7 @@ class MiniKeyboardKeyDetector extends KeyDetector {
             }
         }
         if (allKeys != null && closestKeyIndex != LatinKeyboardBaseView.NOT_A_KEY)
-            allKeys[0] = keys[closestKeyIndex].codes[0];
+            allKeys[0] = keys[closestKeyIndex].getPrimaryCode(mView.isShifted());
         return closestKeyIndex;
     }
 }
