@@ -1469,7 +1469,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         boolean letterKey = isLetterKey(key);
         if (key.shiftLabel != null && !letterKey) {
-            key.hint = key.shiftLabel.toString();
+            boolean show = showHintsOnLetters();
+            if (showHintsOnOtherKeys() && !Character.isLetter(key.shiftLabel.charAt(0)))
+                show = true;
+            key.hint = show ? key.shiftLabel.toString().toLowerCase() : "";
             return key.hint;
         }
         
@@ -1487,25 +1490,22 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Use the character at this position as the label?
         char label = popupChars.charAt(pos);
         boolean popupIsDigit = Character.isDigit(label);
-        boolean popupIs7BitAscii = label >= 32 && label < 127;
+        boolean popupIs7BitAscii = label >= 32 && label < 127 && !Character.isLetter(label);
 
+        boolean show = false;
         if (letterKey) {
             // Always show number hints on 4-row keyboard, and show
             // hints if the user wants some hints and the popup is an
             // Ascii char such as '@' or '?'. Otherwise check the hint mode setting.
-            boolean show = false;
             if (popupIsDigit) show = true;
             if (showHintsOnLetters()) show = true;
             if (showHintsOnOtherKeys() && popupIs7BitAscii) show = true;
-            if (!show) {
-                key.hint = "";
-                return key.hint;
-            }
         } else {
-            if (!showHintsOnOtherKeys()) {
-                key.hint = "";
-                return key.hint;
-            }
+            if (showHintsOnOtherKeys() && popupIs7BitAscii) show = true;
+        }
+        if (!show) {
+            key.hint = "";
+            return key.hint;
         }
 
         key.hint = Character.toString(label);
@@ -1528,7 +1528,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             char label = 0;
             
             // If the first popupChar duplicates the primary hint (obsolescent),
-            // skip it and take the next one.
+            // or if it's an uppercase version of it, skip it and take the next one.
             int startOffset = (key.hint != null && key.hint.length() > 0) ? 0 : 1;
             for (int offset = startOffset; offset <= 1; ++offset) {
                 int pos = alignLeftmost ? offset : popupLen - 1 - offset;
@@ -1538,7 +1538,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             }   
 
             // Use the character at this position as the label?
-            boolean popupIs7BitAscii = label >= 32 && label < 127;
+            boolean popupIs7BitAscii = label >= 32 && label < 127 && !Character.isLetter(label);
             if (!popupIs7BitAscii) break VALIDATION;
             boolean letterKey = isLetterKey(key);
 
