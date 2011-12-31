@@ -33,15 +33,13 @@
         android:rowEdgeFlags="top"
     >
         <Key
-            android:codes="@integer/key_home"
-            android:isModifier="true"
-            android:isRepeatable="true"            
+            android:keyLabel="Esc"
+            android:codes="@integer/key_escape"
             android:keyWidth="12%p"
-            android:keyLabel="Home" />
-
+            android:keyEdgeFlags="left"
+            android:isModifier="true" />
         <Key
             android:codes="@integer/key_f1"
-            android:keyEdgeFlags="left"
             android:keyWidth="9%p"
             android:isModifier="true" />
         <Key
@@ -76,12 +74,11 @@
             android:keyLabel="F6" />
 
         <Key
-            android:codes="@integer/key_forward_del"
-            android:keyLabel="Del"
-            android:isRepeatable="true"            
-            android:isModifier="true"            
+            android:codes="@integer/key_break"
+            android:isModifier="true"
             android:keyWidth="12%p"
-            android:keyEdgeFlags="right" />
+            android:keyLabel="Brk" />
+
         <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
@@ -93,11 +90,11 @@
     </Row>
     <Row>
         <Key
-            android:codes="@integer/key_end"
-            android:isModifier="true"            
-            android:keyLabel="End"
+            android:codes="@integer/key_sysrq"
+            android:isModifier="true"
             android:keyWidth="12%p"
-            android:isRepeatable="true" />
+            android:keyEdgeFlags="left"
+            android:keyLabel="SyRq" />
         <Key
             android:codes="@integer/key_settings"
             android:keyIcon="@drawable/sym_keyboard_settings"
@@ -147,16 +144,16 @@
             android:isModifier="true"
             android:isRepeatable="true"            
             android:keyWidth="13%p"
+            android:keyEdgeFlags="right"
             android:keyLabel="PgUp" />
     </Row>
     <Row>
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_smileys"
+            android:codes="@integer/key_scroll_lock"
+            android:isModifier="true"
             android:keyWidth="12%p"
-            android:isModifier="true" />
+            android:keyEdgeFlags="left"
+            android:keyLabel="ScrL" />
         <Key android:keyLabel="~" android:keyWidth="9%p" />            
         <Key android:keyLabel="_" android:keyWidth="9%p" />            
         <Key android:keyLabel="+" android:keyWidth="9%p" />            
@@ -166,26 +163,27 @@
         <Key android:keyLabel=":" android:keyWidth="9%p" />            
 
         <Key
-            android:codes="@integer/key_break"
-            android:isModifier="true"
-            android:keyWidth="12%p"
-            android:keyLabel="Brk" />
-
+            android:codes="@integer/key_forward_del"
+            android:keyLabel="Del"
+            android:isRepeatable="true"            
+            android:isModifier="true"            
+            android:keyWidth="12%p" />
         <Key
             android:codes="@integer/key_page_down"
             android:isModifier="true"
             android:isRepeatable="true"
             android:keyWidth="13%p"
-            android:keyLabel="PgDn" />
+            android:keyLabel="PgDn"
+            android:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:keyLabel=".com"
-            android:keyOutputText=".com"
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_domains"
+            android:codes="@integer/key_num_lock"
             android:keyWidth="12%p"
-            android:isModifier="true" />
+            android:isModifier="true"
+            android:keyEdgeFlags="left"
+            android:keyLabel="NumL" />
+
         <Key android:keyLabel="`" android:keyWidth="9%p" />            
         <Key android:keyLabel="-" android:keyWidth="9%p" />            
         <Key android:keyLabel="=" android:keyWidth="9%p" />            
@@ -195,16 +193,16 @@
         <Key android:keyLabel=";" android:keyWidth="9%p" />            
 
         <Key
-            android:codes="@integer/key_sysrq"
-            android:isModifier="true"
+            android:codes="@integer/key_home"
             android:keyWidth="12%p"
-            android:keyLabel="SyRq" />
-        <Key
-            android:codes="@integer/key_scroll_lock"
-            android:isModifier="true"
+            android:keyLabel="Home"
+            android:isModifier="true" />
+         <Key
+            android:codes="@integer/key_end"
+            android:keyLabel="End"
             android:keyWidth="13%p"
-            android:keyLabel="ScrL" />
-
+            android:keyEdgeFlags="right"
+            android:isModifier="true" />
     </Row>
     
     <Row android:rowEdgeFlags="bottom"
@@ -224,16 +222,21 @@
             android:keyLabel="Alt"
             android:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="27.27272727%p"
-            android:isModifier="true" />
+            android:keyLabel=".com"
+            android:keyOutputText=".com"
+            android:popupKeyboard="@xml/popup_domains"
+            android:keyWidth="13.636363%p"
+            android:keyIcon="@drawable/hint_popup" />
+        <Key
+            android:keyLabel=":-)"
+            android:keyOutputText=":-) "
+            android:popupKeyboard="@xml/popup_smileys"
+            android:keyWidth="13.636363%p"
+            android:keyIcon="@drawable/hint_popup" />
         <Key
             android:codes="@integer/key_dpad_center"
             android:isModifier="true"
             android:isCursor="true"
-            android:keyEdgeFlags="right" 
             android:keyLabel="&#x25cb;" />
         <Key
             android:codes="@integer/key_dpad_left"
