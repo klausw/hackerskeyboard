@@ -216,7 +216,6 @@
             android:defaultValue="@string/voice_mode_main"
             />
 
-
     <PreferenceScreen
             android:title="@string/language_selection_title"
             android:summary="@string/language_selection_summary">
@@ -269,6 +268,47 @@
             android:summaryOff="@string/summary_connectbot_tab_hack_false"
             />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Swipe gesture actions"
+            android:key="swipe_actions">
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_swipe_up"
+            android:title="@string/title_swipe_up"
+            android:persistent="true"
+            android:entryValues="@array/swipe_action_values"
+            android:entries="@array/swipe_action_entries"
+            android:defaultValue="@string/default_swipe_up"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_swipe_down"
+            android:title="@string/title_swipe_down"
+            android:persistent="true"
+            android:entryValues="@array/swipe_action_values"
+            android:entries="@array/swipe_action_entries"
+            android:defaultValue="@string/default_swipe_down"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_swipe_left"
+            android:title="@string/title_swipe_left"
+            android:persistent="true"
+            android:entryValues="@array/swipe_action_values"
+            android:entries="@array/swipe_action_entries"
+            android:defaultValue="@string/default_swipe_left"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_swipe_right"
+            android:title="@string/title_swipe_right"
+            android:persistent="true"
+            android:entryValues="@array/swipe_action_values"
+            android:entries="@array/swipe_action_entries"
+            android:defaultValue="@string/default_swipe_right"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory

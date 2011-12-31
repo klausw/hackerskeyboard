@@ -152,6 +152,10 @@ public class LatinIME extends InputMethodService implements
     static final String PREF_SLIDE_KEYS = "pref_slide_keys";
     static final String PREF_LONGPRESS_TIMEOUT = "pref_long_press_duration";
     static final String PREF_RENDER_MODE = "pref_render_mode";
+    static final String PREF_SWIPE_UP = "pref_swipe_up";
+    static final String PREF_SWIPE_DOWN = "pref_swipe_down";
+    static final String PREF_SWIPE_LEFT = "pref_swipe_left";
+    static final String PREF_SWIPE_RIGHT = "pref_swipe_right";
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
@@ -242,6 +246,12 @@ public class LatinIME extends InputMethodService implements
     private boolean mForceKeyboardOn;
     private boolean mKeyboardNotification;
     private boolean mSuggestionsInLandscape;
+    private boolean mSuggestionForceOn;
+    private boolean mSuggestionForceOff;
+    private String mSwipeUpAction;
+    private String mSwipeDownAction;
+    private String mSwipeLeftAction;
+    private String mSwipeRightAction;
 
     public static final GlobalKeyboardSettings sKeyboardSettings = new GlobalKeyboardSettings(); 
     
@@ -435,6 +445,10 @@ public class LatinIME extends InputMethodService implements
         LatinIME.sKeyboardSettings.showTouchPos = prefs.getBoolean(PREF_TOUCH_POS, false);
         LatinIME.sKeyboardSettings.sendSlideKeys = prefs.getBoolean(PREF_SLIDE_KEYS, false);
         LatinIME.sKeyboardSettings.renderMode = getPrefInt(prefs, PREF_RENDER_MODE, res.getString(R.string.default_render_mode));
+        mSwipeUpAction = prefs.getString(PREF_SWIPE_UP, res.getString(R.string.default_swipe_up));
+        mSwipeDownAction = prefs.getString(PREF_SWIPE_DOWN, res.getString(R.string.default_swipe_down));
+        mSwipeLeftAction = prefs.getString(PREF_SWIPE_LEFT, res.getString(R.string.default_swipe_left));
+        mSwipeRightAction = prefs.getString(PREF_SWIPE_RIGHT, res.getString(R.string.default_swipe_right));
 
         updateKeyboardOptions();
 
@@ -534,6 +548,8 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean suggestionsDisabled() {
+        if (mSuggestionForceOff) return true;
+        if (mSuggestionForceOn) return false;
         Keyboard keyboard = null;
         if (mKeyboardSwitcher != null) {
             if (mKeyboardSwitcher.getInputView() != null) {
@@ -810,6 +826,8 @@ public class LatinIME extends InputMethodService implements
         mModAlt = false;
         mModFn = false;
         mEnteredText = null;
+        mSuggestionForceOn = false;
+        mSuggestionForceOff = false;
 
         switch (attribute.inputType & EditorInfo.TYPE_MASK_CLASS) {
         case EditorInfo.TYPE_CLASS_NUMBER:
@@ -3142,6 +3160,14 @@ public class LatinIME extends InputMethodService implements
             LatinIME.sKeyboardSettings.renderMode = getPrefInt(sharedPreferences, PREF_RENDER_MODE,
                     res.getString(R.string.default_render_mode));
             needReload = true;
+        } else if (PREF_SWIPE_UP.equals(key)) {
+            mSwipeUpAction = sharedPreferences.getString(PREF_SWIPE_UP, res.getString(R.string.default_swipe_up));
+        } else if (PREF_SWIPE_DOWN.equals(key)) {
+            mSwipeDownAction = sharedPreferences.getString(PREF_SWIPE_DOWN, res.getString(R.string.default_swipe_down));
+        } else if (PREF_SWIPE_LEFT.equals(key)) {
+            mSwipeLeftAction = sharedPreferences.getString(PREF_SWIPE_LEFT, res.getString(R.string.default_swipe_left));
+        } else if (PREF_SWIPE_RIGHT.equals(key)) {
+            mSwipeRightAction = sharedPreferences.getString(PREF_SWIPE_RIGHT, res.getString(R.string.default_swipe_right));
         }
 
         updateKeyboardOptions();
@@ -3150,25 +3176,55 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
-    public void swipeRight() {
-        if (LatinKeyboardView.DEBUG_AUTO_PLAY) {
-            ClipboardManager cm = ((ClipboardManager) getSystemService(CLIPBOARD_SERVICE));
-            CharSequence text = cm.getText();
-            if (!TextUtils.isEmpty(text)) {
-                mKeyboardSwitcher.getInputView().startPlaying(text.toString());
+    private void doSwipeAction(String action) {
+        if (action == null || action.equals("") || action.equals("none")) {
+            return;
+        } else if (action.equals("close")) {
+            handleClose();
+        } else if (action.equals("settings")) {
+            launchSettings();
+        } else if (action.equals("suggestions")) {
+            if (mSuggestionForceOn) {
+                mSuggestionForceOn = false;
+                mSuggestionForceOff = true;
+            } else if (mSuggestionForceOff) {
+                mSuggestionForceOn = true;
+                mSuggestionForceOff = false;                
+            } else if (suggestionsDisabled()) {
+                mSuggestionForceOn = true;
+            } else {
+                mSuggestionForceOff = true;
+            }
+            setCandidatesViewShown(!suggestionsDisabled());
+        } else if (action.equals("lang_prev")) {
+            toggleLanguage(false, false);
+        } else if (action.equals("lang_next")) {
+            toggleLanguage(false, true);
+        } else if (action.equals("debug_auto_play")) {
+            if (LatinKeyboardView.DEBUG_AUTO_PLAY) {
+                ClipboardManager cm = ((ClipboardManager) getSystemService(CLIPBOARD_SERVICE));
+                CharSequence text = cm.getText();
+                if (!TextUtils.isEmpty(text)) {
+                    mKeyboardSwitcher.getInputView().startPlaying(text.toString());
+                }
             }
         }
     }
+    
+    public void swipeRight() {
+        doSwipeAction(mSwipeRightAction);
+    }
 
     public void swipeLeft() {
+        doSwipeAction(mSwipeLeftAction);
     }
 
     public void swipeDown() {
-        handleClose();
+        doSwipeAction(mSwipeDownAction);
     }
 
     public void swipeUp() {
-        // launchSettings();
+        doSwipeAction(mSwipeUpAction);
     }
 
     public void onPress(int primaryCode) {
