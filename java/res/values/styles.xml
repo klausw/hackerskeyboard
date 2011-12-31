@@ -21,7 +21,7 @@
         <item name="keyBackground">@drawable/btn_keyboard_key_ics</item>
         <item name="keyTextSize">@dimen/key_text_size</item>
         <item name="keyTextColor">#FFFFFFFF</item>
-        <item name="keyHintColor">#FF444444</item>
+        <item name="keyHintColor">#FF222222</item>
         <item name="keyCursorColor">#FFBBBBBB</item>
         <item name="keyPreviewLayout">@layout/key_preview</item>
         <item name="keyPreviewOffset">@dimen/key_preview_offset</item>
