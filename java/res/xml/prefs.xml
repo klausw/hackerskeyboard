@@ -22,7 +22,7 @@
             android:title="Keyboard view settings"
             android:key="graphics_settings">
 
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="settings_height_portrait"
             android:title="Keyboard height, portrait"
             android:persistent="true"
@@ -31,7 +31,7 @@
             android:defaultValue="@string/default_height_portrait"
             />
 
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="settings_height_landscape"
             android:title="Keyboard height, landscape"
             android:persistent="true"
@@ -58,7 +58,7 @@
             android:summaryOff="@string/summary_suggestions_in_landscape_false"
             />
    
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_hint_mode"
             android:title="@string/title_hint_mode"
             android:persistent="true"
@@ -67,7 +67,7 @@
             android:defaultValue="@string/default_hint_mode"
             />
 
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_label_scale"
             android:title="@string/title_label_scale"
             android:persistent="true"
@@ -76,7 +76,7 @@
             android:defaultValue="1.0"
             />
 
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_keyboard_layout"
             android:title="@string/keyboard_layout"
             android:persistent="true"
@@ -85,7 +85,7 @@
             android:defaultValue="0"
             />
 
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_render_mode"
             android:title="@string/title_render_mode"
             android:persistent="true"
@@ -153,7 +153,7 @@
             android:persistent="true"
             />
 
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="vibrate_len"
             android:title="@string/title_vibrate_len"
             android:entryValues="@array/vibrate_duration_entries"
@@ -174,7 +174,7 @@
             android:defaultValue="@bool/default_popup_preview"
             />
 
-    <ListPreference
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_long_press_duration"
             android:title="@string/title_long_press_duration"
             android:persistent="true"

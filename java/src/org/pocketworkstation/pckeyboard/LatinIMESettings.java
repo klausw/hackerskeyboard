@@ -37,7 +37,6 @@ import android.speech.SpeechRecognizer;
 import android.text.AutoText;
 import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 
 import com.android.inputmethod.voice.SettingsUtil;
 import com.android.inputmethod.voice.VoiceInputLogger;
@@ -60,12 +59,6 @@ public class LatinIMESettings extends PreferenceActivity
     private CheckBoxPreference mQuickFixes;
     private ListPreference mVoicePreference;
     private ListPreference mSettingsKeyPreference;
-    private ListPreference mHeightInPortraitPreference;
-    private ListPreference mHeightInLandscapePreference;
-    private ListPreference mHintModePreference;
-    private ListPreference mLabelScalePreference;
-    private ListPreference mVibrateDurationPreference;
-    private ListPreference mThemePreference;
     private ListPreference mRenderModePreference;
     private Preference mInputConnectionInfo;
     private boolean mVoiceOn;
@@ -82,12 +75,6 @@ public class LatinIMESettings extends PreferenceActivity
         mQuickFixes = (CheckBoxPreference) findPreference(QUICK_FIXES_KEY);
         mVoicePreference = (ListPreference) findPreference(VOICE_SETTINGS_KEY);
         mSettingsKeyPreference = (ListPreference) findPreference(PREF_SETTINGS_KEY);
-        mHeightInPortraitPreference = (ListPreference) findPreference(LatinIME.PREF_HEIGHT_PORTRAIT);
-        mHeightInLandscapePreference = (ListPreference) findPreference(LatinIME.PREF_HEIGHT_LANDSCAPE);
-        mHintModePreference = (ListPreference) findPreference(LatinIME.PREF_HINT_MODE);
-        mLabelScalePreference = (ListPreference) findPreference(KeyboardSwitcher.PREF_LABEL_SCALE);
-        mVibrateDurationPreference = (ListPreference) findPreference(LatinIME.PREF_VIBRATE_LEN);
-        mThemePreference = (ListPreference) findPreference(KeyboardSwitcher.PREF_KEYBOARD_LAYOUT);
         mRenderModePreference = (ListPreference) findPreference(LatinIME.PREF_RENDER_MODE);
         mInputConnectionInfo = (Preference) findPreference(INPUT_CONNECTION_INFO);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
@@ -220,13 +207,6 @@ public class LatinIMESettings extends PreferenceActivity
         }
         return out.toString();
     }
-    private void setSummaryToEntry(ListPreference pref, CharSequence defVal) {
-        CharSequence val = pref.getEntry();
-        //Log.i("PCKeyboard", "setSummaryToEntry " + pref.getKey() + " val=" + val + " defVal=" + defVal);
-        if (val == null) val = defVal;
-        String percent = getResources().getString(R.string.percent);
-        pref.setSummary(val.toString().replace("%", " " + percent));
-    }
 
     private void updateSummaries() {
         Resources res = getResources();
@@ -234,14 +214,6 @@ public class LatinIMESettings extends PreferenceActivity
                 res.getStringArray(R.array.settings_key_modes)
                 [mSettingsKeyPreference.findIndexOfValue(mSettingsKeyPreference.getValue())]);
 
-        setSummaryToEntry(mHeightInPortraitPreference, res.getString(R.string.default_height_portrait));
-        setSummaryToEntry(mHeightInLandscapePreference, res.getString(R.string.default_height_landscape));
-        setSummaryToEntry(mHintModePreference, res.getString(R.string.default_hint_mode));
-        setSummaryToEntry(mLabelScalePreference, "1.0");
-        setSummaryToEntry(mVibrateDurationPreference, res.getString(R.string.vibrate_duration_ms));
-        setSummaryToEntry(mThemePreference, "0");
-        setSummaryToEntry(mRenderModePreference, res.getString(R.string.default_render_mode));
-        
         mInputConnectionInfo.setSummary(String.format("%s type=%s",
                 LatinIME.sKeyboardSettings.editorPackageName,
                 inputTypeDesc(LatinIME.sKeyboardSettings.editorInputType)
