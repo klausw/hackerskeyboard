@@ -412,6 +412,7 @@ public class Keyboard {
             }
             label = a.getText(R.styleable.Keyboard_Key_keyLabel);
             shiftLabel = a.getText(R.styleable.Keyboard_Key_shiftLabel);
+            if (shiftLabel != null && shiftLabel.length() == 0) shiftLabel = null;
             text = a.getText(R.styleable.Keyboard_Key_keyOutputText);
 
             if (codes == null && !TextUtils.isEmpty(label)) {
