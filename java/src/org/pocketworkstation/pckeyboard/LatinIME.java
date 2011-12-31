@@ -677,6 +677,14 @@ public class LatinIME extends InputMethodService implements
                 ic.finishComposingText(); // For voice input
             mOrientation = conf.orientation;
             reloadKeyboards();
+            if (mCandidateViewContainer != null) {
+                mCandidateViewContainer.removeAllViews();
+                ViewParent parent = mCandidateViewContainer.getParent();
+                if (parent != null && parent instanceof ViewGroup) {
+                    ((ViewGroup) parent).removeView(mCandidateViewContainer);
+                }
+                mCandidateViewContainer = null;
+            }
         }
         mConfigurationChanging = true;
         super.onConfigurationChanged(conf);
@@ -716,19 +724,16 @@ public class LatinIME extends InputMethodService implements
     @Override
     public View onCreateCandidatesView() {
         mKeyboardSwitcher.makeKeyboards(true);
-        mCandidateViewContainer = (LinearLayout) getLayoutInflater().inflate(
-                R.layout.candidates, null);
-        mCandidateView = (CandidateView) mCandidateViewContainer
-                .findViewById(R.id.candidates);
-        mCandidateView.setPadding(0, 0, 0, 0);
-        mCandidateView.setService(this);
+        if (mCandidateViewContainer == null) {
+            mCandidateViewContainer = (LinearLayout) getLayoutInflater().inflate(
+                    R.layout.candidates, null);
+            mCandidateView = (CandidateView) mCandidateViewContainer
+            .findViewById(R.id.candidates);
+            mCandidateView.setPadding(0, 0, 0, 0);
+            mCandidateView.setService(this);
+        }
         // Respect the suggestion settings in legacy Gingerbread mode,
         // in portrait mode, or if suggestions in landscape enabled.
-//        if (suggestionsDisabled()) {
-//            mCandidateViewContainer = null;
-//            mCandidateView = null;
-//            return mCandidateView;
-//        }
         setCandidatesViewShown(!suggestionsDisabled());
         return mCandidateViewContainer;
     }
@@ -739,7 +744,7 @@ public class LatinIME extends InputMethodService implements
         sKeyboardSettings.editorFieldName = attribute.fieldName;
         sKeyboardSettings.editorFieldId = attribute.fieldId;
         sKeyboardSettings.editorInputType = attribute.inputType;
-        
+
         //Log.i("PCKeyboard", "onStartInputView " + attribute + ", inputType= " + Integer.toHexString(attribute.inputType) + ", restarting=" + restarting);
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
         // In landscape mode, this method gets called without the input view
@@ -1636,14 +1641,6 @@ public class LatinIME extends InputMethodService implements
     private final static int KF_MASK = 0xffff;
     private final static int KF_SHIFTABLE = 0x10000;
     private final static int KF_UPPER = 0x20000;
-    //private KeyCharacterMap mKeyCharacterMap;
-    //private int mKeyMapDeviceId;
-    
-//    private KeyEvent[] getKeyEventsForChar(char ch, int deviceId) {
-//        KeyEvent[] events = null;
-//
-//        return events;
-//    }
 
     {
         // Include RETURN in this set even though it's not printable.
@@ -2142,32 +2139,12 @@ public class LatinIME extends InputMethodService implements
                 mWord.reset();
             }
         }
-        if (mKeyboardSwitcher.getInputView().isShifted() && !mKeyboardSwitcher.isFullMode()) {
-            // Uppercase the character for 4-row mode, where the code returned is lowercase
-            if (keyCodes == null || keyCodes[0] < Character.MIN_CODE_POINT
-                    || keyCodes[0] > Character.MAX_CODE_POINT) {
-                return;
-            }
-            primaryCode = keyCodes[0];
-            if (mKeyboardSwitcher.isAlphabetMode()
-                    && Character.isLowerCase(primaryCode)) {
-                int upperCaseCode = Character.toUpperCase(primaryCode);
-                if (upperCaseCode != primaryCode) {
-                    primaryCode = upperCaseCode;
-                } else {
-                    // Some keys, such as [eszett], have upper case as
-                    // multi-characters.
-                    String upperCase = new String(new int[] { primaryCode }, 0,
-                            1).toUpperCase();
-                    onText(upperCase);
-                    return;
-                }
-            }
-        }
         if (mPredicting) {
             if (mKeyboardSwitcher.getInputView().isShifted()
                     && mKeyboardSwitcher.isAlphabetMode()
                     && mComposing.length() == 0) {
+                // Show suggestions with initial caps if starting out shifted,
+                // could be either auto-caps or manual shift.
                 mWord.setFirstCharCapitalized(true);
             }
             mComposing.append((char) primaryCode);
@@ -2331,7 +2308,12 @@ public class LatinIME extends InputMethodService implements
         mHandler.post(new Runnable() {
             public void run() {
                 mRecognizing = false;
-                if (mKeyboardSwitcher.getInputView() != null) {
+                LatinKeyboardView view = mKeyboardSwitcher.getInputView(); 
+                if (view != null) {
+                    ViewParent p = view.getParent();
+                    if (p != null && p instanceof ViewGroup) {
+                        ((ViewGroup) p).removeView(view);
+                    }
                     setInputView(mKeyboardSwitcher.getInputView());
                 }
                 setCandidatesViewShown(true);
@@ -2486,7 +2468,7 @@ public class LatinIME extends InputMethodService implements
                         .getInputView().isShifted());
         for (String c : mVoiceResults.candidates) {
             if (capitalizeFirstWord) {
-                c = Character.toUpperCase(c.charAt(0))
+                c = c.substring(0,1).toUpperCase(sKeyboardSettings.inputLocale)
                         + c.substring(1, c.length());
             }
             nBest.add(c);
@@ -2525,8 +2507,13 @@ public class LatinIME extends InputMethodService implements
             boolean haveMinimalSuggestion) {
 
         if (mIsShowingHint) {
-            if (mCandidateViewContainer != null)
+            if (mCandidateViewContainer != null) {
+                ViewParent p = mCandidateViewContainer.getParent();
+                if (p != null && p instanceof ViewGroup) {
+                    ((ViewGroup) p).removeView(mCandidateViewContainer);
+                }
                 setCandidatesView(mCandidateViewContainer);
+            }
             mIsShowingHint = false;
         }
 
@@ -2765,11 +2752,6 @@ public class LatinIME extends InputMethodService implements
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
         if (mCapsLock) {
             suggestion = suggestion.toString().toUpperCase();
-        } else if (preferCapitalization()
-                || (mKeyboardSwitcher.isAlphabetMode() && inputView.isShifted()
-                        && !(mKeyboardSwitcher.isFullMode() && !correcting))) {
-            suggestion = suggestion.toString().toUpperCase().charAt(0)
-                    + suggestion.subSequence(1, suggestion.length()).toString();
         }
         InputConnection ic = getCurrentInputConnection();
         if (ic != null) {
@@ -3052,6 +3034,7 @@ public class LatinIME extends InputMethodService implements
         mAutoCapActive = mAutoCapPref && mLanguageSwitcher.allowAutoCap();
         mDeadKeysActive = mLanguageSwitcher.allowDeadKeys();
         updateShiftKeyState(getCurrentInputEditorInfo());
+        onCreateCandidatesView();
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

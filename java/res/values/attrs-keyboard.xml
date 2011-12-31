@@ -72,6 +72,8 @@
         <attr name="keyOutputText" format="string" />
         <!-- The label to display on the key. -->
         <attr name="keyLabel" format="string" />
+        <!-- The label to display on the shifted key. -->
+        <attr name="shiftLabel" format="string" />
         <!-- The icon to display on the key instead of the label. -->
         <attr name="keyIcon" format="reference" />
         <!-- Mode of the keyboard. If the mode doesn't match the

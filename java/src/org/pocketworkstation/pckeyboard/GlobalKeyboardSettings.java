@@ -1,5 +1,7 @@
 package org.pocketworkstation.pckeyboard;
 
+import java.util.Locale;
+
 /**
  * Global current settings for the keyboard.
  * 
@@ -51,4 +53,9 @@ public final class GlobalKeyboardSettings {
 	// Used by LatinKeyboardBaseView and LatinIME
 	public float labelScalePref = 1.0f;
 	public float labelScale = 1.0f;
+	
+	/* Updated by LanguageSwitcher */
+	//
+	// Used by Keyboard and KeyboardSwitcher
+	public Locale inputLocale = Locale.getDefault();
 }

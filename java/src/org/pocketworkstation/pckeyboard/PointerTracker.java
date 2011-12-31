@@ -293,7 +293,7 @@ public class PointerTracker {
         if (mListener != null) {
             if (isValidKeyIndex(keyIndex)) {
                 Key key = mKeys[keyIndex];
-                if (key.codes != null) mListener.onPress(key.codes[0]);
+                if (key.codes != null) mListener.onPress(key.getPrimaryCode(mKeyboardSwitcher.getInputView().isShifted()));
                 // This onPress call may have changed keyboard layout. Those cases are detected at
                 // {@link #setKeyboard}. In those cases, we should update keyIndex according to the
                 // new keyboard layout.
@@ -351,7 +351,7 @@ public class PointerTracker {
                 // In this case, we must call onPress() to notify that the new key is being pressed.
                 if (mListener != null) {
                     Key key = getKey(keyIndex);
-                    if (key.codes != null) mListener.onPress(key.codes[0]);
+                    if (key.codes != null) mListener.onPress(key.getPrimaryCode(mKeyboardSwitcher.getInputView().isShifted()));
                     // This onPress call may have changed keyboard layout. Those cases are detected
                     // at {@link #setKeyboard}. In those cases, we should update keyIndex according
                     // to the new keyboard layout.
@@ -368,11 +368,11 @@ public class PointerTracker {
                 // onPress() to notify that the new key is being pressed.
                 mIsInSlidingKeyInput = true;
                 if (mListener != null && oldKey.codes != null)
-                    mListener.onRelease(oldKey.codes[0]);
+                    mListener.onRelease(oldKey.getPrimaryCode(mKeyboardSwitcher.getInputView().isShifted()));
                 resetMultiTap();
                 if (mListener != null) {
                     Key key = getKey(keyIndex);
-                    if (key.codes != null) mListener.onPress(key.codes[0]);
+                    if (key.codes != null) mListener.onPress(key.getPrimaryCode(mKeyboardSwitcher.getInputView().isShifted()));
                     // This onPress call may have changed keyboard layout. Those cases are detected
                     // at {@link #setKeyboard}. In those cases, we should update keyIndex according
                     // to the new keyboard layout.
@@ -391,7 +391,7 @@ public class PointerTracker {
                 // notify that the previous key has been released.
                 mIsInSlidingKeyInput = true;
                 if (mListener != null && oldKey.codes != null)
-                    mListener.onRelease(oldKey.codes[0]);
+                    mListener.onRelease(oldKey.getPrimaryCode(mKeyboardSwitcher.getInputView().isShifted()));
                 resetMultiTap();
                 keyState.onMoveToNewKey(keyIndex, x ,y);
                 mHandler.cancelLongPressTimer();
@@ -533,7 +533,7 @@ public class PointerTracker {
                 }
             } else {
                 if (key.codes == null) return;
-                int code = key.codes[0];
+                int code = key.getPrimaryCode(mKeyboardSwitcher.getInputView().isShifted());
                 int[] codes = mKeyDetector.newCodeArray();
                 mKeyDetector.getKeyIndexAndNearbyCodes(x, y, codes);
                 // Multi-tap
@@ -573,7 +573,7 @@ public class PointerTracker {
             mPreviewLabel.append((char) key.codes[mTapCount < 0 ? 0 : mTapCount]);
             return mPreviewLabel;
         } else {
-        	if (key.isDeadKey) {
+        	if (key.isDeadKey()) {
         		return DeadAccentSequence.normalize(" " + key.label);
         	} else {
         		return key.label;
