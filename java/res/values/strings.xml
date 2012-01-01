@@ -355,7 +355,7 @@
     <string name="layout_gingerbread"  translatable="false">Gingerbread</string>
     <string name="layout_ics"  translatable="false">Ice Cream Sandwich</string>
     <string name="layout_trans"  translatable="false">Transparent</string>
-    <string name="layout_trans_neon"  translatable="false">Transparent Glow</string>
+    <string name="layout_trans_neon"  translatable="false">Transparent (experimental)</string>
 
     <string-array name="keyboard_layout_modes" translatable="false">
         <item>@string/layout_ics</item>
