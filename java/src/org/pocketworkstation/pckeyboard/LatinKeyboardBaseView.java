@@ -217,7 +217,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private PopupWindow mMiniKeyboardPopup;
     private LatinKeyboardBaseView mMiniKeyboard;
     private View mMiniKeyboardParent;
-    private final WeakHashMap<Key, View> mMiniKeyboardCache = new WeakHashMap<Key, View>();
+    private final WeakHashMap<Key, View> mMiniKeyboardCacheMain = new WeakHashMap<Key, View>();
+    private final WeakHashMap<Key, View> mMiniKeyboardCacheShift = new WeakHashMap<Key, View>();
     private int mMiniKeyboardOriginX;
     private int mMiniKeyboardOriginY;
     private long mMiniKeyboardPopupTime;
@@ -687,7 +688,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mKeyboardChanged = true;
         invalidateAllKeys();
         computeProximityThreshold(keyboard);
-        mMiniKeyboardCache.clear();
+        mMiniKeyboardCacheMain.clear();
+        mMiniKeyboardCacheShift.clear();
         setRenderModeIfPossible(LatinIME.sKeyboardSettings.renderMode);
     }
     
@@ -1337,14 +1339,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Remove gesture detector on mini-keyboard
         miniKeyboard.mGestureDetector = null;
 
-        Keyboard keyboard;
-        CharSequence popupChars = popupKey.popupCharacters;
-        if (popupChars != null) {
-            keyboard = new Keyboard(getContext(), popupKeyboardId, popupChars,
-                    -1, getPaddingLeft() + getPaddingRight());
-        } else {
-            keyboard = new Keyboard(getContext(), popupKeyboardId);
-        }
+        Keyboard keyboard = popupKey.getPopupKeyboard(getContext(), popupKeyboardId, isShifted(), getPaddingLeft() + getPaddingRight());
         miniKeyboard.setKeyboard(keyboard);
         miniKeyboard.setPopupParent(this);
 
@@ -1382,10 +1377,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         PointerTracker.clearSlideKeys();
         
-        View container = mMiniKeyboardCache.get(popupKey);
+        View container = (isShifted() ? mMiniKeyboardCacheShift : mMiniKeyboardCacheMain).get(popupKey);
         if (container == null) {
             container = inflateMiniKeyboardContainer(popupKey);
-            mMiniKeyboardCache.put(popupKey, container);
+            (isShifted() ? mMiniKeyboardCacheShift : mMiniKeyboardCacheMain).put(popupKey, container);
         }
         mMiniKeyboard = (LatinKeyboardBaseView)container.findViewById(R.id.LatinKeyboardBaseView);
         if (mWindowOffset == null) {
@@ -1807,7 +1802,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // for example if reducing the size of the main keyboard.
         //mBuffer = null;
         //mCanvas = null;
-        mMiniKeyboardCache.clear();
+        mMiniKeyboardCacheMain.clear();
+        mMiniKeyboardCacheShift.clear();
     }
 
     @Override

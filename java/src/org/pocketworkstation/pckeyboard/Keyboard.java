@@ -296,6 +296,7 @@ public class Keyboard {
         public int popupResId;
         /** Whether this key repeats itself when held down */
         public boolean repeatable;
+        private boolean isSimpleUppercase;
 
 
         private final static int[] KEY_STATE_NORMAL_ON = {
@@ -417,9 +418,19 @@ public class Keyboard {
 
             if (codes == null && !TextUtils.isEmpty(label)) {
                 codes = getFromString(label);
-                if (shiftLabel == null && codes != null && codes.length == 1 && Character.isLowerCase(codes[0])) {
-                    shiftLabel = label.toString().toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
-                    if (shiftLabel.length() != 1) shiftLabel = null;
+                if (shiftLabel == null) {
+                    if (codes != null && codes.length == 1 && Character.isLowerCase(codes[0])) {
+                        shiftLabel = label.toString().toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
+                        if (shiftLabel.length() == 1) {
+                            isSimpleUppercase = true;
+                        } else {
+                            shiftLabel = null;
+                        }
+                    }
+                } else {
+                    if (label.toString().toUpperCase().equals(shiftLabel)) {
+                        isSimpleUppercase = true;
+                    }
                 }
             }
             //Log.i(TAG, "added key definition: " + this);
@@ -457,6 +468,36 @@ public class Keyboard {
             }
         }
 
+        public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, boolean isShifted, int padding) {
+            int popupLen = (popupCharacters == null) ? 0 : popupCharacters.length();
+            StringBuilder popup = new StringBuilder(popupLen + 1);
+            char mainChar = (label != null && label.length() == 1) ? label.charAt(0) : 0;
+            char shiftChar = (shiftLabel != null && shiftLabel.length() == 1) ? shiftLabel.charAt(0) : 0;
+            if (!isSimpleUppercase) {
+                // is shifted, add unshifted key to popup, and vice versa
+                if (isShifted) {
+                    if (mainChar != 0) popup.append(mainChar);
+                } else {
+                    if (shiftChar != 0) popup.append(shiftChar);
+                }
+            }
+            boolean charAdded = (popup.length() > 0);
+            Log.i(TAG, "isShifted=" + isShifted + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
+            for (int i = 0; i < popupLen; ++i) {
+                char c = popupCharacters.charAt(i);
+                if ((isShifted || charAdded) && c == shiftChar) continue;
+                if ((!isShifted || charAdded) && c == mainChar) continue;
+                popup.append(c);
+            }
+            Keyboard popupKeyboard;
+            if (popup.length() > 0) {
+                popupKeyboard = new Keyboard(context, popupKeyboardId, popup.toString(), -1, padding);
+            } else {
+                popupKeyboard = new Keyboard(context, popupKeyboardId);
+            }
+            return popupKeyboard;
+        }
+        
         /**
          * Informs the key that it has been pressed, in case it needs to change its appearance or
          * state.
@@ -629,7 +670,7 @@ public class Keyboard {
      * number of keys that can fit in a row, it will be ignored. If this number is -1, the
      * keyboard will fit as many keys as possible in each row.
      */
-    public Keyboard(Context context, int layoutTemplateResId,
+    private Keyboard(Context context, int layoutTemplateResId,
             CharSequence characters, int columns, int horizontalPadding) {
         this(context, layoutTemplateResId);
         int x = 0;
