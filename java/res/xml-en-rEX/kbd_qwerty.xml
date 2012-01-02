@@ -255,43 +255,50 @@
             android:codes="@integer/key_fn"
             android:keyLabel="Fn"
             android:isModifier="true"
+            android:keyWidth="8.29090909%p"
             android:keyEdgeFlags="left" />
         <Key
             android:keyLabel="Ctrl"
             android:codes="@integer/key_ctrl_left"
+            android:keyWidth="8.29090909%p"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_alt_left"
+            android:keyLabel="Alt"
+            android:keyWidth="8.29090909%p"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_tab"
             android:keyIcon="@drawable/sym_keyboard_tab"
             android:iconPreview="@drawable/sym_keyboard_feedback_tab"
+            android:keyWidth="8.29090909%p"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_space"
             android:keyIcon="@drawable/sym_keyboard_space"
             android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="27.27272727%p"
-            android:isModifier="true" />
-        <Key
-            android:codes="@integer/key_alt_left"
-            android:keyLabel="Alt"
+            android:keyWidth="33.67272727%p"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_dpad_left"
             android:isModifier="true"
             android:isRepeatable="true"            
             android:isCursor="true"
+            android:keyWidth="8.29090909%p"
             android:keyLabel="&#x25c1;" />
         <Key
             android:codes="@integer/key_dpad_down"
             android:isModifier="true"
             android:isRepeatable="true"
             android:isCursor="true"
+            android:keyWidth="8.29090909%p"
             android:keyLabel="&#x25bd;" />
         <Key
             android:codes="@integer/key_dpad_up"
             android:isRepeatable="true"            
             android:keyLabel="&#x25b3;" 
             android:isCursor="true"
+            android:keyWidth="8.29090909%p"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_dpad_right"
@@ -299,6 +306,7 @@
             android:keyLabel="&#x25b7;"
             android:isRepeatable="true"            
             android:isCursor="true"
+            android:keyWidth="8.29090909%p"
             android:keyEdgeFlags="right" />
     </Row>
 </Keyboard>
