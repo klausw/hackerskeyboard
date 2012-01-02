@@ -699,7 +699,7 @@ public class LatinIME extends InputMethodService implements
         // If orientation changed while predicting, commit the change
         if (conf.orientation != mOrientation) {
             InputConnection ic = getCurrentInputConnection();
-            commitTyped(ic);
+            commitTyped(ic, true);
             if (ic != null)
                 ic.finishComposingText(); // For voice input
             mOrientation = conf.orientation;
@@ -1329,7 +1329,7 @@ public class LatinIME extends InputMethodService implements
         mKeyboardSwitcher.makeKeyboards(true);
     }
 
-    private void commitTyped(InputConnection inputConnection) {
+    private void commitTyped(InputConnection inputConnection, boolean manual) {
         if (mPredicting) {
             mPredicting = false;
             if (mComposing.length() > 0) {
@@ -1337,7 +1337,11 @@ public class LatinIME extends InputMethodService implements
                     inputConnection.commitText(mComposing, 1);
                 }
                 mCommittedLength = mComposing.length();
-                TextEntryState.acceptedTyped(mComposing);
+                if (manual) {
+                    TextEntryState.manualTyped(mComposing);
+                } else {
+                    TextEntryState.acceptedTyped(mComposing);
+                }
                 addToDictionaries(mComposing,
                         AutoDictionary.FREQUENCY_FOR_TYPED);
             }
@@ -2012,7 +2016,7 @@ public class LatinIME extends InputMethodService implements
         abortCorrection(false);
         ic.beginBatchEdit();
         if (mPredicting) {
-            commitTyped(ic);
+            commitTyped(ic, true);
         }
         maybeRemovePreviousPeriod(text);
         ic.commitText(text, 1);
@@ -2258,7 +2262,7 @@ public class LatinIME extends InputMethodService implements
             // in Italian dov' should not be expanded to dove' because the
             // elision
             // requires the last vowel to be removed.
-            if (mAutoCorrectOn
+            if (mAutoCorrectOn && mAutoCorrectEnabled
                     && primaryCode != '\''
                     && (mJustRevertedSeparator == null
                             || mJustRevertedSeparator.length() == 0 || mJustRevertedSeparator
@@ -2270,7 +2274,7 @@ public class LatinIME extends InputMethodService implements
                     mJustAddedAutoSpace = true;
                 }
             } else {
-                commitTyped(ic);
+                commitTyped(ic, true);
             }
         }
         if (mJustAddedAutoSpace && primaryCode == ASCII_ENTER) {
@@ -2303,7 +2307,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void handleClose() {
-        commitTyped(getCurrentInputConnection());
+        commitTyped(getCurrentInputConnection(), true);
         if (VOICE_INSTALLED & mRecognizing) {
             mVoiceInput.cancel();
         }
@@ -2545,7 +2549,7 @@ public class LatinIME extends InputMethodService implements
             ic.beginBatchEdit(); // To avoid extra updates on committing older
                                  // text
 
-        commitTyped(ic);
+        commitTyped(ic, false);
         EditingUtil.appendText(ic, bestResult);
 
         if (ic != null)

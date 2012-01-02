@@ -482,7 +482,7 @@ public class Keyboard {
                 }
             }
             boolean charAdded = (popup.length() > 0);
-            Log.i(TAG, "isShifted=" + isShifted + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
+            //Log.i(TAG, "isShifted=" + isShifted + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
             for (int i = 0; i < popupLen; ++i) {
                 char c = popupCharacters.charAt(i);
                 if ((isShifted || charAdded) && c == shiftChar) continue;
