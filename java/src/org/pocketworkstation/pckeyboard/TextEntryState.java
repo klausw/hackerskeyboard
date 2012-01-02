@@ -143,6 +143,11 @@ public class TextEntryState {
         displayState();
     }
 
+    public static void manualTyped(CharSequence typedWord) {
+        sState = State.START;
+        displayState();
+    }
+
     public static void acceptedTyped(CharSequence typedWord) {
         sWordNotInDictionaryCount++;
         sState = State.PICKED_SUGGESTION;
@@ -271,7 +276,8 @@ public class TextEntryState {
 
     private static void displayState() {
         if (DBG) {
-            Log.d(TAG, "State = " + sState);
+            //Log.w(TAG, "State = " + sState, new Throwable());
+            Log.i(TAG, "State = " + sState);
         }
     }
 }
