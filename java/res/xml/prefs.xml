@@ -271,7 +271,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Swipe gesture actions"
+            android:title="Swipe gestures (experimental)"
             android:key="swipe_actions">
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
