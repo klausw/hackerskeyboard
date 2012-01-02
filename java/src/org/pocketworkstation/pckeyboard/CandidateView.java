@@ -395,8 +395,8 @@ public class CandidateView extends View {
                     if (!mShowingCompletions) {
                         // This "acceptedSuggestion" will not be counted as a word because
                         // it will be counted in pickSuggestion instead.
-                        TextEntryState.acceptedSuggestion(mSuggestions.get(0),
-                                mSelectedString);
+                        //TextEntryState.acceptedSuggestion(mSuggestions.get(0), mSelectedString);
+                        //TextEntryState.manualTyped(mSelectedString);
                     }
                     mService.pickSuggestionManually(mSelectedIndex, mSelectedString);
                     mSelectedString = null;
@@ -412,8 +412,8 @@ public class CandidateView extends View {
                         clear();
                     } else {
                         if (!mShowingCompletions) {
-                            TextEntryState.acceptedSuggestion(mSuggestions.get(0),
-                                    mSelectedString);
+                            //TextEntryState.acceptedSuggestion(mSuggestions.get(0), mSelectedString);
+                            //TextEntryState.manualTyped(mSelectedString);
                         }
                         mService.pickSuggestionManually(mSelectedIndex, mSelectedString);
                     }
