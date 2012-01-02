@@ -94,7 +94,7 @@ public abstract class ComposeBase {
     // returns true if the compose sequence is valid but incomplete
     public String executeToString(int code) {
         KeyboardSwitcher ks = KeyboardSwitcher.getInstance();
-        if (ks.getInputView().isShifted()
+        if (ks.getInputView().isShiftCaps()
                 && ks.isAlphabetMode()
                 && Character.isLowerCase(code)) {
             code = Character.toUpperCase(code);

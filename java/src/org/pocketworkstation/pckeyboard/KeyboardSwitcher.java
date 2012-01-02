@@ -310,8 +310,7 @@ public class KeyboardSwitcher implements
 
         mCurrentId = id;
         mInputView.setKeyboard(keyboard);
-        keyboard.setShifted(false);
-        keyboard.setShiftLocked(keyboard.isShiftLocked());
+        keyboard.setShiftState(Keyboard.SHIFT_OFF);
         keyboard.setImeOptions(mInputMethodService.getResources(), mMode,
                 imeOptions);
         keyboard.updateSymbolIcons(mIsAutoCompletionActive);
@@ -431,16 +430,9 @@ public class KeyboardSwitcher implements
         return false;
     }
 
-    public void setShifted(boolean wantShifted) {
+    public void setShiftState(int shiftState) {
         if (mInputView != null) {
-            mInputView.setShifted(wantShifted);
-        }
-    }
-
-    public void setShiftLocked(boolean shiftLocked) {
-        //Log.i(TAG, "setShiftLocked " + shiftLocked + " mSettings.fullMode=" + mSettings.fullMode);
-        if (mInputView != null) {
-            mInputView.setShiftLocked(shiftLocked);
+            mInputView.setShiftState(shiftState);
         }
     }
 
@@ -453,10 +445,20 @@ public class KeyboardSwitcher implements
         } else {
             // Return to default keyboard state
             setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
-            mInputView.setShifted(false);
+            mInputView.setShiftState(Keyboard.SHIFT_OFF);
         }
     }
 
+    public void setCtrlIndicator(boolean active) {
+        if (mInputView == null) return;
+        mInputView.setCtrlIndicator(active);
+    }
+
+    public void setAltIndicator(boolean active) {
+        if (mInputView == null) return;
+        mInputView.setAltIndicator(active);
+    }
+    
     public void toggleShift() {
         //Log.i(TAG, "toggleShift isAlphabetMode=" + isAlphabetMode() + " mSettings.fullMode=" + mSettings.fullMode);
         if (isAlphabetMode())
@@ -468,27 +470,18 @@ public class KeyboardSwitcher implements
             LatinKeyboard symbolsShiftedKeyboard = getKeyboard(mSymbolsShiftedId);
             mCurrentId = mSymbolsShiftedId;
             mInputView.setKeyboard(symbolsShiftedKeyboard);
-            // Symbol shifted keyboard has an ALT key that has a caps lock style
-            // indicator. To
-            // enable the indicator, we need to call enableShiftLock() and
-            // setShiftLocked(true).
-            // Thus we can keep the ALT key's Key.on value true while
-            // LatinKey.onRelease() is
-            // called.
+            // Symbol shifted keyboard has a ALT_SYM key that has a caps lock style indicator.
+            // To enable the indicator, we need to set the shift state appropriately.
             symbolsShiftedKeyboard.enableShiftLock();
-            symbolsShiftedKeyboard.setShiftLocked(true);
+            symbolsShiftedKeyboard.setShiftState(Keyboard.SHIFT_LOCKED);
             symbolsShiftedKeyboard.setImeOptions(mInputMethodService
                     .getResources(), mMode, mImeOptions);
         } else {
             LatinKeyboard symbolsKeyboard = getKeyboard(mSymbolsId);
             mCurrentId = mSymbolsId;
             mInputView.setKeyboard(symbolsKeyboard);
-            // Symbol keyboard has an ALT key that has a caps lock style
-            // indicator. To disable the
-            // indicator, we need to call enableShiftLock() and
-            // setShiftLocked(false).
             symbolsKeyboard.enableShiftLock();
-            symbolsKeyboard.setShifted(false);
+            symbolsKeyboard.setShiftState(Keyboard.SHIFT_OFF);
             symbolsKeyboard.setImeOptions(mInputMethodService.getResources(),
                     mMode, mImeOptions);
         }

@@ -216,10 +216,12 @@
         <Key
             android:keyLabel="Ctrl"
             android:codes="@integer/key_ctrl_left"
+            android:isSticky="true"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_alt_left"
             android:keyLabel="Alt"
+            android:isSticky="true"
             android:isModifier="true" />
         <Key
             android:keyLabel=".com"

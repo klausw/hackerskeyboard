@@ -24,11 +24,14 @@
           android:drawable="@drawable/btn_keyboard_key_dark_normal" />
 
     <!-- Toggle keys. Use checkable/checked state. -->
+    <!-- The lock icon is a copy of the 'on' icon, hue shifted by -75 using Gimp's Colors/Hue&Saturation -->
 
     <item android:state_checkable="true" android:state_checked="true" android:state_pressed="true"
           android:drawable="@drawable/btn_keyboard_key_dark_pressed_on" />
     <item android:state_checkable="true" android:state_pressed="true"
           android:drawable="@drawable/btn_keyboard_key_dark_pressed_off" />
+    <item android:state_checkable="true" android:state_checked="true" android:state_active="true"
+          android:drawable="@drawable/btn_keyboard_key_dark_normal_lock" />
     <item android:state_checkable="true" android:state_checked="true"
           android:drawable="@drawable/btn_keyboard_key_dark_normal_on" />
     <item android:state_checkable="true"
