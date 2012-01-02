@@ -146,6 +146,7 @@
             android:keyLabel="Ctrl"
             android:keyWidth="10.7142855%p"
             android:codes="@integer/key_ctrl_left"
+            android:isSticky="true"
             android:keyEdgeFlags="left" 
             android:isModifier="true" />
         <Key
@@ -277,6 +278,7 @@
         <Key
             android:codes="@integer/key_alt_left"
             android:keyLabel="Alt"
+            android:isSticky="true"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_space"

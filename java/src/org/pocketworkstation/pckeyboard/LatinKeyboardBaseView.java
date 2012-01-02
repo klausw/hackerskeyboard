@@ -715,9 +715,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
      * @param shifted whether or not to enable the state of the shift key
      * @return true if the shift key state changed, false if there was no change
      */
-    public boolean setShifted(boolean shifted) {
+    public boolean setShiftState(int shiftState) {
+        //Log.i(TAG, "setShifted " + shiftState);
         if (mKeyboard != null) {
-            if (mKeyboard.setShifted(shifted)) {
+            if (mKeyboard.setShiftState(shiftState)) {
                 // The whole keyboard probably needs to be redrawn
                 invalidateAllKeys();
                 return true;
@@ -726,16 +727,32 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return false;
     }
 
+    public void setCtrlIndicator(boolean active) {
+        if (mKeyboard != null) {
+            invalidateKey(mKeyboard.setCtrlIndicator(active));
+        }
+    }
+    
+    public void setAltIndicator(boolean active) {
+        if (mKeyboard != null) {
+            invalidateKey(mKeyboard.setAltIndicator(active));
+        }
+    }
+
     /**
      * Returns the state of the shift key of the keyboard, if any.
      * @return true if the shift is in a pressed state, false otherwise. If there is
      * no shift key on the keyboard or there is no keyboard attached, it returns false.
      */
-    public boolean isShifted() {
+    public int getShiftState() {
         if (mKeyboard != null) {
-            return mKeyboard.isShifted();
+            return mKeyboard.getShiftState();
         }
-        return false;
+        return Keyboard.SHIFT_OFF;
+    }
+    
+    public boolean isShiftCaps() {
+        return getShiftState() != Keyboard.SHIFT_OFF;
     }
 
     /**
@@ -786,14 +803,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
      */
     public boolean isProximityCorrectionEnabled() {
         return mKeyDetector.isProximityCorrectionEnabled();
-    }
-
-    protected CharSequence adjustCase(Key key) {
-        if (mKeyboard.isShifted() && key.shiftLabel != null) {
-            return key.shiftLabel;
-        } else {
-            return key.label;
-        }
     }
 
     @Override
@@ -948,7 +957,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             keyBackground.setState(drawableState);
 
             // Switch the character to uppercase if shift is pressed
-            String label = key.label == null ? null : adjustCase(key).toString();
+            String label = key.getCaseLabel();
 
             float yscale = 1.0f;
             final Rect bounds = keyBackground.getBounds();
@@ -994,7 +1003,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
                 // Draw hint label (if present) behind the main key
                 String hint = getHintLabel(key);
-                if (!hint.equals("") && !(isShifted() && key.shiftLabel != null && hint.charAt(0) == key.shiftLabel.charAt(0))) {
+                if (!hint.equals("") && !(key.isShifted() && key.shiftLabel != null && hint.charAt(0) == key.shiftLabel.charAt(0))) {
                     int hintTextSize = (int)(mKeyTextSize * 0.6 * LatinIME.sKeyboardSettings.labelScale);
                     paintHint.setTextSize(hintTextSize);
 
@@ -1176,7 +1185,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             mPreviewText.setText(null);
         } else {
             mPreviewText.setCompoundDrawables(null, null, null, null);
-            mPreviewText.setText(adjustCase(key));
+            mPreviewText.setText(key.getCaseLabel());
             if (key.label.length() > 1 && key.codes.length < 2) {
                 mPreviewText.setTextSize(TypedValue.COMPLEX_UNIT_PX, mKeyTextSize);
                 mPreviewText.setTypeface(Typeface.DEFAULT_BOLD);
@@ -1335,11 +1344,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             }
         });
         // Override default ProximityKeyDetector.
-        miniKeyboard.mKeyDetector = new MiniKeyboardKeyDetector(mMiniKeyboardSlideAllowance, this);
+        miniKeyboard.mKeyDetector = new MiniKeyboardKeyDetector(mMiniKeyboardSlideAllowance);
         // Remove gesture detector on mini-keyboard
         miniKeyboard.mGestureDetector = null;
 
-        Keyboard keyboard = popupKey.getPopupKeyboard(getContext(), popupKeyboardId, isShifted(), getPaddingLeft() + getPaddingRight());
+        Keyboard keyboard = popupKey.getPopupKeyboard(getContext(), popupKeyboardId, getPaddingLeft() + getPaddingRight());
         miniKeyboard.setKeyboard(keyboard);
         miniKeyboard.setPopupParent(this);
 
@@ -1377,10 +1386,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         PointerTracker.clearSlideKeys();
         
-        View container = (isShifted() ? mMiniKeyboardCacheShift : mMiniKeyboardCacheMain).get(popupKey);
+        final WeakHashMap<Key, View> cache = popupKey.isShifted() ? mMiniKeyboardCacheShift : mMiniKeyboardCacheMain;         
+        View container = cache.get(popupKey);
         if (container == null) {
             container = inflateMiniKeyboardContainer(popupKey);
-            (isShifted() ? mMiniKeyboardCacheShift : mMiniKeyboardCacheMain).put(popupKey, container);
+            cache.put(popupKey, container);
         }
         mMiniKeyboard = (LatinKeyboardBaseView)container.findViewById(R.id.LatinKeyboardBaseView);
         if (mWindowOffset == null) {
@@ -1424,7 +1434,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mMiniKeyboardOriginX = adjustedX + container.getPaddingLeft() - mWindowOffset[0];
         mMiniKeyboardOriginY = y + container.getPaddingTop() - mWindowOffset[1];
         mMiniKeyboard.setPopupOffset(adjustedX, y);
-        mMiniKeyboard.setShifted(isShifted());
+        mMiniKeyboard.setShiftState(getShiftState());
         // Mini keyboard needs no pop-up key preview displayed.
         mMiniKeyboard.setPreviewEnabled(false);
         mMiniKeyboardPopup.setContentView(container);

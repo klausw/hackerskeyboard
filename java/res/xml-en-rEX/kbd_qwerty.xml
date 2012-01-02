@@ -260,11 +260,13 @@
         <Key
             android:keyLabel="Ctrl"
             android:codes="@integer/key_ctrl_left"
+            android:isSticky="true"
             android:keyWidth="8.29090909%p"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_alt_left"
             android:keyLabel="Alt"
+            android:isSticky="true"
             android:keyWidth="8.29090909%p"
             android:isModifier="true" />
         <Key

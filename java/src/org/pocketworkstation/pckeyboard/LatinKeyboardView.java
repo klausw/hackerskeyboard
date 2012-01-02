@@ -176,16 +176,6 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         return true;
     }
 
-    public boolean setShiftLocked(boolean shiftLocked) {
-        Keyboard keyboard = getKeyboard();
-        if (keyboard instanceof LatinKeyboard) {
-            ((LatinKeyboard)keyboard).setShiftLocked(shiftLocked);
-            invalidateAllKeys();
-            return true;
-        }
-        return false;
-    }
-
     /**
      * This function checks to see if we need to handle any sudden jumps in the pointer location
      * that could be due to a multi-touch being treated as a move by the firmware or hardware.
@@ -400,7 +390,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         } else {
             mExtension.setVisibility(VISIBLE);
         }
-        mExtension.setShifted(isShifted()); // propagate shift state
+        mExtension.setShiftState(getShiftState()); // propagate shift state
     }
 
     @Override
