@@ -83,7 +83,7 @@ public class Keyboard {
     public static final int KEYCODE_CANCEL = -3;
     public static final int KEYCODE_DONE = -4;
     public static final int KEYCODE_DELETE = -5;
-    public static final int KEYCODE_ALT = -6;
+    public static final int KEYCODE_ALT_SYM = -6;
 
     /** Keyboard label **/
     private CharSequence mLabel;
@@ -103,11 +103,19 @@ public class Keyboard {
     /** Default gap between rows */
     private int mDefaultVerticalGap;
 
+    public static final int SHIFT_OFF = 0;
+    public static final int SHIFT_ON = 1;
+    public static final int SHIFT_LOCKED = 2;
+    public static final int SHIFT_CAPS = 3;
+    public static final int SHIFT_CAPS_LOCKED = 4;
+    
     /** Is the keyboard in the shifted state */
-    private boolean mShifted;
+    private int mShiftState = SHIFT_OFF;
 
     /** Key instance for the shift key, if present */
     private Key mShiftKey;
+    private Key mAltKey;
+    private Key mCtrlKey;
 
     /** Key index for the shift key, if present */
     private int mShiftKeyIndex = -1;
@@ -267,8 +275,9 @@ public class Keyboard {
         public int y;
         /** The current pressed state of this key */
         public boolean pressed;
-        /** If this is a sticky key, is it on? */
+        /** If this is a sticky key, is it on or locked? */
         public boolean on;
+        public boolean locked;
         /** Text to output when pressed. This can be multiple characters, like ".com" */
         public CharSequence text;
         /** Popup characters */
@@ -305,6 +314,19 @@ public class Keyboard {
         };
 
         private final static int[] KEY_STATE_PRESSED_ON = {
+            android.R.attr.state_pressed,
+            android.R.attr.state_checkable,
+            android.R.attr.state_checked
+        };
+
+        private final static int[] KEY_STATE_NORMAL_LOCK = {
+            android.R.attr.state_active,
+            android.R.attr.state_checkable,
+            android.R.attr.state_checked
+        };
+
+        private final static int[] KEY_STATE_PRESSED_LOCK = {
+            android.R.attr.state_active,
             android.R.attr.state_pressed,
             android.R.attr.state_checkable,
             android.R.attr.state_checked
@@ -437,7 +459,15 @@ public class Keyboard {
             a.recycle();
         }
 
-        public int getPrimaryCode(boolean shifted) {
+        public boolean isShifted() {
+            boolean shifted = keyboard.isShifted(isSimpleUppercase);
+            //Log.i(TAG, "FIXME isShifted=" + shifted + " for " + this);
+            return shifted;
+        }
+        
+        public int getPrimaryCode() {
+            boolean shifted = this.keyboard.isShifted(isSimpleUppercase);
+            //Log.i(TAG, "getPrimaryCode(), shifted=" + shifted);
             if (shifted && shiftLabel != null) {
                 if (shiftLabel.charAt(0) == DEAD_KEY_PLACEHOLDER && shiftLabel.length() >= 2) {
                     return shiftLabel.charAt(1);
@@ -468,7 +498,17 @@ public class Keyboard {
             }
         }
 
-        public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, boolean isShifted, int padding) {
+        public String getCaseLabel() {
+            boolean isShifted = keyboard.isShifted(isSimpleUppercase);
+            if (isShifted && shiftLabel != null) {
+                return shiftLabel.toString();
+            } else {
+                return label != null ? label.toString() : null;
+            }
+        }
+        
+        public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, int padding) {
+            boolean isShifted = keyboard.isShifted(isSimpleUppercase);
             int popupLen = (popupCharacters == null) ? 0 : popupCharacters.length();
             StringBuilder popup = new StringBuilder(popupLen + 1);
             char mainChar = (label != null && label.length() == 1) ? label.charAt(0) : 0;
@@ -508,16 +548,12 @@ public class Keyboard {
         }
 
         /**
-         * Changes the pressed state of the key. If it is a sticky key, it will also change the
-         * toggled state of the key if the finger was release inside.
+         * Changes the pressed state of the key. Sticky key indicators are handled explicitly elsewhere.
          * @param inside whether the finger was released inside the key
          * @see #onPressed()
          */
         public void onReleased(boolean inside) {
             pressed = !pressed;
-            if (sticky) {
-                on = !on;
-            }
         }
 
         int[] parseCSV(String value) {
@@ -585,7 +621,13 @@ public class Keyboard {
         public int[] getCurrentDrawableState() {
             int[] states = KEY_STATE_NORMAL;
 
-            if (on) {
+            if (locked) {
+                if (pressed) {
+                    states = KEY_STATE_PRESSED_LOCK;
+                } else {
+                    states = KEY_STATE_NORMAL_LOCK;
+                }
+            } else if (on) {
                 if (pressed) {
                     states = KEY_STATE_PRESSED_ON;
                 } else {
@@ -825,19 +867,43 @@ public class Keyboard {
         return mTotalWidth;
     }
 
-    public boolean setShifted(boolean shiftState) {
-        if (mShiftKey != null) {
-            mShiftKey.on = shiftState;
+    public boolean setShiftState(int shiftState, boolean updateKey) {
+        //Log.i(TAG, "setShiftState " + mShiftState + " -> " + shiftState);
+        if (updateKey && mShiftKey != null) {
+            mShiftKey.on = (shiftState != SHIFT_OFF);
         }
-        if (mShifted != shiftState) {
-            mShifted = shiftState;
+        if (mShiftState != shiftState) {
+            mShiftState = shiftState;
             return true;
         }
         return false;
     }
 
-    public boolean isShifted() {
-        return mShifted;
+    public boolean setShiftState(int shiftState) {
+        return setShiftState(shiftState, true);
+    }
+    
+    public Key setCtrlIndicator(boolean active) {
+        //Log.i(TAG, "setCtrlIndicator " + active + " ctrlKey=" + mCtrlKey);
+        if (mCtrlKey != null) mCtrlKey.on = active;
+        return mCtrlKey;
+    }
+
+    public Key setAltIndicator(boolean active) {
+        if (mAltKey != null) mAltKey.on = active;
+        return mAltKey;
+    }
+
+    public boolean isShifted(boolean applyCaps) {
+        if (applyCaps) {
+            return mShiftState != SHIFT_OFF;
+        } else {
+            return mShiftState == SHIFT_ON || mShiftState == SHIFT_LOCKED;
+        }
+    }
+    
+    public int getShiftState() {
+        return mShiftState;
     }
 
     public int getShiftKeyIndex() {
@@ -952,8 +1018,12 @@ public class Keyboard {
                                   mShiftKeyIndex = mKeys.size()-1;
                               }
                               mModifierKeys.add(key);
-                          } else if (key.codes[0] == KEYCODE_ALT) {
+                          } else if (key.codes[0] == KEYCODE_ALT_SYM) {
                               mModifierKeys.add(key);
+                          } else if (key.codes[0] == LatinKeyboardView.KEYCODE_CTRL_LEFT) {
+                              mCtrlKey = key;
+                          } else if (key.codes[0] == LatinKeyboardView.KEYCODE_ALT_LEFT) {
+                              mAltKey = key;
                           }
                         }
                     } else if (TAG_KEYBOARD.equals(tag)) {

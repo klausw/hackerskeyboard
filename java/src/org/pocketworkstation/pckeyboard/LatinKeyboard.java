@@ -95,11 +95,6 @@ public class LatinKeyboard extends Keyboard {
     // non-private.
     private final int mVerticalGap;
 
-    private static final int SHIFT_OFF = 0;
-    private static final int SHIFT_ON = 1;
-    private static final int SHIFT_LOCKED = 2;
-
-    private int mShiftState = SHIFT_OFF;
     private LatinKeyboard mExtensionKeyboard;
 
     private static final float SPACEBAR_DRAG_THRESHOLD = 0.51f;
@@ -235,59 +230,21 @@ public class LatinKeyboard extends Keyboard {
         int index = getShiftKeyIndex();
         if (index >= 0) {
             mShiftKey = getKeys().get(index);
-            if (mShiftKey instanceof LatinKey) {
-                ((LatinKey)mShiftKey).enableShiftLock();
-            }
             mOldShiftIcon = mShiftKey.icon;
         }
     }
 
-    void setShiftLocked(boolean shiftLocked) {
-        if (mShiftKey != null) {
-            if (shiftLocked) {
-                mShiftKey.on = true;
-                mShiftKey.icon = mShiftLockIcon;
-                mShiftState = SHIFT_LOCKED;
-            } else {
-                mShiftKey.on = false;
-                mShiftKey.icon = mShiftLockIcon;
-                mShiftState = SHIFT_ON;
-            }
-        }
-    }
-
-    boolean isShiftLocked() {
-        return mShiftState == SHIFT_LOCKED;
-    }
-
     @Override
-    public boolean setShifted(boolean shiftState) {
-        boolean shiftChanged = false;
+    public boolean setShiftState(int shiftState) {
         if (mShiftKey != null) {
-            if (shiftState == false) {
-                shiftChanged = mShiftState != SHIFT_OFF;
-                mShiftState = SHIFT_OFF;
-                mShiftKey.on = false;
-                mShiftKey.icon = mOldShiftIcon;
-            } else {
-                if (mShiftState == SHIFT_OFF) {
-                    shiftChanged = mShiftState == SHIFT_OFF;
-                    mShiftState = SHIFT_ON;
-                    mShiftKey.icon = mShiftLockIcon;
-                }
-            }
+            // Tri-state LED tracks "on" and "lock" states, icon shows Caps state.
+            mShiftKey.on = shiftState != SHIFT_OFF;
+            mShiftKey.locked = shiftState == SHIFT_LOCKED || shiftState == SHIFT_CAPS_LOCKED;
+            mShiftKey.icon = (shiftState == SHIFT_OFF || shiftState == SHIFT_ON || shiftState == SHIFT_LOCKED) ?
+                    mOldShiftIcon : mShiftLockIcon;
+            return super.setShiftState(shiftState, false);
         } else {
-            return super.setShifted(shiftState);
-        }
-        return shiftChanged;
-    }
-
-    @Override
-    public boolean isShifted() {
-        if (mShiftKey != null) {
-            return mShiftState != SHIFT_OFF;
-        } else {
-            return super.isShifted();
+            return super.setShiftState(shiftState, true);
         }
     }
 
@@ -824,8 +781,6 @@ public class LatinKeyboard extends Keyboard {
                 android.R.attr.state_pressed
         };
 
-        private boolean mShiftLockEnabled;
-
         public LatinKey(Resources res, Keyboard.Row parent, int x, int y,
                 XmlResourceParser parser) {
             super(res, parent, x, y, parser);
@@ -835,23 +790,10 @@ public class LatinKeyboard extends Keyboard {
             }
         }
 
-        private void enableShiftLock() {
-            mShiftLockEnabled = true;
-        }
-
         // sticky is used for shift key.  If a key is not sticky and is modifier,
         // the key will be treated as functional.
         private boolean isFunctionalKey() {
             return !sticky && modifier;
-        }
-
-        @Override
-        public void onReleased(boolean inside) {
-            if (!mShiftLockEnabled) {
-                super.onReleased(inside);
-            } else {
-                pressed = !pressed;
-            }
         }
 
         /**
