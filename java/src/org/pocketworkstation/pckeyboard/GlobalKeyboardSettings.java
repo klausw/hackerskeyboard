@@ -35,6 +35,9 @@ public final class GlobalKeyboardSettings {
     //
     // Read by LatinKeyboardView
     public boolean showTouchPos = false;
+    //
+    // Read by LatinIME
+    public String suggestedPunctuation = "!?,.";
     
     /* Updated by LatinIME */
     //
@@ -73,11 +76,22 @@ public final class GlobalKeyboardSettings {
 
     // Auto pref implementation follows
     private Map<String, BooleanPref> mBoolPrefs = new HashMap<String, BooleanPref>();
+    private Map<String, StringPref> mStringPrefs = new HashMap<String, StringPref>();
+    public static final int FLAG_PREF_NONE = 0;
+    public static final int FLAG_PREF_NEED_RELOAD = 0x1;
+    public static final int FLAG_PREF_NEW_PUNC_LIST = 0x2;
+    private int mCurrentFlags = 0;
     
     private interface BooleanPref {
         void set(boolean val);
         boolean getDefault();
-        boolean needReload();
+        int getFlags();
+    }
+
+    private interface StringPref {
+        void set(String val);
+        String getDefault();
+        int getFlags();
     }
 
     public void initPrefs(SharedPreferences prefs, Resources resources) {
@@ -86,33 +100,63 @@ public final class GlobalKeyboardSettings {
         addBooleanPref("pref_touch_pos", new BooleanPref() {
             public void set(boolean val) { showTouchPos = val; }
             public boolean getDefault() { return false; }
-            public boolean needReload() { return false; }
+            public int getFlags() { return FLAG_PREF_NONE; }
         });
 
         addBooleanPref("pref_add_shift_to_popup", new BooleanPref() {
             public void set(boolean val) { addShiftToPopup = val; }
             public boolean getDefault() { return res.getBoolean(R.bool.default_add_shift_to_popup); }
-            public boolean needReload() { return false; }
+            public int getFlags() { return FLAG_PREF_NONE; }
         });
 
+        addStringPref("pref_suggested_punctuation", new StringPref() {
+            public void set(String val) { suggestedPunctuation = val; }
+            public String getDefault() { return res.getString(R.string.suggested_punctuations); }
+            public int getFlags() { return FLAG_PREF_NEW_PUNC_LIST; }
+        });
+        
         // Set initial values
         for (String key : mBoolPrefs.keySet()) {
             BooleanPref pref = mBoolPrefs.get(key);
             pref.set(prefs.getBoolean(key, pref.getDefault()));
         }
+        for (String key : mStringPrefs.keySet()) {
+            StringPref pref = mStringPrefs.get(key);
+            pref.set(prefs.getString(key, pref.getDefault()));
+        }
     }
     
-    public boolean sharedPreferenceChanged(SharedPreferences prefs, String key) {
-        boolean needReload = false;
-        BooleanPref pref = mBoolPrefs.get(key);
-        if (pref != null) {
-            pref.set(prefs.getBoolean(key, pref.getDefault()));
-            if (pref.needReload()) needReload = true; 
+    public void sharedPreferenceChanged(SharedPreferences prefs, String key) {
+        mCurrentFlags = FLAG_PREF_NONE;
+        BooleanPref bPref = mBoolPrefs.get(key);
+        if (bPref != null) {
+            bPref.set(prefs.getBoolean(key, bPref.getDefault()));
+            mCurrentFlags |= bPref.getFlags(); 
         }
-        return needReload;
+        StringPref sPref = mStringPrefs.get(key);
+        if (sPref != null) {
+            sPref.set(prefs.getString(key, sPref.getDefault()));
+            mCurrentFlags |= sPref.getFlags(); 
+        }
+    }
+    
+    public boolean hasFlag(int flag) {
+        if ((mCurrentFlags & flag) != 0) {
+            mCurrentFlags &= ~flag;
+            return true;
+        }
+        return false;
+    }
+    
+    public int unhandledFlags() {
+        return mCurrentFlags;
     }
 
     private void addBooleanPref(String key, BooleanPref setter) {
         mBoolPrefs.put(key, setter);
+    }
+
+    private void addStringPref(String key, StringPref setter) {
+        mStringPrefs.put(key, setter);
     }
 }
