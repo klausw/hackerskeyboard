@@ -755,6 +755,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return getShiftState() != Keyboard.SHIFT_OFF;
     }
 
+    public boolean isShiftAll() {
+        int state = getShiftState();
+        return state == Keyboard.SHIFT_ON || state == Keyboard.SHIFT_LOCKED;
+    }
+
     /**
      * Enables or disables the key feedback popup. This is a popup that shows a magnified
      * version of the depressed key. By default the preview is enabled.

@@ -238,7 +238,7 @@ public class LatinKeyboard extends Keyboard {
     public boolean setShiftState(int shiftState) {
         if (mShiftKey != null) {
             // Tri-state LED tracks "on" and "lock" states, icon shows Caps state.
-            mShiftKey.on = shiftState != SHIFT_OFF;
+            mShiftKey.on = shiftState == SHIFT_ON || shiftState == SHIFT_LOCKED;
             mShiftKey.locked = shiftState == SHIFT_LOCKED || shiftState == SHIFT_CAPS_LOCKED;
             mShiftKey.icon = (shiftState == SHIFT_OFF || shiftState == SHIFT_ON || shiftState == SHIFT_LOCKED) ?
                     mOldShiftIcon : mShiftLockIcon;
