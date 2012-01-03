@@ -262,6 +262,12 @@
             android:defaultValue="@bool/enable_autocorrect"
             android:dependency="show_suggestions"
             />
+            
+        <org.pocketworkstation.pckeyboard.AutoSummaryEditTextPreference
+            android:key="pref_suggested_punctuation"
+            android:title="Suggested punctuation"
+            android:defaultValue="@string/suggested_punctuations"
+            />
     </PreferenceCategory>            
 
     <PreferenceCategory

@@ -296,7 +296,6 @@ public class LatinIME extends InputMethodService implements
 
     /* package */String mWordSeparators;
     private String mSentenceSeparators;
-    private String mSuggestPuncs;
     private VoiceInput mVoiceInput;
     private VoiceResults mVoiceResults = new VoiceResults();
     private boolean mConfigurationChanging;
@@ -3105,8 +3104,20 @@ public class LatinIME extends InputMethodService implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
             String key) {
         Log.i("PCKeyboard", "onSharedPreferenceChanged()");
+        boolean needReload = false;
         Resources res = getResources();
-        boolean needReload = sKeyboardSettings.sharedPreferenceChanged(sharedPreferences, key);
+        
+        // Apply globally handled shared prefs
+        sKeyboardSettings.sharedPreferenceChanged(sharedPreferences, key);
+        if (sKeyboardSettings.hasFlag(GlobalKeyboardSettings.FLAG_PREF_NEED_RELOAD)) needReload = true;
+        if (sKeyboardSettings.hasFlag(GlobalKeyboardSettings.FLAG_PREF_NEW_PUNC_LIST)) {
+            initSuggestPuncList();
+        }
+        int unhandledFlags = sKeyboardSettings.unhandledFlags();
+        if (unhandledFlags != GlobalKeyboardSettings.FLAG_PREF_NONE) {
+            Log.w(TAG, "Not all flag settings handled, remaining=" + unhandledFlags);
+        }
+
         if (PREF_SELECTED_LANGUAGES.equals(key)) {
             mLanguageSwitcher.loadLocales(sharedPreferences);
             mRefreshKeyboardRequired = true;
@@ -3556,16 +3567,16 @@ public class LatinIME extends InputMethodService implements
 
     private void initSuggestPuncList() {
         mSuggestPuncList = new ArrayList<CharSequence>();
-        mSuggestPuncs = mResources.getString(R.string.suggested_punctuations);
-        if (mSuggestPuncs != null) {
-            for (int i = 0; i < mSuggestPuncs.length(); i++) {
-                mSuggestPuncList.add(mSuggestPuncs.subSequence(i, i + 1));
+        String suggestPuncs = sKeyboardSettings.suggestedPunctuation;
+        if (suggestPuncs != null) {
+            for (int i = 0; i < suggestPuncs.length(); i++) {
+                mSuggestPuncList.add(suggestPuncs.subSequence(i, i + 1));
             }
         }
     }
 
     private boolean isSuggestedPunctuation(int code) {
-        return mSuggestPuncs.contains(String.valueOf((char) code));
+        return sKeyboardSettings.suggestedPunctuation.contains(String.valueOf((char) code));
     }
 
     private void showOptionsMenu() {
