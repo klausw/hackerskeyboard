@@ -438,14 +438,17 @@ public class KeyboardSwitcher implements
 
     public void setFn(boolean useFn) {
         if (mInputView == null) return;
+        int oldShiftState = mInputView.getShiftState();
         if (useFn) {
             LatinKeyboard kbd = getKeyboard(mSymbolsId);
+            kbd.enableShiftLock();
             mCurrentId = mSymbolsId;
             mInputView.setKeyboard(kbd);
+            mInputView.setShiftState(oldShiftState);
         } else {
             // Return to default keyboard state
             setKeyboardMode(mMode, mImeOptions, mHasVoice, false);
-            mInputView.setShiftState(Keyboard.SHIFT_OFF);
+            mInputView.setShiftState(oldShiftState);
         }
     }
 
@@ -463,11 +466,20 @@ public class KeyboardSwitcher implements
         //Log.i(TAG, "toggleShift isAlphabetMode=" + isAlphabetMode() + " mSettings.fullMode=" + mSettings.fullMode);
         if (isAlphabetMode())
             return;
-        if (mFullMode)
+        if (mFullMode) {
+            boolean shifted = mInputView.isShiftAll();
+            mInputView.setShiftState(shifted ? Keyboard.SHIFT_OFF : Keyboard.SHIFT_ON);
             return;
+        }
         if (mCurrentId.equals(mSymbolsId)
                 || !mCurrentId.equals(mSymbolsShiftedId)) {
             LatinKeyboard symbolsShiftedKeyboard = getKeyboard(mSymbolsShiftedId);
+            if (symbolsShiftedKeyboard.mRowCount == 0) {
+                // FIXME: fake full mode for portrait 5-row
+                boolean shifted = mInputView.isShiftAll();
+                mInputView.setShiftState(shifted ? Keyboard.SHIFT_OFF : Keyboard.SHIFT_ON);
+                return;                
+            }
             mCurrentId = mSymbolsShiftedId;
             mInputView.setKeyboard(symbolsShiftedKeyboard);
             // Symbol shifted keyboard has a ALT_SYM key that has a caps lock style indicator.
