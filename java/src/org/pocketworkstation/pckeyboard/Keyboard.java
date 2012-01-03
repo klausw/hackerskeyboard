@@ -513,7 +513,7 @@ public class Keyboard {
             StringBuilder popup = new StringBuilder(popupLen + 1);
             char mainChar = (label != null && label.length() == 1) ? label.charAt(0) : 0;
             char shiftChar = (shiftLabel != null && shiftLabel.length() == 1) ? shiftLabel.charAt(0) : 0;
-            if (!isSimpleUppercase) {
+            if (!isSimpleUppercase && LatinIME.sKeyboardSettings.addShiftToPopup) {
                 // is shifted, add unshifted key to popup, and vice versa
                 if (isShifted) {
                     if (mainChar != 0) popup.append(mainChar);
@@ -521,12 +521,10 @@ public class Keyboard {
                     if (shiftChar != 0) popup.append(shiftChar);
                 }
             }
-            boolean charAdded = (popup.length() > 0);
             //Log.i(TAG, "isShifted=" + isShifted + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
             for (int i = 0; i < popupLen; ++i) {
                 char c = popupCharacters.charAt(i);
-                if ((isShifted || charAdded) && c == shiftChar) continue;
-                if ((!isShifted || charAdded) && c == mainChar) continue;
+                if (c == shiftChar || c == mainChar) continue;
                 popup.append(c);
             }
             Keyboard popupKeyboard;

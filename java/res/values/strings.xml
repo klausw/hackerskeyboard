@@ -555,6 +555,10 @@
     <string name="default_swipe_left">none</string>
     <string name="default_swipe_right">none</string>
 
+    <string name="title_add_shift_to_popup">Add shifted keys to long-press popups?</string>
+    <string name="summary_add_shift_to_popup_true">Get $ by long-pressing 4 etc.</string>
+    <string name="summary_add_shift_to_popup_false">Off</string>
+        
     <string name="recorrect_warning">FYI: recorrection does not work correctly on pre-Gingerbread devices due to missing operating system support.</string>
     <string name="no_market_warning">Unable to launch Market.</string>
     <!-- Title for Latin keyboard debug settings activity / dialog -->

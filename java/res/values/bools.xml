@@ -39,4 +39,5 @@
     <bool name="default_fullscreen_override">false</bool>
     <bool name="default_force_keyboard_on">false</bool>
     <bool name="default_keyboard_notification">false</bool>
+    <bool name="default_add_shift_to_popup">false</bool>
 </resources>
