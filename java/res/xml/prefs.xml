@@ -184,6 +184,15 @@
             />
 
     <CheckBoxPreference
+            android:key="pref_add_shift_to_popup"
+            android:title="@string/title_add_shift_to_popup"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_add_shift_to_popup"
+            android:summaryOn="@string/summary_add_shift_to_popup_true"
+            android:summaryOff="@string/summary_add_shift_to_popup_false"
+            />
+
+    <CheckBoxPreference
             android:key="pref_slide_keys"
             android:title="@string/title_slide_keys"
             android:persistent="true" 
