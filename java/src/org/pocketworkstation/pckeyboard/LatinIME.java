@@ -713,6 +713,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public View onCreateInputView() {
+        setCandidatesViewShown(false);  // Workaround for "already has a parent" when reconfuring
         mKeyboardSwitcher.recreateInputView();
         mKeyboardSwitcher.makeKeyboards(true);
         mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_TEXT, 0,
@@ -741,7 +742,7 @@ public class LatinIME extends InputMethodService implements
     @Override
     public View onCreateCandidatesView() {
         //Log.i(TAG, "onCreateCandidatesView(), mCandidateViewContainer=" + mCandidateViewContainer);
-        mKeyboardSwitcher.makeKeyboards(true);
+        //mKeyboardSwitcher.makeKeyboards(true);
         if (mCandidateViewContainer == null) {
             mCandidateViewContainer = (LinearLayout) getLayoutInflater().inflate(
                     R.layout.candidates, null);
@@ -749,8 +750,8 @@ public class LatinIME extends InputMethodService implements
             .findViewById(R.id.candidates);
             mCandidateView.setPadding(0, 0, 0, 0);
             mCandidateView.setService(this);
+            setCandidatesView(mCandidateViewContainer);
         }
-        setCandidatesView(mCandidateViewContainer);
         return mCandidateViewContainer;
     }
 
@@ -1190,9 +1191,13 @@ public class LatinIME extends InputMethodService implements
             } else {
                 if (mCandidateViewContainer != null) {
                     removeCandidateViewContainer();
-                }               
+                }
             }
             super.setCandidatesViewShown(visible);
+        } else {
+            if (mCandidateViewContainer != null) {
+                removeCandidateViewContainer();
+            }
         }
     }
 
