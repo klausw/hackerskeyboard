@@ -541,7 +541,12 @@ public class Keyboard {
             for (int i = 0; i < popupLen; ++i) {
                 char c = popupCharacters.charAt(i);
                 if (c == shiftChar || c == mainChar) continue;
-                popup.append(c);
+                if (isShifted) {
+                    String upper = Character.toString(c).toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
+                    if (upper.length() == 1) popup.append(upper);
+                } else {
+                    popup.append(c);
+                }
             }
             Keyboard popupKeyboard;
             if (popup.length() > 0) {
@@ -755,8 +760,6 @@ public class Keyboard {
             key.realX = x;
             key.y = y;
             key.label = String.valueOf(c);
-            key.shiftLabel = key.label.toString().toUpperCase(locale);
-            if (key.shiftLabel.length() != 1) key.shiftLabel = null;
             key.codes = key.getFromString(key.label);
             column++;
             x += key.width + key.gap;
