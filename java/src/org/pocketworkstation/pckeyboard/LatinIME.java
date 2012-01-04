@@ -3200,9 +3200,9 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
-    private void doSwipeAction(String action) {
+    private boolean doSwipeAction(String action) {
         if (action == null || action.equals("") || action.equals("none")) {
-            return;
+            return false;
         } else if (action.equals("close")) {
             handleClose();
         } else if (action.equals("settings")) {
@@ -3232,23 +3232,26 @@ public class LatinIME extends InputMethodService implements
                     mKeyboardSwitcher.getInputView().startPlaying(text.toString());
                 }
             }
+        } else {
+            Log.i(TAG, "Unsupported swipe action config: " + action);
         }
-    }
-    
-    public void swipeRight() {
-        doSwipeAction(mSwipeRightAction);
+        return true;
     }
 
-    public void swipeLeft() {
-        doSwipeAction(mSwipeLeftAction);
+    public boolean swipeRight() {
+        return doSwipeAction(mSwipeRightAction);
     }
 
-    public void swipeDown() {
-        doSwipeAction(mSwipeDownAction);
+    public boolean swipeLeft() {
+        return doSwipeAction(mSwipeLeftAction);
     }
 
-    public void swipeUp() {
-        doSwipeAction(mSwipeUpAction);
+    public boolean swipeDown() {
+        return doSwipeAction(mSwipeDownAction);
+    }
+
+    public boolean swipeUp() {
+        return doSwipeAction(mSwipeUpAction);
     }
 
     public void onPress(int primaryCode) {
