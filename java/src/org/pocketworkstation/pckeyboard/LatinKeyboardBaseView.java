@@ -144,23 +144,23 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
          * Called when the user quickly moves the finger from right to
          * left.
          */
-        void swipeLeft();
+        boolean swipeLeft();
 
         /**
          * Called when the user quickly moves the finger from left to
          * right.
          */
-        void swipeRight();
+        boolean swipeRight();
 
         /**
          * Called when the user quickly moves the finger from up to down.
          */
-        void swipeDown();
+        boolean swipeDown();
 
         /**
          * Called when the user quickly moves the finger from down to up.
          */
-        void swipeUp();
+        boolean swipeUp();
     }
 
     // Timing constants
@@ -585,8 +585,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mPadding = new Rect(0, 0, 0, 0);
         mKeyBackground.getPadding(mPadding);
 
-        mSwipeThreshold = (int) (500 * res.getDisplayMetrics().density);
+        mSwipeThreshold = (int) (300 * res.getDisplayMetrics().density);
         // TODO: Refer frameworks/base/core/res/res/values/config.xml
+        // TODO(klausw): turn off mDisambiguateSwipe if no swipe actions are set?
         mDisambiguateSwipe = res.getBoolean(R.bool.config_swipeDisambiguation);
         mMiniKeyboardSlideAllowance = res.getDimension(R.dimen.mini_keyboard_slide_allowance);
         
@@ -601,28 +602,25 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 float deltaY = me2.getY() - me1.getY();
                 int travelX = getWidth() / 2; // Half the keyboard width
                 int travelY = getHeight() / 2; // Half the keyboard height
+                int travelMin = Math.min(travelX, travelY);
                 mSwipeTracker.computeCurrentVelocity(1000);
                 final float endingVelocityX = mSwipeTracker.getXVelocity();
                 final float endingVelocityY = mSwipeTracker.getYVelocity();
-                if (velocityX > mSwipeThreshold && absY < absX && deltaX > travelX) {
+                if (velocityX > mSwipeThreshold && absY < absX && deltaX > travelMin) {
                     if (mDisambiguateSwipe && endingVelocityX >= velocityX / 4) {
-                        swipeRight();
-                        return true;
+                        if (swipeRight()) return true;
                     }
-                } else if (velocityX < -mSwipeThreshold && absY < absX && deltaX < -travelX) {
+                } else if (velocityX < -mSwipeThreshold && absY < absX && deltaX < -travelMin) {
                     if (mDisambiguateSwipe && endingVelocityX <= velocityX / 4) {
-                        swipeLeft();
-                        return true;
+                        if (swipeLeft()) return true;
                     }
-                } else if (velocityY < -mSwipeThreshold && absX < absY && deltaY < -travelY) {
+                } else if (velocityY < -mSwipeThreshold && absX < absY && deltaY < -travelMin) {
                     if (mDisambiguateSwipe && endingVelocityY <= velocityY / 4) {
-                        swipeUp();
-                        return true;
+                        if (swipeUp()) return true;
                     }
-                } else if (velocityY > mSwipeThreshold && absX < absY / 2 && deltaY > travelY) {
+                } else if (velocityY > mSwipeThreshold && absX < absY / 2 && deltaY > travelMin) {
                     if (mDisambiguateSwipe && endingVelocityY >= velocityY / 4) {
-                        swipeDown();
-                        return true;
+                        if (swipeDown()) return true;
                     }
                 }
                 return false;
@@ -1333,13 +1331,17 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 dismissPopupKeyboard();
             }
 
-            public void swipeLeft() {
+            public boolean swipeLeft() {
+                return false;
             }
-            public void swipeRight() {
+            public boolean swipeRight() {
+                return false;
             }
-            public void swipeUp() {
+            public boolean swipeUp() {
+                return false;
             }
-            public void swipeDown() {
+            public boolean swipeDown() {
+                return false;
             }
             public void onPress(int primaryCode) {
                 mKeyboardActionListener.onPress(primaryCode);
@@ -1789,20 +1791,20 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mPointerQueue.remove(tracker);
     }
 
-    protected void swipeRight() {
-        mKeyboardActionListener.swipeRight();
+    protected boolean swipeRight() {
+        return mKeyboardActionListener.swipeRight();
     }
 
-    protected void swipeLeft() {
-        mKeyboardActionListener.swipeLeft();
+    protected boolean swipeLeft() {
+        return mKeyboardActionListener.swipeLeft();
     }
 
-    protected void swipeUp() {
-        mKeyboardActionListener.swipeUp();
+    protected boolean swipeUp() {
+        return mKeyboardActionListener.swipeUp();
     }
 
-    protected void swipeDown() {
-        mKeyboardActionListener.swipeDown();
+    protected boolean swipeDown() {
+        return mKeyboardActionListener.swipeDown();
     }
 
     public void closing() {

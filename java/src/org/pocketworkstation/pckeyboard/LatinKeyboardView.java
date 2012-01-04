@@ -428,17 +428,21 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         public void onCancel() {
             mTarget.onCancel();
         }
-        public void swipeDown() {
+        public boolean swipeDown() {
             // Don't pass through
+            return true;
         }
-        public void swipeLeft() {
+        public boolean swipeLeft() {
             // Don't pass through
+            return true;
         }
-        public void swipeRight() {
+        public boolean swipeRight() {
             // Don't pass through
+            return true;
         }
-        public void swipeUp() {
+        public boolean swipeUp() {
             // Don't pass through
+            return true;
         }
     }
 
