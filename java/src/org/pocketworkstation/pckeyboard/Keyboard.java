@@ -807,7 +807,7 @@ public class Keyboard {
             for (int i = 0; i < popupLen; ++i) {
                 char c = key.popupCharacters.charAt(i);
 
-                if (mainKeys.contains(c)) continue;  // already present elsewhere
+                if (Character.isDigit(c) && mainKeys.contains(c)) continue;  // already present elsewhere
 
                 // Skip extra digit alt keys on 5-row keyboards
                 if ((key.edgeFlags & EDGE_TOP) == 0 && Character.isDigit(c)) continue;
