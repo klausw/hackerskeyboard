@@ -253,6 +253,7 @@ public class Keyboard {
         /** Label to display */
         public CharSequence label;
         public CharSequence shiftLabel;
+        public CharSequence capsLabel;
 
         /** Icon to display instead of a label. Icon takes precedence over a label */
         public Drawable icon;
@@ -305,8 +306,10 @@ public class Keyboard {
         public int popupResId;
         /** Whether this key repeats itself when held down */
         public boolean repeatable;
+        /** Is the shifted character the uppercase equivalent of the unshifted one? */
         private boolean isSimpleUppercase;
-
+        /** Is the shifted character a distinct uppercase char that's different from the shifted char? */
+        private boolean isDistinctUppercase;
 
         private final static int[] KEY_STATE_NORMAL_ON = {
             android.R.attr.state_checkable,
@@ -440,18 +443,25 @@ public class Keyboard {
 
             if (codes == null && !TextUtils.isEmpty(label)) {
                 codes = getFromString(label);
-                if (shiftLabel == null) {
-                    if (codes != null && codes.length == 1 && Character.isLowerCase(codes[0])) {
-                        shiftLabel = label.toString().toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
-                        if (shiftLabel.length() == 1) {
+                if (codes != null && codes.length == 1) {
+                    final Locale locale = LatinIME.sKeyboardSettings.inputLocale;
+                    String upperLabel = label.toString().toUpperCase(locale);
+                    if (shiftLabel == null) {
+                        // No shiftLabel supplied, auto-set to uppercase if possible.
+                        if (!upperLabel.equals(label.toString()) && upperLabel.length() == 1) {
+                            shiftLabel = upperLabel;
+                            isSimpleUppercase = true;
+                        }
+                    } else {
+                        // Both label and shiftLabel supplied. Check if
+                        // the shiftLabel is the uppercased normal label.
+                        // If not, treat it as a distinct uppercase variant.
+                        if (upperLabel.equals(shiftLabel.toString())) {
                             isSimpleUppercase = true;
                         } else {
-                            shiftLabel = null;
+                            capsLabel = upperLabel;
+                            isDistinctUppercase = true;
                         }
-                    }
-                } else {
-                    if (label.toString().toUpperCase().equals(shiftLabel)) {
-                        isSimpleUppercase = true;
                     }
                 }
             }
@@ -464,9 +474,12 @@ public class Keyboard {
             //Log.i(TAG, "FIXME isShifted=" + shifted + " for " + this);
             return shifted;
         }
-        
+
         public int getPrimaryCode() {
-            boolean shifted = this.keyboard.isShifted(isSimpleUppercase);
+            if (isDistinctUppercase && keyboard.isShiftCaps()) {
+                return capsLabel.charAt(0);
+            }
+            boolean shifted = keyboard.isShifted(isSimpleUppercase);
             //Log.i(TAG, "getPrimaryCode(), shifted=" + shifted);
             if (shifted && shiftLabel != null) {
                 if (shiftLabel.charAt(0) == DEAD_KEY_PLACEHOLDER && shiftLabel.length() >= 2) {
@@ -499,6 +512,9 @@ public class Keyboard {
         }
 
         public String getCaseLabel() {
+            if (isDistinctUppercase && keyboard.isShiftCaps()) {
+                return capsLabel.toString();
+            }
             boolean isShifted = keyboard.isShifted(isSimpleUppercase);
             if (isShifted && shiftLabel != null) {
                 return shiftLabel.toString();
@@ -506,7 +522,7 @@ public class Keyboard {
                 return label != null ? label.toString() : null;
             }
         }
-        
+
         public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, int padding) {
             boolean isShifted = keyboard.isShifted(isSimpleUppercase);
             int popupLen = (popupCharacters == null) ? 0 : popupCharacters.length();
@@ -892,6 +908,10 @@ public class Keyboard {
         return mAltKey;
     }
 
+    public boolean isShiftCaps() {
+        return mShiftState == SHIFT_CAPS || mShiftState == SHIFT_CAPS_LOCKED;
+    }
+
     public boolean isShifted(boolean applyCaps) {
         if (applyCaps) {
             return mShiftState != SHIFT_OFF;
@@ -899,7 +919,7 @@ public class Keyboard {
             return mShiftState == SHIFT_ON || mShiftState == SHIFT_LOCKED;
         }
     }
-    
+
     public int getShiftState() {
         return mShiftState;
     }
