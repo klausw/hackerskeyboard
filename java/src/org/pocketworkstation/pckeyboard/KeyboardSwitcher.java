@@ -190,11 +190,7 @@ public class KeyboardSwitcher implements
     }
 
     public void makeKeyboards(boolean forceCreate) {
-        if (!LatinIME.sKeyboardSettings.isPortrait || LatinIME.sKeyboardSettings.wantFullInPortrait) {
-            mFullMode = true;
-        } else {
-            mFullMode = false;
-        }
+        mFullMode = LatinIME.sKeyboardSettings.useFullMode;
         mSymbolsId = makeSymbolsId(mHasVoice && !mVoiceOnPrimary);
         mSymbolsShiftedId = makeSymbolsShiftedId(mHasVoice && !mVoiceOnPrimary);
 
