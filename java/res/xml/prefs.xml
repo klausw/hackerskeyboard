@@ -40,13 +40,22 @@
             android:defaultValue="@string/default_height_landscape"
             />
 
-    <CheckBoxPreference
-            android:key="full_keyboard_in_portrait"
-            android:title="@string/title_full_in_portrait"
-            android:persistent="true" 
-            android:defaultValue="@bool/default_full_in_portrait"
-            android:summaryOn="@string/summary_full_in_portrait_true"
-            android:summaryOff="@string/summary_full_in_portrait_false"
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_keyboard_mode_portrait"
+            android:title="@string/title_keyboard_mode_portrait"
+            android:entryValues="@array/keyboard_mode_values"
+            android:entries="@array/keyboard_mode_entries"
+            android:defaultValue="@string/default_keyboard_mode_portrait"
+            android:persistent="true"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_keyboard_mode_landscape"
+            android:title="@string/title_keyboard_mode_landscape"
+            android:entryValues="@array/keyboard_mode_values"
+            android:entries="@array/keyboard_mode_entries"
+            android:defaultValue="@string/default_keyboard_mode_landscape"
+            android:persistent="true"
             />
 
     <CheckBoxPreference

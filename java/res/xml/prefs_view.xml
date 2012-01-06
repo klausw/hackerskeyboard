@@ -61,6 +61,15 @@
             android:persistent="true"
             android:title="@string/keyboard_layout" />
 
+        <CheckBoxPreference
+            android:key="pref_compact_mode_enabled"
+            android:title="@string/title_compact_mode_enabled"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_compact_mode_enabled"
+            android:summaryOn="@string/summary_compact_mode_enabled"
+            android:summaryOff="@string/summary_compact_mode_enabled"
+            />
+        
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="@string/default_render_mode"
             android:entries="@array/render_mode_entries"

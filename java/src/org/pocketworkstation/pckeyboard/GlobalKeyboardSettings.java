@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.util.Log;
 
 /**
  * Global current settings for the keyboard.
@@ -28,6 +29,8 @@ import android.content.res.Resources;
  * @author klaus.weidner@gmail.com
  */
 public final class GlobalKeyboardSettings {
+    protected static final String TAG = "HK/Globals";
+
     /* Simple prefs updated by this class */
     //
     // Read by Keyboard
@@ -39,6 +42,9 @@ public final class GlobalKeyboardSettings {
     //
     // Read by LatinIME
     public String suggestedPunctuation = "!?,.";
+    public int keyboardModePortrait = 0;
+    public int keyboardModeLandscape = 2;
+    public boolean compactModeEnabled = false;
     //
     // Read by LatinKeyboardBaseView
     public float labelScalePref = 1.0f;
@@ -49,7 +55,7 @@ public final class GlobalKeyboardSettings {
     /* Updated by LatinIME */
     //
     // Read by KeyboardSwitcher
-    public boolean useFullMode = false;
+    public int keyboardMode = 0;
     public boolean useExtension = false;
     //
     // Read by LatinKeyboardView and KeyboardSwitcher
@@ -82,7 +88,6 @@ public final class GlobalKeyboardSettings {
     // Auto pref implementation follows
     private Map<String, BooleanPref> mBoolPrefs = new HashMap<String, BooleanPref>();
     private Map<String, StringPref> mStringPrefs = new HashMap<String, StringPref>();
-    private Map<String, FloatStringPref> mFloatStringPrefs = new HashMap<String, FloatStringPref>();
     public static final int FLAG_PREF_NONE = 0;
     public static final int FLAG_PREF_NEED_RELOAD = 0x1;
     public static final int FLAG_PREF_NEW_PUNC_LIST = 0x2;
@@ -102,14 +107,26 @@ public final class GlobalKeyboardSettings {
         int getFlags();
     }
 
-    private interface FloatStringPref {
-        void set(String val);
-        String getDefault();
-        int getFlags();
-    }
-
     public void initPrefs(SharedPreferences prefs, Resources resources) {
         final Resources res = resources;
+
+        addBooleanPref("pref_compact_mode_enabled", new BooleanPref() {
+            public void set(boolean val) { compactModeEnabled = val; Log.i(TAG, "Setting compactModeEnabled to " + val); }
+            public boolean getDefault() { return res.getBoolean(R.bool.default_compact_mode_enabled); }
+            public int getFlags() { return FLAG_PREF_NONE; }
+        });
+
+        addStringPref("pref_keyboard_mode_portrait", new StringPref() {
+            public void set(String val) { keyboardModePortrait = Integer.valueOf(val); }
+            public String getDefault() { return res.getString(R.string.default_keyboard_mode_portrait); }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
+
+        addStringPref("pref_keyboard_mode_landscape", new StringPref() {
+            public void set(String val) { keyboardModePortrait = Integer.valueOf(val); }
+            public String getDefault() { return res.getString(R.string.default_keyboard_mode_landscape); }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
 
         addBooleanPref("pref_touch_pos", new BooleanPref() {
             public void set(boolean val) { showTouchPos = val; }
@@ -129,19 +146,19 @@ public final class GlobalKeyboardSettings {
             public int getFlags() { return FLAG_PREF_NEW_PUNC_LIST; }
         });
         
-        addFloatStringPref("pref_label_scale", new FloatStringPref() {
+        addStringPref("pref_label_scale", new StringPref() {
             public void set(String val) { labelScalePref = Float.valueOf(val); }
             public String getDefault() { return "1.0"; }
             public int getFlags() { return FLAG_PREF_RECREATE_INPUT_VIEW; }
         });
 
-        addFloatStringPref("pref_candidate_scale", new FloatStringPref() {
+        addStringPref("pref_candidate_scale", new StringPref() {
             public void set(String val) { candidateScalePref = Float.valueOf(val); }
             public String getDefault() { return "1.0"; }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
         });
 
-        addFloatStringPref("pref_top_row_scale", new FloatStringPref() {
+        addStringPref("pref_top_row_scale", new StringPref() {
             public void set(String val) { topRowScale = Float.valueOf(val); }
             public String getDefault() { return "1.0"; }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
@@ -156,29 +173,24 @@ public final class GlobalKeyboardSettings {
             StringPref pref = mStringPrefs.get(key);
             pref.set(prefs.getString(key, pref.getDefault()));
         }
-        for (String key : mFloatStringPrefs.keySet()) {
-            FloatStringPref pref = mFloatStringPrefs.get(key);
-            pref.set(prefs.getString(key, pref.getDefault()));
-        }
     }
     
     public void sharedPreferenceChanged(SharedPreferences prefs, String key) {
+        boolean found = false;
         mCurrentFlags = FLAG_PREF_NONE;
         BooleanPref bPref = mBoolPrefs.get(key);
         if (bPref != null) {
+            found = true;
             bPref.set(prefs.getBoolean(key, bPref.getDefault()));
             mCurrentFlags |= bPref.getFlags(); 
         }
         StringPref sPref = mStringPrefs.get(key);
         if (sPref != null) {
+            found = true;
             sPref.set(prefs.getString(key, sPref.getDefault()));
             mCurrentFlags |= sPref.getFlags(); 
         }
-        FloatStringPref fsPref = mFloatStringPrefs.get(key);
-        if (fsPref != null) {
-            fsPref.set(prefs.getString(key, fsPref.getDefault()));
-            mCurrentFlags |= fsPref.getFlags(); 
-        }
+        //if (!found) Log.i(TAG, "sharedPreferenceChanged: unhandled key=" + key);
     }
     
     public boolean hasFlag(int flag) {
@@ -199,9 +211,5 @@ public final class GlobalKeyboardSettings {
 
     private void addStringPref(String key, StringPref setter) {
         mStringPrefs.put(key, setter);
-    }
-
-    private void addFloatStringPref(String key, FloatStringPref setter) {
-        mFloatStringPrefs.put(key, setter);
     }
 }

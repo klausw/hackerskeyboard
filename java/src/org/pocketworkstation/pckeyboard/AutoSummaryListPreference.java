@@ -6,6 +6,7 @@ package org.pocketworkstation.pckeyboard;
 import android.content.Context;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class AutoSummaryListPreference extends ListPreference {
     private static final String TAG = "HK/AutoSummaryListPreference";
@@ -19,7 +20,12 @@ public class AutoSummaryListPreference extends ListPreference {
     }
 
     private void trySetSummary() {
-        CharSequence entry = getEntry();
+        CharSequence entry = null;
+        try {
+            entry = getEntry();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Log.i(TAG, "Malfunctioning ListPreference, can't get entry");
+        }
         if (entry != null) {
             //String percent = getResources().getString(R.string.percent);
             String percent = "percent";
