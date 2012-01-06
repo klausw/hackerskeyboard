@@ -514,11 +514,9 @@ public class LatinIME extends InputMethodService implements
             if (mFullModeOverrideLandscape) useFullMode = !useFullMode;
         }
         // Convert overall keyboard height to per-row percentage
-        int nRows = useFullMode ? 5 : 4;
         int screenHeightPercent = isPortrait ? mHeightPortrait : mHeightLandscape;
         LatinIME.sKeyboardSettings.useFullMode = useFullMode;
-        LatinIME.sKeyboardSettings.rowHeightPercent = (float) screenHeightPercent / nRows;
-        LatinIME.sKeyboardSettings.labelScale = 5.0f * LatinIME.sKeyboardSettings.labelScalePref / nRows;
+        LatinIME.sKeyboardSettings.keyboardHeightPercent = (float) screenHeightPercent;
     }
     
     private void setNotification(boolean visible) {

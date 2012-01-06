@@ -32,7 +32,6 @@ import android.util.DisplayMetrics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -85,8 +84,9 @@ public class Keyboard {
     public static final int KEYCODE_DELETE = -5;
     public static final int KEYCODE_ALT_SYM = -6;
 
-    /** Keyboard label **/
-    private CharSequence mLabel;
+    // Backwards compatible setting to avoid having to change all the kbd_qwerty files
+    public static final int DEFAULT_LAYOUT_ROWS = 4;
+    public static final int DEFAULT_LAYOUT_COLUMNS = 10;
 
     /** Horizontal gap default for all rows */
     private float mDefaultHorizontalGap;
@@ -120,12 +120,6 @@ public class Keyboard {
     /** Key index for the shift key, if present */
     private int mShiftKeyIndex = -1;
 
-    /** Current key width, while loading the keyboard */
-    private int mKeyWidth;
-
-    /** Current key height, while loading the keyboard */
-    private int mKeyHeight;
-
     /** Total height of the keyboard, including the padding and keys */
     private int mTotalHeight;
 
@@ -144,21 +138,20 @@ public class Keyboard {
     /** Width of the screen available to fit the keyboard */
     private int mDisplayWidth;
 
-    /** Height of the screen */
+    /** Height of the screen and keyboard */
     private int mDisplayHeight;
+    private int mKeyboardHeight;
 
     /** Keyboard mode, or zero, if none.  */
     private int mKeyboardMode;
     
     private boolean mUseExtension;
 
+    public int mLayoutRows;
+    public int mLayoutColumns;
     public int mRowCount = 1;
 
     // Variables for pre-computing nearest keys.
-
-    private static final int GRID_WIDTH = 14;
-    private static final int GRID_HEIGHT = 5;
-    private static final int GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
     private int mCellWidth;
     private int mCellHeight;
     private int[][] mGridNeighbors;
@@ -705,6 +698,10 @@ public class Keyboard {
         this(context, xmlLayoutResId, 0);
     }
 
+    public Keyboard(Context context, int xmlLayoutResId, int modeId) {
+        this(context, xmlLayoutResId, modeId, 0);
+    }
+
     /**
      * Creates a keyboard from the given xml key layout file. Weeds out rows
      * that have a keyboard mode defined but don't match the specified mode.
@@ -713,7 +710,7 @@ public class Keyboard {
      * @param modeId keyboard mode identifier
      * @param rowHeightPercent height of each row as percentage of screen height
      */
-    public Keyboard(Context context, int xmlLayoutResId, int modeId, float rowHeightPercent) {
+    public Keyboard(Context context, int xmlLayoutResId, int modeId, float kbHeightPercent) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         mDisplayWidth = dm.widthPixels;
         mDisplayHeight = dm.heightPixels;
@@ -722,9 +719,9 @@ public class Keyboard {
         mDefaultHorizontalGap = 0;
         mDefaultWidth = mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
-        mDefaultHeight = Math.round(
-                rowHeightPercent > 0 ? mDisplayHeight * rowHeightPercent / 100 : mDefaultWidth);
-        //Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " (keyHeight=" + keyHeight + " displayHeight="+mDisplayHeight+")");
+        mDefaultHeight = Math.round(mDefaultWidth); // to be overwritten
+        mKeyboardHeight = Math.round(mDisplayHeight * kbHeightPercent / 100); 
+        //Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " kbHeight=" + mKeyboardHeight + " displayHeight="+mDisplayHeight+")");
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
@@ -732,10 +729,6 @@ public class Keyboard {
         loadKeyboard(context, context.getResources().getXml(xmlLayoutResId));
         setEdgeFlags();
         fixAltChars(LatinIME.sKeyboardSettings.inputLocale);
-    }
-
-    public Keyboard(Context context, int xmlLayoutResId, int modeId) {
-        this(context, xmlLayoutResId, modeId, 0);
     }
 
     /**
@@ -766,7 +759,7 @@ public class Keyboard {
         row.defaultHorizontalGap = mDefaultHorizontalGap;
         row.verticalGap = mDefaultVerticalGap;
         final int maxColumns = columns == -1 ? Integer.MAX_VALUE : columns;
-        Locale locale = LatinIME.sKeyboardSettings.inputLocale;
+        mLayoutRows = 1;
         for (int i = 0; i < characters.length(); i++) {
             char c = characters.charAt(i);
             if (column >= maxColumns
@@ -774,6 +767,7 @@ public class Keyboard {
                 x = 0;
                 y += mDefaultVerticalGap + mDefaultHeight;
                 column = 0;
+                ++mLayoutRows;
             }
             final Key key = new Key(row);
             key.x = x;
@@ -789,6 +783,7 @@ public class Keyboard {
             }
         }
         mTotalHeight = y + mDefaultHeight;
+        mLayoutColumns = columns == -1 ? column : maxColumns;
         setEdgeFlags();
     }
 
@@ -990,12 +985,12 @@ public class Keyboard {
 
     private void computeNearestNeighbors() {
         // Round-up so we don't have any pixels outside the grid
-        mCellWidth = (getMinWidth() + GRID_WIDTH - 1) / GRID_WIDTH;
-        mCellHeight = (getHeight() + GRID_HEIGHT - 1) / GRID_HEIGHT;
-        mGridNeighbors = new int[GRID_SIZE][];
+        mCellWidth = (getMinWidth() + mLayoutColumns - 1) / mLayoutColumns;
+        mCellHeight = (getHeight() + mLayoutRows - 1) / mLayoutRows;
+        mGridNeighbors = new int[mLayoutColumns * mLayoutRows][];
         int[] indices = new int[mKeys.size()];
-        final int gridWidth = GRID_WIDTH * mCellWidth;
-        final int gridHeight = GRID_HEIGHT * mCellHeight;
+        final int gridWidth = mLayoutColumns * mCellWidth;
+        final int gridHeight = mLayoutRows * mCellHeight;
         for (int x = 0; x < gridWidth; x += mCellWidth) {
             for (int y = 0; y < gridHeight; y += mCellHeight) {
                 int count = 0;
@@ -1019,7 +1014,7 @@ public class Keyboard {
                 }
                 int [] cell = new int[count];
                 System.arraycopy(indices, 0, cell, 0, count);
-                mGridNeighbors[(y / mCellHeight) * GRID_WIDTH + (x / mCellWidth)] = cell;
+                mGridNeighbors[(y / mCellHeight) * mLayoutColumns + (x / mCellWidth)] = cell;
             }
         }
     }
@@ -1034,8 +1029,8 @@ public class Keyboard {
     public int[] getNearestKeys(int x, int y) {
         if (mGridNeighbors == null) computeNearestNeighbors();
         if (x >= 0 && x < getMinWidth() && y >= 0 && y < getHeight()) {
-            int index = (y / mCellHeight) * GRID_WIDTH + (x / mCellWidth);
-            if (index < GRID_SIZE) {
+            int index = (y / mCellHeight) * mLayoutColumns + (x / mCellWidth);
+            if (index < mLayoutRows * mLayoutColumns) {
                 return mGridNeighbors[index];
             }
         }
@@ -1054,7 +1049,6 @@ public class Keyboard {
     private void loadKeyboard(Context context, XmlResourceParser parser) {
         boolean inKey = false;
         boolean inRow = false;
-        boolean leftMostKey = false;
         int row = 0;
         float x = 0;
         int y = 0;
@@ -1137,7 +1131,7 @@ public class Keyboard {
         if (newWidth <= 0) return;  // view not initialized?
         if (mTotalWidth <= newWidth) return;  // it already fits
         float scale = (float) newWidth / mDisplayWidth;
-        Log.i("PCKeyboard", "Rescaling keyboard: " + mTotalWidth + " => " + newWidth);
+        //Log.i("PCKeyboard", "Rescaling keyboard: " + mTotalWidth + " => " + newWidth);
         for (Key key : mKeys) {
             key.x = Math.round(key.realX * scale);
         }
@@ -1177,6 +1171,12 @@ public class Keyboard {
         mVerticalPad = getDimensionOrFraction(a,
                 R.styleable.Keyboard_verticalPad,
                 mDisplayHeight, res.getDimension(R.dimen.key_vertical_pad));
+        mLayoutRows = a.getInteger(R.styleable.Keyboard_layoutRows, DEFAULT_LAYOUT_ROWS);
+        mLayoutColumns = a.getInteger(R.styleable.Keyboard_layoutColumns, DEFAULT_LAYOUT_COLUMNS);
+        if (mLayoutRows > 0) {
+            mDefaultHeight = mKeyboardHeight / mLayoutRows;
+            //Log.i(TAG, "got mLayoutRows=" + mLayoutRows + ", mDefaultHeight=" + mDefaultHeight);
+        }
         mProximityThreshold = (int) (mDefaultWidth * SEARCH_DISTANCE);
         mProximityThreshold = mProximityThreshold * mProximityThreshold; // Square it for comparison
         a.recycle();
