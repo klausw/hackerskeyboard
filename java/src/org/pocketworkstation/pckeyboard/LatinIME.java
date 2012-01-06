@@ -716,7 +716,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public View onCreateInputView() {
-        setCandidatesViewShown(false);  // Workaround for "already has a parent" when reconfuring
+        setCandidatesViewShown(false);  // Workaround for "already has a parent" when reconfiguring
         mKeyboardSwitcher.recreateInputView();
         mKeyboardSwitcher.makeKeyboards(true);
         mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_TEXT, 0,
@@ -3202,6 +3202,12 @@ public class LatinIME extends InputMethodService implements
         if (sKeyboardSettings.hasFlag(GlobalKeyboardSettings.FLAG_PREF_NEED_RELOAD)) needReload = true;
         if (sKeyboardSettings.hasFlag(GlobalKeyboardSettings.FLAG_PREF_NEW_PUNC_LIST)) {
             initSuggestPuncList();
+        }
+        if (sKeyboardSettings.hasFlag(GlobalKeyboardSettings.FLAG_PREF_RECREATE_INPUT_VIEW)) {
+            mKeyboardSwitcher.recreateInputView();
+        }
+        if (sKeyboardSettings.hasFlag(GlobalKeyboardSettings.FLAG_PREF_RESET_KEYBOARDS)) {
+            toggleLanguage(true, true);
         }
         int unhandledFlags = sKeyboardSettings.unhandledFlags();
         if (unhandledFlags != GlobalKeyboardSettings.FLAG_PREF_NONE) {

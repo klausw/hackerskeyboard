@@ -38,6 +38,22 @@
             android:title="@string/title_label_scale" />
 
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:defaultValue="1.0"
+            android:entries="@array/label_scale_entries"
+            android:entryValues="@array/label_scale_values"
+            android:key="pref_candidate_scale"
+            android:persistent="true"
+            android:title="@string/title_candidate_scale" />
+        
+        <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:defaultValue="1.0"
+            android:entries="@array/top_row_scale_entries"
+            android:entryValues="@array/top_row_scale_values"
+            android:key="pref_top_row_scale"
+            android:persistent="true"
+            android:title="@string/title_top_row_scale" />
+        
+        <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="0"
             android:entries="@array/keyboard_layout_modes"
             android:entryValues="@array/keyboard_layout_modes_values"
