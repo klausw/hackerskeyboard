@@ -63,5 +63,13 @@
             </intent-filter>
         </activity>
             
-        </application>
+        <activity android:name="PrefScreenView"
+                android:label="@string/pref_screen_actions_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
