@@ -149,6 +149,8 @@ public class Keyboard {
 
     /** Keyboard mode, or zero, if none.  */
     private int mKeyboardMode;
+    
+    private boolean mUseExtension;
 
     public int mRowCount = 1;
 
@@ -172,7 +174,6 @@ public class Keyboard {
      * @attr ref android.R.styleable#Keyboard_keyHeight
      * @attr ref android.R.styleable#Keyboard_horizontalGap
      * @attr ref android.R.styleable#Keyboard_verticalGap
-     * @attr ref android.R.styleable#Keyboard_Row_rowEdgeFlags
      * @attr ref android.R.styleable#Keyboard_Row_keyboardMode
      */
     public static class Row {
@@ -184,14 +185,11 @@ public class Keyboard {
         public float defaultHorizontalGap;
         /** Vertical gap following this row. */
         public int verticalGap;
-        /**
-         * Edge flags for this row of keys. Possible values that can be assigned are
-         * {@link Keyboard#EDGE_TOP EDGE_TOP} and {@link Keyboard#EDGE_BOTTOM EDGE_BOTTOM}
-         */
-        public int rowEdgeFlags;
 
         /** The keyboard mode for this row */
         public int mode;
+        
+        public boolean extension;
 
         private Keyboard parent;
 
@@ -218,9 +216,9 @@ public class Keyboard {
             a.recycle();
             a = res.obtainAttributes(Xml.asAttributeSet(parser),
                     R.styleable.Keyboard_Row);
-            rowEdgeFlags = a.getInt(R.styleable.Keyboard_Row_rowEdgeFlags, 0);
             mode = a.getResourceId(R.styleable.Keyboard_Row_keyboardMode,
                     0);
+            extension = a.getBoolean(R.styleable.Keyboard_Row_extension, false);
             a.recycle();
         }
     }
@@ -241,7 +239,6 @@ public class Keyboard {
      * @attr ref android.R.styleable#Keyboard_Key_popupKeyboard
      * @attr ref android.R.styleable#Keyboard_Key_popupCharacters
      * @attr ref android.R.styleable#Keyboard_Key_keyOutputText
-     * @attr ref android.R.styleable#Keyboard_Key_keyEdgeFlags
      */
     public static class Key {
         /**
@@ -359,7 +356,6 @@ public class Keyboard {
             realWidth = parent.defaultWidth;
             gap = Math.round(parent.defaultHorizontalGap);
             realGap = parent.defaultHorizontalGap;
-            edgeFlags = parent.rowEdgeFlags;
         }
 
         /** Create a key with the given top-left coordinate and extract its attributes from
@@ -428,8 +424,6 @@ public class Keyboard {
                     R.styleable.Keyboard_Key_isSticky, false);
             isCursor = a.getBoolean(
                     R.styleable.Keyboard_Key_isCursor, false);
-            edgeFlags = a.getInt(R.styleable.Keyboard_Key_keyEdgeFlags, 0);
-            edgeFlags |= parent.rowEdgeFlags;
 
             icon = a.getDrawable(
                     R.styleable.Keyboard_Key_keyIcon);
@@ -439,6 +433,8 @@ public class Keyboard {
             label = a.getText(R.styleable.Keyboard_Key_keyLabel);
             shiftLabel = a.getText(R.styleable.Keyboard_Key_shiftLabel);
             if (shiftLabel != null && shiftLabel.length() == 0) shiftLabel = null;
+            capsLabel = a.getText(R.styleable.Keyboard_Key_capsLabel);
+            if (capsLabel != null && capsLabel.length() == 0) capsLabel = null;
             text = a.getText(R.styleable.Keyboard_Key_keyOutputText);
 
             if (codes == null && !TextUtils.isEmpty(label)) {
@@ -456,9 +452,11 @@ public class Keyboard {
                         // Both label and shiftLabel supplied. Check if
                         // the shiftLabel is the uppercased normal label.
                         // If not, treat it as a distinct uppercase variant.
-                        if (upperLabel.equals(shiftLabel.toString())) {
+                        if (capsLabel != null) {
+                            isDistinctUppercase = true;
+                        } else if (upperLabel.equals(shiftLabel.toString())) {
                             isSimpleUppercase = true;
-                        } else {
+                        } else if (upperLabel.length() == 1){
                             capsLabel = upperLabel;
                             isDistinctUppercase = true;
                         }
@@ -467,6 +465,10 @@ public class Keyboard {
             }
             //Log.i(TAG, "added key definition: " + this);
             a.recycle();
+        }
+
+        public boolean isDistinctCaps() {
+            return isDistinctUppercase && keyboard.isShiftCaps();
         }
 
         public boolean isShifted() {
@@ -524,30 +526,37 @@ public class Keyboard {
         }
 
         public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, int padding) {
-            boolean isShifted = keyboard.isShifted(isSimpleUppercase);
+            boolean isCaps;
+            char mainChar = (label != null && label.length() == 1) ? label.charAt(0) : 0;
+            char shiftChar;
+            if (isDistinctUppercase && keyboard.isShiftCaps()) {
+                isCaps = true;
+                shiftChar = capsLabel.charAt(0);
+            } else {
+                isCaps = keyboard.isShifted(isSimpleUppercase);
+                shiftChar = (shiftLabel != null && shiftLabel.length() == 1) ? shiftLabel.charAt(0) : 0;
+            }
             int popupLen = (popupCharacters == null) ? 0 : popupCharacters.length();
             StringBuilder popup = new StringBuilder(popupLen + 1);
-            char mainChar = (label != null && label.length() == 1) ? label.charAt(0) : 0;
-            char shiftChar = (shiftLabel != null && shiftLabel.length() == 1) ? shiftLabel.charAt(0) : 0;
             if (!isSimpleUppercase && LatinIME.sKeyboardSettings.addShiftToPopup) {
                 // is shifted, add unshifted key to popup, and vice versa
-                if (isShifted) {
+                if (isCaps) {
                     if (mainChar != 0) popup.append(mainChar);
                 } else {
                     if (shiftChar != 0) popup.append(shiftChar);
                 }
             }
-            //Log.i(TAG, "isShifted=" + isShifted + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
             for (int i = 0; i < popupLen; ++i) {
                 char c = popupCharacters.charAt(i);
-                if (c == shiftChar || c == mainChar) continue;
-                if (isShifted) {
+                if (isCaps) {
                     String upper = Character.toString(c).toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
-                    if (upper.length() == 1) popup.append(upper);
-                } else {
-                    popup.append(c);
+                    if (upper.length() == 1) c = upper.charAt(0);
                 }
+
+                if (c == shiftChar || c == mainChar) continue;
+                popup.append(c);
             }
+            //Log.i(TAG, "isCaps=" + isCaps + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
             Keyboard popupKeyboard;
             if (popup.length() > 0) {
                 popupKeyboard = new Keyboard(context, popupKeyboardId, popup.toString(), -1, padding);
@@ -670,9 +679,19 @@ public class Keyboard {
 
         public String toString() {
             int code = (codes != null && codes.length > 0) ? codes[0] : 0;
-            return "KeyDebugFIXME(label=" + label + " shiftLabel=" + shiftLabel +
-                " text=" + text + " code=" + code + ":'" + (char)code + "'" +
-                " x0=" + x + " x1=" + (x+width) + " y0=" + y + " y1=" + (y+height) +
+            String edges = (
+                    ((edgeFlags & Keyboard.EDGE_LEFT) != 0 ? "L" : "-") +
+                    ((edgeFlags & Keyboard.EDGE_RIGHT) != 0 ? "R" : "-") +
+                    ((edgeFlags & Keyboard.EDGE_TOP) != 0 ? "T" : "-") +
+                    ((edgeFlags & Keyboard.EDGE_BOTTOM) != 0 ? "B" : "-"));
+            return "KeyDebugFIXME(label=" + label +
+                (shiftLabel != null ? " shift=" + shiftLabel : "") +
+                (capsLabel != null ? " caps=" + capsLabel : "") +
+                (text != null ? " text=" + text : "" ) +
+                " code=" + code +
+                (code <= 0 || Character.isWhitespace(code) ? "" : ":'" + (char)code + "'" ) +
+                " x=" + x + ".." + (x+width) + " y=" + y + ".." + (y+height) +
+                " edgeFlags=" + edges +
                 ")";
         }
     }
@@ -709,7 +728,9 @@ public class Keyboard {
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
+        mUseExtension = LatinIME.sKeyboardSettings.useExtension;
         loadKeyboard(context, context.getResources().getXml(xmlLayoutResId));
+        setEdgeFlags();
         fixAltChars(LatinIME.sKeyboardSettings.inputLocale);
     }
 
@@ -744,7 +765,6 @@ public class Keyboard {
         row.defaultWidth = mDefaultWidth;
         row.defaultHorizontalGap = mDefaultHorizontalGap;
         row.verticalGap = mDefaultVerticalGap;
-        row.rowEdgeFlags = EDGE_TOP | EDGE_BOTTOM;
         final int maxColumns = columns == -1 ? Integer.MAX_VALUE : columns;
         Locale locale = LatinIME.sKeyboardSettings.inputLocale;
         for (int i = 0; i < characters.length(); i++) {
@@ -769,6 +789,43 @@ public class Keyboard {
             }
         }
         mTotalHeight = y + mDefaultHeight;
+        setEdgeFlags();
+    }
+
+    private void setEdgeFlags() {
+        if (mRowCount == 0) mRowCount = 1; // Assume one row if not set
+        int row = 0;
+        Key prevKey = null;
+        int rowFlags = 0;
+        for (Key key : mKeys) {
+            int keyFlags = 0;
+            if (prevKey == null || key.x <= prevKey.x) {
+                // Start new row.
+                if (prevKey != null) {
+                    // Add "right edge" to rightmost key of previous row.
+                    // Need to do the last key separately below.
+                    prevKey.edgeFlags |= Keyboard.EDGE_RIGHT;
+                }
+
+                // Set the row flags for the current row.
+                rowFlags = 0;
+                if (row == 0) rowFlags |= Keyboard.EDGE_TOP;
+                if (row == mRowCount - 1) rowFlags |= Keyboard.EDGE_BOTTOM;
+                ++row;
+
+                // Mark current key as "left edge"
+                keyFlags |= Keyboard.EDGE_LEFT;
+            }
+            key.edgeFlags = rowFlags | keyFlags;
+            prevKey = key;
+        }
+        // Fix up the last key
+        if (prevKey != null) prevKey.edgeFlags |= Keyboard.EDGE_RIGHT;
+
+//        Log.i(TAG, "setEdgeFlags() done:");
+//        for (Key key : mKeys) {
+//            Log.i(TAG, "key=" + key);
+//        }
     }
 
     private void fixAltChars(Locale locale) {
@@ -1017,6 +1074,7 @@ public class Keyboard {
                         x = 0;
                         currentRow = createRowFromXml(res, parser);
                         skipRow = currentRow.mode != 0 && currentRow.mode != mKeyboardMode;
+                        if (currentRow.extension && !mUseExtension) skipRow = true;
                         if (skipRow) {
                             skipToEndOfRow(parser);
                             inRow = false;
