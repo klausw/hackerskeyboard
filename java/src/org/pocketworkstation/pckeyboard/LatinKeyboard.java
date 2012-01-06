@@ -336,14 +336,26 @@ public class LatinKeyboard extends Keyboard {
         final Drawable micWithSettingsHintDrawable = new BitmapDrawable(mRes,
                 drawSynthesizedSettingsHintImage(key.width, key.height, mMicIcon, mHintIcon));
 
+        if (key.popupResId == 0) {
+            key.popupResId = R.xml.popup_mic;
+        } else {
+            key.modifier = true;
+            if (key.label != null) {
+                key.popupCharacters = (key.popupCharacters == null) ?
+                        key.label : key.label + key.popupCharacters.toString();
+            }
+        }
         key.label = null;
         key.codes = new int[] { LatinKeyboardView.KEYCODE_VOICE };
-        key.popupResId = R.xml.popup_mic;
         key.icon = micWithSettingsHintDrawable;
         key.iconPreview = mMicPreviewIcon;
     }
 
     private void setSettingsF1Key(Key key) {
+        if (key.shiftLabel != null && key.label != null) {
+            key.codes = new int[] { key.label.charAt(0) };
+            return; // leave key otherwise unmodified
+        }
         final Drawable settingsHintDrawable = new BitmapDrawable(mRes,
                 drawSynthesizedSettingsHintImage(key.width, key.height, mSettingsIcon, mHintIcon));
     	key.label = null;
@@ -354,6 +366,10 @@ public class LatinKeyboard extends Keyboard {
     }
     
     private void setNonMicF1Key(Key key, String label, int popupResId) {
+        if (key.shiftLabel != null) {
+            key.codes = new int[] { key.label.charAt(0) };
+            return; // leave key unmodified
+        }
         key.label = label;
         key.codes = new int[] { label.charAt(0) };
         key.popupResId = popupResId;
