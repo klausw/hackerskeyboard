@@ -23,7 +23,7 @@
     android:keyWidth="9.09090909%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
-    android:verticalPad="0px"
+    android:verticalPad="@dimen/key_vertical_pad_compact"
     android:layoutRows="5"
     android:layoutColumns="11"
  >
