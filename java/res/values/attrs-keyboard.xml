@@ -42,6 +42,7 @@
         <!-- Mode of the keyboard. If the mode doesn't match the
              requested keyboard mode, the row will be skipped. -->
         <attr name="keyboardMode" format="reference" />
+        <attr name="extension" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="Keyboard_Key">
@@ -74,6 +75,8 @@
         <attr name="keyLabel" format="string" />
         <!-- The label to display on the shifted key. -->
         <attr name="shiftLabel" format="string" />
+        <!-- The label to display on the caps-shifted key. -->
+        <attr name="capsLabel" format="string" />
         <!-- The icon to display on the key instead of the label. -->
         <attr name="keyIcon" format="reference" />
         <!-- Mode of the keyboard. If the mode doesn't match the

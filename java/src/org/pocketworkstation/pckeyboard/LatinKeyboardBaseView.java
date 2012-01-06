@@ -219,6 +219,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private View mMiniKeyboardParent;
     private final WeakHashMap<Key, View> mMiniKeyboardCacheMain = new WeakHashMap<Key, View>();
     private final WeakHashMap<Key, View> mMiniKeyboardCacheShift = new WeakHashMap<Key, View>();
+    private final WeakHashMap<Key, View> mMiniKeyboardCacheCaps = new WeakHashMap<Key, View>();
     private int mMiniKeyboardOriginX;
     private int mMiniKeyboardOriginY;
     private long mMiniKeyboardPopupTime;
@@ -688,6 +689,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         computeProximityThreshold(keyboard);
         mMiniKeyboardCacheMain.clear();
         mMiniKeyboardCacheShift.clear();
+        mMiniKeyboardCacheCaps.clear();
         setRenderModeIfPossible(LatinIME.sKeyboardSettings.renderMode);
     }
     
@@ -1393,7 +1395,14 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         PointerTracker.clearSlideKeys();
         
-        final WeakHashMap<Key, View> cache = popupKey.isShifted() ? mMiniKeyboardCacheShift : mMiniKeyboardCacheMain;         
+        final WeakHashMap<Key, View> cache;
+        if (popupKey.isDistinctCaps()) {
+            cache = mMiniKeyboardCacheCaps;         
+        } else if (popupKey.isShifted()) {
+            cache = mMiniKeyboardCacheShift;         
+        } else {
+            cache = mMiniKeyboardCacheMain;
+        }
         View container = cache.get(popupKey);
         if (container == null) {
             container = inflateMiniKeyboardContainer(popupKey);
@@ -1821,6 +1830,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         //mCanvas = null;
         mMiniKeyboardCacheMain.clear();
         mMiniKeyboardCacheShift.clear();
+        mMiniKeyboardCacheCaps.clear();
     }
 
     @Override
