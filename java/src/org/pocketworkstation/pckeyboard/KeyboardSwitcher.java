@@ -61,7 +61,6 @@ public class KeyboardSwitcher implements
 
     public static final String DEFAULT_LAYOUT_ID = "0";
     public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout";
-    public static final String PREF_LABEL_SCALE = "pref_label_scale";
     private static final int[] THEMES = new int[] {
         R.layout.input_ics,
         R.layout.input_gingerbread,
@@ -150,8 +149,6 @@ public class KeyboardSwitcher implements
                 .getDefaultSharedPreferences(ims);
         sInstance.mLayoutId = Integer.valueOf(prefs.getString(
                 PREF_KEYBOARD_LAYOUT, DEFAULT_LAYOUT_ID));
-        LatinIME.sKeyboardSettings.labelScalePref = Float.valueOf(prefs.getString(
-                PREF_LABEL_SCALE, "1.0"));
 
         sInstance.updateSettingsKeyState(prefs);
         prefs.registerOnSharedPreferenceChangeListener(sInstance);
@@ -651,10 +648,6 @@ public class KeyboardSwitcher implements
         if (PREF_KEYBOARD_LAYOUT.equals(key)) {
             changeLatinKeyboardView(Integer.valueOf(sharedPreferences
                     .getString(key, DEFAULT_LAYOUT_ID)), true);
-        } else if (PREF_LABEL_SCALE.equals(key)) {
-            LatinIME.sKeyboardSettings.labelScalePref = Float.valueOf(sharedPreferences
-                    .getString(key, "1.0"));
-            recreateInputView();
         } else if (LatinIMESettings.PREF_SETTINGS_KEY.equals(key)) {
             updateSettingsKeyState(sharedPreferences);
             recreateInputView();

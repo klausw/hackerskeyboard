@@ -442,8 +442,28 @@
     </string-array>
     <string name="percent">percent</string>
 
-	<string name="title_label_scale">Key label scaling</string>
-    <string-array name="label_scale_entries">
+    <string name="title_top_row_scale">5th row height adjustment</string>
+    <string-array name="top_row_scale_entries">
+        <item>50%</item>
+        <item>60%</item>
+        <item>70%</item>
+        <item>80%</item>
+        <item>90%</item>
+        <item>100%</item>
+    </string-array>
+    <string-array name="top_row_scale_values">
+        <item>0.5</item>
+        <item>0.6</item>
+        <item>0.7</item>
+        <item>0.8</item>
+        <item>0.9</item>
+        <item>1.0</item>
+    </string-array>
+        
+        
+    <string name="title_label_scale">Key label scaling</string>
+    <string name="title_candidate_scale">Suggestion label scaling</string>
+        <string-array name="label_scale_entries">
         <item>50%</item>
         <item>60%</item>
         <item>70%</item>
@@ -541,7 +561,7 @@
         <string-array name="swipe_action_entries">
         <item>(no action)</item>
         <item>Close keyboard</item>
-        <item>Toggle extension row(s)</item>
+        <item>Toggle extension row</item>
         <item>Launch Settings</item>
         <item>Toggle suggestions</item>
         <item>Voice input</item>

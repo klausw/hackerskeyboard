@@ -150,6 +150,7 @@ public class Keyboard {
     public int mLayoutRows;
     public int mLayoutColumns;
     public int mRowCount = 1;
+    public int mExtensionRowCount = 0;
 
     // Variables for pre-computing nearest keys.
     private int mCellWidth;
@@ -212,6 +213,13 @@ public class Keyboard {
             mode = a.getResourceId(R.styleable.Keyboard_Row_keyboardMode,
                     0);
             extension = a.getBoolean(R.styleable.Keyboard_Row_extension, false);
+
+            if (parent.mLayoutRows >= 5) {
+                boolean isTop = (extension || parent.mRowCount - parent.mExtensionRowCount <= 0);
+                float topScale = LatinIME.sKeyboardSettings.topRowScale;
+                float scale = isTop ? topScale : 1.0f + (1.0f - topScale) / (parent.mLayoutRows - 1);
+                defaultHeight = Math.round(defaultHeight * scale);
+            }
             a.recycle();
         }
     }
@@ -1049,13 +1057,13 @@ public class Keyboard {
     private void loadKeyboard(Context context, XmlResourceParser parser) {
         boolean inKey = false;
         boolean inRow = false;
-        int row = 0;
         float x = 0;
         int y = 0;
         Key key = null;
         Row currentRow = null;
         Resources res = context.getResources();
         boolean skipRow = false;
+        mRowCount = 0;
 
         try {
             int event;
@@ -1068,7 +1076,13 @@ public class Keyboard {
                         x = 0;
                         currentRow = createRowFromXml(res, parser);
                         skipRow = currentRow.mode != 0 && currentRow.mode != mKeyboardMode;
-                        if (currentRow.extension && !mUseExtension) skipRow = true;
+                        if (currentRow.extension) {
+                            if (mUseExtension) {
+                                ++mExtensionRowCount;
+                            } else {
+                                skipRow = true;
+                            }
+                        }
                         if (skipRow) {
                             skipToEndOfRow(parser);
                             inRow = false;
@@ -1113,7 +1127,7 @@ public class Keyboard {
                         inRow = false;
                         y += currentRow.verticalGap;
                         y += currentRow.defaultHeight;
-                        row++;
+                        mRowCount++;
                     } else {
                         // TODO: error or extend?
                     }
@@ -1124,7 +1138,6 @@ public class Keyboard {
             e.printStackTrace();
         }
         mTotalHeight = y - mDefaultVerticalGap;
-        mRowCount = row;
     }
 
     public void setKeyboardWidth(int newWidth) {
