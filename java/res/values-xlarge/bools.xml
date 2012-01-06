@@ -20,5 +20,4 @@
 <resources>
     <!-- Whether or not Popup on key press is enabled by default -->
     <bool name="default_popup_preview">false</bool>
-    <bool name="default_full_in_portrait">true</bool>
 </resources>
