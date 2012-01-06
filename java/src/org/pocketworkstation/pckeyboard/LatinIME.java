@@ -503,6 +503,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private int getKeyboardModeNum(int origMode, int override) {
+        if (mNumKeyboardModes == 2 && origMode == 2) origMode = 1; // skip "compact". FIXME!
         int num = (origMode + override) % mNumKeyboardModes;
         if (mNumKeyboardModes == 2 && num == 1) num = 2; // skip "compact". FIXME!
         return num;
