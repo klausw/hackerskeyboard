@@ -201,6 +201,12 @@
             android:summaryOff="@string/summary_slide_keys_false"
             />
 
+    <PreferenceScreen
+            android:title="@string/pref_screen_actions_title"
+            android:summary="Configure actions for swipe gestures and hardware keys">
+        <intent android:action="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
+    </PreferenceScreen>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -283,65 +289,6 @@
             android:summaryOff="@string/summary_connectbot_tab_hack_false"
             />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-            android:title="Swipe gestures (experimental)"
-            android:key="swipe_actions">
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_swipe_up"
-            android:title="@string/title_swipe_up"
-            android:persistent="true"
-            android:entryValues="@array/swipe_action_values"
-            android:entries="@array/swipe_action_entries"
-            android:defaultValue="@string/default_swipe_up"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_swipe_down"
-            android:title="@string/title_swipe_down"
-            android:persistent="true"
-            android:entryValues="@array/swipe_action_values"
-            android:entries="@array/swipe_action_entries"
-            android:defaultValue="@string/default_swipe_down"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_swipe_left"
-            android:title="@string/title_swipe_left"
-            android:persistent="true"
-            android:entryValues="@array/swipe_action_values"
-            android:entries="@array/swipe_action_entries"
-            android:defaultValue="@string/default_swipe_left"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_swipe_right"
-            android:title="@string/title_swipe_right"
-            android:persistent="true"
-            android:entryValues="@array/swipe_action_values"
-            android:entries="@array/swipe_action_entries"
-            android:defaultValue="@string/default_swipe_right"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_vol_up"
-            android:title="@string/title_vol_up"
-            android:persistent="true"
-            android:entryValues="@array/swipe_action_values"
-            android:entries="@array/swipe_action_entries"
-            android:defaultValue="@string/default_vol_up"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_vol_down"
-            android:title="@string/title_vol_down"
-            android:persistent="true"
-            android:entryValues="@array/swipe_action_values"
-            android:entries="@array/swipe_action_entries"
-            android:defaultValue="@string/default_vol_down"
-            />
     </PreferenceCategory>
 
     <PreferenceCategory
