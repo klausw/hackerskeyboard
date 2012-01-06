@@ -231,6 +231,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private OnKeyboardActionListener mKeyboardActionListener;
 
     private final ArrayList<PointerTracker> mPointerTrackers = new ArrayList<PointerTracker>();
+    private boolean mIgnoreMove = false;
 
     // TODO: Let the PointerTracker class manage this pointer queue
     private final PointerQueue mPointerQueue = new PointerQueue();
@@ -691,6 +692,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mMiniKeyboardCacheShift.clear();
         mMiniKeyboardCacheCaps.clear();
         setRenderModeIfPossible(LatinIME.sKeyboardSettings.renderMode);
+        mIgnoreMove = true;
     }
     
     /**
@@ -1741,19 +1743,23 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
 
         if (action == MotionEvent.ACTION_MOVE) {
-            for (int i = 0; i < pointerCount; i++) {
-                PointerTracker tracker = getPointerTracker(me.getPointerId(i));
-                tracker.onMoveEvent((int)me.getX(i), (int)me.getY(i), eventTime);
+            if (!mIgnoreMove) {
+                for (int i = 0; i < pointerCount; i++) {
+                    PointerTracker tracker = getPointerTracker(me.getPointerId(i));
+                    tracker.onMoveEvent((int)me.getX(i), (int)me.getY(i), eventTime);
+                }
             }
         } else {
             PointerTracker tracker = getPointerTracker(id);
             switch (action) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
+                mIgnoreMove = false;
                 onDownEvent(tracker, x, y, eventTime);
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
+                mIgnoreMove = false;
                 onUpEvent(tracker, x, y, eventTime);
                 break;
             case MotionEvent.ACTION_CANCEL:
