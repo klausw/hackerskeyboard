@@ -308,7 +308,9 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 }
                 return result;
             } else {
-                if (openExtension()) {
+                if (swipeUp()) {
+                    return true;
+                } else if (openExtension()) {
                     MotionEvent cancel = MotionEvent.obtain(me.getDownTime(), me.getEventTime(),
                             MotionEvent.ACTION_CANCEL, me.getX() - 100, me.getY() - 100, 0);
                     super.onTouchEvent(cancel);

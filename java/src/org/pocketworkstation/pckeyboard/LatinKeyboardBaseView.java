@@ -1814,7 +1814,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return mKeyboardActionListener.swipeLeft();
     }
 
-    protected boolean swipeUp() {
+    /*package*/ boolean swipeUp() {
         return mKeyboardActionListener.swipeUp();
     }
 
