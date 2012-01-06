@@ -24,6 +24,30 @@
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
 >
+    <Row android:rowEdgeFlags="top" android:extension="true">
+        <Key android:keyLabel="F1" android:codes="@integer/key_fkey_f1" android:isModifier="true" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="F2" android:codes="@integer/key_fkey_f2" android:isModifier="true" />
+        <Key android:keyLabel="F3" android:codes="@integer/key_fkey_f3" android:isModifier="true" />
+        <Key android:keyLabel="F4" android:codes="@integer/key_fkey_f4" android:isModifier="true" />
+        <Key android:keyLabel="F5" android:codes="@integer/key_fkey_f5" android:isModifier="true" />
+        <Key android:keyLabel="F6" android:codes="@integer/key_fkey_f6" android:isModifier="true" />
+        <Key android:keyLabel="F7" android:codes="@integer/key_fkey_f7" android:isModifier="true" />
+        <Key android:keyLabel="F8" android:codes="@integer/key_fkey_f8" android:isModifier="true" />
+        <Key android:keyLabel="F9" android:codes="@integer/key_fkey_f9" android:isModifier="true" />
+        <Key android:keyLabel="F10" android:codes="@integer/key_fkey_f10" android:isModifier="true" />
+        <Key android:keyLabel="F11" android:codes="@integer/key_fkey_f11" android:isModifier="true" />
+        <Key android:keyLabel="F12" android:codes="@integer/key_fkey_f12" android:isModifier="true" />
+	<Key
+            android:codes="@integer/key_home"
+            android:isModifier="true"            
+            android:keyLabel="Home" />
+	<Key
+            android:codes="@integer/key_end"
+            android:isModifier="true"            
+            android:keyLabel="End"
+            android:keyEdgeFlags="right" />
+        />
+    </Row>
     <Row
         android:rowEdgeFlags="top"
     >

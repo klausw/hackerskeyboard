@@ -24,9 +24,21 @@
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
 >
-    <Row
-        android:rowEdgeFlags="top"
-    >
+    <Row android:extension="true">
+        <Key android:codes="@integer/key_escape" android:keyLabel="Esc" android:isModifier="true" />
+        <Key android:keyLabel="`" android:shiftLabel="~" />
+        <Key android:keyLabel="-" android:shiftLabel="_" />
+        <Key android:keyLabel="\\" android:shiftLabel="|" />
+        <Key android:keyLabel=";" android:shiftLabel=":" />
+        <Key android:keyLabel="=" android:shiftLabel="+" />        
+        <Key android:keyLabel="[" android:shiftLabel="{" />
+        <Key android:keyLabel="]" android:shiftLabel="}" />
+	<Key android:codes="@integer/key_home" android:isModifier="true" android:keyLabel="Home" />
+	<Key android:codes="@integer/key_end" android:isModifier="true" android:keyLabel="End" />
+	<Key android:codes="@integer/key_forward_del" android:isModifier="true" android:keyLabel="Del" />
+    </Row>
+
+    <Row>
         <Key
             android:keyLabel="1"
             android:shiftLabel="!"
@@ -243,6 +255,7 @@
             android:popupCharacters=":"
             android:keyIcon="@drawable/hint_popup" />
         <Key
+            android:codes="@integer/key_f1"
             android:keyLabel="/"
             android:shiftLabel="\?"
             android:popupKeyboard="@xml/kbd_popup_template"
