@@ -42,8 +42,8 @@ public final class GlobalKeyboardSettings {
     /* Updated by LatinIME */
     //
     // Read by KeyboardSwitcher
-    public boolean wantFullInPortrait = false;
-    public boolean isPortrait = false;
+    public boolean useFullMode = false;
+    public boolean useExtension = false;
     //
     // Read by LatinKeyboardView
     public float rowHeightPercent = 10.0f; // percent of screen height

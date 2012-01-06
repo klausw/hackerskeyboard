@@ -155,6 +155,8 @@ public class LatinIME extends InputMethodService implements
     static final String PREF_SWIPE_DOWN = "pref_swipe_down";
     static final String PREF_SWIPE_LEFT = "pref_swipe_left";
     static final String PREF_SWIPE_RIGHT = "pref_swipe_right";
+    static final String PREF_VOL_UP = "pref_vol_up";
+    static final String PREF_VOL_DOWN = "pref_vol_down";
 
     private static final int MSG_UPDATE_SUGGESTIONS = 0;
     private static final int MSG_START_TUTORIAL = 1;
@@ -251,11 +253,16 @@ public class LatinIME extends InputMethodService implements
     private String mSwipeDownAction;
     private String mSwipeLeftAction;
     private String mSwipeRightAction;
+    private String mVolUpAction;
+    private String mVolDownAction;
 
     public static final GlobalKeyboardSettings sKeyboardSettings = new GlobalKeyboardSettings(); 
     
     private int mHeightPortrait;
     private int mHeightLandscape;
+    private boolean mWantFullInPortrait;
+    private boolean mFullModeOverridePortrait;
+    private boolean mFullModeOverrideLandscape;
     private int mCorrectionMode;
     private boolean mEnableVoice = true;
     private boolean mVoiceOnPrimary;
@@ -409,6 +416,7 @@ public class LatinIME extends InputMethodService implements
         // setStatusIcon(R.drawable.ime_qwerty);
         mResources = getResources();
         final Configuration conf = mResources.getConfiguration();
+        mOrientation = conf.orientation;
         final SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
         mLanguageSwitcher = new LanguageSwitcher(this);
@@ -432,7 +440,7 @@ public class LatinIME extends InputMethodService implements
                 res.getBoolean(R.bool.default_force_keyboard_on));
         mKeyboardNotification = prefs.getBoolean(PREF_KEYBOARD_NOTIFICATION,
                 res.getBoolean(R.bool.default_keyboard_notification));
-        LatinIME.sKeyboardSettings.wantFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT,
+        mWantFullInPortrait = prefs.getBoolean(PREF_FULL_KEYBOARD_IN_PORTRAIT,
                 res.getBoolean(R.bool.default_full_in_portrait));
         mSuggestionsInLandscape = prefs.getBoolean(PREF_SUGGESTIONS_IN_LANDSCAPE,
                 res.getBoolean(R.bool.default_suggestions_in_landscape));
@@ -446,6 +454,8 @@ public class LatinIME extends InputMethodService implements
         mSwipeDownAction = prefs.getString(PREF_SWIPE_DOWN, res.getString(R.string.default_swipe_down));
         mSwipeLeftAction = prefs.getString(PREF_SWIPE_LEFT, res.getString(R.string.default_swipe_left));
         mSwipeRightAction = prefs.getString(PREF_SWIPE_RIGHT, res.getString(R.string.default_swipe_right));
+        mVolUpAction = prefs.getString(PREF_VOL_UP, res.getString(R.string.default_vol_up));
+        mVolDownAction = prefs.getString(PREF_VOL_DOWN, res.getString(R.string.default_vol_down));
         sKeyboardSettings.initPrefs(prefs, res);
 
         updateKeyboardOptions();
@@ -496,12 +506,17 @@ public class LatinIME extends InputMethodService implements
 
     private void updateKeyboardOptions() {
         //Log.i(TAG, "setFullKeyboardOptions " + fullInPortrait + " " + heightPercentPortrait + " " + heightPercentLandscape);
-        int orientation = getResources().getConfiguration().orientation;
-        boolean isPortrait = (orientation == Configuration.ORIENTATION_PORTRAIT);
-        LatinIME.sKeyboardSettings.isPortrait = isPortrait;
+        boolean isPortrait = isPortrait();
+        boolean useFullMode = !isPortrait || mWantFullInPortrait;
+        if (isPortrait) {
+            if (mFullModeOverridePortrait) useFullMode = !useFullMode;
+        } else {
+            if (mFullModeOverrideLandscape) useFullMode = !useFullMode;
+        }
         // Convert overall keyboard height to per-row percentage
-        int nRows = isPortrait && !LatinIME.sKeyboardSettings.wantFullInPortrait ? 4 : 5;
-        int screenHeightPercent = LatinIME.sKeyboardSettings.isPortrait ? mHeightPortrait : mHeightLandscape;
+        int nRows = useFullMode ? 5 : 4;
+        int screenHeightPercent = isPortrait ? mHeightPortrait : mHeightLandscape;
+        LatinIME.sKeyboardSettings.useFullMode = useFullMode;
         LatinIME.sKeyboardSettings.rowHeightPercent = (float) screenHeightPercent / nRows;
         LatinIME.sKeyboardSettings.labelScale = 5.0f * LatinIME.sKeyboardSettings.labelScalePref / nRows;
     }
@@ -548,18 +563,7 @@ public class LatinIME extends InputMethodService implements
     private boolean suggestionsDisabled() {
         if (mSuggestionForceOff) return true;
         if (mSuggestionForceOn) return false;
-        Keyboard keyboard = null;
-        if (mKeyboardSwitcher != null) {
-            if (mKeyboardSwitcher.getInputView() != null) {
-                keyboard = mKeyboardSwitcher.getInputView().getKeyboard();
-            }
-        }
-        if (keyboard == null) {
-            return !(mSuggestionsInLandscape || isPortrait());
-        } else {
-            return !(mSuggestionsInLandscape ||
-                (isPortrait() && (mKeyboardSwitcher.isFullMode() || keyboard.mRowCount < 5)));
-        }
+        return !(mSuggestionsInLandscape || isPortrait());
     }
 
     /**
@@ -1246,6 +1250,12 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
+    public boolean isKeyboardVisible() {
+        return (mKeyboardSwitcher != null
+                && mKeyboardSwitcher.getInputView() != null
+                && mKeyboardSwitcher.getInputView().isShown());
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
@@ -1266,6 +1276,16 @@ public class LatinIME extends InputMethodService implements
         case KeyEvent.KEYCODE_DPAD_RIGHT:
             // If tutorial is visible, don't allow dpad to work
             if (mTutorial != null) {
+                return true;
+            }
+            break;
+        case KeyEvent.KEYCODE_VOLUME_UP:
+            if (!mVolUpAction.equals("none") && isKeyboardVisible()) {
+                return true;
+            }
+            break;
+        case KeyEvent.KEYCODE_VOLUME_DOWN:
+            if (!mVolDownAction.equals("none") && isKeyboardVisible()) {
                 return true;
             }
             break;
@@ -1297,6 +1317,16 @@ public class LatinIME extends InputMethodService implements
                 if (ic != null)
                     ic.sendKeyEvent(event);
                 return true;
+            }
+            break;
+        case KeyEvent.KEYCODE_VOLUME_UP:
+            if (!mVolUpAction.equals("none") && isKeyboardVisible()) {
+                return doSwipeAction(mVolUpAction);
+            }
+            break;
+        case KeyEvent.KEYCODE_VOLUME_DOWN:
+            if (!mVolDownAction.equals("none") && isKeyboardVisible()) {
+                return doSwipeAction(mVolDownAction);
             }
             break;
         }
@@ -1652,6 +1682,10 @@ public class LatinIME extends InputMethodService implements
             return;
         }
 
+        // TODO(klausw): properly support xterm sequences for Ctrl/Alt modifiers?
+        // See http://slackware.osuosl.org/slackware-12.0/source/l/ncurses/xterm.terminfo
+        // and the output of "$ infocmp -1L". Support multiple sets, and optional 
+        // true numpad keys?
         if (ESC_SEQUENCES == null) {
             ESC_SEQUENCES = new HashMap<Integer, String>();
             CTRL_SEQUENCES = new HashMap<Integer, Integer>();
@@ -1733,6 +1767,7 @@ public class LatinIME extends InputMethodService implements
             // send key code, let connectbot handle it
             sendDownUpKeyEvents(code);
         }
+        handleModifierKeysUp(false, false);
     }
 
     private final static int asciiToKeyCode[] = new int[127];
@@ -3208,7 +3243,7 @@ public class LatinIME extends InputMethodService implements
                             .getBoolean(R.bool.default_keyboard_notification));
             setNotification(mKeyboardNotification);
         } else if (PREF_FULL_KEYBOARD_IN_PORTRAIT.equals(key)) {
-            LatinIME.sKeyboardSettings.wantFullInPortrait = sharedPreferences.getBoolean(
+            mWantFullInPortrait = sharedPreferences.getBoolean(
                     PREF_FULL_KEYBOARD_IN_PORTRAIT, res
                             .getBoolean(R.bool.default_full_in_portrait));
             needReload = true;
@@ -3248,6 +3283,10 @@ public class LatinIME extends InputMethodService implements
             mSwipeLeftAction = sharedPreferences.getString(PREF_SWIPE_LEFT, res.getString(R.string.default_swipe_left));
         } else if (PREF_SWIPE_RIGHT.equals(key)) {
             mSwipeRightAction = sharedPreferences.getString(PREF_SWIPE_RIGHT, res.getString(R.string.default_swipe_right));
+        } else if (PREF_VOL_UP.equals(key)) {
+            mVolUpAction = sharedPreferences.getString(PREF_VOL_UP, res.getString(R.string.default_vol_up));
+        } else if (PREF_VOL_DOWN.equals(key)) {
+            mVolDownAction = sharedPreferences.getString(PREF_VOL_DOWN, res.getString(R.string.default_vol_down));
         }
 
         updateKeyboardOptions();
@@ -3257,6 +3296,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean doSwipeAction(String action) {
+        //Log.i(TAG, "doSwipeAction + " + action);
         if (action == null || action.equals("") || action.equals("none")) {
             return false;
         } else if (action.equals("close")) {
@@ -3288,6 +3328,42 @@ public class LatinIME extends InputMethodService implements
                     mKeyboardSwitcher.getInputView().startPlaying(text.toString());
                 }
             }
+        } else if (action.equals("voice_input")) {
+            if (VOICE_INSTALLED) {
+                startListening(false /* was a button press, was not a swipe */);
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.voice_not_enabled_warning), Toast.LENGTH_LONG)
+                        .show();
+            }
+        } else if (action.equals("full_mode")) {
+            if (isPortrait()) {
+                mFullModeOverridePortrait = !mFullModeOverridePortrait;
+            } else {
+                mFullModeOverrideLandscape = !mFullModeOverrideLandscape;
+            }
+            toggleLanguage(true, true);
+        } else if (action.equals("extension")) {
+            sKeyboardSettings.useExtension = !sKeyboardSettings.useExtension;
+            reloadKeyboards();
+        } else if (action.equals("height_up")) {
+            if (isPortrait()) {
+                mHeightPortrait += 5;
+                if (mHeightPortrait > 70) mHeightPortrait = 70;
+            } else {
+                mHeightLandscape += 5;
+                if (mHeightLandscape > 70) mHeightLandscape = 70;                
+            }
+            toggleLanguage(true, true);
+        } else if (action.equals("height_down")) {
+            if (isPortrait()) {
+                mHeightPortrait -= 5;
+                if (mHeightPortrait < 15) mHeightPortrait = 15;
+            } else {
+                mHeightLandscape -= 5;
+                if (mHeightLandscape < 15) mHeightLandscape = 15;                
+            }
+            toggleLanguage(true, true);
         } else {
             Log.i(TAG, "Unsupported swipe action config: " + action);
         }
