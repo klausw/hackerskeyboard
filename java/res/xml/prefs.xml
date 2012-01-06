@@ -58,42 +58,11 @@
             android:summaryOff="@string/summary_suggestions_in_landscape_false"
             />
    
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_hint_mode"
-            android:title="@string/title_hint_mode"
-            android:persistent="true"
-            android:entryValues="@array/hint_modes_values"
-            android:entries="@array/hint_modes"
-            android:defaultValue="@string/default_hint_mode"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_label_scale"
-            android:title="@string/title_label_scale"
-            android:persistent="true"
-            android:entryValues="@array/label_scale_values"
-            android:entries="@array/label_scale_entries"
-            android:defaultValue="1.0"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_keyboard_layout"
-            android:title="@string/keyboard_layout"
-            android:persistent="true"
-            android:entryValues="@array/keyboard_layout_modes_values"
-            android:entries="@array/keyboard_layout_modes"
-            android:defaultValue="0"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="pref_render_mode"
-            android:title="@string/title_render_mode"
-            android:persistent="true"
-            android:entryValues="@array/render_mode_values"
-            android:entries="@array/render_mode_entries"
-            android:defaultValue="@string/default_render_mode"
-            />
-
+    <PreferenceScreen
+            android:title="@string/pref_screen_view_title"
+            android:summary="Configure theming and label display">
+        <intent android:action="org.pocketworkstation.pckeyboard.PREFS_VIEW"/>
+    </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
