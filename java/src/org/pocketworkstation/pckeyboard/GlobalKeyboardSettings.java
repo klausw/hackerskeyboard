@@ -45,8 +45,8 @@ public final class GlobalKeyboardSettings {
     public boolean useFullMode = false;
     public boolean useExtension = false;
     //
-    // Read by LatinKeyboardView
-    public float rowHeightPercent = 10.0f; // percent of screen height
+    // Read by LatinKeyboardView and KeyboardSwitcher
+    public float keyboardHeightPercent = 40.0f; // percent of screen height
     //
     // Read by LatinKeyboardBaseView
     public int hintMode = 0;
@@ -67,7 +67,6 @@ public final class GlobalKeyboardSettings {
     //
     // Used by LatinKeyboardBaseView and LatinIME
     public float labelScalePref = 1.0f;
-    public float labelScale = 1.0f;
 
     /* Updated by LanguageSwitcher */
     //

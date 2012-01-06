@@ -23,6 +23,8 @@
     android:keyWidth="7.1428571485%p"
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
+    android:layoutRows="5"
+    android:layoutColumns="14"
 >
     <Row android:rowEdgeFlags="top" android:extension="true">
         <Key android:keyLabel="F1" android:codes="@integer/key_fkey_f1" android:isModifier="true" android:keyEdgeFlags="left"/>

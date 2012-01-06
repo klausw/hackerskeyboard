@@ -27,7 +27,10 @@
     xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
     android:keyWidth="10%p"
     android:horizontalGap="0px"
-    android:verticalGap="@dimen/key_bottom_gap"
+    android:verticalGap="0px"
+    android:verticalPad="0px"
+    android:layoutRows="5"
+    android:layoutColumns="11"
 >
     <Row
         android:rowEdgeFlags="top"

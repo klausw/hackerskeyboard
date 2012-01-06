@@ -22,8 +22,11 @@
     xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
     android:keyWidth="9.09090909%p"
     android:horizontalGap="0px"
-    android:verticalGap="@dimen/key_bottom_gap"
->
+    android:verticalGap="0px"
+    android:verticalPad="0px"
+    android:layoutRows="5"
+    android:layoutColumns="11"
+ >
     <Row android:extension="true">
         <Key android:codes="@integer/key_escape" android:keyLabel="Esc" android:isModifier="true" />
         <Key android:keyLabel="`" android:shiftLabel="~" />

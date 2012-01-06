@@ -29,6 +29,9 @@
         <attr name="horizontalPad" format="dimension|fraction" />
         <!-- Vertical padding around key. Included in key size. -->
         <attr name="verticalPad" format="dimension|fraction" />
+        <!-- Layout info for key sizing purposes, giving rows/column counts of the base grid -->
+        <attr name="layoutRows" format="integer" />
+        <attr name="layoutColumns" format="integer" />
         </declare-styleable>
 
     <declare-styleable name="Keyboard_Row">

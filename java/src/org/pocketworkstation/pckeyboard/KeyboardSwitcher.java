@@ -220,7 +220,7 @@ public class KeyboardSwitcher implements
         /** A KEYBOARDMODE_XXX value */
         public final boolean mEnableShiftLock;
         public final boolean mHasVoice;
-        public final float mRowHeightPercent;
+        public final float mKeyboardHeightPercent;
         public final boolean mUsingExtension;
 
         private final int mHashCode;
@@ -231,7 +231,7 @@ public class KeyboardSwitcher implements
             this.mKeyboardMode = mode;
             this.mEnableShiftLock = enableShiftLock;
             this.mHasVoice = hasVoice;
-            this.mRowHeightPercent = LatinIME.sKeyboardSettings.rowHeightPercent;
+            this.mKeyboardHeightPercent = LatinIME.sKeyboardSettings.keyboardHeightPercent;
             this.mUsingExtension = LatinIME.sKeyboardSettings.useExtension;
 
             this.mHashCode = Arrays.hashCode(new Object[] { xml, mode,
@@ -325,7 +325,7 @@ public class KeyboardSwitcher implements
             conf.locale = LatinIME.sKeyboardSettings.inputLocale;
             orig.updateConfiguration(conf, null);
             keyboard = new LatinKeyboard(mInputMethodService, id.mXml,
-                    id.mKeyboardMode, id.mRowHeightPercent);
+                    id.mKeyboardMode, id.mKeyboardHeightPercent);
             keyboard.setVoiceMode(hasVoiceButton(id.mXml == R.xml.kbd_symbols), mHasVoice);
             keyboard.setLanguageSwitcher(mLanguageSwitcher, mIsAutoCompletionActive);
 //            if (isFullMode()) {

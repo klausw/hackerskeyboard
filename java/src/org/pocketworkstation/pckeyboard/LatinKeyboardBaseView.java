@@ -173,6 +173,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     // XML attribute
     private float mKeyTextSize;
+    private float mLabelScale = 1.0f;
     private int mKeyTextColor;
     private int mKeyHintColor;
     private int mKeyCursorColor;
@@ -683,6 +684,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         for (PointerTracker tracker : mPointerTrackers) {
             tracker.setKeyboard(mKeys, mKeyHysteresisDistance);
         }
+        mLabelScale = 5.0f * LatinIME.sKeyboardSettings.labelScalePref / keyboard.mRowCount;
         requestLayout();
         // Hint to reallocate the buffer if the size changed
         mKeyboardChanged = true;
@@ -994,10 +996,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final int labelSize;
                 if (label.length() > 1 && key.codes.length < 2) {
                     //Log.i(TAG, "mLabelTextSize=" + mLabelTextSize + " LatinIME.sKeyboardSettings.labelScale=" + LatinIME.sKeyboardSettings.labelScale);
-                    labelSize = (int)(mLabelTextSize * LatinIME.sKeyboardSettings.labelScale);
+                    labelSize = (int)(mLabelTextSize * mLabelScale);
                     paint.setTypeface(Typeface.DEFAULT);
                 } else {
-                    labelSize = (int)(mKeyTextSize * LatinIME.sKeyboardSettings.labelScale);
+                    labelSize = (int)(mKeyTextSize * mLabelScale);
                     paint.setTypeface(mKeyTextStyle);
                 }
                 paint.setFakeBoldText(key.isCursor);
@@ -1011,7 +1013,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // Draw hint label (if present) behind the main key
                 String hint = getHintLabel(key);
                 if (!hint.equals("") && !(key.isShifted() && key.shiftLabel != null && hint.charAt(0) == key.shiftLabel.charAt(0))) {
-                    int hintTextSize = (int)(mKeyTextSize * 0.6 * LatinIME.sKeyboardSettings.labelScale);
+                    int hintTextSize = (int)(mKeyTextSize * 0.6 * mLabelScale);
                     paintHint.setTextSize(hintTextSize);
 
                     final int hintLabelHeight = getLabelHeight(paintHint, hintTextSize);
@@ -1027,7 +1029,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // Draw alternate hint label (if present) behind the main key
                 String altHint = getAltHintLabel(key);
                 if (!altHint.equals("")) {
-                    int hintTextSize = (int)(mKeyTextSize * 0.6 * LatinIME.sKeyboardSettings.labelScale);
+                    int hintTextSize = (int)(mKeyTextSize * 0.6 * mLabelScale);
                     paintHint.setTextSize(hintTextSize);
 
                     final int hintLabelHeight = getLabelHeight(paintHint, hintTextSize);
