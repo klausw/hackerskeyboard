@@ -24,9 +24,19 @@
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
 >
-    <Row
-        android:rowEdgeFlags="top"
-    >
+    <Row android:extension="true">
+        <Key android:keyLabel="1" android:shiftLabel="!" />
+        <Key android:keyLabel="2" android:shiftLabel="\@" />
+        <Key android:keyLabel="3" android:shiftLabel="\#" />
+        <Key android:keyLabel="4" android:shiftLabel="&amp;" />
+        <Key android:keyLabel="5" android:shiftLabel="-" />
+        <Key android:keyLabel="6" android:shiftLabel="\'" />
+        <Key android:keyLabel="7" android:shiftLabel=":" />
+        <Key android:keyLabel="8" android:shiftLabel="&quot;" />
+        <Key android:keyLabel="9" android:shiftLabel="/" />
+        <Key android:keyLabel="0" android:shiftLabel="\?" />
+    </Row>    
+    <Row>
         <Key
             android:keyLabel="q"
             android:popupKeyboard="@xml/kbd_popup_template"

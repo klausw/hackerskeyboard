@@ -51,8 +51,6 @@ Unavailable accents:
             android:isModifier="true"            
             android:keyLabel="End"
             android:keyEdgeFlags="right" />
-        
-	
         />
     </Row>
 </Keyboard>
