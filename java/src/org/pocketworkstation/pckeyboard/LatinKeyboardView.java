@@ -147,8 +147,9 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         // One-seventh of the keyboard width seems like a reasonable threshold
         mJumpThresholdSquare = newKeyboard.getMinWidth() / 7;
         mJumpThresholdSquare *= mJumpThresholdSquare;
-        // Assuming there are 4 rows, this is the coordinate of the last row
-        mLastRowY = (newKeyboard.getHeight() * 3) / 4;
+        // Get Y coordinate of the last row based on the row count, assuming equal height
+        int numRows = newKeyboard.mRowCount;
+        mLastRowY = (newKeyboard.getHeight() * (numRows - 1)) / numRows;
         mExtensionKeyboard = ((LatinKeyboard) newKeyboard).getExtension();
         if (mExtensionKeyboard != null && mExtension != null) mExtension.setKeyboard(mExtensionKeyboard);
         setKeyboardLocal(newKeyboard);
