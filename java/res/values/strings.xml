@@ -529,6 +529,7 @@
         <item>2</item>
     </string-array>
         
+    <string name="pref_screen_actions_title">Gesture and key actions</string>
     <string name="title_swipe_up">Swipe up</string>
     <string name="title_swipe_down">Swipe down</string>
     <string name="title_swipe_left">Swipe left</string>
