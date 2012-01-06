@@ -59,7 +59,6 @@ public class LatinIMESettings extends PreferenceActivity
     private CheckBoxPreference mQuickFixes;
     private ListPreference mVoicePreference;
     private ListPreference mSettingsKeyPreference;
-    private ListPreference mRenderModePreference;
     private Preference mInputConnectionInfo;
     private boolean mVoiceOn;
 
@@ -75,7 +74,6 @@ public class LatinIMESettings extends PreferenceActivity
         mQuickFixes = (CheckBoxPreference) findPreference(QUICK_FIXES_KEY);
         mVoicePreference = (ListPreference) findPreference(VOICE_SETTINGS_KEY);
         mSettingsKeyPreference = (ListPreference) findPreference(PREF_SETTINGS_KEY);
-        mRenderModePreference = (ListPreference) findPreference(LatinIME.PREF_RENDER_MODE);
         mInputConnectionInfo = (Preference) findPreference(INPUT_CONNECTION_INFO);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
@@ -100,10 +98,6 @@ public class LatinIMESettings extends PreferenceActivity
             updateVoiceModeSummary();
         }
         updateSummaries();
-        if (LatinKeyboardBaseView.sSetRenderMode == null) {
-            mRenderModePreference.setEnabled(false);
-            mRenderModePreference.setSummary(R.string.render_mode_unavailable);
-        }
     }
 
     @Override
