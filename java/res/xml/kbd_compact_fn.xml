@@ -16,11 +16,6 @@
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
 */
-        <Key
-            android:codes="@integer/key_num_lock"
-            android:isModifier="true"
-            android:keyLabel="NumL" />
-
 -->
 
 <Keyboard
@@ -28,7 +23,7 @@
     android:keyWidth="10%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
-    android:verticalPad="0px"
+    android:verticalPad="@dimen/key_vertical_pad_compact"
     android:layoutRows="5"
     android:layoutColumns="11"
 >
