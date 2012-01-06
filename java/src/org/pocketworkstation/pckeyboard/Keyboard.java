@@ -526,15 +526,15 @@ public class Keyboard {
             }
         }
 
-        public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, int padding) {
-            boolean isCaps;
+        private String getPopupKeyboardContent(boolean isShiftCaps, boolean isShifted) {
             char mainChar = (label != null && label.length() == 1) ? label.charAt(0) : 0;
             char shiftChar;
-            if (isDistinctUppercase && keyboard.isShiftCaps()) {
+            boolean isCaps;
+            if (isDistinctUppercase && isShiftCaps) {
                 isCaps = true;
                 shiftChar = capsLabel.charAt(0);
             } else {
-                isCaps = keyboard.isShifted(isSimpleUppercase);
+                isCaps = isShifted;
                 shiftChar = (shiftLabel != null && shiftLabel.length() == 1) ? shiftLabel.charAt(0) : 0;
             }
             int popupLen = (popupCharacters == null) ? 0 : popupCharacters.length();
@@ -557,14 +557,49 @@ public class Keyboard {
                 if (c == shiftChar || c == mainChar) continue;
                 popup.append(c);
             }
+            return popup.toString();
+        }
+
+        public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, int padding) {
+            String popup = getPopupKeyboardContent(keyboard.isShiftCaps(), keyboard.isShifted(isSimpleUppercase));
+            if (popupReversed) popup = TextUtils.getReverse(popup, 0, popup.length()).toString();
             //Log.i(TAG, "isCaps=" + isCaps + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
-            Keyboard popupKeyboard;
             if (popup.length() > 0) {
-                popupKeyboard = new Keyboard(context, popupKeyboardId, popup.toString(), -1, padding);
+                return new Keyboard(context, this.keyboard, popupKeyboardId, popup.toString(), -1, padding);
             } else {
-                popupKeyboard = new Keyboard(context, popupKeyboardId);
+                return null;
             }
-            return popupKeyboard;
+        }
+        
+        public String getHintLabel(boolean wantAscii, boolean wantAll) {
+            if (hint == null) {
+                hint = "";
+                if (shiftLabel != null && !isSimpleUppercase) {
+                    char c = shiftLabel.charAt(0);
+                    if (wantAll || wantAscii /*&& is7BitAscii(c)*/) {
+                        hint = Character.toString(c);
+                    }
+                }
+            }
+            return hint;
+        }
+
+        public String getAltHintLabel(boolean wantAscii, boolean wantAll) {
+            if (altHint == null) {
+                altHint = "";
+                String popup = getPopupKeyboardContent(false, false);
+                if (popup.length() > 0) {
+                    char c = popup.charAt(0);
+                    if (wantAll || wantAscii && is7BitAscii(c)) {
+                        altHint = Character.toString(c);
+                    }
+                }
+            }
+            return altHint;
+        }
+
+        private static boolean is7BitAscii(char c) {
+            return c >= 32 && c < 127;
         }
         
         /**
@@ -753,14 +788,15 @@ public class Keyboard {
      * number of keys that can fit in a row, it will be ignored. If this number is -1, the
      * keyboard will fit as many keys as possible in each row.
      */
-    private Keyboard(Context context, int layoutTemplateResId,
+    private Keyboard(Context context, Keyboard parent, int layoutTemplateResId,
             CharSequence characters, int columns, int horizontalPadding) {
         this(context, layoutTemplateResId);
         int x = 0;
         int y = 0;
         int column = 0;
         mTotalWidth = 0;
-
+        mDefaultHeight = parent.mDefaultHeight;
+        
         Row row = new Row(this);
         row.defaultHeight = mDefaultHeight;
         row.defaultWidth = mDefaultWidth;
@@ -883,7 +919,6 @@ public class Keyboard {
                 continue;
             }
 
-            if (key.popupReversed) newPopup.reverse();
             key.popupCharacters = newPopup.toString();
         }
     }
