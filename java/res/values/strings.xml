@@ -376,10 +376,21 @@
     <string name="subtype_mode_keyboard">keyboard</string>
     <string name="subtype_mode_voice">voice</string>
 
-    <string name="title_full_in_portrait">Full keyboard in portrait mode</string>
-    <string name="summary_full_in_portrait_true">Use full 5-row keyboard</string>
-    <string name="summary_full_in_portrait_false">Use 4-row Gingerbread keyboard</string>
-
+    <string name="title_keyboard_mode_portrait">Keyboard mode, portrait</string>
+    <string name="title_keyboard_mode_landscape">Keyboard mode, landscape</string>
+    <string name="title_compact_mode_enabled">Enable compact 5-row keyboard mode</string>
+    <string name="summary_compact_mode_enabled">US QWERTY only, and experimental!</string>
+    <string-array name="keyboard_mode_entries">
+        <item>4-row Gingerbread layout</item>
+        <item>5-row compact layout (US QWERTY only!)</item>
+        <item>Full 5-row layout</item>
+    </string-array>
+    <string-array name="keyboard_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+        
     <string name="title_suggestions_in_landscape">Suggestions in landscape mode</string>
     <string name="summary_suggestions_in_landscape_true">Same as in portrait mode</string>
     <string name="summary_suggestions_in_landscape_false">Hide suggestions in landscape mode</string>
@@ -565,7 +576,7 @@
         <item>Launch Settings</item>
         <item>Toggle suggestions</item>
         <item>Voice input</item>
-        <item>Toggle full keyboard layout</item>
+        <item>Switch keyboard layout</item>
         <item>Increase height</item>
         <item>Decrease height</item>
         <item>Previous language</item>

@@ -34,10 +34,10 @@
     <bool name="default_popup_preview">true</bool>
     <bool name="default_recorrection_enabled">false</bool>
     <bool name="config_long_press_comma_for_settings_enabled">true</bool>
-    <bool name="default_full_in_portrait">false</bool>
     <bool name="default_connectbot_tab_hack">true</bool>
     <bool name="default_fullscreen_override">false</bool>
     <bool name="default_force_keyboard_on">false</bool>
     <bool name="default_keyboard_notification">false</bool>
     <bool name="default_add_shift_to_popup">false</bool>
+    <bool name="default_compact_mode_enabled">false</bool>
 </resources>

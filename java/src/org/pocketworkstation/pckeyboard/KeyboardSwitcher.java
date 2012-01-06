@@ -76,6 +76,8 @@ public class KeyboardSwitcher implements
     private static final int KBD_QWERTY = R.xml.kbd_qwerty;
     private static final int KBD_FULL = R.xml.kbd_full;
     private static final int KBD_FULL_FN = R.xml.kbd_full_fn;
+    private static final int KBD_COMPACT = R.xml.kbd_compact;
+    private static final int KBD_COMPACT_FN = R.xml.kbd_compact_fn;
 
     private LatinKeyboardView mInputView;
     private static final int[] ALPHABET_MODES = { KEYBOARDMODE_NORMAL,
@@ -98,7 +100,7 @@ public class KeyboardSwitcher implements
     /** One of the MODE_XXX values */
     private int mImeOptions;
     private boolean mIsSymbols;
-    private boolean mFullMode;
+    private int mFullMode;
     /**
      * mIsAutoCompletionActive indicates that auto completed word will be input
      * instead of what user actually typed.
@@ -171,15 +173,18 @@ public class KeyboardSwitcher implements
     }
 
     private KeyboardId makeSymbolsId(boolean hasVoice) {
-        if (mFullMode)
+        if (mFullMode == 1) {
+            return new KeyboardId(KBD_COMPACT_FN, KEYBOARDMODE_SYMBOLS, true, hasVoice);
+        } else if (mFullMode == 2) {
             return new KeyboardId(KBD_FULL_FN, KEYBOARDMODE_SYMBOLS, true, hasVoice);
+        }
         return new KeyboardId(KBD_SYMBOLS,
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
                         : KEYBOARDMODE_SYMBOLS, false, hasVoice);
     }
 
     private KeyboardId makeSymbolsShiftedId(boolean hasVoice) {
-        if (mFullMode)
+        if (mFullMode > 0)
             return null;
         return new KeyboardId(KBD_SYMBOLS_SHIFT,
                 mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
@@ -187,7 +192,7 @@ public class KeyboardSwitcher implements
     }
 
     public void makeKeyboards(boolean forceCreate) {
-        mFullMode = LatinIME.sKeyboardSettings.useFullMode;
+        mFullMode = LatinIME.sKeyboardSettings.keyboardMode;
         mSymbolsId = makeSymbolsId(mHasVoice && !mVoiceOnPrimary);
         mSymbolsShiftedId = makeSymbolsShiftedId(mHasVoice && !mVoiceOnPrimary);
 
@@ -345,19 +350,20 @@ public class KeyboardSwitcher implements
     }
 
     public boolean isFullMode() {
-        return mFullMode;
+        return mFullMode > 0;
     }
 
     private KeyboardId getKeyboardId(int mode, int imeOptions, boolean isSymbols) {
         boolean hasVoice = hasVoiceButton(isSymbols);
-        if (mFullMode) {
+        if (mFullMode > 0) {
             switch (mode) {
             case MODE_TEXT:
             case MODE_URL:
             case MODE_EMAIL:
             case MODE_IM:
             case MODE_WEB:
-                return new KeyboardId(KBD_FULL, KEYBOARDMODE_NORMAL, true, hasVoice);
+                return new KeyboardId(mFullMode == 1 ? KBD_COMPACT : KBD_FULL,
+                        KEYBOARDMODE_NORMAL, true, hasVoice);
             }
         }
         // TODO: generalize for any KeyboardId
@@ -416,7 +422,7 @@ public class KeyboardSwitcher implements
             return false;
         }
         int currentMode = mCurrentId.mKeyboardMode;
-        if (mFullMode && currentMode == KEYBOARDMODE_NORMAL)
+        if (mFullMode > 0 && currentMode == KEYBOARDMODE_NORMAL)
             return true;
         for (Integer mode : ALPHABET_MODES) {
             if (currentMode == mode) {
@@ -462,7 +468,7 @@ public class KeyboardSwitcher implements
         //Log.i(TAG, "toggleShift isAlphabetMode=" + isAlphabetMode() + " mSettings.fullMode=" + mSettings.fullMode);
         if (isAlphabetMode())
             return;
-        if (mFullMode) {
+        if (mFullMode > 0) {
             boolean shifted = mInputView.isShiftAll();
             mInputView.setShiftState(shifted ? Keyboard.SHIFT_OFF : Keyboard.SHIFT_ON);
             return;
@@ -470,12 +476,6 @@ public class KeyboardSwitcher implements
         if (mCurrentId.equals(mSymbolsId)
                 || !mCurrentId.equals(mSymbolsShiftedId)) {
             LatinKeyboard symbolsShiftedKeyboard = getKeyboard(mSymbolsShiftedId);
-            if (symbolsShiftedKeyboard.mRowCount == 0) {
-                // FIXME: fake full mode for portrait 5-row
-                boolean shifted = mInputView.isShiftAll();
-                mInputView.setShiftState(shifted ? Keyboard.SHIFT_OFF : Keyboard.SHIFT_ON);
-                return;                
-            }
             mCurrentId = mSymbolsShiftedId;
             mInputView.setKeyboard(symbolsShiftedKeyboard);
             // Symbol shifted keyboard has a ALT_SYM key that has a caps lock style indicator.
