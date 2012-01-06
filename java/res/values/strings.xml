@@ -533,32 +533,46 @@
     <string name="title_swipe_down">Swipe down</string>
     <string name="title_swipe_left">Swipe left</string>
     <string name="title_swipe_right">Swipe right</string>
-    <string-array name="swipe_action_entries">
-        <item>Ignore</item>
+    <string name="title_vol_up">Volume up</string>
+    <string name="title_vol_down">Volume down</string>
+        <string-array name="swipe_action_entries">
+        <item>(no action)</item>
         <item>Close keyboard</item>
-        <item>Open settings</item>
+        <item>Toggle extension row(s)</item>
+        <item>Launch Settings</item>
         <item>Toggle suggestions</item>
+        <item>Voice input</item>
+        <item>Toggle full keyboard layout</item>
+        <item>Increase height</item>
+        <item>Decrease height</item>
         <item>Previous language</item>
-        <item>Next language</item>
+-       <item>Next language</item>
         </string-array>
-    <!-- Keep these values in sync with android.view.View LAYER_TYPE_* definitions -->
     <string-array name="swipe_action_values">
         <item>none</item>
         <item>close</item>
+        <item>extension</item>
         <item>settings</item>
         <item>suggestions</item>
+        <item>voice_input</item>
+        <item>full_mode</item>
+        <item>height_up</item>
+        <item>height_down</item>
         <item>lang_prev</item>
-        <item>lang_next</item>
+-       <item>lang_next</item>
     </string-array>    
-    <string name="default_swipe_up">none</string>
+    <string name="default_swipe_up">extension</string>
     <string name="default_swipe_down">close</string>
     <string name="default_swipe_left">none</string>
     <string name="default_swipe_right">none</string>
-
+    <string name="default_vol_up">none</string>
+    <string name="default_vol_down">none</string>
+        
     <string name="title_add_shift_to_popup">Add shifted keys to long-press popups?</string>
     <string name="summary_add_shift_to_popup_true">Get $ by long-pressing 4 etc.</string>
     <string name="summary_add_shift_to_popup_false">Off</string>
         
+    <string name="voice_not_enabled_warning">Voice input is not available in this version.</string>
     <string name="recorrect_warning">FYI: recorrection does not work correctly on pre-Gingerbread devices due to missing operating system support.</string>
     <string name="no_market_warning">Unable to launch Market.</string>
     <!-- Title for Latin keyboard debug settings activity / dialog -->
