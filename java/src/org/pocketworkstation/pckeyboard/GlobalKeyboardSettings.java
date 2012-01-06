@@ -32,12 +32,19 @@ public final class GlobalKeyboardSettings {
     //
     // Read by Keyboard
     public boolean addShiftToPopup = false;
+    public float topRowScale = 1.0f;
     //
     // Read by LatinKeyboardView
     public boolean showTouchPos = false;
     //
     // Read by LatinIME
     public String suggestedPunctuation = "!?,.";
+    //
+    // Read by LatinKeyboardBaseView
+    public float labelScalePref = 1.0f;
+    //
+    // Read by CandidateView
+    public float candidateScalePref = 1.0f;
     
     /* Updated by LatinIME */
     //
@@ -66,7 +73,6 @@ public final class GlobalKeyboardSettings {
     /* Updated by KeyboardSwitcher */
     //
     // Used by LatinKeyboardBaseView and LatinIME
-    public float labelScalePref = 1.0f;
 
     /* Updated by LanguageSwitcher */
     //
@@ -76,9 +82,12 @@ public final class GlobalKeyboardSettings {
     // Auto pref implementation follows
     private Map<String, BooleanPref> mBoolPrefs = new HashMap<String, BooleanPref>();
     private Map<String, StringPref> mStringPrefs = new HashMap<String, StringPref>();
+    private Map<String, FloatStringPref> mFloatStringPrefs = new HashMap<String, FloatStringPref>();
     public static final int FLAG_PREF_NONE = 0;
     public static final int FLAG_PREF_NEED_RELOAD = 0x1;
     public static final int FLAG_PREF_NEW_PUNC_LIST = 0x2;
+    public static final int FLAG_PREF_RECREATE_INPUT_VIEW = 0x4;
+    public static final int FLAG_PREF_RESET_KEYBOARDS = 0x8;
     private int mCurrentFlags = 0;
     
     private interface BooleanPref {
@@ -88,6 +97,12 @@ public final class GlobalKeyboardSettings {
     }
 
     private interface StringPref {
+        void set(String val);
+        String getDefault();
+        int getFlags();
+    }
+
+    private interface FloatStringPref {
         void set(String val);
         String getDefault();
         int getFlags();
@@ -114,6 +129,24 @@ public final class GlobalKeyboardSettings {
             public int getFlags() { return FLAG_PREF_NEW_PUNC_LIST; }
         });
         
+        addFloatStringPref("pref_label_scale", new FloatStringPref() {
+            public void set(String val) { labelScalePref = Float.valueOf(val); }
+            public String getDefault() { return "1.0"; }
+            public int getFlags() { return FLAG_PREF_RECREATE_INPUT_VIEW; }
+        });
+
+        addFloatStringPref("pref_candidate_scale", new FloatStringPref() {
+            public void set(String val) { candidateScalePref = Float.valueOf(val); }
+            public String getDefault() { return "1.0"; }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
+
+        addFloatStringPref("pref_top_row_scale", new FloatStringPref() {
+            public void set(String val) { topRowScale = Float.valueOf(val); }
+            public String getDefault() { return "1.0"; }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
+
         // Set initial values
         for (String key : mBoolPrefs.keySet()) {
             BooleanPref pref = mBoolPrefs.get(key);
@@ -121,6 +154,10 @@ public final class GlobalKeyboardSettings {
         }
         for (String key : mStringPrefs.keySet()) {
             StringPref pref = mStringPrefs.get(key);
+            pref.set(prefs.getString(key, pref.getDefault()));
+        }
+        for (String key : mFloatStringPrefs.keySet()) {
+            FloatStringPref pref = mFloatStringPrefs.get(key);
             pref.set(prefs.getString(key, pref.getDefault()));
         }
     }
@@ -136,6 +173,11 @@ public final class GlobalKeyboardSettings {
         if (sPref != null) {
             sPref.set(prefs.getString(key, sPref.getDefault()));
             mCurrentFlags |= sPref.getFlags(); 
+        }
+        FloatStringPref fsPref = mFloatStringPrefs.get(key);
+        if (fsPref != null) {
+            fsPref.set(prefs.getString(key, fsPref.getDefault()));
+            mCurrentFlags |= fsPref.getFlags(); 
         }
     }
     
@@ -157,5 +199,9 @@ public final class GlobalKeyboardSettings {
 
     private void addStringPref(String key, StringPref setter) {
         mStringPrefs.put(key, setter);
+    }
+
+    private void addFloatStringPref(String key, FloatStringPref setter) {
+        mFloatStringPrefs.put(key, setter);
     }
 }
