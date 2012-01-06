@@ -261,8 +261,9 @@ public class LatinIMESettings extends PreferenceActivity
                         LatinIME.DEFAULT_VOICE_INPUT_SUPPORTED_LOCALES);
                 ArrayList<String> voiceInputSupportedLocales =
                         LatinIME.newArrayList(supportedLocalesString.split("\\s+"));
-                boolean localeSupported = voiceInputSupportedLocales.contains(
-                        Locale.getDefault().toString());
+                boolean localeSupported =
+                    voiceInputSupportedLocales.contains(Locale.getDefault().toString()) ||
+                    voiceInputSupportedLocales.contains(Locale.getDefault().getLanguage());
 
                 if (localeSupported) {
                     String message = getString(R.string.voice_warning_may_not_understand) + "\n\n" +
