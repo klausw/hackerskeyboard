@@ -3669,8 +3669,9 @@ public class LatinIME extends InputMethodService implements
         ArrayList<String> voiceInputSupportedLocales = newArrayList(supportedLocalesString
                 .split("\\s+"));
 
-        mLocaleSupportedForVoiceInput = voiceInputSupportedLocales
-                .contains(mInputLocale);
+        mLocaleSupportedForVoiceInput = 
+            voiceInputSupportedLocales.contains(mInputLocale) ||
+            voiceInputSupportedLocales.contains(mInputLocale.substring(0, Math.min(2, mInputLocale.length())));
 
         mShowSuggestions = sp.getBoolean(PREF_SHOW_SUGGESTIONS, mResources
                 .getBoolean(R.bool.default_suggestions));
