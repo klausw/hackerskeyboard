@@ -1229,8 +1229,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             mWindowY = windowLocation[1];
         }
         // Set the preview background state
-        mPreviewText.getBackground().setState(
-                key.popupResId != 0 ? LONG_PRESSABLE_STATE_SET : EMPTY_STATE_SET);
+        mPreviewText.getBackground().setState(LONG_PRESSABLE_STATE_SET);
+//        mPreviewText.getBackground().setState(
+//                key.popupResId != 0 ? LONG_PRESSABLE_STATE_SET : EMPTY_STATE_SET);
         popupPreviewX += mOffsetInWindow[0];
         popupPreviewY += mOffsetInWindow[1];
 
@@ -1313,7 +1314,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     private View inflateMiniKeyboardContainer(Key popupKey) {
-        int popupKeyboardId = popupKey.popupResId;
+        Keyboard keyboard = popupKey.getPopupKeyboard(getContext(), getPaddingLeft() + getPaddingRight());
+        if (keyboard == null) return null;
+
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         View container = inflater.inflate(mPopupLayout, null);
@@ -1362,11 +1365,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Remove gesture detector on mini-keyboard
         miniKeyboard.mGestureDetector = null;
 
-        Keyboard keyboard = popupKey.getPopupKeyboard(getContext(), popupKeyboardId, getPaddingLeft() + getPaddingRight());
-        if (keyboard != null) {
-            miniKeyboard.setKeyboard(keyboard);
-            miniKeyboard.setPopupParent(this);
-        }
+        miniKeyboard.setKeyboard(keyboard);
+        miniKeyboard.setPopupParent(this);
 
         container.measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.AT_MOST),
                 MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.AT_MOST));
@@ -1397,24 +1397,23 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // TODO if popupKey.popupCharacters has only one letter, send it as key without opening
         // mini keyboard.
 
-        if (popupKey.popupResId == 0)
-            return false;
-
-        PointerTracker.clearSlideKeys();
-        
         final WeakHashMap<Key, View> cache;
         if (popupKey.isDistinctCaps()) {
-            cache = mMiniKeyboardCacheCaps;         
+            cache = mMiniKeyboardCacheCaps;
         } else if (popupKey.isShifted()) {
-            cache = mMiniKeyboardCacheShift;         
+            cache = mMiniKeyboardCacheShift;
         } else {
             cache = mMiniKeyboardCacheMain;
         }
         View container = cache.get(popupKey);
         if (container == null) {
             container = inflateMiniKeyboardContainer(popupKey);
-            cache.put(popupKey, container);
+            if (container != null) cache.put(popupKey, container);
         }
+        if (container == null) return false;
+
+        PointerTracker.clearSlideKeys();
+
         mMiniKeyboard = (LatinKeyboardBaseView)container.findViewById(R.id.LatinKeyboardBaseView);
         if (mWindowOffset == null) {
             mWindowOffset = new int[2];
@@ -1428,6 +1427,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         //     Right edges of both keys should be aligned for consistent default selection
         //  b) When we have the rightmost key in popup keyboard directly above the pressed key
         //     Left edges of both keys should be aligned for consistent default selection
+
         final List<Key> miniKeys = mMiniKeyboard.getKeyboard().getKeys();
         final int miniKeyWidth = miniKeys.size() > 0 ? miniKeys.get(0).width : 0;
 

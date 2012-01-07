@@ -415,8 +415,8 @@
 
     <string name="title_hint_mode">Labeled alternate keys</string>
     <string-array name="hint_modes">
-        <item>Hide all hint labels</item>
-        <item>Non-letter keys only</item>
+        <item>Hide hint labels</item>
+        <item>Show ASCII punctuation</item>
         <item>Show all hint labels</item>
     </string-array>
 
@@ -602,10 +602,21 @@
     <string name="default_vol_up">none</string>
     <string name="default_vol_down">none</string>
         
-    <string name="title_add_shift_to_popup">Add shifted keys to long-press popups?</string>
-    <string name="summary_add_shift_to_popup_true">Get $ by long-pressing 4 etc.</string>
-    <string name="summary_add_shift_to_popup_false">Off</string>
-        
+    <string name="title_popup_content">Popup mini-keyboard contents</string>
+    <string-array name="popup_content_entries">
+        <item>Unique only: 3 &#x21d2; ³</item>
+        <item>Add shifted: 3 &#x21d2; #³</item>
+        <item>Add other case: q &#x21d2; Q</item>
+        <item>Add self: 3 &#x21d2; 3#³</item>
+    </string-array>
+    <string-array name="popup_content_values">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>7</item>
+    </string-array>
+    <string name="default_popup_content">1</string>
+
     <string name="voice_not_enabled_warning">Voice input is not available in this version.</string>
     <string name="recorrect_warning">FYI: recorrection does not work correctly on pre-Gingerbread devices due to missing operating system support.</string>
     <string name="no_market_warning">Unable to launch Market.</string>
