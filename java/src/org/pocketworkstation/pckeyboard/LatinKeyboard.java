@@ -117,7 +117,7 @@ public class LatinKeyboard extends Keyboard {
     }
 
     public LatinKeyboard(Context context, int xmlLayoutResId, int mode, float kbHeightPercent) {
-        super(context, xmlLayoutResId, mode, kbHeightPercent);
+        super(context, 0, xmlLayoutResId, mode, kbHeightPercent);
         final Resources res = context.getResources();
         //Log.i("PCKeyboard", "keyHeight=" + this.getKeyHeight());
         //this.setKeyHeight(30); // is useless, see http://code.google.com/p/android/issues/detail?id=4532
@@ -800,10 +800,6 @@ public class LatinKeyboard extends Keyboard {
         public LatinKey(Resources res, Keyboard.Row parent, int x, int y,
                 XmlResourceParser parser) {
             super(res, parent, x, y, parser);
-            if (popupCharacters != null && popupCharacters.length() == 0) {
-                // If there is a keyboard with no keys specified in popupCharacters
-                popupResId = 0;
-            }
         }
 
         // sticky is used for shift key.  If a key is not sticky and is modifier,
