@@ -125,6 +125,7 @@ public class PluginManager extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Package information changed, updating dictionaries.");
         getPluginDictionaries(context);
+        Log.i(TAG, "Finished updating dictionaries.");
         mIME.toggleLanguage(true, true);
     }
 
@@ -156,7 +157,7 @@ public class PluginManager extends BroadcastReceiver {
                                     String convLang = SOFTKEYBOARD_LANG_MAP.get(lang);
                                     if (convLang != null) lang = convLang;
                                     String type = xrp.getAttributeValue(null, "type");
-                                    if (type == null || type.equals("raw")) {
+                                    if (type == null || type.equals("raw") || type.equals("binary")) {
                                         assetName = xrp.getAttributeValue(null, "dictionaryAssertName"); // sic
                                     } else {
                                         Log.w(TAG, "Unsupported AnySoftKeyboard dict type " + type);
