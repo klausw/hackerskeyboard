@@ -32,7 +32,7 @@
     <string name="alternates_for_t">5þť</string>
     <string name="alternates_for_z">źžż</string>
     <string name="alternates_for_l">ł</string>
-    <string name="alternates_for_v">w</string>
+    <string name="alternates_for_v"></string>
     <string name="alternates_for_a_umlaut">æ</string>
     <string name="alternates_for_o_umlaut">øœ</string>
 </resources>
