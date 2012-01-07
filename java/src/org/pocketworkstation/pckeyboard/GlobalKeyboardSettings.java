@@ -34,7 +34,9 @@ public final class GlobalKeyboardSettings {
     /* Simple prefs updated by this class */
     //
     // Read by Keyboard
-    public boolean addShiftToPopup = false;
+    public boolean addShiftToPopup = true;
+    public boolean addOtherCaseToPopup = false;
+    public boolean addSelfToPopup = false;
     public float topRowScale = 1.0f;
     //
     // Read by LatinKeyboardView
@@ -135,10 +137,15 @@ public final class GlobalKeyboardSettings {
             public int getFlags() { return FLAG_PREF_NONE; }
         });
 
-        addBooleanPref("pref_add_shift_to_popup", new BooleanPref() {
-            public void set(boolean val) { addShiftToPopup = val; }
-            public boolean getDefault() { return res.getBoolean(R.bool.default_add_shift_to_popup); }
-            public int getFlags() { return FLAG_PREF_NONE; }
+        addStringPref("pref_popup_content", new StringPref() {
+            public void set(String val) {
+                int flags = Integer.valueOf(val);
+                addShiftToPopup = (flags & 0x1) != 0;
+                addOtherCaseToPopup = (flags & 0x2) != 0;
+                addSelfToPopup = (flags & 0x4) != 0;
+            }
+            public String getDefault() { return res.getString(R.string.default_popup_content); }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
         });
 
         addStringPref("pref_suggested_punctuation", new StringPref() {
@@ -146,7 +153,7 @@ public final class GlobalKeyboardSettings {
             public String getDefault() { return res.getString(R.string.suggested_punctuations); }
             public int getFlags() { return FLAG_PREF_NEW_PUNC_LIST; }
         });
-        
+
         addStringPref("pref_label_scale", new StringPref() {
             public void set(String val) { labelScalePref = Float.valueOf(val); }
             public String getDefault() { return "1.0"; }

@@ -457,7 +457,7 @@ public class Keyboard {
                             isDistinctUppercase = true;
                         } else if (upperLabel.equals(shiftLabel.toString())) {
                             isSimpleUppercase = true;
-                        } else if (upperLabel.length() == 1){
+                        } else if (upperLabel.length() == 1) {
                             capsLabel = upperLabel;
                             isDistinctUppercase = true;
                         }
@@ -478,13 +478,12 @@ public class Keyboard {
             return shifted;
         }
 
-        public int getPrimaryCode() {
-            if (isDistinctUppercase && keyboard.isShiftCaps()) {
+        public int getPrimaryCode(boolean isShiftCaps, boolean isShifted) {
+            if (isDistinctUppercase && isShiftCaps) {
                 return capsLabel.charAt(0);
             }
-            boolean shifted = keyboard.isShifted(isSimpleUppercase);
             //Log.i(TAG, "getPrimaryCode(), shifted=" + shifted);
-            if (shifted && shiftLabel != null) {
+            if (isShifted && shiftLabel != null) {
                 if (shiftLabel.charAt(0) == DEAD_KEY_PLACEHOLDER && shiftLabel.length() >= 2) {
                     return shiftLabel.charAt(1);
                 } else {
@@ -493,6 +492,10 @@ public class Keyboard {
             } else {
                 return codes[0];
             }
+        }
+
+        public int getPrimaryCode() {
+            return getPrimaryCode(keyboard.isShiftCaps(), keyboard.isShifted(isSimpleUppercase));
         }
 
         public boolean isDeadKey() {
@@ -526,51 +529,91 @@ public class Keyboard {
             }
         }
 
-        private String getPopupKeyboardContent(boolean isShiftCaps, boolean isShifted) {
-            char mainChar = (label != null && label.length() == 1) ? label.charAt(0) : 0;
-            char shiftChar;
-            boolean isCaps;
-            if (isDistinctUppercase && isShiftCaps) {
-                isCaps = true;
-                shiftChar = capsLabel.charAt(0);
-            } else {
-                isCaps = isShifted;
-                shiftChar = (shiftLabel != null && shiftLabel.length() == 1) ? shiftLabel.charAt(0) : 0;
-            }
+        private String getPopupKeyboardContent(boolean isShiftCaps, boolean isShifted, boolean addExtra) {
+            int mainChar = getPrimaryCode(false, false);
+            int shiftChar = getPrimaryCode(false, true);
+            int capsChar = getPrimaryCode(true, true);
+
+            // Remove duplicates
+            if (shiftChar == mainChar) shiftChar = 0;
+            if (capsChar == shiftChar || capsChar == mainChar) capsChar = 0;
+
             int popupLen = (popupCharacters == null) ? 0 : popupCharacters.length();
-            StringBuilder popup = new StringBuilder(popupLen + 1);
-            if (!isSimpleUppercase && LatinIME.sKeyboardSettings.addShiftToPopup) {
-                // is shifted, add unshifted key to popup, and vice versa
-                if (isCaps) {
-                    if (mainChar != 0) popup.append(mainChar);
-                } else {
-                    if (shiftChar != 0) popup.append(shiftChar);
-                }
-            }
+            StringBuilder popup = new StringBuilder(popupLen);
             for (int i = 0; i < popupLen; ++i) {
                 char c = popupCharacters.charAt(i);
-                if (isCaps) {
+                if (isShifted) {
                     String upper = Character.toString(c).toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
                     if (upper.length() == 1) c = upper.charAt(0);
                 }
 
-                if (c == shiftChar || c == mainChar) continue;
+                if (c == mainChar || c == shiftChar || c == capsChar) continue;
                 popup.append(c);
             }
+
+            if (addExtra) {
+                StringBuilder extra = new StringBuilder(3 + popup.length());
+                if (LatinIME.sKeyboardSettings.addSelfToPopup) {
+                    // if shifted, add unshifted key to extra, and vice versa
+                    if (isDistinctUppercase && isShiftCaps) {
+                        if (capsChar > 0) { extra.append((char) capsChar); capsChar = 0; }
+                    } else if (isShifted) {
+                        if (shiftChar > 0) { extra.append((char) shiftChar); shiftChar = 0; }
+                    } else {
+                        if (mainChar > 0) { extra.append((char) mainChar); mainChar = 0; }
+                    }
+                }
+
+                if (LatinIME.sKeyboardSettings.addOtherCaseToPopup) {
+                    // if shifted, add unshifted key to popup, and vice versa
+                    if (isDistinctUppercase && isShiftCaps) {
+                        if (mainChar > 0) { extra.append((char) mainChar); mainChar = 0; }
+                        if (shiftChar > 0) { extra.append((char) shiftChar); shiftChar = 0; }
+                    } else if (isShifted) {
+                        if (mainChar > 0) { extra.append((char) mainChar); mainChar = 0; }
+                        if (capsChar > 0) { extra.append((char) capsChar); capsChar = 0; }
+                    } else {
+                        if (shiftChar > 0) { extra.append((char) shiftChar); shiftChar = 0; }
+                        if (capsChar > 0) { extra.append((char) capsChar); capsChar = 0; }
+                    }
+                }
+
+                if (!isSimpleUppercase && LatinIME.sKeyboardSettings.addShiftToPopup) {
+                    // if shifted, add unshifted key to popup, and vice versa
+                    if (isShifted) {
+                        if (mainChar > 0) { extra.append((char) mainChar); mainChar = 0; }
+                    } else {
+                        if (shiftChar > 0) { extra.append((char) shiftChar); shiftChar = 0; }
+                    }
+                }
+
+                extra.append(popup);
+                return extra.toString();
+            }
+
             return popup.toString();
         }
 
-        public Keyboard getPopupKeyboard(Context context, int popupKeyboardId, int padding) {
-            String popup = getPopupKeyboardContent(keyboard.isShiftCaps(), keyboard.isShifted(isSimpleUppercase));
-            if (popupReversed) popup = TextUtils.getReverse(popup, 0, popup.length()).toString();
-            //Log.i(TAG, "isCaps=" + isCaps + " mainChar=" + mainChar + " shiftChar=" + shiftChar + " popup=" + popup.toString() + " key=" + this);
+        public Keyboard getPopupKeyboard(Context context, int padding) {
+            if (popupCharacters == null) {
+                if (popupResId != 0) {
+                    return new Keyboard(context, keyboard.mDefaultHeight, popupResId);
+                } else {
+                    if (modifier) return null; // Space, Return etc.
+                }
+            }
+
+            String popup = getPopupKeyboardContent(keyboard.isShiftCaps(), keyboard.isShifted(isSimpleUppercase), true);
+            //Log.i(TAG, "getPopupKeyboard: popup='" + popup + "' for " + this);
             if (popup.length() > 0) {
-                return new Keyboard(context, this.keyboard, popupKeyboardId, popup.toString(), -1, padding);
+                int resId = popupResId;
+                if (resId == 0) resId = R.xml.kbd_popup_template;
+                return new Keyboard(context, keyboard.mDefaultHeight, resId, popup, popupReversed, -1, padding);
             } else {
                 return null;
             }
         }
-        
+
         public String getHintLabel(boolean wantAscii, boolean wantAll) {
             if (hint == null) {
                 hint = "";
@@ -587,7 +630,7 @@ public class Keyboard {
         public String getAltHintLabel(boolean wantAscii, boolean wantAll) {
             if (altHint == null) {
                 altHint = "";
-                String popup = getPopupKeyboardContent(false, false);
+                String popup = getPopupKeyboardContent(false, false, false);
                 if (popup.length() > 0) {
                     char c = popup.charAt(0);
                     if (wantAll || wantAscii && is7BitAscii(c)) {
@@ -728,6 +771,8 @@ public class Keyboard {
                 (code <= 0 || Character.isWhitespace(code) ? "" : ":'" + (char)code + "'" ) +
                 " x=" + x + ".." + (x+width) + " y=" + y + ".." + (y+height) +
                 " edgeFlags=" + edges +
+                (popupCharacters != null ? " pop=" + popupCharacters : "" ) +
+                " res=" + popupResId +
                 ")";
         }
     }
@@ -737,12 +782,12 @@ public class Keyboard {
      * @param context the application or service context
      * @param xmlLayoutResId the resource file that contains the keyboard layout and keys.
      */
-    public Keyboard(Context context, int xmlLayoutResId) {
-        this(context, xmlLayoutResId, 0);
+    public Keyboard(Context context, int defaultHeight, int xmlLayoutResId) {
+        this(context, defaultHeight, xmlLayoutResId, 0);
     }
 
-    public Keyboard(Context context, int xmlLayoutResId, int modeId) {
-        this(context, xmlLayoutResId, modeId, 0);
+    public Keyboard(Context context, int defaultHeight, int xmlLayoutResId, int modeId) {
+        this(context, defaultHeight, xmlLayoutResId, modeId, 0);
     }
 
     /**
@@ -753,7 +798,7 @@ public class Keyboard {
      * @param modeId keyboard mode identifier
      * @param rowHeightPercent height of each row as percentage of screen height
      */
-    public Keyboard(Context context, int xmlLayoutResId, int modeId, float kbHeightPercent) {
+    public Keyboard(Context context, int defaultHeight, int xmlLayoutResId, int modeId, float kbHeightPercent) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         mDisplayWidth = dm.widthPixels;
         mDisplayHeight = dm.heightPixels;
@@ -762,9 +807,9 @@ public class Keyboard {
         mDefaultHorizontalGap = 0;
         mDefaultWidth = mDisplayWidth / 10;
         mDefaultVerticalGap = 0;
-        mDefaultHeight = Math.round(mDefaultWidth); // to be overwritten
+        mDefaultHeight = defaultHeight; // may be zero, to be adjusted below
         mKeyboardHeight = Math.round(mDisplayHeight * kbHeightPercent / 100); 
-        //Log.i("PCKeyboard", "defaultHeight=" + mDefaultHeight + " kbHeight=" + mKeyboardHeight + " displayHeight="+mDisplayHeight+")");
+        //Log.i("PCKeyboard", "mDefaultHeight=" + mDefaultHeight + "(arg=" + defaultHeight + ")" + " kbHeight=" + mKeyboardHeight + " displayHeight="+mDisplayHeight+")");
         mKeys = new ArrayList<Key>();
         mModifierKeys = new ArrayList<Key>();
         mKeyboardMode = modeId;
@@ -788,15 +833,14 @@ public class Keyboard {
      * number of keys that can fit in a row, it will be ignored. If this number is -1, the
      * keyboard will fit as many keys as possible in each row.
      */
-    private Keyboard(Context context, Keyboard parent, int layoutTemplateResId,
-            CharSequence characters, int columns, int horizontalPadding) {
-        this(context, layoutTemplateResId);
+    private Keyboard(Context context, int defaultHeight, int layoutTemplateResId,
+            CharSequence characters, boolean reversed, int columns, int horizontalPadding) {
+        this(context, defaultHeight, layoutTemplateResId);
         int x = 0;
         int y = 0;
         int column = 0;
         mTotalWidth = 0;
-        mDefaultHeight = parent.mDefaultHeight;
-        
+
         Row row = new Row(this);
         row.defaultHeight = mDefaultHeight;
         row.defaultWidth = mDefaultWidth;
@@ -804,7 +848,10 @@ public class Keyboard {
         row.verticalGap = mDefaultVerticalGap;
         final int maxColumns = columns == -1 ? Integer.MAX_VALUE : columns;
         mLayoutRows = 1;
-        for (int i = 0; i < characters.length(); i++) {
+        int start = reversed ? characters.length()-1 : 0;
+        int end = reversed ? -1 : characters.length();
+        int step = reversed ? -1 : 1;
+        for (int i = start; i != end; i+=step) {
             char c = characters.charAt(i);
             if (column >= maxColumns
                     || x + mDefaultWidth + horizontalPadding > mDisplayWidth) {
@@ -884,8 +931,6 @@ public class Keyboard {
             if (key.popupCharacters == null) continue;
             int popupLen = key.popupCharacters.length();
             if (popupLen == 0) {
-                key.popupCharacters = null;
-                key.popupResId = 0;
                 continue;
             }
             if (key.x >= mTotalWidth / 2) {
@@ -911,13 +956,6 @@ public class Keyboard {
                 newPopup.append(c);
             }
             //Log.i("PCKeyboard", "popup for " + key.label + " '" + key.popupCharacters + "' => '"+ newPopup + "' length " + newPopup.length());
-
-            // No characters left?
-            if (newPopup.length() == 0) {
-                key.popupCharacters = null;
-                key.popupResId = 0;
-                continue;
-            }
 
             key.popupCharacters = newPopup.toString();
         }
@@ -1221,7 +1259,7 @@ public class Keyboard {
                 mDisplayHeight, res.getDimension(R.dimen.key_vertical_pad));
         mLayoutRows = a.getInteger(R.styleable.Keyboard_layoutRows, DEFAULT_LAYOUT_ROWS);
         mLayoutColumns = a.getInteger(R.styleable.Keyboard_layoutColumns, DEFAULT_LAYOUT_COLUMNS);
-        if (mLayoutRows > 0) {
+        if (mDefaultHeight == 0 && mKeyboardHeight > 0 && mLayoutRows > 0) {
             mDefaultHeight = mKeyboardHeight / mLayoutRows;
             //Log.i(TAG, "got mLayoutRows=" + mLayoutRows + ", mDefaultHeight=" + mDefaultHeight);
         }
