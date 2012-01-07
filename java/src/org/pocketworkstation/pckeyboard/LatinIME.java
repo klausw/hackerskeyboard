@@ -1206,6 +1206,7 @@ public class LatinIME extends InputMethodService implements
             if (mCandidateViewContainer != null) {
                 removeCandidateViewContainer();
             }
+            commitTyped(getCurrentInputConnection(), true);
         }
     }
 
@@ -1682,6 +1683,7 @@ public class LatinIME extends InputMethodService implements
 
     private void sendSpecialKey(int code) {
         if (!isConnectbot()) {
+            commitTyped(getCurrentInputConnection(), true);
             sendModifiedKeyDownUp(code);
             return;
         }
@@ -2297,6 +2299,7 @@ public class LatinIME extends InputMethodService implements
         }
 
         if (isAlphabet(primaryCode) && isPredictionOn()
+                && !mModCtrl && !mModAlt
                 && !isCursorTouchingWord()) {
             if (!mPredicting) {
                 mPredicting = true;
@@ -2305,6 +2308,11 @@ public class LatinIME extends InputMethodService implements
                 mWord.reset();
             }
         }
+
+        if (mModCtrl || mModAlt) {
+            commitTyped(getCurrentInputConnection(), true); // sets mPredicting=false
+        }
+
         if (mPredicting) {
             if (isShiftCapsMode()
                     && mKeyboardSwitcher.isAlphabetMode()
