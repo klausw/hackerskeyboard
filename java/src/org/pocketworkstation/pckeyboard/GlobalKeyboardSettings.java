@@ -93,6 +93,7 @@ public final class GlobalKeyboardSettings {
     public static final int FLAG_PREF_NEW_PUNC_LIST = 0x2;
     public static final int FLAG_PREF_RECREATE_INPUT_VIEW = 0x4;
     public static final int FLAG_PREF_RESET_KEYBOARDS = 0x8;
+    public static final int FLAG_PREF_RESET_MODE_OVERRIDE = 0x10;
     private int mCurrentFlags = 0;
     
     private interface BooleanPref {
@@ -113,19 +114,19 @@ public final class GlobalKeyboardSettings {
         addBooleanPref("pref_compact_mode_enabled", new BooleanPref() {
             public void set(boolean val) { compactModeEnabled = val; Log.i(TAG, "Setting compactModeEnabled to " + val); }
             public boolean getDefault() { return res.getBoolean(R.bool.default_compact_mode_enabled); }
-            public int getFlags() { return FLAG_PREF_NONE; }
+            public int getFlags() { return FLAG_PREF_RESET_MODE_OVERRIDE; }
         });
 
         addStringPref("pref_keyboard_mode_portrait", new StringPref() {
             public void set(String val) { keyboardModePortrait = Integer.valueOf(val); }
             public String getDefault() { return res.getString(R.string.default_keyboard_mode_portrait); }
-            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS | FLAG_PREF_RESET_MODE_OVERRIDE; }
         });
 
         addStringPref("pref_keyboard_mode_landscape", new StringPref() {
             public void set(String val) { keyboardModePortrait = Integer.valueOf(val); }
             public String getDefault() { return res.getString(R.string.default_keyboard_mode_landscape); }
-            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS | FLAG_PREF_RESET_MODE_OVERRIDE; }
         });
 
         addBooleanPref("pref_touch_pos", new BooleanPref() {
