@@ -604,12 +604,17 @@
         
     <string name="title_popup_content">Popup mini-keyboard contents</string>
     <string-array name="popup_content_entries">
-        <item>Unique only: 3 &#x21d2; ³</item>
-        <item>Add shifted: 3 &#x21d2; #³</item>
-        <item>Add other case: q &#x21d2; Q</item>
-        <item>Add self: 3 &#x21d2; 3#³</item>
+        <item>No popups</item>
+        <item>No popups, use auto-repeat</item>
+        <item>Unique only: 3 &#x21d2; ³, e &#x21d2; é</item>
+        <item>Add shifted: 3 &#x21d2; #³, e &#x21d2; é</item>
+        <item>Add upper: 3 &#x21d2; #³, e &#x21d2; Eé</item>
+        <item>Add self: 3 &#x21d2; 3#³, e &#x21d2; eEé</item>
     </string-array>
+    <!--  The values are a bitmap, keep in sync with Keyboard.java -->
     <string-array name="popup_content_values">
+        <item>256</item>
+        <item>768</item>
         <item>0</item>
         <item>1</item>
         <item>3</item>

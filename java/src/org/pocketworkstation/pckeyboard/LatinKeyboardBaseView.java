@@ -33,6 +33,8 @@ import android.graphics.Rect;
 import android.graphics.Region.Op;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
 
 import android.os.Handler;
@@ -168,7 +170,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     // Miscellaneous constants
     /* package */ static final int NOT_A_KEY = -1;
-    private static final int[] LONG_PRESSABLE_STATE_SET = { android.R.attr.state_long_pressable };
     private static final int NUMBER_HINT_VERTICAL_ADJUSTMENT_PIXEL = -1;
 
     // XML attribute
@@ -1228,10 +1229,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             getLocationOnScreen(windowLocation);
             mWindowY = windowLocation[1];
         }
-        // Set the preview background state
-        mPreviewText.getBackground().setState(LONG_PRESSABLE_STATE_SET);
-//        mPreviewText.getBackground().setState(
-//                key.popupResId != 0 ? LONG_PRESSABLE_STATE_SET : EMPTY_STATE_SET);
+        // Set the preview background state.
+        // Retrieve and cache the popup container if any.
+        boolean hasPopup = (getLongPressView(key) != null);
+        // Set background manually, the StateListDrawable doesn't work.
+        mPreviewText.setBackgroundDrawable(getResources().getDrawable(hasPopup ? R.drawable.keyboard_key_feedback_more_background : R.drawable.keyboard_key_feedback_background));
         popupPreviewX += mOffsetInWindow[0];
         popupPreviewY += mOffsetInWindow[1];
 
@@ -1386,17 +1388,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         return (edgeFlags & Keyboard.EDGE_TOP) != 0 && (edgeFlags & Keyboard.EDGE_BOTTOM) != 0;
     }
 
-    /**
-     * Called when a key is long pressed. By default this will open any popup keyboard associated
-     * with this key through the attributes popupLayout and popupCharacters.
-     * @param popupKey the key that was long pressed
-     * @return true if the long press is handled, false otherwise. Subclasses should call the
-     * method on the base class if the subclass doesn't wish to handle the call.
-     */
-    protected boolean onLongPress(Key popupKey) {
-        // TODO if popupKey.popupCharacters has only one letter, send it as key without opening
-        // mini keyboard.
-
+    private View getLongPressView(Key popupKey) {
         final WeakHashMap<Key, View> cache;
         if (popupKey.isDistinctCaps()) {
             cache = mMiniKeyboardCacheCaps;
@@ -1410,6 +1402,22 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             container = inflateMiniKeyboardContainer(popupKey);
             if (container != null) cache.put(popupKey, container);
         }
+        //Log.i(TAG, "getLongPressView returns " + container + " for " + popupKey);
+        return container;
+    }
+    
+    /**
+     * Called when a key is long pressed. By default this will open any popup keyboard associated
+     * with this key through the attributes popupLayout and popupCharacters.
+     * @param popupKey the key that was long pressed
+     * @return true if the long press is handled, false otherwise. Subclasses should call the
+     * method on the base class if the subclass doesn't wish to handle the call.
+     */
+    protected boolean onLongPress(Key popupKey) {
+        // TODO if popupKey.popupCharacters has only one letter, send it as key without opening
+        // mini keyboard.
+
+        View container = getLongPressView(popupKey);
         if (container == null) return false;
 
         PointerTracker.clearSlideKeys();
