@@ -346,8 +346,10 @@
     <!-- The summary for the preferences item for enabling to correct suggestions by touching words you have typed -->
     <string name="prefs_enable_recorrection_summary">Touch entered words to correct them</string>
 
+    <string name="pref_screen_feedback_title">Key feedback settings</string>
+        
     <string name="pref_screen_view_title">Theme and label settings</string>
- 
+        
     <!-- Description for keyboard theme switcher -->
     <string name="keyboard_layout">Keyboard Theme</string>
     <string name="layout_basic" translatable="false">Basic</string>

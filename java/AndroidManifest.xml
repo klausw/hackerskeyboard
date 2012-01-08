@@ -71,5 +71,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-    </application>
+
+        <activity android:name="PrefScreenFeedback"
+                android:label="@string/pref_screen_feedback_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_FEEDBACK"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+</application>
 </manifest>
