@@ -73,11 +73,6 @@
         <intent android:action="org.pocketworkstation.pckeyboard.PREFS_VIEW"/>
     </PreferenceScreen>
 
-    <PreferenceScreen
-            android:title="@string/pref_screen_actions_title"
-            android:summary="Configure actions for swipe gestures and hardware keys">
-        <intent android:action="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
-    </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -114,39 +109,18 @@
             android:title="Key behavior settings"
             android:key="key_settings">
 
-    <CheckBoxPreference
-            android:key="auto_cap"
-            android:title="@string/auto_cap"
-            android:persistent="true"
-            android:defaultValue="@bool/default_auto_cap"
-            />
+    <PreferenceScreen
+            android:title="@string/pref_screen_feedback_title"
+            android:summary="Configure key sound, vibrate, preview popup etc.">
+        <intent
+                android:action="org.pocketworkstation.pckeyboard.PREFS_FEEDBACK"/>
+    </PreferenceScreen>
 
-    <CheckBoxPreference
-            android:key="vibrate_on"
-            android:title="@string/vibrate_on_keypress"
-            android:persistent="true"
-            />
-
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
-            android:key="vibrate_len"
-            android:title="@string/title_vibrate_len"
-            android:entryValues="@array/vibrate_duration_entries"
-            android:entries="@array/vibrate_duration_entries"
-            android:persistent="true"
-            />
-
-    <CheckBoxPreference
-            android:key="sound_on"
-            android:title="@string/sound_on_keypress"
-            android:persistent="true" 
-            />
-
-    <CheckBoxPreference
-            android:key="popup_on"
-            android:title="@string/popup_on_keypress"
-            android:persistent="true"
-            android:defaultValue="@bool/default_popup_preview"
-            />
+    <PreferenceScreen
+            android:title="@string/pref_screen_actions_title"
+            android:summary="Configure actions for swipe gestures and hardware keys">
+        <intent android:action="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
+    </PreferenceScreen>
 
     <CheckBoxPreference
             android:key="pref_slide_keys"
