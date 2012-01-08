@@ -557,7 +557,7 @@ public class Keyboard {
             StringBuilder popup = new StringBuilder(popupLen);
             for (int i = 0; i < popupLen; ++i) {
                 char c = popupCharacters.charAt(i);
-                if (isShifted) {
+                if (isShifted || isShiftCaps) {
                     String upper = Character.toString(c).toUpperCase(LatinIME.sKeyboardSettings.inputLocale);
                     if (upper.length() == 1) c = upper.charAt(0);
                 }
