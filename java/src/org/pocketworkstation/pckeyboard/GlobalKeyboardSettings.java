@@ -34,9 +34,7 @@ public final class GlobalKeyboardSettings {
     /* Simple prefs updated by this class */
     //
     // Read by Keyboard
-    public boolean addShiftToPopup = true;
-    public boolean addOtherCaseToPopup = false;
-    public boolean addSelfToPopup = false;
+    public int popupKeyboardFlags = 0x1;
     public float topRowScale = 1.0f;
     //
     // Read by LatinKeyboardView
@@ -138,12 +136,7 @@ public final class GlobalKeyboardSettings {
         });
 
         addStringPref("pref_popup_content", new StringPref() {
-            public void set(String val) {
-                int flags = Integer.valueOf(val);
-                addShiftToPopup = (flags & 0x1) != 0;
-                addOtherCaseToPopup = (flags & 0x2) != 0;
-                addSelfToPopup = (flags & 0x4) != 0;
-            }
+            public void set(String val) { popupKeyboardFlags = Integer.valueOf(val); }
             public String getDefault() { return res.getString(R.string.default_popup_content); }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
         });
