@@ -326,7 +326,16 @@ public class KeyboardSwitcher implements
             Locale saveLocale = conf.locale;
             conf.locale = LatinIME.sKeyboardSettings.inputLocale;
             orig.updateConfiguration(conf, null);
-            keyboard = new LatinKeyboard(mInputMethodService, id.mXml,
+            
+            // Workaround for issue 122, Galaxy S2 refuses to load Hebrew XML resources
+            // from res/xml-iw/. Grumble. Load an equivalent XML file from res/xml/ instead.
+            int kbdId = id.mXml;
+            if (kbdId == R.xml.kbd_qwerty && conf.locale.getLanguage().equals("iw")) {
+                Log.i(TAG, "Activating issue 122 hack, redirecting resId " + kbdId + " -> " + R.xml.kbd_qwerty_iw);
+                kbdId = R.xml.kbd_qwerty_iw;
+            }
+
+            keyboard = new LatinKeyboard(mInputMethodService, kbdId,
                     id.mKeyboardMode, id.mKeyboardHeightPercent);
             keyboard.setVoiceMode(hasVoiceButton(id.mXml == R.xml.kbd_symbols), mHasVoice);
             keyboard.setLanguageSwitcher(mLanguageSwitcher, mIsAutoCompletionActive);
