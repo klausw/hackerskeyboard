@@ -3306,6 +3306,9 @@ public class LatinIME extends InputMethodService implements
             mVolUpAction = sharedPreferences.getString(PREF_VOL_UP, res.getString(R.string.default_vol_up));
         } else if (PREF_VOL_DOWN.equals(key)) {
             mVolDownAction = sharedPreferences.getString(PREF_VOL_DOWN, res.getString(R.string.default_vol_down));
+        } else if (PREF_VIBRATE_LEN.equals(key)) {
+            mVibrateLen = getPrefInt(sharedPreferences, PREF_VIBRATE_LEN, getResources().getString(R.string.vibrate_duration_ms));
+            vibrate(); // test setting
         }
 
         updateKeyboardOptions();
