@@ -2375,16 +2375,21 @@ public class LatinIME extends InputMethodService implements
             // in Italian dov' should not be expanded to dove' because the
             // elision
             // requires the last vowel to be removed.
-            if (mAutoCorrectOn && mAutoCorrectEnabled
+            if (mAutoCorrectOn
                     && primaryCode != '\''
                     && (mJustRevertedSeparator == null
-                            || mJustRevertedSeparator.length() == 0 || mJustRevertedSeparator
-                            .charAt(0) != primaryCode)) {
+                            || mJustRevertedSeparator.length() == 0
+                            || mJustRevertedSeparator.charAt(0) != primaryCode)) {
                 pickedDefault = pickDefaultSuggestion();
                 // Picked the suggestion by the space key. We consider this
-                // as "added an auto space".
+                // as "added an auto space" in autocomplete mode, but as manually
+                // typed space in "quick fixes" mode.
                 if (primaryCode == ASCII_SPACE) {
-                    mJustAddedAutoSpace = true;
+                    if (mAutoCorrectEnabled) {
+                        mJustAddedAutoSpace = true;
+                    } else {
+                        TextEntryState.manualTyped("");
+                    }
                 }
             } else {
                 commitTyped(ic, true);
