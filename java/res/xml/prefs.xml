@@ -19,12 +19,12 @@
         android:key="english_ime_settings">
 
     <PreferenceCategory
-            android:title="Keyboard view settings"
+            android:title="@string/title_keyboard_view_settings"
             android:key="graphics_settings">
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="settings_height_portrait"
-            android:title="Keyboard height, portrait"
+            android:title="@string/title_keyboard_height_portrait"
             android:persistent="true"
             android:entryValues="@array/keyboard_height_entries"
             android:entries="@array/keyboard_height_entries"
@@ -33,7 +33,7 @@
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="settings_height_landscape"
-            android:title="Keyboard height, landscape"
+            android:title="@string/title_keyboard_height_landscape"
             android:persistent="true"
             android:entryValues="@array/keyboard_height_entries"
             android:entries="@array/keyboard_height_entries"
@@ -76,7 +76,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Key layout options"
+            android:title="@string/title_key_layout_options"
             android:key="layout_settings">
 
     <ListPreference
@@ -106,7 +106,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Key behavior settings"
+            android:title="@string/title_key_behavior_settings"
             android:key="key_settings">
 
     <PreferenceScreen
@@ -133,7 +133,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Long-press alternate keys"
+            android:title="@string/title_long_press_alternate_keys"
             android:key="altchar_settings">
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
@@ -187,13 +187,13 @@
 
         <org.pocketworkstation.pckeyboard.AutoSummaryEditTextPreference
             android:key="pref_suggested_punctuation"
-            android:title="Suggested punctuation"
+            android:title="@string/title_suggested_punctuation"
             android:defaultValue="@string/suggested_punctuations"
             />
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Input mode settings"
+            android:title="@string/title_input_mode_settings"
             android:key="graphics_settings">
 
     <CheckBoxPreference
@@ -248,7 +248,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="Debugging"
+            android:title="@string/title_debugging"
             android:key="debugging">
 
     <CheckBoxPreference
@@ -262,12 +262,12 @@
 
     <Preference
             android:key="input_connection_info"
-            android:title="Input connection details"
+            android:title="@string/title_input_connection_details"
             />
 
     <Preference
             android:key="label_version"
-            android:title="Version"
+            android:title="@string/title_version"
             android:summary="@string/auto_version"
             />
     </PreferenceCategory>
