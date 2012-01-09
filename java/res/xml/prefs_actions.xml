@@ -19,7 +19,7 @@
 
     <PreferenceCategory
         android:key="swipe_actions"
-        android:title="Swipe gestures (experimental)" >
+        android:title="@string/title_swipe_gestures" >
 
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="@string/default_swipe_up"
@@ -56,7 +56,7 @@
 
     <PreferenceCategory
         android:key="key_actions"
-        android:title="Hardware key actions" >
+        android:title="@string/title_hardware_key_actions" >
 
         <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:defaultValue="@string/default_vol_up"

@@ -25,6 +25,21 @@
     <!-- Title for Latin keyboard input options dialog -->
     <string name="english_ime_input_options">Input options</string>
 
+    <!-- Various configuration titles -->
+    <string name="title_keyboard_view_settings">Keyboard view settings</string>
+    <string name="title_keyboard_height_portrait">Keyboard height, portrait</string>
+    <string name="title_keyboard_height_landscape">Keyboard height, landscape</string>
+    <string name="title_key_layout_options">Key layout options</string>
+    <string name="title_key_behavior_settings">Key behavior settings</string>
+    <string name="title_long_press_alternate_keys">Long-press alternate keys</string>
+    <string name="title_suggested_punctuation">Suggested punctuation</string>
+    <string name="title_input_mode_settings">Input mode settings</string>
+    <string name="title_debugging">Debugging</string>
+    <string name="title_input_connection_details">Input connection details</string>
+    <string name="title_version">Version</string>
+    <string name="title_swipe_gestures">Swipe gestures (experimental)</string>
+    <string name="title_hardware_key_actions">Hardware key actions</string>
+
     <!-- Option to provide vibrate/haptic feedback on keypress -->
     <string name="vibrate_on_keypress">Vibrate on keypress</string>
 
