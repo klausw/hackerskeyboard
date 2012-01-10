@@ -2923,8 +2923,9 @@ public class LatinIME extends InputMethodService implements
      */
     private void pickSuggestion(CharSequence suggestion, boolean correcting) {
         LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
-        if (isShiftCapsMode()) {
-            suggestion = suggestion.toString().toUpperCase();
+        int shiftState = getShiftState();
+        if (shiftState == Keyboard.SHIFT_LOCKED || shiftState == Keyboard.SHIFT_CAPS_LOCKED) {
+            suggestion = suggestion.toString().toUpperCase(); // all UPPERCASE
         }
         InputConnection ic = getCurrentInputConnection();
         if (ic != null) {
