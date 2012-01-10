@@ -19,13 +19,6 @@
         android:key="feedback_settings">
 
     <CheckBoxPreference
-            android:key="auto_cap"
-            android:title="@string/auto_cap"
-            android:persistent="true"
-            android:defaultValue="@bool/default_auto_cap"
-            />
-
-    <CheckBoxPreference
             android:key="vibrate_on"
             android:title="@string/vibrate_on_keypress"
             android:persistent="true"
