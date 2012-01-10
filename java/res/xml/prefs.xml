@@ -109,6 +109,13 @@
             android:title="@string/title_key_behavior_settings"
             android:key="key_settings">
 
+    <CheckBoxPreference
+            android:key="auto_cap"
+            android:title="@string/auto_cap"
+            android:persistent="true"
+            android:defaultValue="@bool/default_auto_cap"
+            />
+
     <PreferenceScreen
             android:title="@string/pref_screen_feedback_title"
             android:summary="Configure key sound, vibrate, preview popup etc.">
