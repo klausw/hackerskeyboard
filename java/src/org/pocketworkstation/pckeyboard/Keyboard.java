@@ -1298,4 +1298,15 @@ public class Keyboard {
         }
         return defValue;
     }
+
+    @Override
+    public String toString() {
+        return "Keyboard(" + mLayoutColumns + "x" + mLayoutRows +
+            " keys=" + mKeys.size() +
+            " rowCount=" + mRowCount +
+            " mode=" + mKeyboardMode +
+            " size=" + mTotalWidth + "x" + mTotalHeight +
+            ")";
+
+    }
 }
