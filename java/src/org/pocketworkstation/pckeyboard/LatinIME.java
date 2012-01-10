@@ -213,6 +213,7 @@ public class LatinIME extends InputMethodService implements
     private boolean mEnableVoiceButton;
     private CharSequence mBestWord;
     private boolean mPredictionOn;
+    private boolean mPredictionOnForMode;
     private boolean mCompletionOn;
     private boolean mHasDictionary;
     private boolean mAutoSpace;
@@ -775,8 +776,17 @@ public class LatinIME extends InputMethodService implements
             mCandidateViewContainer = null;
             mCandidateView = null;
         }
+        resetPrediction();
+        mPredictionOn = false;
     }
 
+    private void resetPrediction() {
+        mComposing.setLength(0);
+        mPredicting = false;
+        mDeleteCount = 0;
+        mJustAddedAutoSpace = false;
+    }
+    
     @Override
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         sKeyboardSettings.editorPackageName = attribute.packageName;
@@ -906,13 +916,11 @@ public class LatinIME extends InputMethodService implements
                     attribute.imeOptions, enableVoiceButton);
         }
         inputView.closing();
-        mComposing.setLength(0);
-        mPredicting = false;
-        mDeleteCount = 0;
-        mJustAddedAutoSpace = false;
+        resetPrediction();
         loadSettings();
         updateShiftKeyState(attribute);
 
+        mPredictionOnForMode = mPredictionOn;
         setCandidatesViewShownInternal(isCandidateStripVisible()
                 || mCompletionOn, false /* needsInputViewShown */);
         updateSuggestions();
@@ -1182,18 +1190,24 @@ public class LatinIME extends InputMethodService implements
 
     private void setCandidatesViewShownInternal(boolean shown,
             boolean needsInputViewShown) {
-        //Log.i(TAG, "setCandidatesViewShownInternal(" + shown + ", " + needsInputViewShown + "), mCandidateViewContainer=" + mCandidateViewContainer);
+//        Log.i(TAG, "setCandidatesViewShownInternal(" + shown + ", " + needsInputViewShown +
+//                " mCompletionOn=" + mCompletionOn +
+//                " mPredictionOnForMode=" + mPredictionOnForMode +
+//                " mPredictionOn=" + mPredictionOn +
+//                " mPredicting=" + mPredicting
+//                );
         // TODO: Remove this if we support candidates with hard keyboard
         if (onEvaluateInputViewShown()) {
             boolean visible = shown
                 && mKeyboardSwitcher.getInputView() != null
+                && mPredictionOnForMode
                 && (needsInputViewShown
                         ? mKeyboardSwitcher.getInputView().isShown()
                         : true);
             if (visible) {
                 if (mCandidateViewContainer == null) {
                     onCreateCandidatesView();
-                    mPredictionOn = true;
+                    mPredictionOn = mPredictionOnForMode;
                     setNextSuggestions();
                 }
             } else {
@@ -3208,7 +3222,7 @@ public class LatinIME extends InputMethodService implements
         mAutoCapActive = mAutoCapPref && mLanguageSwitcher.allowAutoCap();
         mDeadKeysActive = mLanguageSwitcher.allowDeadKeys();
         updateShiftKeyState(getCurrentInputEditorInfo());
-        setCandidatesViewShown(!suggestionsDisabled());
+        setCandidatesViewShown(mPredictionOnForMode && !suggestionsDisabled());
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
