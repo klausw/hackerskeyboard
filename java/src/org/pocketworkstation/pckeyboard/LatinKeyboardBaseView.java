@@ -1164,6 +1164,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private void dismissKeyPreview() {
         for (PointerTracker tracker : mPointerTrackers)
             tracker.updateKey(NOT_A_KEY);
+        //Log.i(TAG, "dismissKeyPreview() for " + this);
         showPreview(NOT_A_KEY, null);
     }
 
@@ -1195,6 +1196,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         Key key = tracker.getKey(keyIndex);
         if (key == null)
             return;
+        //Log.i(TAG, "showKey() for " + this);
         // Should not draw hint icon in key preview
         Drawable icon = key.icon;
         if (icon != null && !shouldDrawLabelAndIcon(key)) {
@@ -1323,7 +1325,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     private void inflateMiniKeyboardContainer() {
-        //Log.i(TAG, "inflateMiniKeyboardContainer(), mPopupLayout=" + mPopupLayout);
+        //Log.i(TAG, "inflateMiniKeyboardContainer(), mPopupLayout=" + mPopupLayout + " from " + this);
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         View container = inflater.inflate(mPopupLayout, null);
@@ -1480,6 +1482,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mMiniKeyboardPopup.setContentView(mMiniKeyboardContainer);
         mMiniKeyboardPopup.setWidth(mMiniKeyboardContainer.getMeasuredWidth());
         mMiniKeyboardPopup.setHeight(mMiniKeyboardContainer.getMeasuredHeight());
+        //Log.i(TAG, "About to show popup " + mMiniKeyboardPopup + " from " + this);
         mMiniKeyboardPopup.showAtLocation(this, Gravity.NO_GRAVITY, x, y);
         mMiniKeyboardVisible = true;
 
@@ -1748,7 +1751,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     }
 
     public void closing() {
-        //Log.i(TAG, "closing " + this);
+        Log.i(TAG, "closing " + this);
         if (mPreviewPopup != null) mPreviewPopup.dismiss();
         mHandler.cancelAllMessages();
 
@@ -1771,6 +1774,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        //Log.i(TAG, "onDetachedFromWindow() for " + this);
         closing();
     }
 
@@ -1780,6 +1784,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     protected void dismissPopupKeyboard() {
         if (mMiniKeyboardPopup != null) {
+            //Log.i(TAG, "dismissPopupKeyboard() " + mMiniKeyboardPopup + " showing=" + mMiniKeyboardPopup.isShowing());
             if (mMiniKeyboardPopup.isShowing()) {
                 mMiniKeyboardPopup.dismiss();
             }
