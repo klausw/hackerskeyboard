@@ -19,6 +19,8 @@ package org.pocketworkstation.pckeyboard;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
@@ -28,11 +30,14 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 public class LatinKeyboardView extends LatinKeyboardBaseView {
+    static final String TAG = "HK/LatinKeyboardView";
 
 	// The keycode list needs to stay in sync with the
 	// res/values/keycodes.xml file.
@@ -116,6 +121,59 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
 
     public LatinKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        // TODO(klausw): migrate attribute styles to LatinKeyboardView?
+        TypedArray a = context.obtainStyledAttributes(
+                attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
+        LayoutInflater inflate =
+                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        int previewLayout = 0;
+        int n = a.getIndexCount();
+        for (int i = 0; i < n; i++) {
+            int attr = a.getIndex(i);
+
+            switch (attr) {
+            case R.styleable.LatinKeyboardBaseView_keyPreviewLayout:
+                previewLayout = a.getResourceId(attr, 0);
+                if (previewLayout == R.layout.null_layout) previewLayout = 0;
+                break;
+            case R.styleable.LatinKeyboardBaseView_keyPreviewOffset:
+                mPreviewOffset = a.getDimensionPixelOffset(attr, 0);
+                break;
+            case R.styleable.LatinKeyboardBaseView_keyPreviewHeight:
+                mPreviewHeight = a.getDimensionPixelSize(attr, 80);
+                break;
+            case R.styleable.LatinKeyboardBaseView_popupLayout:
+                mPopupLayout = a.getResourceId(attr, 0);
+                if (mPopupLayout == R.layout.null_layout) mPopupLayout = 0;
+                break;
+            }
+        }
+
+        final Resources res = getResources();
+        if (previewLayout != 0) {
+            mPreviewPopup = new PopupWindow(context);
+            Log.i(TAG, "new mPreviewPopup " + mPreviewPopup + " from " + this);
+            mPreviewText = (TextView) inflate.inflate(previewLayout, null);
+            mPreviewTextSizeLarge = (int) res.getDimension(R.dimen.key_preview_text_size_large);
+            mPreviewPopup.setContentView(mPreviewText);
+            mPreviewPopup.setBackgroundDrawable(null);
+            mPreviewPopup.setTouchable(false);
+            mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
+        } else {
+            mShowPreview = false;
+        }
+
+        if (mPopupLayout != 0) {
+            mMiniKeyboardParent = this;
+            mMiniKeyboardPopup = new PopupWindow(context);
+            Log.i(TAG, "new mMiniKeyboardPopup " + mMiniKeyboardPopup + " from " + this);
+            mMiniKeyboardPopup.setBackgroundDrawable(null);
+            mMiniKeyboardPopup.setAnimationStyle(R.style.MiniKeyboardAnimation);
+            mMiniKeyboardVisible = false;
+        }
+
     }
 
     public void setPhoneKeyboard(Keyboard phoneKeyboard) {

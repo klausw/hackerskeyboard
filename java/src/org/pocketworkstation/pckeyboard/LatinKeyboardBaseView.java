@@ -78,7 +78,7 @@ import java.util.WeakHashMap;
  * @attr ref R.styleable#LatinKeyboardBaseView_popupLayout
  */
 public class LatinKeyboardBaseView extends View implements PointerTracker.UIProxy {
-    private static final String TAG = "LatinKeyboardBaseView";
+    private static final String TAG = "HK/LatinKeyboardBaseView";
     private static final boolean DEBUG = false;
 
     public static final int NOT_A_TOUCH_COORDINATE = -1;
@@ -189,9 +189,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private float mBackgroundDimAmount;
     private float mKeyHysteresisDistance;
     private float mVerticalCorrection;
-    private int mPreviewOffset;
-    private int mPreviewHeight;
-    private int mPopupLayout;
+    protected int mPreviewOffset;
+    protected int mPreviewHeight;
+    protected int mPopupLayout;
 
     // Main keyboard
     private Keyboard mKeyboard;
@@ -200,36 +200,36 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private int mKeyboardVerticalGap;
 
     // Key preview popup
-    private TextView mPreviewText;
-    private PopupWindow mPreviewPopup;
-    private int mPreviewTextSizeLarge;
-    private int[] mOffsetInWindow;
-    private int mOldPreviewKeyIndex = NOT_A_KEY;
-    private boolean mShowPreview = true;
-    private boolean mShowTouchPoints = true;
-    private int mPopupPreviewOffsetX;
-    private int mPopupPreviewOffsetY;
-    private int mWindowY;
-    private int mPopupPreviewDisplayedY;
-    private final int mDelayBeforePreview;
-    private final int mDelayBeforeSpacePreview;
-    private final int mDelayAfterPreview;
+    protected TextView mPreviewText;
+    protected PopupWindow mPreviewPopup;
+    protected int mPreviewTextSizeLarge;
+    protected int[] mOffsetInWindow;
+    protected int mOldPreviewKeyIndex = NOT_A_KEY;
+    protected boolean mShowPreview = true;
+    protected boolean mShowTouchPoints = true;
+    protected int mPopupPreviewOffsetX;
+    protected int mPopupPreviewOffsetY;
+    protected int mWindowY;
+    protected int mPopupPreviewDisplayedY;
+    protected final int mDelayBeforePreview;
+    protected final int mDelayBeforeSpacePreview;
+    protected final int mDelayAfterPreview;
 
     // Popup mini keyboard
-    private PopupWindow mMiniKeyboardPopup;
-    private LatinKeyboardBaseView mMiniKeyboard;
-    private View mMiniKeyboardContainer;
-    private View mMiniKeyboardParent;
-    private boolean mMiniKeyboardVisible;
-    private final WeakHashMap<Key, Keyboard> mMiniKeyboardCacheMain = new WeakHashMap<Key, Keyboard>();
-    private final WeakHashMap<Key, Keyboard> mMiniKeyboardCacheShift = new WeakHashMap<Key, Keyboard>();
-    private final WeakHashMap<Key, Keyboard> mMiniKeyboardCacheCaps = new WeakHashMap<Key, Keyboard>();
-    private int mMiniKeyboardOriginX;
-    private int mMiniKeyboardOriginY;
-    private long mMiniKeyboardPopupTime;
-    private int[] mWindowOffset;
-    private final float mMiniKeyboardSlideAllowance;
-    private int mMiniKeyboardTrackerId;
+    protected PopupWindow mMiniKeyboardPopup;
+    protected LatinKeyboardBaseView mMiniKeyboard;
+    protected View mMiniKeyboardContainer;
+    protected View mMiniKeyboardParent;
+    protected boolean mMiniKeyboardVisible;
+    protected final WeakHashMap<Key, Keyboard> mMiniKeyboardCacheMain = new WeakHashMap<Key, Keyboard>();
+    protected final WeakHashMap<Key, Keyboard> mMiniKeyboardCacheShift = new WeakHashMap<Key, Keyboard>();
+    protected final WeakHashMap<Key, Keyboard> mMiniKeyboardCacheCaps = new WeakHashMap<Key, Keyboard>();
+    protected int mMiniKeyboardOriginX;
+    protected int mMiniKeyboardOriginY;
+    protected long mMiniKeyboardPopupTime;
+    protected int[] mWindowOffset;
+    protected final float mMiniKeyboardSlideAllowance;
+    protected int mMiniKeyboardTrackerId;
 
     /** Listener for {@link OnKeyboardActionListener}. */
     private OnKeyboardActionListener mKeyboardActionListener;
@@ -469,12 +469,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
-        LayoutInflater inflate =
-                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        int previewLayout = 0;
 
         int n = a.getIndexCount();
-
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
 
@@ -487,16 +483,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_verticalCorrection:
                 mVerticalCorrection = a.getDimensionPixelOffset(attr, 0);
-                break;
-            case R.styleable.LatinKeyboardBaseView_keyPreviewLayout:
-                previewLayout = a.getResourceId(attr, 0);
-                if (previewLayout == R.layout.null_layout) previewLayout = 0;
-                break;
-            case R.styleable.LatinKeyboardBaseView_keyPreviewOffset:
-                mPreviewOffset = a.getDimensionPixelOffset(attr, 0);
-                break;
-            case R.styleable.LatinKeyboardBaseView_keyPreviewHeight:
-                mPreviewHeight = a.getDimensionPixelSize(attr, 80);
                 break;
             case R.styleable.LatinKeyboardBaseView_keyTextSize:
                 mKeyTextSize = a.getDimensionPixelSize(attr, 18);
@@ -515,10 +501,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_labelTextSize:
                 mLabelTextSize = a.getDimensionPixelSize(attr, 14);
-                break;
-            case R.styleable.LatinKeyboardBaseView_popupLayout:
-                mPopupLayout = a.getResourceId(attr, 0);
-                if (mPopupLayout == R.layout.null_layout) mPopupLayout = 0;
                 break;
             case R.styleable.LatinKeyboardBaseView_shadowColor:
                 mShadowColor = a.getColor(attr, 0);
@@ -556,30 +538,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
         final Resources res = getResources();
 
-        if (previewLayout != 0) {
-            mPreviewPopup = new PopupWindow(context);
-            Log.i(TAG, "new mPreviewPopup " + mPreviewPopup + " from " + this);
-            mPreviewText = (TextView) inflate.inflate(previewLayout, null);
-            mPreviewTextSizeLarge = (int) res.getDimension(R.dimen.key_preview_text_size_large);
-            mPreviewPopup.setContentView(mPreviewText);
-            mPreviewPopup.setBackgroundDrawable(null);
-            mPreviewPopup.setTouchable(false);
-            mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
-        } else {
-            mShowPreview = false;
-        }
+        mShowPreview = false;
         mDelayBeforePreview = res.getInteger(R.integer.config_delay_before_preview);
         mDelayBeforeSpacePreview = res.getInteger(R.integer.config_delay_before_space_preview);
         mDelayAfterPreview = res.getInteger(R.integer.config_delay_after_preview);
 
-        if (mPopupLayout != 0) {
-            mMiniKeyboardParent = this;
-            mMiniKeyboardPopup = new PopupWindow(context);
-            Log.i(TAG, "new mMiniKeyboardPopup " + mMiniKeyboardPopup + " from " + this);
-            mMiniKeyboardPopup.setBackgroundDrawable(null);
-            mMiniKeyboardPopup.setAnimationStyle(R.style.MiniKeyboardAnimation);
-            mMiniKeyboardVisible = false;
-        }
+        mPopupLayout = 0;
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -1406,7 +1370,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         //Log.i(TAG, "getLongPressKeyboard returns " + kbd + " for " + popupKey);
         return kbd;
     }
-    
+
     /**
      * Called when a key is long pressed. By default this will open any popup keyboard associated
      * with this key through the attributes popupLayout and popupCharacters.
