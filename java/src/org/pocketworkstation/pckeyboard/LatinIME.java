@@ -1583,6 +1583,7 @@ public class LatinIME extends InputMethodService implements
         return ((pkg.equalsIgnoreCase("org.connectbot")
             || pkg.equalsIgnoreCase("org.woltage.irssiconnectbot")
             || pkg.equalsIgnoreCase("com.pslib.connectbot")
+            || pkg.equalsIgnoreCase("sk.vx.connectbot")
         ) && ei.inputType == 0); // FIXME
     }
 
