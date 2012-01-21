@@ -126,7 +126,7 @@ public final class GlobalKeyboardSettings {
         });
 
         addStringPref("pref_keyboard_mode_landscape", new StringPref() {
-            public void set(String val) { keyboardModePortrait = Integer.valueOf(val); }
+            public void set(String val) { keyboardModeLandscape = Integer.valueOf(val); }
             public String getDefault() { return res.getString(R.string.default_keyboard_mode_landscape); }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS | FLAG_PREF_RESET_MODE_OVERRIDE; }
         });
