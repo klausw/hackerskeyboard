@@ -51,6 +51,9 @@ public final class GlobalKeyboardSettings {
     //
     // Read by CandidateView
     public float candidateScalePref = 1.0f;
+    //
+    // Read by PointerTracker
+    public int sendSlideKeys = 0;
     
     /* Updated by LatinIME */
     //
@@ -66,7 +69,6 @@ public final class GlobalKeyboardSettings {
     public int renderMode = 1;
     //
     // Read by PointerTracker
-    public boolean sendSlideKeys = false;
     public int longpressTimeout = 400;
     //
     // Read by LatinIMESettings
@@ -127,6 +129,12 @@ public final class GlobalKeyboardSettings {
             public void set(String val) { keyboardModePortrait = Integer.valueOf(val); }
             public String getDefault() { return res.getString(R.string.default_keyboard_mode_landscape); }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS | FLAG_PREF_RESET_MODE_OVERRIDE; }
+        });
+
+        addStringPref("pref_slide_keys_int", new StringPref() {
+            public void set(String val) { sendSlideKeys = Integer.valueOf(val); }
+            public String getDefault() { return "0"; }
+            public int getFlags() { return FLAG_PREF_NONE; }
         });
 
         addBooleanPref("pref_touch_pos", new BooleanPref() {

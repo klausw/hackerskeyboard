@@ -449,9 +449,22 @@
     <string name="summary_touch_pos_false">Off</string>
 
     <string name="title_slide_keys">Sliding key events</string>
-    <string name="summary_slide_keys_true">Send keys touched during sliding movement</string>
-    <string name="summary_slide_keys_false">Ignore keys during sliding movement (Recommended)</string>
-
+    <!-- Values are a bitmap, see use in PointerTracker -->
+    <string-array name="slide_keys_entries">
+        <item>Ignore keys during sliding movement (Recommended)</item>
+        <item>Send first key touched</item>
+        <item>Send last key touched</item>
+        <item>Send first and last key</item>
+        <item>Send all keys touched during sliding movement</item>
+    </string-array>
+    <string-array name="slide_keys_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+ 
     <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
     <string-array name="keyboard_height_entries">
         <item>15%</item>

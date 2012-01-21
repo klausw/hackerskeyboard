@@ -315,7 +315,7 @@ public class PointerTracker {
     }
 
     private static void addSlideKey(Key key) {
-        if (!LatinIME.sKeyboardSettings.sendSlideKeys) return;
+        if (LatinIME.sKeyboardSettings.sendSlideKeys == 0) return;
         if (key == null) return;
         if (key.modifier) {
             clearSlideKeys();
@@ -329,8 +329,23 @@ public class PointerTracker {
     }
     
     void sendSlideKeys() {
-        for (Key key : sSlideKeys) {
-            detectAndSendKey(key, key.x, key.y, -1);            
+        int slideMode = LatinIME.sKeyboardSettings.sendSlideKeys;
+        if ((slideMode & 4) > 0) {
+            // send all
+            for (Key key : sSlideKeys) {
+                detectAndSendKey(key, key.x, key.y, -1);            
+            }
+        } else {
+            // Send first and/or last key only.
+            int n = sSlideKeys.size();
+            if (n > 0 && (slideMode & 1) > 0) {
+                Key key = sSlideKeys.get(0);
+                detectAndSendKey(key, key.x, key.y, -1);            
+            }
+            if (n > 1 && (slideMode & 2) > 0) {
+                Key key = sSlideKeys.get(n - 1);
+                detectAndSendKey(key, key.x, key.y, -1);            
+            }
         }
         clearSlideKeys();
     }
