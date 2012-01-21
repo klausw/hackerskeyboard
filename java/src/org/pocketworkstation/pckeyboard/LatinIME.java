@@ -148,7 +148,6 @@ public class LatinIME extends InputMethodService implements
     static final String PREF_HEIGHT_PORTRAIT = "settings_height_portrait";
     static final String PREF_HEIGHT_LANDSCAPE = "settings_height_landscape";
     static final String PREF_HINT_MODE = "pref_hint_mode";
-    static final String PREF_SLIDE_KEYS = "pref_slide_keys";
     static final String PREF_LONGPRESS_TIMEOUT = "pref_long_press_duration";
     static final String PREF_RENDER_MODE = "pref_render_mode";
     static final String PREF_SWIPE_UP = "pref_swipe_up";
@@ -447,7 +446,6 @@ public class LatinIME extends InputMethodService implements
         mHeightLandscape = getHeight(prefs, PREF_HEIGHT_LANDSCAPE, res.getString(R.string.default_height_landscape));
         LatinIME.sKeyboardSettings.hintMode = Integer.parseInt(prefs.getString(PREF_HINT_MODE, res.getString(R.string.default_hint_mode)));
         LatinIME.sKeyboardSettings.longpressTimeout = getPrefInt(prefs, PREF_LONGPRESS_TIMEOUT, res.getString(R.string.default_long_press_duration));
-        LatinIME.sKeyboardSettings.sendSlideKeys = prefs.getBoolean(PREF_SLIDE_KEYS, false);
         LatinIME.sKeyboardSettings.renderMode = getPrefInt(prefs, PREF_RENDER_MODE, res.getString(R.string.default_render_mode));
         mSwipeUpAction = prefs.getString(PREF_SWIPE_UP, res.getString(R.string.default_swipe_up));
         mSwipeDownAction = prefs.getString(PREF_SWIPE_DOWN, res.getString(R.string.default_swipe_down));
@@ -3321,8 +3319,6 @@ public class LatinIME extends InputMethodService implements
         } else if (PREF_LONGPRESS_TIMEOUT.equals(key)) {
                LatinIME.sKeyboardSettings.longpressTimeout = getPrefInt(sharedPreferences, PREF_LONGPRESS_TIMEOUT,
                        res.getString(R.string.default_long_press_duration));
-        } else if (PREF_SLIDE_KEYS.equals(key)) {
-            LatinIME.sKeyboardSettings.sendSlideKeys = sharedPreferences.getBoolean(PREF_SLIDE_KEYS, false);
         } else if (PREF_RENDER_MODE.equals(key)) {
             LatinIME.sKeyboardSettings.renderMode = getPrefInt(sharedPreferences, PREF_RENDER_MODE,
                     res.getString(R.string.default_render_mode));
