@@ -129,13 +129,13 @@
         <intent android:action="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
     </PreferenceScreen>
 
-    <CheckBoxPreference
-            android:key="pref_slide_keys"
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_slide_keys_int"
             android:title="@string/title_slide_keys"
             android:persistent="true" 
-            android:defaultValue="false"
-            android:summaryOn="@string/summary_slide_keys_true"
-            android:summaryOff="@string/summary_slide_keys_false"
+            android:entries="@array/slide_keys_entries"
+            android:entryValues="@array/slide_keys_values"
+            android:defaultValue="0"
             />
     </PreferenceCategory>
 
