@@ -1590,6 +1590,7 @@ public class LatinIME extends InputMethodService implements
     private boolean isConnectbot() {
         EditorInfo ei = getCurrentInputEditorInfo();
         String pkg = ei.packageName;
+        if (ei == null || pkg == null) return false;
         return ((pkg.equalsIgnoreCase("org.connectbot")
             || pkg.equalsIgnoreCase("org.woltage.irssiconnectbot")
             || pkg.equalsIgnoreCase("com.pslib.connectbot")
