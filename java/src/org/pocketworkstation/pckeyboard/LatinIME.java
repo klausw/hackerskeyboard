@@ -1426,6 +1426,18 @@ public class LatinIME extends InputMethodService implements
             //Log.i(TAG, "updateShiftKeyState " + oldState + " -> " + newState);
             mKeyboardSwitcher.setShiftState(newState);
         }
+        if (ic != null) {
+            // Clear modifiers other than shift, to avoid them getting stuck
+            int states =
+                KeyEvent.META_ALT_ON 
+                | KeyEvent.META_ALT_LEFT_ON
+                | KeyEvent.META_ALT_RIGHT_ON
+                | 0x8 // KeyEvent.META_FUNCTION_ON;
+                | 0x7000 // KeyEvent.META_CTRL_MASK
+                | 0x70000 // KeyEvent.META_META_MASK
+                | KeyEvent.META_SYM_ON;
+            ic.clearMetaKeyStates(states);
+        }
     }
 
     private int getShiftState() {
