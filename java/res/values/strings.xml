@@ -407,7 +407,33 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-        
+
+    <string name="title_chording_ctrl_key">Ctrl key code</string>
+    <string name="default_chording_ctrl_key">0</string>
+    <string-array name="chording_ctrl_key_entries">
+        <item>None (ignored when not modifying other keys)</item>
+        <item>Left Ctrl</item>
+        <item>Right Ctrl</item>
+    </string-array>
+    <string-array name="chording_ctrl_key_values">
+        <item>0</item>
+        <item>113</item>
+        <item>114</item>
+    </string-array>
+
+    <string name="title_chording_alt_key">Alt key code</string>
+    <string name="default_chording_alt_key">0</string>
+    <string-array name="chording_alt_key_entries">
+        <item>None (ignored when not modifying other keys)</item>
+        <item>Left Alt</item>
+        <item>Right Alt</item>
+    </string-array>
+    <string-array name="chording_alt_key_values">
+        <item>0</item>
+        <item>57</item>
+        <item>58</item>
+    </string-array>
+
     <string name="title_suggestions_in_landscape">Suggestions in landscape mode</string>
     <string name="summary_suggestions_in_landscape_true">Same as in portrait mode</string>
     <string name="summary_suggestions_in_landscape_false">Hide suggestions in landscape mode</string>
