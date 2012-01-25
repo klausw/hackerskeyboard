@@ -1635,7 +1635,15 @@ public class LatinIME extends InputMethodService implements
         }
         return false;
     }
-    
+
+    private boolean delayChordingCtrlModifier() {
+        return sKeyboardSettings.chordingCtrlKey == 0;
+    }
+
+    private boolean delayChordingAltModifier() {
+        return sKeyboardSettings.chordingAltKey == 0;
+    }
+
     private void sendModifiedKeyDownUp(int key) {
         sendModifiedKeyDownUp(key, isShiftMod());
     }
@@ -1650,8 +1658,11 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
-    private void sendCtrlKey(InputConnection ic, boolean isDown) {
-        int key = 113; // KeyEvent.KEYCODE_CTRL_LEFT
+    private void sendCtrlKey(InputConnection ic, boolean isDown, boolean chording) {
+        if (chording && delayChordingCtrlModifier()) return;
+
+        int key = sKeyboardSettings.chordingCtrlKey;
+        if (key == 0) key = 113; // KeyEvent.KEYCODE_CTRL_LEFT
         int meta = 0x3000; // KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON
         if (isDown) {
             sendKeyDown(ic, key, meta);
@@ -1660,8 +1671,11 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
-    private void sendAltKey(InputConnection ic, boolean isDown) {
-        int key = 57; // KeyEvent.KEYCODE_ALT_LEFT
+    private void sendAltKey(InputConnection ic, boolean isDown, boolean chording) {
+        if (chording && delayChordingAltModifier()) return;
+
+        int key = sKeyboardSettings.chordingAltKey;
+        if (key == 0) key = 57; // KeyEvent.KEYCODE_ALT_LEFT
         int meta = 0x30000; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON
         if (isDown) {
             sendKeyDown(ic, key, meta);
@@ -1676,22 +1690,22 @@ public class LatinIME extends InputMethodService implements
             //Log.i(TAG, "send SHIFT down");
             sendShiftKey(ic, true);
         }
-        if (mModCtrl && !mCtrlKeyState.isMomentary()) {
-            sendCtrlKey(ic, true);
+        if (mModCtrl && (!mCtrlKeyState.isMomentary() || delayChordingCtrlModifier())) {
+            sendCtrlKey(ic, true, false);
         }
-        if (mModAlt && !mAltKeyState.isMomentary()) {
-            sendAltKey(ic, true);
+        if (mModAlt && (!mAltKeyState.isMomentary() || delayChordingAltModifier())) {
+            sendAltKey(ic, true, false);
         }
     }
 
     private void handleModifierKeysUp(boolean shifted, boolean sendKey) {
         InputConnection ic = getCurrentInputConnection();
         if (mModAlt && !mAltKeyState.isMomentary()) {
-            if (sendKey) sendAltKey(ic, false);
+            if (sendKey) sendAltKey(ic, false, false);
             setModAlt(false);
         }
         if (mModCtrl && !mCtrlKeyState.isMomentary()) {
-            if (sendKey) sendCtrlKey(ic, false);
+            if (sendKey) sendCtrlKey(ic, false, false);
             setModCtrl(false);
         }
         if (shifted) {
@@ -3458,12 +3472,12 @@ public class LatinIME extends InputMethodService implements
                 && primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT) {
             setModCtrl(!mModCtrl);
             mCtrlKeyState.onPress();
-            sendCtrlKey(ic, true);
+            sendCtrlKey(ic, true, true);
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT) {
             setModAlt(!mModAlt);
             mAltKeyState.onPress();
-            sendAltKey(ic, true);
+            sendAltKey(ic, true, true);
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
             setModFn(!mModFn);
@@ -3505,14 +3519,14 @@ public class LatinIME extends InputMethodService implements
             if (mCtrlKeyState.isMomentary()) {
                 setModCtrl(false);
             }
-            sendCtrlKey(ic, false);
+            sendCtrlKey(ic, false, true);
             mCtrlKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT) {
             if (mAltKeyState.isMomentary()) {
                 setModAlt(false);
             }
-            sendAltKey(ic, false);
+            sendAltKey(ic, false, true);
             mAltKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
