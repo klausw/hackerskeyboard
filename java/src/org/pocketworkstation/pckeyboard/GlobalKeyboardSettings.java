@@ -45,6 +45,8 @@ public final class GlobalKeyboardSettings {
     public int keyboardModePortrait = 0;
     public int keyboardModeLandscape = 2;
     public boolean compactModeEnabled = false;
+    public int chordingCtrlKey = 0;
+    public int chordingAltKey = 0;
     //
     // Read by LatinKeyboardBaseView
     public float labelScalePref = 1.0f;
@@ -170,6 +172,18 @@ public final class GlobalKeyboardSettings {
         addStringPref("pref_top_row_scale", new StringPref() {
             public void set(String val) { topRowScale = Float.valueOf(val); }
             public String getDefault() { return "1.0"; }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
+
+        addStringPref("pref_chording_ctrl_key", new StringPref() {
+            public void set(String val) { chordingCtrlKey = Integer.valueOf(val); }
+            public String getDefault() { return res.getString(R.string.default_chording_ctrl_key); }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
+
+        addStringPref("pref_chording_alt_key", new StringPref() {
+            public void set(String val) { chordingAltKey = Integer.valueOf(val); }
+            public String getDefault() { return res.getString(R.string.default_chording_alt_key); }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
         });
 

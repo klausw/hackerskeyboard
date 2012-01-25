@@ -130,6 +130,24 @@
     </PreferenceScreen>
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_chording_ctrl_key"
+            android:title="@string/title_chording_ctrl_key"
+            android:persistent="true"
+            android:entries="@array/chording_ctrl_key_entries"
+            android:entryValues="@array/chording_ctrl_key_values"
+            android:defaultValue="@string/default_chording_ctrl_key"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_chording_alt_key"
+            android:title="@string/title_chording_alt_key"
+            android:persistent="true"
+            android:entries="@array/chording_alt_key_entries"
+            android:entryValues="@array/chording_alt_key_values"
+            android:defaultValue="@string/default_chording_alt_key"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_slide_keys_int"
             android:title="@string/title_slide_keys"
             android:persistent="true" 
