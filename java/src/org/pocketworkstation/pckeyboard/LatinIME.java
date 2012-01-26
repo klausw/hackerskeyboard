@@ -841,6 +841,9 @@ public class LatinIME extends InputMethodService implements
         mEnteredText = null;
         mSuggestionForceOn = false;
         mSuggestionForceOff = false;
+        mKeyboardModeOverridePortrait = 0;
+        mKeyboardModeOverrideLandscape = 0;
+        sKeyboardSettings.useExtension = false;
 
         switch (attribute.inputType & EditorInfo.TYPE_MASK_CLASS) {
         case EditorInfo.TYPE_CLASS_NUMBER:
