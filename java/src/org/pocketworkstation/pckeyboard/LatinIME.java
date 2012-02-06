@@ -866,7 +866,8 @@ public class LatinIME extends InputMethodService implements
                 mPredictionOnForMode = false;
             }
             if (variation == EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                    || variation == EditorInfo.TYPE_TEXT_VARIATION_PERSON_NAME) {
+                    || variation == EditorInfo.TYPE_TEXT_VARIATION_PERSON_NAME
+                    || !mLanguageSwitcher.allowAutoSpace()) {
                 mAutoSpace = false;
             } else {
                 mAutoSpace = true;

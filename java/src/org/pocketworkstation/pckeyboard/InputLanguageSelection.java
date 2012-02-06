@@ -59,6 +59,12 @@ public class InputLanguageSelection extends PreferenceActivity {
         NODEADKEY_LANGUAGES.add("th");
     }
 
+    // Languages which should not auto-add space after completions
+    public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<String>();
+    static {
+        NOAUTOSPACE_LANGUAGES.add("th");
+    }
+
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
