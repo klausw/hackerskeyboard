@@ -564,7 +564,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // TODO(klausw): turn off mDisambiguateSwipe if no swipe actions are set?
         mDisambiguateSwipe = res.getBoolean(R.bool.config_swipeDisambiguation);
         mMiniKeyboardSlideAllowance = res.getDimension(R.dimen.mini_keyboard_slide_allowance);
-        
+
         GestureDetector.SimpleOnGestureListener listener =
                 new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -574,12 +574,16 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 final float absY = Math.abs(velocityY);
                 float deltaX = me2.getX() - me1.getX();
                 float deltaY = me2.getY() - me1.getY();
-                int travelX = getWidth() / 2; // Half the keyboard width
-                int travelY = getHeight() / 2; // Half the keyboard height
-                int travelMin = Math.min(travelX, travelY);
                 mSwipeTracker.computeCurrentVelocity(1000);
                 final float endingVelocityX = mSwipeTracker.getXVelocity();
                 final float endingVelocityY = mSwipeTracker.getYVelocity();
+                // Calculate swipe distance threshold based on screen width & height,
+                // taking the smaller distance.
+                int travelX = getWidth() / 3;
+                int travelY = getHeight() / 3;
+                int travelMin = Math.min(travelX, travelY);
+//                Log.i(TAG, "onFling vX=" + velocityX + " vY=" + velocityY + " threshold=" + mSwipeThreshold
+//                        + " dX=" + deltaX + " dy=" + deltaY + " min=" + travelMin);
                 if (velocityX > mSwipeThreshold && absY < absX && deltaX > travelMin) {
                     if (mDisambiguateSwipe && endingVelocityX >= velocityX / 4) {
                         if (swipeRight()) return true;
