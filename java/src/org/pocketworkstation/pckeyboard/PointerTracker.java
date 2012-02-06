@@ -81,7 +81,8 @@ public class PointerTracker {
 
     // pressed key
     private int mPreviousKey = NOT_A_KEY;
-    
+
+    private static boolean sSlideKeyHack;
     private static List<Key> sSlideKeys = new ArrayList<Key>(10);
 
     // This class keeps track of a key index and a position where this pointer is.
@@ -170,7 +171,7 @@ public class PointerTracker {
     }
 
     public PointerTracker(int id, UIHandler handler, KeyDetector keyDetector, UIProxy proxy,
-            Resources res) {
+            Resources res, boolean slideKeyHack) {
         if (proxy == null || handler == null || keyDetector == null)
             throw new NullPointerException();
         mPointerId = id;
@@ -182,6 +183,7 @@ public class PointerTracker {
         mHasDistinctMultitouch = proxy.hasDistinctMultitouch();
         mDelayBeforeKeyRepeatStart = res.getInteger(R.integer.config_delay_before_key_repeat_start);
         mMultiTapKeyTimeout = res.getInteger(R.integer.config_multi_tap_key_timeout);
+        sSlideKeyHack = slideKeyHack;
         resetMultiTap();
     }
 
@@ -315,7 +317,7 @@ public class PointerTracker {
     }
 
     private static void addSlideKey(Key key) {
-        if (LatinIME.sKeyboardSettings.sendSlideKeys == 0) return;
+        if (!sSlideKeyHack || LatinIME.sKeyboardSettings.sendSlideKeys == 0) return;
         if (key == null) return;
         if (key.modifier) {
             clearSlideKeys();
@@ -329,6 +331,7 @@ public class PointerTracker {
     }
     
     void sendSlideKeys() {
+        if (!sSlideKeyHack) return;
         int slideMode = LatinIME.sKeyboardSettings.sendSlideKeys;
         if ((slideMode & 4) > 0) {
             // send all
