@@ -128,6 +128,12 @@ public class LanguageSwitcher {
         return !InputLanguageSelection.NODEADKEY_LANGUAGES.contains(lang);        
     }
     
+    public boolean allowAutoSpace() {
+        String lang = getInputLanguage();
+        if (lang.length() > 2) lang = lang.substring(0, 2);
+        return !InputLanguageSelection.NOAUTOSPACE_LANGUAGES.contains(lang);                
+    }
+    
     /**
      * Returns the list of enabled language codes.
      */
