@@ -211,8 +211,8 @@ public class LatinIME extends InputMethodService implements
     private boolean mVoiceInputHighlighted;
     private boolean mEnableVoiceButton;
     private CharSequence mBestWord;
-    private boolean mPredictionOn;
     private boolean mPredictionOnForMode;
+    private boolean mPredictionOnPref;    
     private boolean mCompletionOn;
     private boolean mHasDictionary;
     private boolean mAutoSpace;
@@ -775,7 +775,6 @@ public class LatinIME extends InputMethodService implements
             mCandidateView = null;
         }
         resetPrediction();
-        mPredictionOn = false;
     }
 
     private void resetPrediction() {
@@ -832,7 +831,7 @@ public class LatinIME extends InputMethodService implements
         mShowingVoiceSuggestions = false;
         mVoiceInputHighlighted = false;
         mInputTypeNoAutoCorrect = false;
-        mPredictionOn = false;
+        mPredictionOnForMode = false;
         mCompletionOn = false;
         mCompletions = null;
         mModCtrl = false;
@@ -861,10 +860,10 @@ public class LatinIME extends InputMethodService implements
             mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_TEXT,
                     attribute.imeOptions, enableVoiceButton);
             // startPrediction();
-            mPredictionOn = true;
+            mPredictionOnForMode = true;
             // Make sure that passwords are not displayed in candidate view
             if (mPasswordText) {
-                mPredictionOn = false;
+                mPredictionOnForMode = false;
             }
             if (variation == EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                     || variation == EditorInfo.TYPE_TEXT_VARIATION_PERSON_NAME) {
@@ -873,18 +872,18 @@ public class LatinIME extends InputMethodService implements
                 mAutoSpace = true;
             }
             if (variation == EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
-                mPredictionOn = false;
+                mPredictionOnForMode = false;
                 mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_EMAIL,
                         attribute.imeOptions, enableVoiceButton);
             } else if (variation == EditorInfo.TYPE_TEXT_VARIATION_URI) {
-                mPredictionOn = false;
+                mPredictionOnForMode = false;
                 mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_URL,
                         attribute.imeOptions, enableVoiceButton);
             } else if (variation == EditorInfo.TYPE_TEXT_VARIATION_SHORT_MESSAGE) {
                 mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_IM,
                         attribute.imeOptions, enableVoiceButton);
             } else if (variation == EditorInfo.TYPE_TEXT_VARIATION_FILTER) {
-                mPredictionOn = false;
+                mPredictionOnForMode = false;
             } else if (variation == EditorInfo.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT) {
                 mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_WEB,
                         attribute.imeOptions, enableVoiceButton);
@@ -898,7 +897,7 @@ public class LatinIME extends InputMethodService implements
 
             // If NO_SUGGESTIONS is set, don't do prediction.
             if ((attribute.inputType & EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS) != 0) {
-                mPredictionOn = false;
+                mPredictionOnForMode = false;
                 mInputTypeNoAutoCorrect = true;
             }
             // If it's not multiline and the autoCorrect flag is not set, then
@@ -908,7 +907,7 @@ public class LatinIME extends InputMethodService implements
                 mInputTypeNoAutoCorrect = true;
             }
             if ((attribute.inputType & EditorInfo.TYPE_TEXT_FLAG_AUTO_COMPLETE) != 0) {
-                mPredictionOn = false;
+                mPredictionOnForMode = false;
                 mCompletionOn = isFullscreenMode();
             }
             break;
@@ -921,7 +920,7 @@ public class LatinIME extends InputMethodService implements
         loadSettings();
         updateShiftKeyState(attribute);
 
-        mPredictionOnForMode = mPredictionOn;
+        mPredictionOnPref = (mCorrectionMode > 0 || mShowSuggestions);
         setCandidatesViewShownInternal(isCandidateStripVisible()
                 || mCompletionOn, false /* needsInputViewShown */);
         updateSuggestions();
@@ -933,9 +932,6 @@ public class LatinIME extends InputMethodService implements
 
         inputView.setPreviewEnabled(mPopupOn);
         inputView.setProximityCorrectionEnabled(true);
-        mPredictionOn = mPredictionOn
-                && (mCorrectionMode > 0 || mShowSuggestions);
-        if (suggestionsDisabled()) mPredictionOn = false;
         // If we just entered a text field, maybe it has some old text that
         // requires correction
         checkReCorrectionOnStart();
@@ -1194,35 +1190,30 @@ public class LatinIME extends InputMethodService implements
 //        Log.i(TAG, "setCandidatesViewShownInternal(" + shown + ", " + needsInputViewShown +
 //                " mCompletionOn=" + mCompletionOn +
 //                " mPredictionOnForMode=" + mPredictionOnForMode +
-//                " mPredictionOn=" + mPredictionOn +
+//                " mPredictionOnPref=" + mPredictionOnPref +
 //                " mPredicting=" + mPredicting
 //                );
         // TODO: Remove this if we support candidates with hard keyboard
-        if (onEvaluateInputViewShown()) {
-            boolean visible = shown
-                && mKeyboardSwitcher.getInputView() != null
-                && mPredictionOnForMode
-                && (needsInputViewShown
-                        ? mKeyboardSwitcher.getInputView().isShown()
+        boolean visible = shown
+        && onEvaluateInputViewShown()
+        && mKeyboardSwitcher.getInputView() != null
+        && isPredictionOn()
+        && isPredictionWanted()
+        && (needsInputViewShown
+                ? mKeyboardSwitcher.getInputView().isShown()
                         : true);
-            if (visible) {
-                if (mCandidateViewContainer == null) {
-                    onCreateCandidatesView();
-                    mPredictionOn = mPredictionOnForMode;
-                    setNextSuggestions();
-                }
-            } else {
-                if (mCandidateViewContainer != null) {
-                    removeCandidateViewContainer();
-                }
+        if (visible) {
+            if (mCandidateViewContainer == null) {
+                onCreateCandidatesView();
+                setNextSuggestions();
             }
-            super.setCandidatesViewShown(visible);
         } else {
             if (mCandidateViewContainer != null) {
                 removeCandidateViewContainer();
+                commitTyped(getCurrentInputConnection(), true);
             }
-            commitTyped(getCurrentInputConnection(), true);
         }
+        super.setCandidatesViewShown(visible);
     }
 
     @Override
@@ -2513,11 +2504,15 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean isPredictionOn() {
-        return mPredictionOn;
+        return mPredictionOnForMode;
+    }
+
+    private boolean isPredictionWanted() {
+        return (mShowSuggestions || mSuggestionForceOn) && !suggestionsDisabled();
     }
 
     private boolean isCandidateStripVisible() {
-        return isPredictionOn() && mShowSuggestions && !suggestionsDisabled();
+        return isPredictionOn() && isPredictionWanted();
     }
 
     public void onCancelVoice() {
@@ -3251,7 +3246,7 @@ public class LatinIME extends InputMethodService implements
         mAutoCapActive = mAutoCapPref && mLanguageSwitcher.allowAutoCap();
         mDeadKeysActive = mLanguageSwitcher.allowDeadKeys();
         updateShiftKeyState(getCurrentInputEditorInfo());
-        setCandidatesViewShown(mPredictionOnForMode && !suggestionsDisabled());
+        setCandidatesViewShown(isPredictionOn());
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
@@ -3321,7 +3316,15 @@ public class LatinIME extends InputMethodService implements
                             .getBoolean(R.bool.default_suggestions_in_landscape));
             // Respect the suggestion settings in legacy Gingerbread mode,
             // in portrait mode, or if suggestions in landscape enabled.
-            setCandidatesViewShown(!suggestionsDisabled());
+            mSuggestionForceOff = false;
+            mSuggestionForceOn = false;
+            setCandidatesViewShown(isPredictionOn());
+        } else if (PREF_SHOW_SUGGESTIONS.equals(key)) {
+            mShowSuggestions = sharedPreferences.getBoolean(
+                    PREF_SHOW_SUGGESTIONS, res.getBoolean(R.bool.default_suggestions));
+            mSuggestionForceOff = false;
+            mSuggestionForceOn = false;
+            needReload = true;
         } else if (PREF_HEIGHT_PORTRAIT.equals(key)) {
             mHeightPortrait = getHeight(sharedPreferences,
                     PREF_HEIGHT_PORTRAIT, res.getString(R.string.default_height_portrait));
@@ -3379,12 +3382,12 @@ public class LatinIME extends InputMethodService implements
             } else if (mSuggestionForceOff) {
                 mSuggestionForceOn = true;
                 mSuggestionForceOff = false;                
-            } else if (suggestionsDisabled()) {
-                mSuggestionForceOn = true;
-            } else {
+            } else if (isPredictionWanted()) {
                 mSuggestionForceOff = true;
+            } else {
+                mSuggestionForceOn = true;
             }
-            setCandidatesViewShown(!suggestionsDisabled());
+            setCandidatesViewShown(isPredictionOn());
         } else if (action.equals("lang_prev")) {
             toggleLanguage(false, false);
         } else if (action.equals("lang_next")) {
@@ -3849,7 +3852,7 @@ public class LatinIME extends InputMethodService implements
         p.println("LatinIME state :");
         p.println("  Keyboard mode = " + mKeyboardSwitcher.getKeyboardMode());
         p.println("  mComposing=" + mComposing.toString());
-        p.println("  mPredictionOn=" + mPredictionOn);
+        p.println("  mPredictionOnForMode=" + mPredictionOnForMode);
         p.println("  mCorrectionMode=" + mCorrectionMode);
         p.println("  mPredicting=" + mPredicting);
         p.println("  mAutoCorrectOn=" + mAutoCorrectOn);
