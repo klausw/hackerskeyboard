@@ -1396,8 +1396,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mMiniKeyboardContainer.measure(MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.AT_MOST),
                 MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.AT_MOST));
 
-        PointerTracker.clearSlideKeys();
-
         if (mWindowOffset == null) {
             mWindowOffset = new int[2];
             getLocationInWindow(mWindowOffset);
@@ -1514,6 +1512,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                     x - mMiniKeyboardOriginX, y - mMiniKeyboardOriginY, 0);
     }
 
+    /*package*/ boolean enableSlideKeyHack() {
+        return false;
+    }
+    
     private PointerTracker getPointerTracker(final int id) {
         final ArrayList<PointerTracker> pointers = mPointerTrackers;
         final Key[] keys = mKeys;
@@ -1522,7 +1524,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         // Create pointer trackers until we can get 'id+1'-th tracker, if needed.
         for (int i = pointers.size(); i <= id; i++) {
             final PointerTracker tracker =
-                new PointerTracker(i, mHandler, mKeyDetector, this, getResources());
+                new PointerTracker(i, mHandler, mKeyDetector, this, getResources(), enableSlideKeyHack());
             if (keys != null)
                 tracker.setKeyboard(keys, mKeyHysteresisDistance);
             if (listener != null)
