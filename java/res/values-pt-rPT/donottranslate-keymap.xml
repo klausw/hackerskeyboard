@@ -26,7 +26,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="key_tlde_main">\\</string>
     <string name="key_tlde_shift">|</string>
-    <string name="key_tlde_alt">\\|</string>
+    <string name="key_tlde_alt">\\|†‡</string>
     
     <string name="key_ae01_main">1</string>
     <string name="key_ae01_shift">!</string>
@@ -38,7 +38,7 @@
     
     <string name="key_ae03_main">3</string>
     <string name="key_ae03_shift">#</string>
-    <string name="key_ae03_alt">3#£³¾⅜♥♠♦♣</string>
+    <string name="key_ae03_alt">3#£³¾⅜</string>
     
     <string name="key_ae04_main">4</string>
     <string name="key_ae04_shift">$</string>
@@ -58,7 +58,7 @@
     
     <string name="key_ae08_main">8</string>
     <string name="key_ae08_shift">(</string>
-    <string name="key_ae08_alt">8([*•★∞†‡</string>
+    <string name="key_ae08_alt">8([*•★∞</string>
     
     <string name="key_ae09_main">9</string>
     <string name="key_ae09_shift">)</string>
@@ -74,7 +74,7 @@
     
     <string name="key_ae12_main">«</string>
     <string name="key_ae12_shift">»</string>
-    <string name="key_ae12_alt">«»</string>
+    <string name="key_ae12_alt">«»♥♠♦♣</string>
 
 
     <string name="key_ad01_main">q</string>
