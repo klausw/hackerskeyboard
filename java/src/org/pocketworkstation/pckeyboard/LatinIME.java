@@ -1199,7 +1199,6 @@ public class LatinIME extends InputMethodService implements
         && onEvaluateInputViewShown()
         && mKeyboardSwitcher.getInputView() != null
         && isPredictionOn()
-        && isPredictionWanted()
         && (needsInputViewShown
                 ? mKeyboardSwitcher.getInputView().isShown()
                         : true);
@@ -2505,7 +2504,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean isPredictionOn() {
-        return mPredictionOnForMode;
+        return mPredictionOnForMode && isPredictionWanted();
     }
 
     private boolean isPredictionWanted() {
@@ -2513,7 +2512,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean isCandidateStripVisible() {
-        return isPredictionOn() && isPredictionWanted();
+        return isPredictionOn();
     }
 
     public void onCancelVoice() {
