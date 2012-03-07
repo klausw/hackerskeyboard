@@ -70,16 +70,17 @@ public class InputLanguageSelection extends PreferenceActivity {
     private static final String[] KBD_LOCALIZATIONS = {
         "ar", "bg", "ca", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
         "en_GB", "es", "es_US", "fa", "fi", "fr", "fr_CA", "he", "hr", "hu",
-        "in", "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb", "nl",
-        "pl", "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk", "sk_QY",
-        "sl", "sr", "sv", "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
+        "hy", "in", "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb",
+        "nl", "pl", "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk",
+        "sk_QY", "sl", "sr", "sv", "th", "tl", "tr", "uk", "vi", "zh_CN",
+        "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
         "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "en_GB",
-        "es", "fi", "fr", "fr_CA", "he", "hr", "it", "iw", "lo", "nb",
-        "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl", "sr",
-        "sv", "th", "tr", "uk"
+        "es", "fi", "fr", "fr_CA", "he", "hr", "hy", "it", "iw", "lo",
+        "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
+        "sr", "sv", "th", "tr", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
