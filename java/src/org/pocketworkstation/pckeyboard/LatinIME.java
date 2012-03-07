@@ -1814,6 +1814,7 @@ public class LatinIME extends InputMethodService implements
     private final static int KF_MASK = 0xffff;
     private final static int KF_SHIFTABLE = 0x10000;
     private final static int KF_UPPER = 0x20000;
+    private final static int KF_LETTER = 0x40000;
 
     {
         // Include RETURN in this set even though it's not printable.
@@ -1858,8 +1859,8 @@ public class LatinIME extends InputMethodService implements
 
 
         for (int i = 0; i <= 25; ++i) {
-            asciiToKeyCode['a' + i] = KeyEvent.KEYCODE_A + i;
-            asciiToKeyCode['A' + i] = KeyEvent.KEYCODE_A + i | KF_UPPER;
+            asciiToKeyCode['a' + i] = KeyEvent.KEYCODE_A + i | KF_LETTER;
+            asciiToKeyCode['A' + i] = KeyEvent.KEYCODE_A + i | KF_UPPER | KF_LETTER;
         }
 
         for (int i = 0; i <= 9; ++i) {
@@ -1902,8 +1903,15 @@ public class LatinIME extends InputMethodService implements
                 int code = combinedCode & KF_MASK;
                 boolean shiftable = (combinedCode & KF_SHIFTABLE) > 0;
                 boolean upper = (combinedCode & KF_UPPER) > 0;
+                boolean letter = (combinedCode & KF_LETTER) > 0;
                 boolean shifted = modShift && (upper || shiftable);
-                sendModifiedKeyDownUp(code, shifted);
+                if (letter && !mModCtrl && !mModAlt) {
+                    // Try workaround for issue 179 where letters don't get upcased
+                    ic.commitText(Character.toString(ch), 1);
+                    handleModifierKeysUp(false, false);
+                } else {
+                    sendModifiedKeyDownUp(code, shifted);
+                }
                 return;
             }
         }
