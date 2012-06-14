@@ -438,9 +438,9 @@
     <string name="summary_suggestions_in_landscape_true">Same as in portrait mode</string>
     <string name="summary_suggestions_in_landscape_false">Hide suggestions in landscape mode</string>
 
-    <string name="title_fullscreen_override">Landscape mode editor override</string>
-    <string name="summary_fullscreen_override_true">Always use standard view</string>
-    <string name="summary_fullscreen_override_false">Use fullscreen editor on small devices</string>
+    <string name="title_fullscreen_override">Landscape mode fullscreen editor</string>
+    <string name="summary_fullscreen_override_true">Disabled, use standard view</string>
+    <string name="summary_fullscreen_override_false">Enabled on small devices</string>
 
     <string name="title_force_keyboard_on">Show soft keyboard</string>
     <string name="summary_force_keyboard_on_true">Always</string>
