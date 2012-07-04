@@ -81,8 +81,9 @@ sub read_strings {
       if ($chars =~ /\@string\/(\w+)/) {
         $chars = $$href{$1};
       } else {
+        print STDERR "ERROR: trailing backslash for $name; " if $chars =~ /[^\\]\\$/;
         $chars =~ s/&(\#?\w+);/expand_entity($1)/eg;
-        $chars =~ s/\\(.)/$1/g;
+        $chars =~ s/\\(.)/$1/g; # Backslashes
       }
       $$href{$name} = $chars;
     }
