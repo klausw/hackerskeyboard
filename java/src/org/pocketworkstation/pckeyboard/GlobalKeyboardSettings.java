@@ -153,7 +153,7 @@ public final class GlobalKeyboardSettings {
 
         addStringPref("pref_suggested_punctuation", new StringPref() {
             public void set(String val) { suggestedPunctuation = val; }
-            public String getDefault() { return res.getString(R.string.suggested_punctuations); }
+            public String getDefault() { return res.getString(R.string.suggested_punctuations_default); }
             public int getFlags() { return FLAG_PREF_NEW_PUNC_LIST; }
         });
 
