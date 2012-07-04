@@ -479,7 +479,6 @@ public class LatinIME extends InputMethodService implements
         }
 
         mOrientation = conf.orientation;
-        initSuggestPuncList();
 
         // register to receive ringer mode changes for silent mode
         IntentFilter filter = new IntentFilter(
@@ -655,6 +654,7 @@ public class LatinIME extends InputMethodService implements
         mWordSeparators = mResources.getString(R.string.word_separators);
         mSentenceSeparators = mResources
                 .getString(R.string.sentence_separators);
+        initSuggestPuncList();
 
         conf.locale = saveLocale;
         orig.updateConfiguration(conf, orig.getDisplayMetrics());
@@ -3786,11 +3786,18 @@ public class LatinIME extends InputMethodService implements
     private void initSuggestPuncList() {
         mSuggestPuncList = new ArrayList<CharSequence>();
         String suggestPuncs = sKeyboardSettings.suggestedPunctuation;
+        String defaultPuncs = getResources().getString(R.string.suggested_punctuations_default);
+        Log.i(TAG, "puncs: suggest=" + suggestPuncs + ", default=" + defaultPuncs);
+        if (suggestPuncs.equals(defaultPuncs) || suggestPuncs.isEmpty()) {
+            // Not user-configured, load the language-specific default.
+            suggestPuncs = getResources().getString(R.string.suggested_punctuations);
+        }
         if (suggestPuncs != null) {
             for (int i = 0; i < suggestPuncs.length(); i++) {
                 mSuggestPuncList.add(suggestPuncs.subSequence(i, i + 1));
             }
         }
+        setNextSuggestions();
     }
 
     private boolean isSuggestedPunctuation(int code) {
