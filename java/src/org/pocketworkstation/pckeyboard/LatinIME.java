@@ -299,6 +299,7 @@ public class LatinIME extends InputMethodService implements
     private AudioManager mAudioManager;
     // Align sound effect volume on music volume
     private final float FX_VOLUME = -1.0f;
+    private final float FX_VOLUME_RANGE_DB = 72.0f;
     private boolean mSilentMode;
 
     /* package */String mWordSeparators;
@@ -3590,6 +3591,42 @@ public class LatinIME extends InputMethodService implements
         }
     }
 
+    private float getKeyClickVolume() {
+        if (mAudioManager == null) return 0.0f; // shouldn't happen
+        
+        // The volume calculations are poorly documented, this is the closest I could
+        // find for explaining volume conversions:
+        // http://developer.android.com/reference/android/media/MediaPlayer.html#setAuxEffectSendLevel(float)
+        //
+        //   Note that the passed level value is a raw scalar. UI controls should be scaled logarithmically:
+        //   the gain applied by audio framework ranges from -72dB to 0dB, so an appropriate conversion 
+        //   from linear UI input x to level is: x == 0 -> level = 0 0 < x <= R -> level = 10^(72*(x-R)/20/R)
+        
+        int method = sKeyboardSettings.keyClickMethod; // See click_method_values in strings.xml
+        if (method == 0) return FX_VOLUME;
+        
+        float targetVol = sKeyboardSettings.keyClickVolume;
+
+        if (method > 1) {
+            // TODO(klausw): on some devices the media volume controls the click volume?
+            // If that's the case, try to set a relative target volume.
+            int mediaMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            int mediaVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            Log.i(TAG, "getKeyClickVolume relative, media vol=" + mediaVol + "/" + mediaMax);
+            float channelVol = (float) mediaVol / mediaMax;
+            if (method == 2) {
+                targetVol *= channelVol;
+            } else if (method == 3) {
+                if (channelVol == 0) return 0.0f; // Channel is silent, won't get audio
+                targetVol = Math.min(targetVol / channelVol, 1.0f); // Cap at 1.0
+            }
+        }
+        // Set absolute volume, treating the percentage as a logarithmic control
+        float vol = (float) Math.pow(10.0, FX_VOLUME_RANGE_DB * (targetVol - 1) / 20);
+        Log.i(TAG, "getKeyClickVolume absolute, target=" + targetVol + " amp=" + vol);
+        return vol;
+    }
+    
     private void playKeyClick(int primaryCode) {
         // if mAudioManager is null, we don't have the ringer state yet
         // mAudioManager will be set by updateRingerMode
@@ -3613,7 +3650,7 @@ public class LatinIME extends InputMethodService implements
                 sound = AudioManager.FX_KEYPRESS_SPACEBAR;
                 break;
             }
-            mAudioManager.playSoundEffect(sound, FX_VOLUME);
+            mAudioManager.playSoundEffect(sound, getKeyClickVolume());
         }
     }
 
