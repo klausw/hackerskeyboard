@@ -667,8 +667,8 @@
     <!-- Title for Latin keyboard debug settings activity / dialog -->
     <string name="english_ime_debug_settings" translatable="false">Debug settings</string>
     <string name="prefs_debug_mode" translatable="false">Debug Mode</string>
-    <string name="main_setup_configure_imes">Configure input methods</string>
-    <string name="main_setup_set_ime">Set current input method</string>
+    <string name="main_setup_configure_imes">Enable keyboard</string>
+    <string name="main_setup_set_ime">Set input method</string>
     <string name="main_setup_get_dicts">Get dictionaries</string>
     <string name="main_setup_input_lang">Input languages</string>
     <string name="main_body"><Data>
@@ -679,7 +679,7 @@
         
         <h3>Add the keyboard to the system's input method list:</h3>
         <blockquote>
-          <p>&#8226; Open the system input settings configuration by pressing the <b>Configure input methods</b> button above.</p>
+          <p>&#8226; Open the system input settings configuration by pressing the <b>Enable Keyboard</b> button above.</p>
           <p>&#8226; Find <i>Hacker's Keyboard</i> in the input method list, tap the checkmark to switch it on.</p>
           <p>&#8226; Acknowledge the warning shown by the system. The system always shows this message when enabling a third-party input method.</p>
           <p>&#8226; Press the <i>Back</i> button to return to this page.</p>
@@ -687,7 +687,7 @@
         
         <h3>Choose the currently active input method:</h3>
         <blockquote>
-          <p>&#8226; Press the <b>Set current input method</b> button above.</p>
+          <p>&#8226; Press the <b>Set input method</b> button above.</p>
           <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.</p>
         </blockquote>
 
