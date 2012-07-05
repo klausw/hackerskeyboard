@@ -3824,7 +3824,7 @@ public class LatinIME extends InputMethodService implements
         mSuggestPuncList = new ArrayList<CharSequence>();
         String suggestPuncs = sKeyboardSettings.suggestedPunctuation;
         String defaultPuncs = getResources().getString(R.string.suggested_punctuations_default);
-        if (suggestPuncs.equals(defaultPuncs) || suggestPuncs.isEmpty()) {
+        if (suggestPuncs.equals(defaultPuncs) || suggestPuncs.equals("")) {
             // Not user-configured, load the language-specific default.
             suggestPuncs = getResources().getString(R.string.suggested_punctuations);
         }
