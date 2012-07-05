@@ -14,6 +14,7 @@
      limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hk="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
     android:key="prefs_view"
     android:title="@string/pref_screen_view_title" >
 
@@ -45,10 +46,12 @@
             android:persistent="true"
             android:title="@string/title_candidate_scale" />
         
-        <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+        <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
-            android:entries="@array/top_row_scale_entries"
-            android:entryValues="@array/top_row_scale_values"
+            hk:minValue="0.5"
+            hk:maxValue="1.0"
+            hk:step="0.05"
+            hk:asPercent="true"
             android:key="pref_top_row_scale"
             android:persistent="true"
             android:title="@string/title_top_row_scale" />
