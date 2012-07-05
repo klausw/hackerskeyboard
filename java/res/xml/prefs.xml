@@ -15,6 +15,7 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    	xmlns:hk="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
         android:title="@string/english_ime_settings"
         android:key="english_ime_settings">
 
@@ -22,22 +23,26 @@
             android:title="@string/title_keyboard_view_settings"
             android:key="graphics_settings">
 
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+    <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
+            android:defaultValue="@string/default_height_portrait"
+            hk:minValue="15"
+            hk:maxValue="75"
+            hk:step="1"
+            hk:displayFormat="%.0f%%"
             android:key="settings_height_portrait"
             android:title="@string/title_keyboard_height_portrait"
             android:persistent="true"
-            android:entryValues="@array/keyboard_height_entries"
-            android:entries="@array/keyboard_height_entries"
-            android:defaultValue="@string/default_height_portrait"
             />
 
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+    <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
+            android:defaultValue="@string/default_height_landscape"
+            hk:minValue="15"
+            hk:maxValue="75"
+            hk:step="1"
+            hk:displayFormat="%.0f%%"
             android:key="settings_height_landscape"
             android:title="@string/title_keyboard_height_landscape"
             android:persistent="true"
-            android:entryValues="@array/keyboard_height_entries"
-            android:entries="@array/keyboard_height_entries"
-            android:defaultValue="@string/default_height_landscape"
             />
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
@@ -170,13 +175,15 @@
             android:defaultValue="@string/default_popup_content"
             />
 
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+    <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
+            android:defaultValue="@string/default_long_press_duration"
+            hk:minValue="100"
+            hk:maxValue="2000"
+            hk:logScale="true"
+            hk:displayFormat="%.0f ms"
             android:key="pref_long_press_duration"
             android:title="@string/title_long_press_duration"
             android:persistent="true"
-            android:entryValues="@array/long_press_duration_entries"
-            android:entries="@array/long_press_duration_entries"
-            android:defaultValue="@string/default_long_press_duration"
             />
 
     </PreferenceCategory>

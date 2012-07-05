@@ -30,22 +30,26 @@
             android:persistent="true"
             android:title="@string/title_hint_mode" />
 
-        <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+        <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
-            android:entries="@array/label_scale_entries"
-            android:entryValues="@array/label_scale_values"
+            hk:minValue="0.5"
+            hk:maxValue="8.0"
+            hk:logScale="true"
+            hk:asPercent="true"
             android:key="pref_label_scale"
             android:persistent="true"
             android:title="@string/title_label_scale" />
 
-        <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+        <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
-            android:entries="@array/label_scale_entries"
-            android:entryValues="@array/label_scale_values"
+            hk:minValue="0.5"
+            hk:maxValue="8.0"
+            hk:logScale="true"
+            hk:asPercent="true"
             android:key="pref_candidate_scale"
             android:persistent="true"
             android:title="@string/title_candidate_scale" />
-        
+
         <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
             hk:minValue="0.5"
