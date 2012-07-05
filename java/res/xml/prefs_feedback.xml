@@ -15,6 +15,7 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    	xmlns:hk="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
         android:title="@string/pref_screen_feedback_title"
         android:key="feedback_settings">
 
@@ -24,11 +25,14 @@
             android:persistent="true"
             />
 
-    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+    <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
+            android:defaultValue="40"
+            hk:minValue="5"
+            hk:maxValue="200"
+            hk:logScale="true"
+            hk:displayFormat="%.0f ms"
             android:key="vibrate_len"
             android:title="@string/title_vibrate_len"
-            android:entryValues="@array/vibrate_duration_entries"
-            android:entries="@array/vibrate_duration_entries"
             android:persistent="true"
             />
 

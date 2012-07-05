@@ -20,6 +20,7 @@
         <attr name="maxValue" format="float" />
         <attr name="asPercent" format="boolean" />
         <attr name="step" format="float" />
+        <attr name="logScale" format="boolean" />
         <attr name="displayFormat" format="string" />
     </declare-styleable>
 </resources>
