@@ -491,101 +491,16 @@
         <item>4</item>
     </string-array>
  
-    <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
-    <string-array name="keyboard_height_entries">
-        <item>15%</item>
-        <item>20%</item>
-        <item>25%</item>
-        <item>30%</item>
-        <item>35%</item>
-        <item>40%</item>
-        <item>45%</item>
-        <item>50%</item>
-        <item>55%</item>
-        <item>60%</item>
-        <item>65%</item>
-        <item>70%</item>
-        <item>75%</item>
-    </string-array>
     <string name="percent">percent</string>
 
     <string name="title_top_row_scale">5th row height adjustment</string>
         
     <string name="title_label_scale">Key label scaling</string>
     <string name="title_candidate_scale">Suggestion label scaling</string>
-        <string-array name="label_scale_entries">
-        <item>50%</item>
-        <item>60%</item>
-        <item>70%</item>
-        <item>80%</item>
-        <item>90%</item>
-        <item>100%</item>
-        <item>110%</item>
-        <item>120%</item>
-        <item>130%</item>
-        <item>140%</item>
-        <item>150%</item>
-        <item>175%</item>
-        <item>200%</item>
-        <item>250%</item>
-        <item>300%</item>
-        <item>350%</item>
-        <item>400%</item>
-        <item>600%</item>
-        <item>800%</item>
-    </string-array>
-    <string-array name="label_scale_values">
-        <item>0.5</item>
-        <item>0.6</item>
-        <item>0.7</item>
-        <item>0.8</item>
-        <item>0.9</item>
-        <item>1.0</item>
-        <item>1.1</item>
-        <item>1.2</item>
-        <item>1.3</item>
-        <item>1.4</item>
-        <item>1.5</item>
-        <item>1.75</item>
-        <item>2.0</item>
-        <item>2.5</item>
-        <item>3.0</item>
-        <item>3.5</item>
-        <item>4.0</item>
-        <item>6.0</item>
-        <item>8.0</item>
-    </string-array>
 
-    <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
-        dependent and may require overriding with a device specific overlay. Default is in durations.xml -->
-    <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
-	<string name="title_vibrate_len">Vibrate duration</string>
-    <string-array name="vibrate_duration_entries">
-        <item>5 ms</item>
-        <item>10 ms</item>
-        <item>15 ms</item>
-        <item>20 ms</item>
-        <item>30 ms</item>
-        <item>40 ms</item>
-        <item>50 ms</item>
-        <item>75 ms</item>
-        <item>100 ms</item>
-        <item>200 ms</item>
-    </string-array>
+    <string name="title_vibrate_len">Vibrate duration</string>
 
     <string name="title_long_press_duration">Long-press duration</string>
-    <string-array name="long_press_duration_entries">
-        <item>100 ms</item>
-        <item>200 ms</item>
-        <item>300 ms</item>
-        <item>400 ms</item>
-        <item>500 ms</item>
-        <item>600 ms</item>
-        <item>700 ms</item>
-        <item>800 ms</item>
-        <item>1000 ms</item>
-        <item>2000 ms</item>
-    </string-array>
 
     <string name="title_render_mode">Drawing method</string>
     <string name="render_mode_unavailable">(not changeable on this device)</string>
