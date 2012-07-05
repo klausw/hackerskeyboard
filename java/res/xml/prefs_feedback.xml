@@ -42,6 +42,25 @@
             android:persistent="true" 
             />
 
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_click_method"
+            android:title="@string/title_click_method"
+            android:entryValues="@array/click_method_values"
+            android:entries="@array/click_method_entries"
+            android:defaultValue="@string/default_click_method"
+            android:persistent="true"
+            />
+    
+    <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
+            android:defaultValue="@string/default_click_volume"
+            hk:minValue="0"
+            hk:maxValue="1"
+            hk:asPercent="true"
+            android:key="pref_click_volume"
+            android:title="@string/title_click_volume"
+            android:persistent="true"
+            />
+
     <CheckBoxPreference
             android:key="popup_on"
             android:title="@string/popup_on_keypress"

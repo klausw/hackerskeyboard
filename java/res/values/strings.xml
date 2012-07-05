@@ -500,6 +500,23 @@
 
     <string name="title_vibrate_len">Vibrate duration</string>
 
+    <string name="title_click_volume">Key click volume</string>
+    <string name="default_click_volume">0.2</string>
+    <string name="title_click_method">Click volume control method</string>
+    <string name="default_click_method">0</string>
+    <string-array name="click_method_entries">
+        <item>System default (ignore click volume)</item>
+        <item>Absolute click volume</item>
+        <item>Follow media volume</item>
+        <item>Reverse media volume</item>
+    </string-array>
+    <string-array name="click_method_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
     <string name="title_long_press_duration">Long-press duration</string>
 
     <string name="title_render_mode">Drawing method</string>
