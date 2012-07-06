@@ -1393,13 +1393,14 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void postUpdateShiftKeyState() {
-        //updateShiftKeyState(getCurrentInputEditorInfo());
-
-        // FIXME: why the delay?
-        mHandler.removeMessages(MSG_UPDATE_SHIFT_STATE);
-        // TODO: Should remove this 300ms delay?
-        mHandler.sendMessageDelayed(mHandler
-                .obtainMessage(MSG_UPDATE_SHIFT_STATE), 300);
+        // TODO(klausw): disabling, I have no idea what this is supposed to accomplish.
+//        //updateShiftKeyState(getCurrentInputEditorInfo());
+//
+//        // FIXME: why the delay?
+//        mHandler.removeMessages(MSG_UPDATE_SHIFT_STATE);
+//        // TODO: Should remove this 300ms delay?
+//        mHandler.sendMessageDelayed(mHandler
+//                .obtainMessage(MSG_UPDATE_SHIFT_STATE), 300);
     }
 
     public void updateShiftKeyState(EditorInfo attr) {
@@ -1407,14 +1408,14 @@ public class LatinIME extends InputMethodService implements
         if (ic != null && attr != null && mKeyboardSwitcher.isAlphabetMode()) {
             int oldState = getShiftState();
             boolean isShifted = mShiftKeyState.isMomentary();
-            boolean isCapsLock = (oldState == Keyboard.SHIFT_CAPS_LOCKED);
+            boolean isCapsLock = (oldState == Keyboard.SHIFT_CAPS_LOCKED || oldState == Keyboard.SHIFT_LOCKED);
             boolean isCaps = isCapsLock || getCursorCapsMode(ic, attr) != 0;
             //Log.i(TAG, "updateShiftKeyState isShifted=" + isShifted + " isCaps=" + isCaps + " isMomentary=" + mShiftKeyState.isMomentary() + " cursorCaps=" + getCursorCapsMode(ic, attr));
             int newState = Keyboard.SHIFT_OFF;
             if (isShifted) {
-                newState = Keyboard.SHIFT_ON;
+                newState = (mSavedShiftState == Keyboard.SHIFT_LOCKED) ? Keyboard.SHIFT_CAPS : Keyboard.SHIFT_ON;
             } else if (isCaps) {
-                newState = isCapsLock ? Keyboard.SHIFT_CAPS_LOCKED : Keyboard.SHIFT_CAPS;
+                newState = isCapsLock ? getCapsOrShiftLockState() : Keyboard.SHIFT_CAPS;
             }
             //Log.i(TAG, "updateShiftKeyState " + oldState + " -> " + newState);
             mKeyboardSwitcher.setShiftState(newState);
@@ -1706,7 +1707,8 @@ public class LatinIME extends InputMethodService implements
         if (shifted) {
             //Log.i(TAG, "send SHIFT up");
             if (sendKey) sendShiftKey(ic, false);
-            if (!mShiftKeyState.isMomentary()) {
+            int shiftState = getShiftState();
+            if (!(mShiftKeyState.isMomentary() || shiftState == Keyboard.SHIFT_LOCKED)) {
                 resetShift();
             }
         }
@@ -2253,10 +2255,12 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void startMultitouchShift() {
+        int newState = Keyboard.SHIFT_ON;
         if (mKeyboardSwitcher.isAlphabetMode()) {
             mSavedShiftState = getShiftState();
+            if (mSavedShiftState == Keyboard.SHIFT_LOCKED) newState = Keyboard.SHIFT_CAPS;
         }
-        handleShiftInternal(true, Keyboard.SHIFT_ON);
+        handleShiftInternal(true, newState);
     }
 
     private void commitMultitouchShift() {
@@ -2284,13 +2288,17 @@ public class LatinIME extends InputMethodService implements
         handleShiftInternal(false, -1);
     }
 
+    private static int getCapsOrShiftLockState() {
+        return sKeyboardSettings.capsLock ? Keyboard.SHIFT_CAPS_LOCKED : Keyboard.SHIFT_LOCKED;
+    }
+    
     // Rotate through shift states by successively pressing and releasing the Shift key.
     private static int nextShiftState(int prevState, boolean allowCapsLock) {
         if (allowCapsLock) {
             if (prevState == Keyboard.SHIFT_OFF) {
                 return Keyboard.SHIFT_ON;
             } else if (prevState == Keyboard.SHIFT_ON) {
-                return Keyboard.SHIFT_CAPS_LOCKED;
+                return getCapsOrShiftLockState();
             } else {
                 return Keyboard.SHIFT_OFF;
             }
