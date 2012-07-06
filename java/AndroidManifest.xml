@@ -14,8 +14,10 @@
 
     <application android:label="@string/english_ime_name"
             android:backupAgent="LatinIMEBackupAgent"
+            android:restoreAnyVersion="true"
             android:hardwareAccelerated="false"
-            android:killAfterRestore="false" android:icon="@drawable/icon">
+            android:killAfterRestore="false"
+            android:icon="@drawable/icon">
 
         <service android:name="LatinIME"
                 android:label="@string/english_ime_name"
