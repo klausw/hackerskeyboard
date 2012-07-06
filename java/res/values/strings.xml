@@ -456,6 +456,14 @@
     <string name="summary_connectbot_tab_hack_true">Enable compatibility workaround</string>
     <string name="summary_connectbot_tab_hack_false">Send plain Tab key event</string>
 
+    <string name="title_caps_lock">Double-tap Shift mode</string>
+    <string name="summary_caps_lock_true">Caps Lock (q1 => Q1)</string>
+    <string name="summary_caps_lock_false">Shift Lock (q1 => Q!)</string>
+
+    <string name="title_shift_lock_modifiers">Apply Shift Lock to modifier keys?</string>
+    <string name="summary_shift_lock_modifiers_true">Yes, including arrow keys</string>
+    <string name="summary_shift_lock_modifiers_false">No, normal keys only</string>
+    
     <string name="title_hint_mode">Labeled alternate keys</string>
     <string-array name="hint_modes">
         <item>Hide hint labels</item>

@@ -738,7 +738,11 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     public boolean isShiftAll() {
         int state = getShiftState();
-        return state == Keyboard.SHIFT_ON || state == Keyboard.SHIFT_LOCKED;
+        if (LatinIME.sKeyboardSettings.shiftLockModifiers) {
+            return state == Keyboard.SHIFT_ON || state == Keyboard.SHIFT_LOCKED;
+        } else {
+            return state == Keyboard.SHIFT_ON;            
+        }
     }
 
     /**

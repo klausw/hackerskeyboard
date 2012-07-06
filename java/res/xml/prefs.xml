@@ -121,6 +121,24 @@
             android:defaultValue="@bool/default_auto_cap"
             />
 
+    <CheckBoxPreference
+            android:key="pref_caps_lock"
+            android:title="@string/title_caps_lock"
+            android:persistent="true"
+            android:defaultValue="@bool/default_caps_lock"
+            android:summaryOn="@string/summary_caps_lock_true"
+            android:summaryOff="@string/summary_caps_lock_false"
+            />
+    
+    <CheckBoxPreference
+            android:key="pref_shift_lock_modifiers"
+            android:title="@string/title_shift_lock_modifiers"
+            android:persistent="true"
+            android:defaultValue="@bool/default_shift_lock_modifiers"
+            android:summaryOn="@string/summary_shift_lock_modifiers_true"
+            android:summaryOff="@string/summary_shift_lock_modifiers_false"
+            />
+    
     <PreferenceScreen
             android:title="@string/pref_screen_feedback_title"
             android:summary="Configure key sound, vibrate, preview popup etc.">
