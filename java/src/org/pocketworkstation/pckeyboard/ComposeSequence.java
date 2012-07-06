@@ -263,6 +263,8 @@ public class ComposeSequence extends ComposeBase {
             put("cE", "Ě");
             put("ce", "ě");
             //put("ff", "ﬀ"); // Not usable, interferes with ffi/ffl prefix
+            put("+f", "ﬀ");
+            put("f+", "ﬀ");
             put("fi", "ﬁ");
             put("fl", "ﬂ");
             put("ffi", "ﬃ");
