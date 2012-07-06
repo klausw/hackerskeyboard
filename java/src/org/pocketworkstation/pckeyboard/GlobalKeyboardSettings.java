@@ -49,6 +49,8 @@ public final class GlobalKeyboardSettings {
     public int chordingAltKey = 0;
     public float keyClickVolume = 0.0f;
     public int keyClickMethod = 0;
+    public boolean capsLock = true;
+    public boolean shiftLockModifiers = false;
     //
     // Read by LatinKeyboardBaseView
     public float labelScalePref = 1.0f;
@@ -198,6 +200,18 @@ public final class GlobalKeyboardSettings {
         addStringPref("pref_click_method", new StringPref() {
             public void set(String val) { keyClickMethod = Integer.valueOf(val); }
             public String getDefault() { return res.getString(R.string.default_click_method); }
+            public int getFlags() { return FLAG_PREF_NONE; }
+        });
+
+        addBooleanPref("pref_caps_lock", new BooleanPref() {
+            public void set(boolean val) { capsLock = val; }
+            public boolean getDefault() { return res.getBoolean(R.bool.default_caps_lock); }
+            public int getFlags() { return FLAG_PREF_NONE; }
+        });
+
+        addBooleanPref("pref_shift_lock_modifiers", new BooleanPref() {
+            public void set(boolean val) { shiftLockModifiers = val; }
+            public boolean getDefault() { return res.getBoolean(R.bool.default_shift_lock_modifiers); }
             public int getFlags() { return FLAG_PREF_NONE; }
         });
 
