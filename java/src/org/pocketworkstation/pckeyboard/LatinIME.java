@@ -3620,7 +3620,7 @@ public class LatinIME extends InputMethodService implements
             // If that's the case, try to set a relative target volume.
             int mediaMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             int mediaVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            Log.i(TAG, "getKeyClickVolume relative, media vol=" + mediaVol + "/" + mediaMax);
+            //Log.i(TAG, "getKeyClickVolume relative, media vol=" + mediaVol + "/" + mediaMax);
             float channelVol = (float) mediaVol / mediaMax;
             if (method == 2) {
                 targetVol *= channelVol;
@@ -3631,7 +3631,7 @@ public class LatinIME extends InputMethodService implements
         }
         // Set absolute volume, treating the percentage as a logarithmic control
         float vol = (float) Math.pow(10.0, FX_VOLUME_RANGE_DB * (targetVol - 1) / 20);
-        Log.i(TAG, "getKeyClickVolume absolute, target=" + targetVol + " amp=" + vol);
+        //Log.i(TAG, "getKeyClickVolume absolute, target=" + targetVol + " amp=" + vol);
         return vol;
     }
     
