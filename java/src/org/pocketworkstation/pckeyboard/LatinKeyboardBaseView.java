@@ -806,6 +806,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             if (MeasureSpec.getSize(widthMeasureSpec) < width + 10) {
                 width = MeasureSpec.getSize(widthMeasureSpec);
             }
+            Log.i(TAG, "onMeasure width=" + width);
             setMeasuredDimension(
                     width, mKeyboard.getHeight() + getPaddingTop() + getPaddingBottom());
         }
@@ -834,6 +835,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        Log.i(TAG, "onSizeChanged, w=" + w + ", h=" + h);
         mViewWidth = w;
         // Release the buffer, if any and it will be reallocated on the next draw
         mBuffer = null;
