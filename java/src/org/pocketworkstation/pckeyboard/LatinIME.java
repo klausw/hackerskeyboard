@@ -2137,6 +2137,16 @@ public class LatinIME extends InputMethodService implements
         InputConnection ic = getCurrentInputConnection();
         if (ic == null)
             return;
+        if (mPredicting && text.length() == 1) {
+            // If adding a single letter, treat it as a regular keystroke so
+            // that completion works as expected.
+            int c = text.charAt(0);
+            if (!isWordSeparator(c)) {
+                int[] codes = {c};
+                handleCharacter(c, codes);
+                return;
+            }
+        }
         abortCorrection(false);
         ic.beginBatchEdit();
         if (mPredicting) {
