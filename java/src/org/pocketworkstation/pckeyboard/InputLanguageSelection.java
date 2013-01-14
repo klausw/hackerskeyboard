@@ -69,17 +69,17 @@ public class InputLanguageSelection extends PreferenceActivity {
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
         "ar", "bg", "ca", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
-        "en_GB", "es", "es_US", "fa", "fi", "fr", "fr_CA", "he", "hr", "hu",
-        "hy", "in", "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb",
-        "nl", "pl", "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk",
-        "sk_QY", "sl", "sr", "sv", "th", "tl", "tr", "uk", "vi", "zh_CN",
-        "zh_TW"
+        "en_GB", "es", "es_LA", "es_US", "fa", "fi", "fr", "fr_CA", "he",
+        "hr", "hu", "hy", "in", "it", "iw", "ja", "ka", "ko", "lo", "lt",
+        "lv", "nb", "nl", "pl", "pt", "pt_PT", "rm", "ro", "ru", "ru_PH",
+        "si", "sk", "sk_QY", "sl", "sr", "sv", "th", "tl", "tr", "uk",
+        "vi", "zh_CN", "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
         "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "en_GB",
-        "es", "fa", "fi", "fr", "fr_CA", "he", "hr", "hy", "it", "iw",
-        "lo", "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY",
+        "es", "es_LA", "fa", "fi", "fr", "fr_CA", "he", "hr", "hy", "it",
+        "iw", "lo", "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY",
         "sl", "sr", "sv", "th", "tr", "uk"
     };
 
@@ -96,6 +96,8 @@ public class InputLanguageSelection extends PreferenceActivity {
             return "English (Dvorak)";
         } else if (lang.equals("en") && country.equals("EX")) {
                 return "English (4x11)";
+        } else if (lang.equals("es") && country.equals("LA")) {
+            return "Español (América Latina)";
         } else if (lang.equals("cs") && country.equals("QY")) {
             return "Čeština (QWERTY)";
         } else if (lang.equals("sk") && country.equals("QY")) {
