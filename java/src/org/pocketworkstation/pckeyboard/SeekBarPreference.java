@@ -1,5 +1,7 @@
 package org.pocketworkstation.pckeyboard;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
@@ -103,7 +105,7 @@ public class SeekBarPreference extends DialogPreference {
             val = min + delta;
         }
         // Hack: Round number to 2 significant digits so that it looks nicer.
-        val = Float.valueOf(String.format("%.2g", val));
+        val = Float.valueOf(String.format(Locale.US, "%.2g", val));
         return val;
     }
 
