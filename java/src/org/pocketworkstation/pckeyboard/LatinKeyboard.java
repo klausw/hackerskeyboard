@@ -262,9 +262,7 @@ public class LatinKeyboard extends Keyboard {
 
     public void updateSymbolIcons(boolean isAutoCompletion) {
         updateDynamicKeys();
-        if (mSpaceKey != null) {
-            updateSpaceBarForLocale(isAutoCompletion);
-        }
+        updateSpaceBarForLocale(isAutoCompletion);
     }
 
     private void setDefaultBounds(Drawable drawable) {
@@ -398,6 +396,7 @@ public class LatinKeyboard extends Keyboard {
     }
 
     private void updateSpaceBarForLocale(boolean isAutoCompletion) {
+        if (mSpaceKey == null) return;
         // If application locales are explicitly selected.
         if (mLocale != null) {
             mSpaceKey.icon = new BitmapDrawable(mRes,
