@@ -97,7 +97,7 @@ public class InputLanguageSelection extends PreferenceActivity {
         } else if (lang.equals("en") && country.equals("EX")) {
                 return "English (4x11)";
         } else if (lang.equals("es") && country.equals("LA")) {
-            return "Español (América Latina)";
+            return "Español (Latinoamérica)";
         } else if (lang.equals("cs") && country.equals("QY")) {
             return "Čeština (QWERTY)";
         } else if (lang.equals("sk") && country.equals("QY")) {
