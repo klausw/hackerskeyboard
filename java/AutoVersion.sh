@@ -1,5 +1,11 @@
 #!/bin/bash
 
+OUT=es/values/auto-version.xml
+
+if grep -q custom $OUT; then
+  exit 0
+fi
+
 # Use the fancy id generator if present, fall back to plain "hg id" if not.
 Id="$(Hg-ident)" 2>/dev/null
 [ -z "$Id" ] && Id="$(hg id)"
@@ -7,7 +13,7 @@ Id="$(Hg-ident)" 2>/dev/null
 Ver="$Id $(date +%Y-%m-%d)"
 
 # Create the auto-version file with this version string
-exec > res/values/auto-version.xml
+exec > $OUT
 
 cat <<'EOF'
 <?xml version="1.0" encoding="utf-8"?>
