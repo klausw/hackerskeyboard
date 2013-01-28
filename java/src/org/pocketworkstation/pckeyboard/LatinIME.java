@@ -257,6 +257,7 @@ public class LatinIME extends InputMethodService implements
     private String mVolDownAction;
 
     public static final GlobalKeyboardSettings sKeyboardSettings = new GlobalKeyboardSettings(); 
+    static LatinIME sInstance;
     
     private int mHeightPortrait;
     private int mHeightLandscape;
@@ -414,6 +415,7 @@ public class LatinIME extends InputMethodService implements
         LatinImeLogger.init(this);
         KeyboardSwitcher.init(this);
         super.onCreate();
+        sInstance = this;
         // setStatusIcon(R.drawable.ime_qwerty);
         mResources = getResources();
         final Configuration conf = mResources.getConfiguration();
@@ -3385,7 +3387,6 @@ public class LatinIME extends InputMethodService implements
             mVolDownAction = sharedPreferences.getString(PREF_VOL_DOWN, res.getString(R.string.default_vol_down));
         } else if (PREF_VIBRATE_LEN.equals(key)) {
             mVibrateLen = getPrefInt(sharedPreferences, PREF_VIBRATE_LEN, getResources().getString(R.string.vibrate_duration_ms));
-            vibrate(); // test setting
         }
 
         updateKeyboardOptions();
@@ -3676,9 +3677,13 @@ public class LatinIME extends InputMethodService implements
         if (!mVibrateOn) {
             return;
         }
+        vibrate(mVibrateLen);
+    }
+
+    void vibrate(int len) {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (v != null) {
-            v.vibrate(mVibrateLen);
+            v.vibrate(len);
             return;
         }
 
@@ -3688,7 +3693,7 @@ public class LatinIME extends InputMethodService implements
                     HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         }
     }
-
+    
     private void checkTutorial(String privateImeOptions) {
         if (privateImeOptions == null)
             return;
