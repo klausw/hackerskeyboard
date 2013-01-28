@@ -51,7 +51,7 @@ public class SeekBarPreference extends DialogPreference {
     }
 
     @Override
-    protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+    protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {     
         if (restorePersistedValue) {
             setVal(getPersistedFloat(0.0f));
         } else {
@@ -138,7 +138,11 @@ public class SeekBarPreference extends DialogPreference {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    setVal(percentToSteppedVal(progress, mMin, mMax, mStep, mLogScale));
+                    float newVal = percentToSteppedVal(progress, mMin, mMax, mStep, mLogScale);
+                    if (newVal != mVal) {
+                        onChange(newVal);
+                    }
+                    setVal(newVal);
                     mSeek.setProgress(getProgressVal());
                 }
                 showVal();
@@ -146,6 +150,10 @@ public class SeekBarPreference extends DialogPreference {
         });
         
         super.onBindDialogView(view);
+    }
+
+    public void onChange(float val) {
+        // override in subclasses
     }
 
     @Override

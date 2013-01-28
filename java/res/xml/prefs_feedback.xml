@@ -25,7 +25,7 @@
             android:persistent="true"
             />
 
-    <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
+    <org.pocketworkstation.pckeyboard.VibratePreference		
             android:defaultValue="40"
             hk:minValue="5"
             hk:maxValue="200"
