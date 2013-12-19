@@ -16,12 +16,9 @@
 
 package org.pocketworkstation.pckeyboard;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.backup.BackupManager;
 import android.content.DialogInterface;
@@ -33,13 +30,9 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
-import android.speech.SpeechRecognizer;
 import android.text.AutoText;
 import android.text.InputType;
 import android.util.Log;
-
-import com.android.inputmethod.voice.SettingsUtil;
-import com.android.inputmethod.voice.VoiceInputLogger;
 
 public class LatinIMESettings extends PreferenceActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener,
@@ -64,8 +57,6 @@ public class LatinIMESettings extends PreferenceActivity
     private Preference mInputConnectionInfo;
     private boolean mVoiceOn;
 
-    private VoiceInputLogger mLogger;
-
     private boolean mOkClicked = false;
     private String mVoiceModeOff;
 
@@ -87,7 +78,6 @@ public class LatinIMESettings extends PreferenceActivity
 
         mVoiceModeOff = getString(R.string.voice_mode_off);
         mVoiceOn = !(prefs.getString(VOICE_SETTINGS_KEY, mVoiceModeOff).equals(mVoiceModeOff));
-        mLogger = VoiceInputLogger.getLogger(this);
     }
 
     @Override
@@ -97,12 +87,6 @@ public class LatinIMESettings extends PreferenceActivity
         if (autoTextSize < 1) {
             ((PreferenceGroup) findPreference(PREDICTION_SETTINGS_KEY))
                     .removePreference(mQuickFixes);
-        }
-        if (!LatinIME.VOICE_INSTALLED
-                || !SpeechRecognizer.isRecognitionAvailable(this)) {
-            getPreferenceScreen().removePreference(mVoicePreference);
-        } else {
-            updateVoiceModeSummary();
         }
         
         Log.i(TAG, "compactModeEnabled=" + LatinIME.sKeyboardSettings.compactModeEnabled);
@@ -251,52 +235,6 @@ public class LatinIMESettings extends PreferenceActivity
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case VOICE_INPUT_CONFIRM_DIALOG:
-                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        if (whichButton == DialogInterface.BUTTON_NEGATIVE) {
-                            mVoicePreference.setValue(mVoiceModeOff);
-                            mLogger.settingsWarningDialogCancel();
-                        } else if (whichButton == DialogInterface.BUTTON_POSITIVE) {
-                            mOkClicked = true;
-                            mLogger.settingsWarningDialogOk();
-                        }
-                        updateVoicePreference();
-                    }
-                };
-                AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                        .setTitle(R.string.voice_warning_title)
-                        .setPositiveButton(android.R.string.ok, listener)
-                        .setNegativeButton(android.R.string.cancel, listener);
-
-                // Get the current list of supported locales and check the current locale against
-                // that list, to decide whether to put a warning that voice input will not work in
-                // the current language as part of the pop-up confirmation dialog.
-                String supportedLocalesString = SettingsUtil.getSettingsString(
-                        getContentResolver(),
-                        SettingsUtil.LATIN_IME_VOICE_INPUT_SUPPORTED_LOCALES,
-                        LatinIME.DEFAULT_VOICE_INPUT_SUPPORTED_LOCALES);
-                ArrayList<String> voiceInputSupportedLocales =
-                        LatinIME.newArrayList(supportedLocalesString.split("\\s+"));
-                boolean localeSupported =
-                    voiceInputSupportedLocales.contains(Locale.getDefault().toString()) ||
-                    voiceInputSupportedLocales.contains(Locale.getDefault().getLanguage());
-
-                if (localeSupported) {
-                    String message = getString(R.string.voice_warning_may_not_understand) + "\n\n" +
-                            getString(R.string.voice_hint_dialog_message);
-                    builder.setMessage(message);
-                } else {
-                    String message = getString(R.string.voice_warning_locale_not_supported) +
-                            "\n\n" + getString(R.string.voice_warning_may_not_understand) + "\n\n" +
-                            getString(R.string.voice_hint_dialog_message);
-                    builder.setMessage(message);
-                }
-
-                AlertDialog dialog = builder.create();
-                dialog.setOnDismissListener(this);
-                mLogger.settingsWarningDialogShown();
-                return dialog;
             default:
                 Log.e(TAG, "unknown dialog " + id);
                 return null;
@@ -304,7 +242,6 @@ public class LatinIMESettings extends PreferenceActivity
     }
 
     public void onDismiss(DialogInterface dialog) {
-        mLogger.settingsWarningDialogDismissed();
         if (!mOkClicked) {
             // This assumes that onPreferenceClick gets called first, and this if the user
             // agreed after the warning, we set the mOkClicked value to true.
@@ -313,11 +250,5 @@ public class LatinIMESettings extends PreferenceActivity
     }
 
     private void updateVoicePreference() {
-        boolean isChecked = !mVoicePreference.getValue().equals(mVoiceModeOff);
-        if (isChecked) {
-            mLogger.voiceInputSettingEnabled();
-        } else {
-            mLogger.voiceInputSettingDisabled();
-        }
     }
 }
