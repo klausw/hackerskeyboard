@@ -10,9 +10,10 @@
     <uses-feature android:name="android.hardware.faketouch" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
-    <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8"></uses-sdk>
+    <uses-sdk android:targetSdkVersion="19" android:minSdkVersion="8"></uses-sdk>
 
     <application android:label="@string/english_ime_name"
+            android:allowBackup="true"
             android:backupAgent="LatinIMEBackupAgent"
             android:restoreAnyVersion="true"
             android:hardwareAccelerated="false"
