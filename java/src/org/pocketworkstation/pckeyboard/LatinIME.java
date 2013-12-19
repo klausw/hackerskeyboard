@@ -1325,13 +1325,11 @@ public class LatinIME extends InputMethodService implements
         }
         if (ic != null) {
             // Clear modifiers other than shift, to avoid them getting stuck
-            int states =
-                KeyEvent.META_ALT_ON 
-                | KeyEvent.META_ALT_LEFT_ON
-                | KeyEvent.META_ALT_RIGHT_ON
-                | 0x8 // KeyEvent.META_FUNCTION_ON;
-                | 0x7000 // KeyEvent.META_CTRL_MASK
-                | 0x70000 // KeyEvent.META_META_MASK
+            int states = 
+                KeyEvent.META_FUNCTION_ON
+                | KeyEvent.META_ALT_MASK
+                | KeyEvent.META_CTRL_MASK
+                | KeyEvent.META_META_MASK
                 | KeyEvent.META_SYM_ON;
             ic.clearMetaKeyStates(states);
         }
@@ -1500,9 +1498,9 @@ public class LatinIME extends InputMethodService implements
     private int getMetaState(boolean shifted) {
         int meta = 0;
         if (shifted) meta |= KeyEvent.META_SHIFT_ON | KeyEvent.META_SHIFT_LEFT_ON;
-        if (mModCtrl) meta |= 0x3000; // KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON;
-        if (mModAlt) meta |= 0x3; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON;
-        if (mModMeta) meta |= 0x30000; // KeyEvent.META_META_ON | KeyEvent.META_META_LEFT_ON;
+        if (mModCtrl) meta |= KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON;
+        if (mModAlt) meta |= KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON;
+        if (mModMeta) meta |= KeyEvent.META_META_ON | KeyEvent.META_META_LEFT_ON;
         return meta;
     }
 
@@ -1566,8 +1564,8 @@ public class LatinIME extends InputMethodService implements
         if (chording && delayChordingCtrlModifier()) return;
 
         int key = sKeyboardSettings.chordingCtrlKey;
-        if (key == 0) key = 113; // KeyEvent.KEYCODE_CTRL_LEFT
-        int meta = 0x3000; // KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON
+        if (key == 0) key = KeyEvent.KEYCODE_CTRL_LEFT
+        int meta = KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON;
         if (isDown) {
             sendKeyDown(ic, key, meta);
         } else {
@@ -1579,8 +1577,8 @@ public class LatinIME extends InputMethodService implements
         if (chording && delayChordingAltModifier()) return;
 
         int key = sKeyboardSettings.chordingAltKey;
-        if (key == 0) key = 57; // KeyEvent.KEYCODE_ALT_LEFT
-        int meta = 0x3; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON
+        if (key == 0) key = KeyEvent.KEYCODE_ALT_LEFT;
+        int meta = KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON;
         if (isDown) {
             sendKeyDown(ic, key, meta);
         } else {
@@ -1592,8 +1590,8 @@ public class LatinIME extends InputMethodService implements
         if (chording && delayChordingAltModifier()) return;
 
         int key = sKeyboardSettings.chordingMetaKey;
-        if (key == 0) key = 117; // KeyEvent.KEYCODE_META_LEFT
-        int meta = 0x30000; // KeyEvent.META_META_ON | KeyEvent.META_META_LEFT_ON
+        if (key == 0) key = KeyEvent.KEYCODE_META_LEFT;
+        int meta = KeyEvent.META_META_ON | KeyEvent.META_META_LEFT_ON;
         if (isDown) {
             sendKeyDown(ic, key, meta);
         } else {
