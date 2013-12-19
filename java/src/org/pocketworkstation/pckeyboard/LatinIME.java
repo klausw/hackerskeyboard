@@ -1564,7 +1564,7 @@ public class LatinIME extends InputMethodService implements
         if (chording && delayChordingCtrlModifier()) return;
 
         int key = sKeyboardSettings.chordingCtrlKey;
-        if (key == 0) key = KeyEvent.KEYCODE_CTRL_LEFT
+        if (key == 0) key = KeyEvent.KEYCODE_CTRL_LEFT;
         int meta = KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON;
         if (isDown) {
             sendKeyDown(ic, key, meta);
