@@ -27,9 +27,9 @@ for
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="key_tlde_main">`</string>
+    <string name="key_tlde_main">\'</string>
     <string name="key_tlde_shift">~</string>
-    <string name="key_tlde_alt">`~</string>
+    <string name="key_tlde_alt">\'`~</string>
 
     <string name="key_ae01_main">1</string>
     <string name="key_ae01_shift">!</string>
@@ -106,7 +106,7 @@ for
 
     <string name="key_ad07_main">г</string>
     <string name="key_ad07_shift">Г</string>
-    <string name="key_ad07_alt"></string>
+    <string name="key_ad07_alt">ґ</string>
 
     <string name="key_ad08_main">ш</string>
     <string name="key_ad08_shift">Ш</string>
@@ -139,7 +139,7 @@ for
 
     <string name="key_ac02_main">і</string>
     <string name="key_ac02_shift">І</string>
-    <string name="key_ac02_alt">ы</string>
+    <string name="key_ac02_alt">ыї</string>
 
     <string name="key_ac03_main">в</string>
     <string name="key_ac03_shift">В</string>
