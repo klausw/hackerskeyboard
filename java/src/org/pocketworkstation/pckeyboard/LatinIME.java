@@ -18,9 +18,7 @@ package org.pocketworkstation.pckeyboard;
 
 import org.pocketworkstation.pckeyboard.LatinIMEUtil.RingCharBuffer;
 
-import com.android.inputmethod.voice.FieldContext;
-import com.android.inputmethod.voice.SettingsUtil;
-import com.android.inputmethod.voice.VoiceInput;
+import com.google.android.voiceime.VoiceRecognitionTrigger;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -89,14 +87,12 @@ import java.util.regex.Matcher;
  */
 public class LatinIME extends InputMethodService implements
         ComposeSequencing,
-        LatinKeyboardBaseView.OnKeyboardActionListener, VoiceInput.UiListener,
+        LatinKeyboardBaseView.OnKeyboardActionListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "PCKeyboardIME";
     private static final boolean PERF_DEBUG = false;
     static final boolean DEBUG = false;
     static final boolean TRACE = false;
-    static final boolean VOICE_INSTALLED = true;
-    static final boolean ENABLE_VOICE_BUTTON = true;
     static Map<Integer, String> ESC_SEQUENCES;
     static Map<Integer, Integer> CTRL_SEQUENCES;
 
@@ -111,23 +107,6 @@ public class LatinIME extends InputMethodService implements
     // private static final String PREF_BIGRAM_SUGGESTIONS =
     // "bigram_suggestion";
     private static final String PREF_VOICE_MODE = "voice_mode";
-
-    // Whether or not the user has used voice input before (and thus, whether to
-    // show the
-    // first-run warning dialog or not).
-    private static final String PREF_HAS_USED_VOICE_INPUT = "has_used_voice_input";
-
-    // Whether or not the user has used voice input from an unsupported locale
-    // UI before.
-    // For example, the user has a Chinese UI but activates voice input.
-    private static final String PREF_HAS_USED_VOICE_INPUT_UNSUPPORTED_LOCALE = "has_used_voice_input_unsupported_locale";
-
-    // A list of locales which are supported by default for voice input, unless
-    // we get a
-    // different list from Gservices.
-    public static final String DEFAULT_VOICE_INPUT_SUPPORTED_LOCALES = "en "
-            + "en_US " + "en_GB " + "en_AU " + "en_CA " + "en_IE " + "en_IN "
-            + "en_NZ " + "en_SG " + "en_ZA ";
 
     // The private IME option used to indicate that no microphone should be
     // shown for a
@@ -183,7 +162,6 @@ public class LatinIME extends InputMethodService implements
     private CompletionInfo[] mCompletions;
 
     private AlertDialog mOptionsDialog;
-    private AlertDialog mVoiceWarningDialog;
 
     /* package */KeyboardSwitcher mKeyboardSwitcher;
 
@@ -191,8 +169,6 @@ public class LatinIME extends InputMethodService implements
     private UserBigramDictionary mUserBigramDictionary;
     private ContactsDictionary mContactsDictionary;
     private AutoDictionary mAutoDictionary;
-
-    private Hints mHints;
 
     private Resources mResources;
 
@@ -204,11 +180,6 @@ public class LatinIME extends InputMethodService implements
     private WordComposer mWord = new WordComposer();
     private int mCommittedLength;
     private boolean mPredicting;
-    private boolean mRecognizing;
-    private boolean mAfterVoiceInput;
-    private boolean mImmediatelyAfterVoiceInput;
-    private boolean mShowingVoiceSuggestions;
-    private boolean mVoiceInputHighlighted;
     private boolean mEnableVoiceButton;
     private CharSequence mBestWord;
     private boolean mPredictionOnForMode;
@@ -238,9 +209,6 @@ public class LatinIME extends InputMethodService implements
     private boolean mAutoCapActive;
     private boolean mDeadKeysActive;
     private boolean mQuickFixes;
-    private boolean mHasUsedVoiceInput;
-    private boolean mHasUsedVoiceInputUnsupportedLocale;
-    private boolean mLocaleSupportedForVoiceInput;
     private boolean mShowSuggestions;
     private boolean mIsShowingHint;
     private boolean mConnectbotTabHack;
@@ -307,8 +275,6 @@ public class LatinIME extends InputMethodService implements
 
     /* package */String mWordSeparators;
     private String mSentenceSeparators;
-    private VoiceInput mVoiceInput;
-    private VoiceResults mVoiceResults = new VoiceResults();
     private boolean mConfigurationChanging;
 
     // Keeps track of most recently inserted text (multi-character key) for
@@ -324,10 +290,7 @@ public class LatinIME extends InputMethodService implements
     private PluginManager mPluginManager;
     private NotificationReceiver mNotificationReceiver;
 
-    private class VoiceResults {
-        List<String> candidates;
-        Map<String, List<CharSequence>> alternatives;
-    }
+    private VoiceRecognitionTrigger mVoiceRecognitionTrigger;
 
     public abstract static class WordAlternatives {
         protected CharSequence mChosenWord;
@@ -404,9 +367,6 @@ public class LatinIME extends InputMethodService implements
             case MSG_UPDATE_SHIFT_STATE:
                 updateShiftKeyState(getCurrentInputEditorInfo());
                 break;
-            case MSG_VOICE_RESULTS:
-                handleVoiceResults();
-                break;
             }
         }
     };
@@ -460,6 +420,8 @@ public class LatinIME extends InputMethodService implements
         mVolDownAction = prefs.getString(PREF_VOL_DOWN, res.getString(R.string.default_vol_down));
         sKeyboardSettings.initPrefs(prefs, res);
 
+        mVoiceRecognitionTrigger = new VoiceRecognitionTrigger(this);
+        
         updateKeyboardOptions();
 
         PluginManager.getPluginDictionaries(getApplicationContext());
@@ -489,18 +451,6 @@ public class LatinIME extends InputMethodService implements
         IntentFilter filter = new IntentFilter(
                 AudioManager.RINGER_MODE_CHANGED_ACTION);
         registerReceiver(mReceiver, filter);
-        if (VOICE_INSTALLED) {
-            mVoiceInput = new VoiceInput(this, this);
-            mHints = new Hints(this, new Hints.Display() {
-                public void showHint(int viewResource) {
-                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View view = inflater.inflate(viewResource, null);
-                    setCandidatesView(view);
-                    setCandidatesViewShown(true);
-                    mIsShowingHint = true;
-                }
-            });
-        }
         prefs.registerOnSharedPreferenceChangeListener(this);
         setNotification(mKeyboardNotification);
     }
@@ -679,9 +629,6 @@ public class LatinIME extends InputMethodService implements
         	unregisterReceiver(mNotificationReceiver);
             mNotificationReceiver = null;
         }
-        if (VOICE_INSTALLED && mVoiceInput != null) {
-            mVoiceInput.destroy();
-        }
         LatinImeLogger.commit();
         LatinImeLogger.onDestroy();
         super.onDestroy();
@@ -718,9 +665,6 @@ public class LatinIME extends InputMethodService implements
         }
         mConfigurationChanging = true;
         super.onConfigurationChanged(conf);
-        if (mRecognizing) {
-            switchToRecognitionStatusView();
-        }
         mConfigurationChanging = false;
     }
 
@@ -730,8 +674,7 @@ public class LatinIME extends InputMethodService implements
         mKeyboardSwitcher.recreateInputView();
         mKeyboardSwitcher.makeKeyboards(true);
         mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_TEXT, 0,
-                shouldShowVoiceButton(makeFieldContext(),
-                        getCurrentInputEditorInfo()));
+                shouldShowVoiceButton(getCurrentInputEditorInfo()));
         return mKeyboardSwitcher.getInputView();
     }
 
@@ -827,14 +770,13 @@ public class LatinIME extends InputMethodService implements
             }
         }
 
-        mEnableVoiceButton = shouldShowVoiceButton(makeFieldContext(),
-                attribute);
+        mEnableVoiceButton = shouldShowVoiceButton(attribute);
         final boolean enableVoiceButton = mEnableVoiceButton && mEnableVoice;
 
-        mAfterVoiceInput = false;
-        mImmediatelyAfterVoiceInput = false;
-        mShowingVoiceSuggestions = false;
-        mVoiceInputHighlighted = false;
+        if (mVoiceRecognitionTrigger != null) {
+            mVoiceRecognitionTrigger.onStartInputView();
+        }
+        
         mInputTypeNoAutoCorrect = false;
         mPredictionOnForMode = false;
         mCompletionOn = false;
@@ -947,6 +889,11 @@ public class LatinIME extends InputMethodService implements
             Debug.startMethodTracing("/data/trace/latinime");
     }
 
+    private boolean shouldShowVoiceButton(EditorInfo attribute) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
     private void checkReCorrectionOnStart() {
         if (mReCorrectionEnabled && isPredictionOn()) {
             // First get the cursor position. This is required by
@@ -982,14 +929,6 @@ public class LatinIME extends InputMethodService implements
         LatinImeLogger.commit();
         onAutoCompletionStateChanged(false);
 
-        if (VOICE_INSTALLED && !mConfigurationChanging) {
-            if (mAfterVoiceInput) {
-                mVoiceInput.flushAllTextModificationCounters();
-                mVoiceInput.logInputEnded();
-            }
-            mVoiceInput.flushLogs();
-            mVoiceInput.cancel();
-        }
         if (mKeyboardSwitcher.getInputView() != null) {
             mKeyboardSwitcher.getInputView().closing();
         }
@@ -1011,12 +950,6 @@ public class LatinIME extends InputMethodService implements
     public void onUpdateExtractedText(int token, ExtractedText text) {
         super.onUpdateExtractedText(token, text);
         InputConnection ic = getCurrentInputConnection();
-        if (!mImmediatelyAfterVoiceInput && mAfterVoiceInput && ic != null) {
-            if (mHints.showPunctuationHintIfNecessary(ic)) {
-                mVoiceInput.logPunctuationHintDisplayed();
-            }
-        }
-        mImmediatelyAfterVoiceInput = false;
     }
 
     @Override
@@ -1032,14 +965,9 @@ public class LatinIME extends InputMethodService implements
                     + ", cs=" + candidatesStart + ", ce=" + candidatesEnd);
         }
 
-        if (mAfterVoiceInput) {
-            mVoiceInput.setCursorPos(newSelEnd);
-            mVoiceInput.setSelectionSpan(newSelEnd - newSelStart);
-        }
-
         // If the current selection in the text view changes, we should
         // clear whatever candidate text we have.
-        if ((((mComposing.length() > 0 && mPredicting) || mVoiceInputHighlighted)
+        if ((((mComposing.length() > 0 && mPredicting))
                 && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd) && mLastSelectionStart != newSelStart)) {
             mComposing.setLength(0);
             mPredicting = false;
@@ -1049,7 +977,6 @@ public class LatinIME extends InputMethodService implements
             if (ic != null) {
                 ic.finishComposingText();
             }
-            mVoiceInputHighlighted = false;
         } else if (!mPredicting && !mJustAccepted) {
             switch (TextEntryState.getState()) {
             case ACCEPTED_DEFAULT:
@@ -1078,8 +1005,7 @@ public class LatinIME extends InputMethodService implements
                         && (candidatesStart == candidatesEnd
                                 || newSelStart != oldSelStart || TextEntryState
                                 .isCorrecting())
-                        && (newSelStart < newSelEnd - 1 || (!mPredicting))
-                        && !mVoiceInputHighlighted) {
+                        && (newSelStart < newSelEnd - 1 || (!mPredicting))) {
                     if (isCursorTouchingWord()
                             || mLastSelectionStart < mLastSelectionEnd) {
                         postUpdateOldSuggestions();
@@ -1144,18 +1070,6 @@ public class LatinIME extends InputMethodService implements
         if (mOptionsDialog != null && mOptionsDialog.isShowing()) {
             mOptionsDialog.dismiss();
             mOptionsDialog = null;
-        }
-        if (!mConfigurationChanging) {
-            if (mAfterVoiceInput)
-                mVoiceInput.logInputEnded();
-            if (mVoiceWarningDialog != null && mVoiceWarningDialog.isShowing()) {
-                mVoiceInput.logKeyboardWarningDialogDismissed();
-                mVoiceWarningDialog.dismiss();
-                mVoiceWarningDialog = null;
-            }
-            if (VOICE_INSTALLED & mRecognizing) {
-                mVoiceInput.cancel();
-            }
         }
         mWordToSuggestions.clear();
         mWordHistory.clear();
@@ -1348,22 +1262,6 @@ public class LatinIME extends InputMethodService implements
             break;
         }
         return super.onKeyUp(keyCode, event);
-    }
-
-    private void revertVoiceInput() {
-        InputConnection ic = getCurrentInputConnection();
-        if (ic != null)
-            ic.commitText("", 1);
-        updateSuggestions();
-        mVoiceInputHighlighted = false;
-    }
-
-    private void commitVoiceInput() {
-        InputConnection ic = getCurrentInputConnection();
-        if (ic != null)
-            ic.finishComposingText();
-        updateSuggestions();
-        mVoiceInputHighlighted = false;
     }
 
     private void reloadKeyboards() {
@@ -2084,9 +1982,10 @@ public class LatinIME extends InputMethodService implements
             toggleLanguage(false, false);
             break;
         case LatinKeyboardView.KEYCODE_VOICE:
-            if (VOICE_INSTALLED) {
-                startListening(false /* was a button press, was not a swipe */);
+            if (mVoiceRecognitionTrigger.isInstalled()) {
+                mVoiceRecognitionTrigger.startVoiceRecognition();
             }
+            //startListening(false /* was a button press, was not a swipe */);
             break;
         case 9 /* Tab */:
             if (processMultiKey(primaryCode)) {
@@ -2166,9 +2065,6 @@ public class LatinIME extends InputMethodService implements
     }
 
     public void onText(CharSequence text) {
-        if (VOICE_INSTALLED && mVoiceInputHighlighted) {
-            commitVoiceInput();
-        }
         //mDeadAccentBuffer.clear();  // FIXME
         InputConnection ic = getCurrentInputConnection();
         if (ic == null)
@@ -2204,33 +2100,12 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void handleBackspace() {
-        if (VOICE_INSTALLED && mVoiceInputHighlighted) {
-            mVoiceInput
-                    .incrementTextModificationDeleteCount(mVoiceResults.candidates
-                            .get(0).toString().length());
-            revertVoiceInput();
-            return;
-        }
         boolean deleteChar = false;
         InputConnection ic = getCurrentInputConnection();
         if (ic == null)
             return;
 
         ic.beginBatchEdit();
-
-        if (mAfterVoiceInput) {
-            // Don't log delete if the user is pressing delete at
-            // the beginning of the text box (hence not deleting anything)
-            if (mVoiceInput.getCursorPos() > 0) {
-                // If anything was selected before the delete was pressed,
-                // increment the
-                // delete count by the length of the selection
-                int deleteLen = mVoiceInput.getSelectionSpan() > 0 ? mVoiceInput
-                        .getSelectionSpan()
-                        : 1;
-                mVoiceInput.incrementTextModificationDeleteCount(deleteLen);
-            }
-        }
 
         if (mPredicting) {
             final int length = mComposing.length();
@@ -2388,15 +2263,6 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
-        if (VOICE_INSTALLED && mVoiceInputHighlighted) {
-            commitVoiceInput();
-        }
-
-        if (mAfterVoiceInput) {
-            // Assume input length is 1. This assumption fails for smiley face
-            // insertions.
-            mVoiceInput.incrementTextModificationInsertCount(1);
-        }
         if (mLastSelectionStart == mLastSelectionEnd
                 && TextEntryState.isCorrecting()) {
             abortCorrection(false);
@@ -2448,15 +2314,6 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void handleSeparator(int primaryCode) {
-        if (VOICE_INSTALLED && mVoiceInputHighlighted) {
-            commitVoiceInput();
-        }
-
-        if (mAfterVoiceInput) {
-            // Assume input length is 1. This assumption fails for smiley face
-            // insertions.
-            mVoiceInput.incrementTextModificationInsertPunctuationCount(1);
-        }
 
         // Should dismiss the "Touch again to save" message when handling
         // separator
@@ -2530,9 +2387,6 @@ public class LatinIME extends InputMethodService implements
 
     private void handleClose() {
         commitTyped(getCurrentInputConnection(), true);
-        if (VOICE_INSTALLED & mRecognizing) {
-            mVoiceInput.cancel();
-        }
         requestHideSelf(0);
         if (mKeyboardSwitcher != null) {
             LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
@@ -2585,16 +2439,9 @@ public class LatinIME extends InputMethodService implements
         return isPredictionOn();
     }
 
-    public void onCancelVoice() {
-        if (mRecognizing) {
-            switchToKeyboardView();
-        }
-    }
-
     private void switchToKeyboardView() {
         mHandler.post(new Runnable() {
             public void run() {
-                mRecognizing = false;
                 LatinKeyboardView view = mKeyboardSwitcher.getInputView(); 
                 if (view != null) {
                     ViewParent p = view.getParent();
@@ -2608,181 +2455,6 @@ public class LatinIME extends InputMethodService implements
                 postUpdateSuggestions();
             }
         });
-    }
-
-    private void switchToRecognitionStatusView() {
-        final boolean configChanged = mConfigurationChanging;
-        mHandler.post(new Runnable() {
-            public void run() {
-                setCandidatesViewShown(false);
-                mRecognizing = true;
-                View v = mVoiceInput.getView();
-                ViewParent p = v.getParent();
-                if (p != null && p instanceof ViewGroup) {
-                    ((ViewGroup) v.getParent()).removeView(v);
-                }
-                setInputView(v);
-                updateInputViewShown();
-                if (configChanged) {
-                    mVoiceInput.onConfigurationChanged();
-                }
-            }
-        });
-    }
-
-    private void startListening(boolean swipe) {
-        if (!mHasUsedVoiceInput
-                || (!mLocaleSupportedForVoiceInput && !mHasUsedVoiceInputUnsupportedLocale)) {
-            // Calls reallyStartListening if user clicks OK, does nothing if
-            // user clicks Cancel.
-            showVoiceWarningDialog(swipe);
-        } else {
-            reallyStartListening(swipe);
-        }
-    }
-
-    private void reallyStartListening(boolean swipe) {
-        if (!mHasUsedVoiceInput) {
-            // The user has started a voice input, so remember that in the
-            // future (so we don't show the warning dialog after the first run).
-            SharedPreferences.Editor editor = PreferenceManager
-                    .getDefaultSharedPreferences(this).edit();
-            editor.putBoolean(PREF_HAS_USED_VOICE_INPUT, true);
-            SharedPreferencesCompat.apply(editor);
-            mHasUsedVoiceInput = true;
-        }
-
-        if (!mLocaleSupportedForVoiceInput
-                && !mHasUsedVoiceInputUnsupportedLocale) {
-            // The user has started a voice input from an unsupported locale, so
-            // remember that
-            // in the future (so we don't show the warning dialog the next time
-            // they do this).
-            SharedPreferences.Editor editor = PreferenceManager
-                    .getDefaultSharedPreferences(this).edit();
-            editor.putBoolean(PREF_HAS_USED_VOICE_INPUT_UNSUPPORTED_LOCALE,
-                    true);
-            SharedPreferencesCompat.apply(editor);
-            mHasUsedVoiceInputUnsupportedLocale = true;
-        }
-
-        // Clear N-best suggestions
-        clearSuggestions();
-
-        FieldContext context = new FieldContext(getCurrentInputConnection(),
-                getCurrentInputEditorInfo(), mLanguageSwitcher
-                        .getInputLanguage(), mLanguageSwitcher
-                        .getEnabledLanguages());
-        mVoiceInput.startListening(context, swipe);
-        switchToRecognitionStatusView();
-    }
-
-    private void showVoiceWarningDialog(final boolean swipe) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setIcon(R.drawable.ic_mic_dialog);
-        builder.setPositiveButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        mVoiceInput.logKeyboardWarningDialogOk();
-                        reallyStartListening(swipe);
-                    }
-                });
-        builder.setNegativeButton(android.R.string.cancel,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        mVoiceInput.logKeyboardWarningDialogCancel();
-                    }
-                });
-
-        if (mLocaleSupportedForVoiceInput) {
-            String message = getString(R.string.voice_warning_may_not_understand)
-                    + "\n\n"
-                    + getString(R.string.voice_warning_how_to_turn_off);
-            builder.setMessage(message);
-        } else {
-            String message = getString(R.string.voice_warning_locale_not_supported)
-                    + "\n\n"
-                    + getString(R.string.voice_warning_may_not_understand)
-                    + "\n\n"
-                    + getString(R.string.voice_warning_how_to_turn_off);
-            builder.setMessage(message);
-        }
-
-        builder.setTitle(R.string.voice_warning_title);
-        mVoiceWarningDialog = builder.create();
-
-        Window window = mVoiceWarningDialog.getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.token = mKeyboardSwitcher.getInputView().getWindowToken();
-        lp.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
-        window.setAttributes(lp);
-        window.addFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        mVoiceInput.logKeyboardWarningDialogShown();
-        mVoiceWarningDialog.show();
-    }
-
-    public void onVoiceResults(List<String> candidates,
-            Map<String, List<CharSequence>> alternatives) {
-        if (!mRecognizing) {
-            return;
-        }
-        mVoiceResults.candidates = candidates;
-        mVoiceResults.alternatives = alternatives;
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_VOICE_RESULTS));
-    }
-
-    private void handleVoiceResults() {
-        mAfterVoiceInput = true;
-        mImmediatelyAfterVoiceInput = true;
-
-        InputConnection ic = getCurrentInputConnection();
-        if (!isFullscreenMode()) {
-            // Start listening for updates to the text from typing, etc.
-            if (ic != null) {
-                ExtractedTextRequest req = new ExtractedTextRequest();
-                ic.getExtractedText(req,
-                        InputConnection.GET_EXTRACTED_TEXT_MONITOR);
-            }
-        }
-
-        vibrate();
-        switchToKeyboardView();
-
-        final List<CharSequence> nBest = new ArrayList<CharSequence>();
-        boolean capitalizeFirstWord = preferCapitalization()
-                || (mKeyboardSwitcher.isAlphabetMode()
-                && isShiftCapsMode() );
-        for (String c : mVoiceResults.candidates) {
-            if (capitalizeFirstWord) {
-                c = c.substring(0,1).toUpperCase(sKeyboardSettings.inputLocale)
-                        + c.substring(1, c.length());
-            }
-            nBest.add(c);
-        }
-
-        if (nBest.size() == 0) {
-            return;
-        }
-
-        String bestResult = nBest.get(0).toString();
-
-        mVoiceInput.logVoiceInputDelivered(bestResult.length());
-
-        mHints.registerVoiceResult(bestResult);
-
-        if (ic != null)
-            ic.beginBatchEdit(); // To avoid extra updates on committing older
-                                 // text
-
-        commitTyped(ic, false);
-        EditingUtil.appendText(ic, bestResult);
-
-        if (ic != null)
-            ic.endBatchEdit();
-
-        mVoiceInputHighlighted = true;
-        mWordToSuggestions.putAll(mVoiceResults.alternatives);
     }
 
     private void clearSuggestions() {
@@ -2809,7 +2481,7 @@ public class LatinIME extends InputMethodService implements
         ((LatinKeyboard) inputView.getKeyboard()).setPreferredLetters(null);
 
         // Check if we have a suggestion engine attached.
-        if ((mSuggest == null || !isPredictionOn()) && !mVoiceInputHighlighted) {
+        if ((mSuggest == null || !isPredictionOn())) {
             return;
         }
         
@@ -2906,14 +2578,6 @@ public class LatinIME extends InputMethodService implements
     public void pickSuggestionManually(int index, CharSequence suggestion) {
         List<CharSequence> suggestions = mCandidateView.getSuggestions();
 
-        if (mAfterVoiceInput && mShowingVoiceSuggestions) {
-            mVoiceInput.flushAllTextModificationCounters();
-            // send this intent AFTER logging any prior aggregated edits.
-            mVoiceInput.logTextModifiedByChooseSuggestion(
-                    suggestion.toString(), index, mWordSeparators,
-                    getCurrentInputConnection());
-        }
-
         final boolean correcting = TextEntryState.isCorrecting();
         InputConnection ic = getCurrentInputConnection();
         if (ic != null) {
@@ -2998,25 +2662,6 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void rememberReplacedWord(CharSequence suggestion) {
-        if (mShowingVoiceSuggestions) {
-            // Retain the replaced word in the alternatives array.
-            EditingUtil.Range range = new EditingUtil.Range();
-            String wordToBeReplaced = EditingUtil.getWordAtCursor(
-                    getCurrentInputConnection(), mWordSeparators, range);
-            if (!mWordToSuggestions.containsKey(wordToBeReplaced)) {
-                wordToBeReplaced = wordToBeReplaced.toLowerCase();
-            }
-            if (mWordToSuggestions.containsKey(wordToBeReplaced)) {
-                List<CharSequence> suggestions = mWordToSuggestions
-                        .get(wordToBeReplaced);
-                if (suggestions.contains(suggestion)) {
-                    suggestions.remove(suggestion);
-                }
-                suggestions.add(wordToBeReplaced);
-                mWordToSuggestions.remove(wordToBeReplaced);
-                mWordToSuggestions.put(suggestion.toString(), suggestions);
-            }
-        }
     }
 
     /**
@@ -3049,44 +2694,6 @@ public class LatinIME extends InputMethodService implements
             setNextSuggestions();
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-    }
-
-    /**
-     * Tries to apply any voice alternatives for the word if this was a spoken
-     * word and there are voice alternatives.
-     *
-     * @param touching
-     *            The word that the cursor is touching, with position
-     *            information
-     * @return true if an alternative was found, false otherwise.
-     */
-    private boolean applyVoiceAlternatives(EditingUtil.SelectedWord touching) {
-        // Search for result in spoken word alternatives
-        String selectedWord = touching.word.toString().trim();
-        if (!mWordToSuggestions.containsKey(selectedWord)) {
-            selectedWord = selectedWord.toLowerCase();
-        }
-        if (mWordToSuggestions.containsKey(selectedWord)) {
-            mShowingVoiceSuggestions = true;
-            List<CharSequence> suggestions = mWordToSuggestions
-                    .get(selectedWord);
-            // If the first letter of touching is capitalized, make all the
-            // suggestions
-            // start with a capital letter.
-            if (Character.isUpperCase(touching.word.charAt(0))) {
-                for (int i = 0; i < suggestions.size(); i++) {
-                    String origSugg = (String) suggestions.get(i);
-                    String capsSugg = origSugg.toUpperCase().charAt(0)
-                            + origSugg.subSequence(1, origSugg.length())
-                                    .toString();
-                    suggestions.set(i, capsSugg);
-                }
-            }
-            setSuggestions(suggestions, false, true, true);
-            setCandidatesViewShown(true);
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -3142,7 +2749,6 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void setOldSuggestions() {
-        mShowingVoiceSuggestions = false;
         if (mCandidateView != null
                 && mCandidateView.isShowingAddToDictionaryHint()) {
             return;
@@ -3156,22 +2762,8 @@ public class LatinIME extends InputMethodService implements
                     .getWordAtCursorOrSelection(ic, mLastSelectionStart,
                             mLastSelectionEnd, mWordSeparators);
 
-            if (touching != null && touching.word.length() > 1) {
-                ic.beginBatchEdit();
-
-                if (!applyVoiceAlternatives(touching)
-                        && !applyTypedAlternatives(touching)) {
-                    abortCorrection(true);
-                } else {
-                    TextEntryState.selectedForCorrection();
-                    EditingUtil.underlineWord(ic, touching);
-                }
-
-                ic.endBatchEdit();
-            } else {
-                abortCorrection(true);
-                setNextSuggestions(); // Show the punctuation suggestions list
-            }
+            abortCorrection(true);
+            setNextSuggestions(); // Show the punctuation suggestions list
         } else {
             abortCorrection(true);
         }
@@ -3469,14 +3061,6 @@ public class LatinIME extends InputMethodService implements
                     mKeyboardSwitcher.getInputView().startPlaying(text.toString());
                 }
             }
-        } else if (action.equals("voice_input")) {
-            if (VOICE_INSTALLED) {
-                startListening(false /* was a button press, was not a swipe */);
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.voice_not_enabled_warning), Toast.LENGTH_LONG)
-                        .show();
-            }
         } else if (action.equals("full_mode")) {
             if (isPortrait()) {
                 mKeyboardModeOverridePortrait = (mKeyboardModeOverridePortrait + 1) % mNumKeyboardModes;
@@ -3623,27 +3207,6 @@ public class LatinIME extends InputMethodService implements
             }
             mFnKeyState.onRelease();
         }
-    }
-
-    private FieldContext makeFieldContext() {
-        return new FieldContext(getCurrentInputConnection(),
-                getCurrentInputEditorInfo(), mLanguageSwitcher
-                        .getInputLanguage(), mLanguageSwitcher
-                        .getEnabledLanguages());
-    }
-
-    private boolean fieldCanDoVoice(FieldContext fieldContext) {
-        return !mPasswordText && mVoiceInput != null
-                && !mVoiceInput.isBlacklistedField(fieldContext);
-    }
-
-    private boolean shouldShowVoiceButton(FieldContext fieldContext,
-            EditorInfo attribute) {
-        return ENABLE_VOICE_BUTTON
-                && fieldCanDoVoice(fieldContext)
-                && !(attribute != null && IME_OPTION_NO_MICROPHONE
-                        .equals(attribute.privateImeOptions))
-                && SpeechRecognizer.isRecognitionAvailable(this);
     }
 
     // receive ringer mode changes to detect silent mode
@@ -3843,48 +3406,24 @@ public class LatinIME extends InputMethodService implements
         mAutoCapPref = sp.getBoolean(PREF_AUTO_CAP, getResources().getBoolean(
                 R.bool.default_auto_cap));
         mQuickFixes = sp.getBoolean(PREF_QUICK_FIXES, true);
-        mHasUsedVoiceInput = sp.getBoolean(PREF_HAS_USED_VOICE_INPUT, false);
-        mHasUsedVoiceInputUnsupportedLocale = sp.getBoolean(
-                PREF_HAS_USED_VOICE_INPUT_UNSUPPORTED_LOCALE, false);
-
-        // Get the current list of supported locales and check the current
-        // locale against that
-        // list. We cache this value so as not to check it every time the user
-        // starts a voice
-        // input. Because this method is called by onStartInputView, this should
-        // mean that as
-        // long as the locale doesn't change while the user is keeping the IME
-        // open, the
-        // value should never be stale.
-        String supportedLocalesString = SettingsUtil.getSettingsString(
-                getContentResolver(),
-                SettingsUtil.LATIN_IME_VOICE_INPUT_SUPPORTED_LOCALES,
-                DEFAULT_VOICE_INPUT_SUPPORTED_LOCALES);
-        ArrayList<String> voiceInputSupportedLocales = newArrayList(supportedLocalesString
-                .split("\\s+"));
-
-        mLocaleSupportedForVoiceInput = 
-            voiceInputSupportedLocales.contains(mInputLocale) ||
-            voiceInputSupportedLocales.contains(mInputLocale.substring(0, Math.min(2, mInputLocale.length())));
 
         mShowSuggestions = sp.getBoolean(PREF_SHOW_SUGGESTIONS, mResources
                 .getBoolean(R.bool.default_suggestions));
 
-        if (VOICE_INSTALLED) {
-            final String voiceMode = sp.getString(PREF_VOICE_MODE,
-                    getString(R.string.voice_mode_main));
-            boolean enableVoice = !voiceMode
-                    .equals(getString(R.string.voice_mode_off))
-                    && mEnableVoiceButton;
-            boolean voiceOnPrimary = voiceMode
-                    .equals(getString(R.string.voice_mode_main));
-            if (mKeyboardSwitcher != null
-                    && (enableVoice != mEnableVoice || voiceOnPrimary != mVoiceOnPrimary)) {
-                mKeyboardSwitcher.setVoiceMode(enableVoice, voiceOnPrimary);
-            }
-            mEnableVoice = enableVoice;
-            mVoiceOnPrimary = voiceOnPrimary;
+        final String voiceMode = sp.getString(PREF_VOICE_MODE,
+                getString(R.string.voice_mode_main));
+        boolean enableVoice = !voiceMode
+                .equals(getString(R.string.voice_mode_off))
+                && mEnableVoiceButton;
+        boolean voiceOnPrimary = voiceMode
+                .equals(getString(R.string.voice_mode_main));
+        if (mKeyboardSwitcher != null
+                && (enableVoice != mEnableVoice || voiceOnPrimary != mVoiceOnPrimary)) {
+            mKeyboardSwitcher.setVoiceMode(enableVoice, voiceOnPrimary);
         }
+        mEnableVoice = enableVoice;
+        mVoiceOnPrimary = voiceOnPrimary;
+
         mAutoCorrectEnabled = sp.getBoolean(PREF_AUTO_COMPLETE, mResources
                 .getBoolean(R.bool.enable_autocorrect))
                 & mShowSuggestions;
