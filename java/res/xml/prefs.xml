@@ -171,6 +171,15 @@
             />
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_chording_meta_key"
+            android:title="@string/title_chording_meta_key"
+            android:persistent="true"
+            android:entries="@array/chording_meta_key_entries"
+            android:entryValues="@array/chording_meta_key_values"
+            android:defaultValue="@string/default_chording_meta_key"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_slide_keys_int"
             android:title="@string/title_slide_keys"
             android:persistent="true" 
