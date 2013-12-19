@@ -30,65 +30,65 @@
             android:shiftLabel="်"
             android:capsLabel="ဆ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_q4"
+            android:popupCharacters="1၁ဆွၦဍၮq"
             android:keyEdgeFlags="left" />
         <Key
             android:keyLabel="တ"
             android:shiftLabel="ၽ"
             android:capsLabel="တ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_w4" />
+            android:popupCharacters="2၂တၽႊၱ ႑w" />
         <Key
             android:keyLabel="န"
             android:shiftLabel="ႏ"
             android:capsLabel="န"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_e4" />
+            android:popupCharacters="3၃နႏၷ႖ဋ႗ၬeéèêëē€" />
         <Key
             android:keyLabel="မ"
             android:shiftLabel="ၽ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_r4" />
+            android:popupCharacters="4၄မၽၼ၌၎r" />
         <Key
             android:keyLabel="အ"
             android:shiftLabel="ႊ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_t4" />
+            android:popupCharacters="5၅အႊဤဣဪt" />
         <Key
             android:keyLabel="ပ"
             android:shiftLabel="႔"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_y4" />
+            android:popupCharacters="6၆ပ႔ၸ႕yýÿ¥" />
         <Key
             android:keyLabel="က"
             android:shiftLabel="႕"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_u4" />
+            android:popupCharacters="7၇က႕ၠရ႐uúùûüū" />
         <Key
             android:keyLabel="င"
             android:shiftLabel="ႈ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_i4" />
+            android:popupCharacters="8၈ငႈ၍ဂၢiíìîïī" />
         <Key
             android:keyLabel="သ"
             android:shiftLabel="ဥ"
             android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/alternates_for_o4" />
+            android:popupCharacters="9၉သဥႆၪ0óòôõöōø" />
         <Key
             android:keyLabel="စ"
             android:shiftLabel="ဏ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_p4" />
+            android:popupCharacters="0၀စဏၥၰဦpπ₱" />
         <Key
             android:keyLabel="ဟ"
             android:shiftLabel="ဧ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_open" />
+            android:popupCharacters="ဟဧ]}" />
         <Key
             android:keyLabel="၏"
             android:shiftLabel="႒"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_forward"
+            android:popupCharacters="၏႒\\|"
             android:keyEdgeFlags="right" />
     </Row>
     <Row>
@@ -143,12 +143,12 @@
             android:keyLabel="း"
             android:shiftLabel="ၚ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_semi" />
+            android:popupCharacters="းၚ;:" />
         <Key
             android:keyLabel="ဒ"
             android:shiftLabel="ဓ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_quote"
+            android:popupCharacters="ဒဓၵၶ\'&quot;‘’“”"
             android:keyEdgeFlags="right" />
     </Row>
     <Row>
@@ -199,17 +199,17 @@
             android:keyLabel="ယ"
             android:shiftLabel="ဝ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_comma" />
+            android:popupCharacters="ယဝဎၯ,&lt;≤«‹" />
         <Key
             android:keyLabel="."
             android:shiftLabel="ဈ"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_period" />
+            android:popupCharacters="ဈၩ&gt;≥»›…" />
         <Key
             android:keyLabel="။"
             android:shiftLabel="၊"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_backward" />
+            android:popupCharacters="။၊/\?¿" />
         <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
