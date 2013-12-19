@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUT=es/values/auto-version.xml
+OUT=res/values/auto-version.xml
 
 if grep -q custom $OUT; then
   exit 0
