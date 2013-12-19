@@ -48,6 +48,7 @@ public class InputLanguageSelection extends PreferenceActivity {
     static {
         NOCAPS_LANGUAGES.add("ar");
         NOCAPS_LANGUAGES.add("iw");
+        NOCAPS_LANGUAGES.add("my");
         NOCAPS_LANGUAGES.add("th");
     }
 
@@ -56,12 +57,14 @@ public class InputLanguageSelection extends PreferenceActivity {
     static {
         NODEADKEY_LANGUAGES.add("ar");
         NODEADKEY_LANGUAGES.add("iw"); // TODO: currently no niqqud in the keymap?
+        NODEADKEY_LANGUAGES.add("my");
         NODEADKEY_LANGUAGES.add("th");
     }
 
     // Languages which should not auto-add space after completions
     public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<String>();
     static {
+        NOAUTOSPACE_LANGUAGES.add("my");
         NOAUTOSPACE_LANGUAGES.add("th");
     }
 
@@ -71,7 +74,7 @@ public class InputLanguageSelection extends PreferenceActivity {
         "ar", "bg", "ca", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
         "en_GB", "es", "es_LA", "es_US", "fa", "fi", "fr", "fr_CA", "he",
         "hr", "hu", "hy", "in", "it", "iw", "ja", "ka", "ko", "lo", "lt",
-        "lv", "nb", "nl", "pl", "pt", "pt_PT", "rm", "ro", "ru", "ru_PH",
+        "lv", "my", "nb", "nl", "pl", "pt", "pt_PT", "rm", "ro", "ru", "ru_PH",
         "si", "sk", "sk_QY", "sl", "sr", "sv", "th", "tl", "tr", "uk",
         "vi", "zh_CN", "zh_TW"
     };
@@ -79,13 +82,13 @@ public class InputLanguageSelection extends PreferenceActivity {
     private static final String[] KBD_5_ROW = {
         "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "en_GB",
         "es", "es_LA", "fa", "fi", "fr", "fr_CA", "he", "hr", "hy", "it",
-        "iw", "lo", "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY",
+        "iw", "lo", "my", "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY",
         "sl", "sr", "sv", "th", "tr", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
         "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "fa",
-        "fr", "fr_CA", "he", "hr", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
+        "fr", "fr_CA", "he", "hr", "iw", "my", "nb", "ru", "ru_PH", "sk", "sk_QY",
         "sl", "sr", "sv", "tr", "uk"
     };
 
