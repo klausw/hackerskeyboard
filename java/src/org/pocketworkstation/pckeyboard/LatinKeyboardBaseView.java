@@ -720,6 +720,12 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
     }
 
+    public void setMetaIndicator(boolean active) {
+        if (mKeyboard != null) {
+            invalidateKey(mKeyboard.setMetaIndicator(active));
+        }
+    }
+
     /**
      * Returns the state of the shift key of the keyboard, if any.
      * @return true if the shift is in a pressed state, false otherwise. If there is

@@ -68,6 +68,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
     static final int KEYCODE_CTRL_LEFT = -113;
     static final int KEYCODE_CAPS_LOCK = -115;
     static final int KEYCODE_SCROLL_LOCK = -116;
+    static final int KEYCODE_META_LEFT = -117;
     static final int KEYCODE_FN = -119;
     static final int KEYCODE_SYSRQ = -120;
     static final int KEYCODE_BREAK = -121;

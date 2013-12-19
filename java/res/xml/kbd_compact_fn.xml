@@ -225,6 +225,12 @@
             android:keyWidth="8.29090909%p"
             android:isModifier="true" />
         <Key
+            android:codes="@integer/key_meta_left"
+            android:keyLabel="&#x2756;"
+            android:isSticky="true"
+            android:keyWidth="8.29090909%p"
+            android:isModifier="true" />
+        <Key
             android:codes="@integer/key_shift"
             android:keyWidth="8.29090909%p"
             android:keyIcon="@drawable/sym_keyboard_shift"
@@ -235,13 +241,13 @@
             android:keyLabel=".com"
             android:keyOutputText=".com"
             android:popupKeyboard="@xml/popup_domains"
-            android:keyWidth="12.69090909%p"
+            android:keyWidth="8.545454545%p"
             android:keyIcon="@drawable/hint_popup" />
         <Key
             android:keyLabel=":-)"
             android:keyOutputText=":-) "
             android:popupKeyboard="@xml/popup_smileys"
-            android:keyWidth="12.69090909%p"
+            android:keyWidth="8.545454545%p"
             android:keyIcon="@drawable/hint_popup" />
         <Key
             android:codes="@integer/key_dpad_center"

@@ -225,6 +225,7 @@ public class LatinIME extends InputMethodService implements
     // TODO move this state variable outside LatinIME
     private boolean mModCtrl;
     private boolean mModAlt;
+    private boolean mModMeta;
     private boolean mModFn;
     // Saved shift state when leaving alphabet mode, or when applying multitouch shift
     private int mSavedShiftState;
@@ -288,6 +289,7 @@ public class LatinIME extends InputMethodService implements
     private ModifierKeyState mSymbolKeyState = new ModifierKeyState();
     private ModifierKeyState mCtrlKeyState = new ModifierKeyState();
     private ModifierKeyState mAltKeyState = new ModifierKeyState();
+    private ModifierKeyState mMetaKeyState = new ModifierKeyState();
     private ModifierKeyState mFnKeyState = new ModifierKeyState();
 
     // Compose sequence handling
@@ -839,6 +841,7 @@ public class LatinIME extends InputMethodService implements
         mCompletions = null;
         mModCtrl = false;
         mModAlt = false;
+        mModMeta = false;
         mModFn = false;
         mEnteredText = null;
         mSuggestionForceOn = false;
@@ -1600,7 +1603,8 @@ public class LatinIME extends InputMethodService implements
         int meta = 0;
         if (shifted) meta |= KeyEvent.META_SHIFT_ON | KeyEvent.META_SHIFT_LEFT_ON;
         if (mModCtrl) meta |= 0x3000; // KeyEvent.META_CTRL_ON | KeyEvent.META_CTRL_LEFT_ON;
-        if (mModAlt) meta |= 0x30000; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON;
+        if (mModAlt) meta |= 0x3; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON;
+        if (mModMeta) meta |= 0x30000; // KeyEvent.META_META_ON | KeyEvent.META_META_LEFT_ON;
         return meta;
     }
 
@@ -1642,6 +1646,10 @@ public class LatinIME extends InputMethodService implements
         return sKeyboardSettings.chordingAltKey == 0;
     }
 
+    private boolean delayChordingMetaModifier() {
+        return sKeyboardSettings.chordingMetaKey == 0;
+    }
+
     private void sendModifiedKeyDownUp(int key) {
         sendModifiedKeyDownUp(key, isShiftMod());
     }
@@ -1674,7 +1682,20 @@ public class LatinIME extends InputMethodService implements
 
         int key = sKeyboardSettings.chordingAltKey;
         if (key == 0) key = 57; // KeyEvent.KEYCODE_ALT_LEFT
-        int meta = 0x30000; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON
+        int meta = 0x3; // KeyEvent.META_ALT_ON | KeyEvent.META_ALT_LEFT_ON
+        if (isDown) {
+            sendKeyDown(ic, key, meta);
+        } else {
+            sendKeyUp(ic, key, meta);
+        }
+    }
+
+    private void sendMetaKey(InputConnection ic, boolean isDown, boolean chording) {
+        if (chording && delayChordingAltModifier()) return;
+
+        int key = sKeyboardSettings.chordingMetaKey;
+        if (key == 0) key = 117; // KeyEvent.KEYCODE_META_LEFT
+        int meta = 0x30000; // KeyEvent.META_META_ON | KeyEvent.META_META_LEFT_ON
         if (isDown) {
             sendKeyDown(ic, key, meta);
         } else {
@@ -1694,10 +1715,17 @@ public class LatinIME extends InputMethodService implements
         if (mModAlt && (!mAltKeyState.isMomentary() || delayChordingAltModifier())) {
             sendAltKey(ic, true, false);
         }
+        if (mModMeta && (!mMetaKeyState.isMomentary() || delayChordingMetaModifier())) {
+            sendMetaKey(ic, true, false);
+        }
     }
 
     private void handleModifierKeysUp(boolean shifted, boolean sendKey) {
         InputConnection ic = getCurrentInputConnection();
+        if (mModMeta && !mMetaKeyState.isMomentary()) {
+            if (sendKey) sendMetaKey(ic, false, false);
+            setModMeta(false);
+        }
         if (mModAlt && !mAltKeyState.isMomentary()) {
             if (sendKey) sendAltKey(ic, false, false);
             setModAlt(false);
@@ -1789,7 +1817,7 @@ public class LatinIME extends InputMethodService implements
 
         if (ctrlseq != null) {
             if (mModAlt) {
-                // send ESC prefix for "Meta"
+                // send ESC prefix for "Alt"
                 ic.commitText(Character.toString((char) 27), 1);
             }
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,
@@ -1802,7 +1830,7 @@ public class LatinIME extends InputMethodService implements
                     ctrlseq));
         } else if (seq != null) {
             if (mModAlt) {
-                // send ESC prefix for "Meta"
+                // send ESC prefix for "Alt"
                 ic.commitText(Character.toString((char) 27), 1);
             }
             // send ESC prefix of escape sequence
@@ -1876,7 +1904,7 @@ public class LatinIME extends InputMethodService implements
     public void sendModifiableKeyChar(char ch) {
         // Support modified key events
         boolean modShift = isShiftMod();
-        if ((modShift || mModCtrl || mModAlt) && ch > 0 && ch < 127) {
+        if ((modShift || mModCtrl || mModAlt || mModMeta) && ch > 0 && ch < 127) {
             InputConnection ic = getCurrentInputConnection();
             if (isConnectbot()) {
                 if (mModAlt) {
@@ -1910,7 +1938,7 @@ public class LatinIME extends InputMethodService implements
                 boolean upper = (combinedCode & KF_UPPER) > 0;
                 boolean letter = (combinedCode & KF_LETTER) > 0;
                 boolean shifted = modShift && (upper || shiftable);
-                if (letter && !mModCtrl && !mModAlt) {
+                if (letter && !mModCtrl && !mModAlt && !mModMeta) {
                     // Try workaround for issue 179 where letters don't get upcased
                     ic.commitText(Character.toString(ch), 1);
                     handleModifierKeysUp(false, false);
@@ -2023,6 +2051,12 @@ public class LatinIME extends InputMethodService implements
             // multi-touch panel.
             if (!distinctMultiTouch)
                 setModAlt(!mModAlt);
+            break;
+        case LatinKeyboardView.KEYCODE_META_LEFT:
+            // Meta key is handled in onPress() when device has distinct
+            // multi-touch panel.
+            if (!distinctMultiTouch)
+                setModMeta(!mModMeta);
             break;
         case LatinKeyboardView.KEYCODE_FN:
             if (!distinctMultiTouch)
@@ -2258,12 +2292,19 @@ public class LatinIME extends InputMethodService implements
         mModAlt = val;
     }
 
+    private void setModMeta(boolean val) {
+        // Log.i("LatinIME", "setModMeta "+ mModMeta + "->" + val + ", momentary=" + mMetaKeyState.isMomentary());
+        mKeyboardSwitcher.setMetaIndicator(val);
+        mModMeta = val;
+    }
+
     private void setModFn(boolean val) {
         //Log.i("LatinIME", "setModFn " + mModFn + "->" + val + ", momentary=" + mFnKeyState.isMomentary());
         mModFn = val;
         mKeyboardSwitcher.setFn(val);
         mKeyboardSwitcher.setCtrlIndicator(mModCtrl);
         mKeyboardSwitcher.setAltIndicator(mModAlt);
+        mKeyboardSwitcher.setMetaIndicator(mModMeta);
     }
 
     private void startMultitouchShift() {
@@ -2362,7 +2403,7 @@ public class LatinIME extends InputMethodService implements
         }
 
         if (isAlphabet(primaryCode) && isPredictionOn()
-                && !mModCtrl && !mModAlt
+                && !mModCtrl && !mModAlt && !mModMeta
                 && !isCursorTouchingWord()) {
             if (!mPredicting) {
                 mPredicting = true;
@@ -2372,7 +2413,7 @@ public class LatinIME extends InputMethodService implements
             }
         }
 
-        if (mModCtrl || mModAlt) {
+        if (mModCtrl || mModAlt || mModMeta) {
             commitTyped(getCurrentInputConnection(), true); // sets mPredicting=false
         }
 
@@ -3513,6 +3554,11 @@ public class LatinIME extends InputMethodService implements
             mAltKeyState.onPress();
             sendAltKey(ic, true, true);
         } else if (distinctMultiTouch
+                && primaryCode == LatinKeyboardView.KEYCODE_META_LEFT) {
+            setModMeta(!mModMeta);
+            mMetaKeyState.onPress();
+            sendMetaKey(ic, true, true);
+        } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
             setModFn(!mModFn);
             mFnKeyState.onPress();
@@ -3521,6 +3567,7 @@ public class LatinIME extends InputMethodService implements
             mSymbolKeyState.onOtherKeyPressed();
             mCtrlKeyState.onOtherKeyPressed();
             mAltKeyState.onOtherKeyPressed();
+            mMetaKeyState.onOtherKeyPressed();
             mFnKeyState.onOtherKeyPressed();
         }
     }
@@ -3562,6 +3609,13 @@ public class LatinIME extends InputMethodService implements
             }
             sendAltKey(ic, false, true);
             mAltKeyState.onRelease();
+        } else if (distinctMultiTouch
+                && primaryCode == LatinKeyboardView.KEYCODE_META_LEFT) {
+            if (mMetaKeyState.isMomentary()) {
+                setModMeta(false);
+            }
+            sendMetaKey(ic, false, true);
+            mMetaKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
             if (mFnKeyState.isMomentary()) {

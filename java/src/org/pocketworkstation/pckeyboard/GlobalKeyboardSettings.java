@@ -47,6 +47,7 @@ public final class GlobalKeyboardSettings {
     public boolean compactModeEnabled = false;
     public int chordingCtrlKey = 0;
     public int chordingAltKey = 0;
+    public int chordingMetaKey = 0;
     public float keyClickVolume = 0.0f;
     public int keyClickMethod = 0;
     public boolean capsLock = true;
@@ -188,6 +189,12 @@ public final class GlobalKeyboardSettings {
         addStringPref("pref_chording_alt_key", new StringPref() {
             public void set(String val) { chordingAltKey = Integer.valueOf(val); }
             public String getDefault() { return res.getString(R.string.default_chording_alt_key); }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
+
+        addStringPref("pref_chording_meta_key", new StringPref() {
+            public void set(String val) { chordingMetaKey = Integer.valueOf(val); }
+            public String getDefault() { return res.getString(R.string.default_chording_meta_key); }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
         });
 
