@@ -464,6 +464,11 @@ public class KeyboardSwitcher implements
         mInputView.setAltIndicator(active);
     }
     
+    public void setMetaIndicator(boolean active) {
+        if (mInputView == null) return;
+        mInputView.setMetaIndicator(active);
+    }
+    
     public void toggleShift() {
         //Log.i(TAG, "toggleShift isAlphabetMode=" + isAlphabetMode() + " mSettings.fullMode=" + mSettings.fullMode);
         if (isAlphabetMode())

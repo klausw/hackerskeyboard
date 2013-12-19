@@ -434,6 +434,19 @@
         <item>58</item>
     </string-array>
 
+    <string name="title_chording_meta_key">Meta key code</string>
+    <string name="default_chording_meta_key">0</string>
+    <string-array name="chording_meta_key_entries">
+        <item>None (ignored when not modifying other keys)</item>
+        <item>Left Meta</item>
+        <item>Right Meta</item>
+    </string-array>
+    <string-array name="chording_meta_key_values">
+        <item>0</item>
+        <item>117</item>
+        <item>118</item>
+    </string-array>
+    
     <string name="title_suggestions_in_landscape">Suggestions in landscape mode</string>
     <string name="summary_suggestions_in_landscape_true">Same as in portrait mode</string>
     <string name="summary_suggestions_in_landscape_false">Hide suggestions in landscape mode</string>

@@ -43,6 +43,7 @@
     <integer name="key_ctrl_left">-113</integer>
     <integer name="key_caps_lock">-115</integer>
     <integer name="key_scroll_lock">-116</integer>
+    <integer name="key_meta_left">-117</integer>
     <integer name="key_fn">-119</integer>
     <integer name="key_sysrq">-120</integer>
     <integer name="key_break">-121</integer>

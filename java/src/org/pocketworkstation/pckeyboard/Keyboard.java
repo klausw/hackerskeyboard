@@ -123,6 +123,7 @@ public class Keyboard {
     private Key mShiftKey;
     private Key mAltKey;
     private Key mCtrlKey;
+    private Key mMetaKey;
 
     /** Key index for the shift key, if present */
     private int mShiftKeyIndex = -1;
@@ -1063,6 +1064,11 @@ public class Keyboard {
         return mAltKey;
     }
 
+    public Key setMetaIndicator(boolean active) {
+        if (mMetaKey != null) mMetaKey.on = active;
+        return mMetaKey;
+    }
+
     public boolean isShiftCaps() {
         return mShiftState == SHIFT_CAPS || mShiftState == SHIFT_CAPS_LOCKED;
     }
@@ -1203,6 +1209,8 @@ public class Keyboard {
                               mCtrlKey = key;
                           } else if (key.codes[0] == LatinKeyboardView.KEYCODE_ALT_LEFT) {
                               mAltKey = key;
+                          } else if (key.codes[0] == LatinKeyboardView.KEYCODE_META_LEFT) {
+                              mMetaKey = key;
                           }
                         }
                     } else if (TAG_KEYBOARD.equals(tag)) {
