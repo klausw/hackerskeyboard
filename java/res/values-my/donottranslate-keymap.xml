@@ -30,51 +30,51 @@
     
     <string name="key_ae01_main">၁</string>
     <string name="key_ae01_shift">ဍ</string>
-    <string name="key_ae01_alt">@string/alternates_for_1</string>
+    <string name="key_ae01_alt">၁ဍၮ၁!¡¹½⅓¼⅛</string>
 
     <string name="key_ae02_main">၂</string>
     <string name="key_ae02_shift">႑</string>
-    <string name="key_ae02_alt">@string/alternates_for_2</string>
+    <string name="key_ae02_alt">၂႑2\@²⅔</string>
     
     <string name="key_ae03_main">၃</string>
     <string name="key_ae03_shift">ဋ</string>
-    <string name="key_ae03_alt">@string/alternates_for_3</string>
+    <string name="key_ae03_alt">၃ဋ႗3#³¾⅜♥♠♦♣</string>
     
     <string name="key_ae04_main">၄</string>
     <string name="key_ae04_shift">၌</string>
-    <string name="key_ae04_alt">@string/alternates_for_4</string>
+    <string name="key_ae04_alt">၄၌၎4$⁴¢£€¥</string>
     
     <string name="key_ae05_main">၅</string>
     <string name="key_ae05_shift">%</string>
-    <string name="key_ae05_alt">@string/alternates_for_5</string>
+    <string name="key_ae05_alt">၅ဣဪ5%⅝‰</string>
     
     <string name="key_ae06_main">၆</string>
     <string name="key_ae06_shift">/</string>
-    <string name="key_ae06_alt">@string/alternates_for_6</string>
+    <string name="key_ae06_alt">၆/6^↑↓←→</string>
     
     <string name="key_ae07_main">၇</string>
     <string name="key_ae07_shift">ရ</string>
-    <string name="key_ae07_alt">@string/alternates_for_7</string>
+    <string name="key_ae07_alt">၇ရ႐7&amp;⅞♪</string>
     
     <string name="key_ae08_main">၈</string>
     <string name="key_ae08_shift">ဂ</string>
-    <string name="key_ae08_alt">@string/alternates_for_8</string>
+    <string name="key_ae08_alt">၈ဂၢ8*•★∞†‡</string>
     
     <string name="key_ae09_main">၉</string>
     <string name="key_ae09_shift">(</string>
-    <string name="key_ae09_alt">@string/alternates_for_9</string>
+    <string name="key_ae09_alt">၉9(√</string>
     
     <string name="key_ae10_main">၀</string>
     <string name="key_ae10_shift">)</string>
-    <string name="key_ae10_alt">@string/alternates_for_0</string>
+    <string name="key_ae10_alt">၀0)ⁿ°</string>
     
     <string name="key_ae11_main">-</string>
     <string name="key_ae11_shift">_</string>
-    <string name="key_ae11_alt">@string/alternates_for_minus</string>
+    <string name="key_ae11_alt">-_×÷—–</string>
     
     <string name="key_ae12_main">=</string>
     <string name="key_ae12_shift">+</string>
-    <string name="key_ae12_alt">@string/alternates_for_equal</string>
+    <string name="key_ae12_alt">=+≈≠±×÷</string>
 
 
     <string name="key_ad01_main">ဆ</string>
@@ -119,15 +119,15 @@
     
     <string name="key_ad11_main">ဟ</string>
     <string name="key_ad11_shift">ဧ</string>
-    <string name="key_ad11_alt">@string/alternates_for_open</string>
+    <string name="key_ad11_alt">ဟဧ]}</string>
     
     <string name="key_ad12_main">]</string>
     <string name="key_ad12_shift">}</string>
-    <string name="key_ad12_alt">@string/alternates_for_close</string>
+    <string name="key_ad12_alt">]}</string>
 
     <string name="key_bksl_main">၏</string>
     <string name="key_bksl_shift">႒</string>
-    <string name="key_bksl_alt">@string/alternates_for_forward</string>
+    <string name="key_bksl_alt">၏႒\\|</string>
     
     
     <string name="key_ac01_main">ေ</string>
@@ -168,11 +168,11 @@
 
     <string name="key_ac10_main">း</string>
     <string name="key_ac10_shift">ၚ</string>
-    <string name="key_ac10_alt">@string/alternates_for_semi</string>
+    <string name="key_ac10_alt">းၚ;:</string>
 
     <string name="key_ac11_main">ဒ</string>
     <string name="key_ac11_shift">ဓ</string>
-    <string name="key_ac11_alt">@string/alternates_for_quote</string>
+    <string name="key_ac11_alt">ဒဓၵၶ\'\"‘’“”</string>
 
 
     <string name="key_lsgt_main"></string>
@@ -209,13 +209,13 @@
 
     <string name="key_ab08_main">ယ</string>
     <string name="key_ab08_shift">ဝ</string>
-    <string name="key_ab08_alt">@string/alternates_for_comma</string>
+    <string name="key_ab08_alt">ယဝဎၯ,&lt;≤«‹</string>
 
     <string name="key_ab09_main">.</string>
     <string name="key_ab09_shift">ဈ</string>
-    <string name="key_ab09_alt">@string/alternates_for_period</string>
+    <string name="key_ab09_alt">ဈၩ&gt;≥»›…</string>
 
     <string name="key_ab10_main">။</string>
     <string name="key_ab10_shift">၊</string>
-    <string name="key_ab10_alt">@string/alternates_for_backward</string>
+    <string name="key_ab10_alt">။၊/\?¿</string>
 </resources>
