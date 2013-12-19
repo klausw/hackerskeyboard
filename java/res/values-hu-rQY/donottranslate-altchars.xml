@@ -42,8 +42,8 @@
     <string name="alternates_for_v">\@</string>
     <string name="alternates_for_w">2|</string>
     <string name="alternates_for_x">#</string>
-    <string name="alternates_for_y">&gt;ýÿ¥</string>
-    <string name="alternates_for_z">6ž</string>
+    <string name="alternates_for_y">6ýÿ¥</string>
+    <string name="alternates_for_z">&gt;ž</string>
 
     <string name="alternates_for_a_umlaut"></string>
     <string name="alternates_for_ae"></string>
