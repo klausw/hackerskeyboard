@@ -225,6 +225,7 @@ public class PointerTracker {
                 || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
                 || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT
                 || primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT
+                || primaryCode == LatinKeyboardView.KEYCODE_META_LEFT
                 || primaryCode == LatinKeyboardView.KEYCODE_FN;
     }
 

@@ -1310,7 +1310,7 @@ public class LatinIME extends InputMethodService implements
         InputConnection ic = getCurrentInputConnection();
         if (ic != null && attr != null && mKeyboardSwitcher.isAlphabetMode()) {
             int oldState = getShiftState();
-            boolean isShifted = mShiftKeyState.isMomentary();
+            boolean isShifted = mShiftKeyState.isChording();
             boolean isCapsLock = (oldState == Keyboard.SHIFT_CAPS_LOCKED || oldState == Keyboard.SHIFT_LOCKED);
             boolean isCaps = isCapsLock || getCursorCapsMode(ic, attr) != 0;
             //Log.i(TAG, "updateShiftKeyState isShifted=" + isShifted + " isCaps=" + isCaps + " isMomentary=" + mShiftKeyState.isMomentary() + " cursorCaps=" + getCursorCapsMode(ic, attr));
@@ -1526,7 +1526,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private boolean isShiftMod() {
-        if (mShiftKeyState.isMomentary()) return true;
+        if (mShiftKeyState.isChording()) return true;
         if (mKeyboardSwitcher != null) {
             LatinKeyboardView kb = mKeyboardSwitcher.getInputView();
             if (kb != null) return kb.isShiftAll();
@@ -1587,7 +1587,7 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void sendMetaKey(InputConnection ic, boolean isDown, boolean chording) {
-        if (chording && delayChordingAltModifier()) return;
+        if (chording && delayChordingMetaModifier()) return;
 
         int key = sKeyboardSettings.chordingMetaKey;
         if (key == 0) key = KeyEvent.KEYCODE_META_LEFT;
@@ -1605,36 +1605,36 @@ public class LatinIME extends InputMethodService implements
             //Log.i(TAG, "send SHIFT down");
             sendShiftKey(ic, true);
         }
-        if (mModCtrl && (!mCtrlKeyState.isMomentary() || delayChordingCtrlModifier())) {
+        if (mModCtrl && (!mCtrlKeyState.isChording() || delayChordingCtrlModifier())) {
             sendCtrlKey(ic, true, false);
         }
-        if (mModAlt && (!mAltKeyState.isMomentary() || delayChordingAltModifier())) {
+        if (mModAlt && (!mAltKeyState.isChording() || delayChordingAltModifier())) {
             sendAltKey(ic, true, false);
         }
-        if (mModMeta && (!mMetaKeyState.isMomentary() || delayChordingMetaModifier())) {
+        if (mModMeta && (!mMetaKeyState.isChording() || delayChordingMetaModifier())) {
             sendMetaKey(ic, true, false);
         }
     }
 
     private void handleModifierKeysUp(boolean shifted, boolean sendKey) {
         InputConnection ic = getCurrentInputConnection();
-        if (mModMeta && !mMetaKeyState.isMomentary()) {
+        if (mModMeta && (!mMetaKeyState.isChording() || delayChordingMetaModifier())) {
             if (sendKey) sendMetaKey(ic, false, false);
-            setModMeta(false);
+            if (!mMetaKeyState.isChording()) setModMeta(false);
         }
-        if (mModAlt && !mAltKeyState.isMomentary()) {
+        if (mModAlt && (!mAltKeyState.isChording() || delayChordingAltModifier())) {
             if (sendKey) sendAltKey(ic, false, false);
-            setModAlt(false);
+            if (!mAltKeyState.isChording()) setModAlt(false);
         }
-        if (mModCtrl && !mCtrlKeyState.isMomentary()) {
+        if (mModCtrl && (!mCtrlKeyState.isChording()  || delayChordingCtrlModifier())) {
             if (sendKey) sendCtrlKey(ic, false, false);
-            setModCtrl(false);
+            if (!mCtrlKeyState.isChording()) setModCtrl(false);
         }
         if (shifted) {
             //Log.i(TAG, "send SHIFT up");
             if (sendKey) sendShiftKey(ic, false);
             int shiftState = getShiftState();
-            if (!(mShiftKeyState.isMomentary() || shiftState == Keyboard.SHIFT_LOCKED)) {
+            if (!(mShiftKeyState.isChording() || shiftState == Keyboard.SHIFT_LOCKED)) {
                 resetShift();
             }
         }
@@ -2154,25 +2154,25 @@ public class LatinIME extends InputMethodService implements
     }
 
     private void setModCtrl(boolean val) {
-        // Log.i("LatinIME", "setModCtrl "+ mModCtrl + "->" + val + ", momentary=" + mCtrlKeyState.isMomentary());
+        // Log.i("LatinIME", "setModCtrl "+ mModCtrl + "->" + val + ", chording=" + mCtrlKeyState.isChording());
         mKeyboardSwitcher.setCtrlIndicator(val);
         mModCtrl = val;
     }
 
     private void setModAlt(boolean val) {
-        // Log.i("LatinIME", "setModAlt "+ mModAlt + "->" + val + ", momentary=" + mAltKeyState.isMomentary());
+        //Log.i("LatinIME", "setModAlt "+ mModAlt + "->" + val + ", chording=" + mAltKeyState.isChording());
         mKeyboardSwitcher.setAltIndicator(val);
         mModAlt = val;
     }
 
     private void setModMeta(boolean val) {
-        // Log.i("LatinIME", "setModMeta "+ mModMeta + "->" + val + ", momentary=" + mMetaKeyState.isMomentary());
+        //Log.i("LatinIME", "setModMeta "+ mModMeta + "->" + val + ", chording=" + mMetaKeyState.isChording());
         mKeyboardSwitcher.setMetaIndicator(val);
         mModMeta = val;
     }
 
     private void setModFn(boolean val) {
-        //Log.i("LatinIME", "setModFn " + mModFn + "->" + val + ", momentary=" + mFnKeyState.isMomentary());
+        //Log.i("LatinIME", "setModFn " + mModFn + "->" + val + ", chording=" + mFnKeyState.isChording());
         mModFn = val;
         mKeyboardSwitcher.setFn(val);
         mKeyboardSwitcher.setCtrlIndicator(mModCtrl);
@@ -3163,7 +3163,7 @@ public class LatinIME extends InputMethodService implements
                 .hasDistinctMultitouch();
         InputConnection ic = getCurrentInputConnection();
         if (distinctMultiTouch && primaryCode == Keyboard.KEYCODE_SHIFT) {
-            if (mShiftKeyState.isMomentary()) {
+            if (mShiftKeyState.isChording()) {
                 resetMultitouchShift();
             } else {
                 commitMultitouchShift();
@@ -3179,32 +3179,35 @@ public class LatinIME extends InputMethodService implements
             mSymbolKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT) {
-            if (mCtrlKeyState.isMomentary()) {
+            if (mCtrlKeyState.isChording()) {
                 setModCtrl(false);
             }
             sendCtrlKey(ic, false, true);
             mCtrlKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT) {
-            if (mAltKeyState.isMomentary()) {
+            if (mAltKeyState.isChording()) {
                 setModAlt(false);
             }
             sendAltKey(ic, false, true);
             mAltKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_META_LEFT) {
-            if (mMetaKeyState.isMomentary()) {
+            if (mMetaKeyState.isChording()) {
                 setModMeta(false);
             }
             sendMetaKey(ic, false, true);
             mMetaKeyState.onRelease();
         } else if (distinctMultiTouch
                 && primaryCode == LatinKeyboardView.KEYCODE_FN) {
-            if (mFnKeyState.isMomentary()) {
+            if (mFnKeyState.isChording()) {
                 setModFn(false);
             }
             mFnKeyState.onRelease();
         }
+        // WARNING: Adding a chording modifier key? Make sure you also
+        // edit PointerTracker.isModifierInternal(), otherwise it will
+        // force a release event instead of chording.
     }
 
     // receive ringer mode changes to detect silent mode
