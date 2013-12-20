@@ -48,7 +48,6 @@ public class InputLanguageSelection extends PreferenceActivity {
     static {
         NOCAPS_LANGUAGES.add("ar");
         NOCAPS_LANGUAGES.add("iw");
-        NOCAPS_LANGUAGES.add("my");
         NOCAPS_LANGUAGES.add("th");
     }
 
@@ -57,14 +56,12 @@ public class InputLanguageSelection extends PreferenceActivity {
     static {
         NODEADKEY_LANGUAGES.add("ar");
         NODEADKEY_LANGUAGES.add("iw"); // TODO: currently no niqqud in the keymap?
-        NODEADKEY_LANGUAGES.add("my");
         NODEADKEY_LANGUAGES.add("th");
     }
 
     // Languages which should not auto-add space after completions
     public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<String>();
     static {
-        NOAUTOSPACE_LANGUAGES.add("my");
         NOAUTOSPACE_LANGUAGES.add("th");
     }
 
@@ -74,23 +71,23 @@ public class InputLanguageSelection extends PreferenceActivity {
         "ar", "bg", "ca", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
         "en_GB", "es", "es_LA", "es_US", "fa", "fi", "fr", "fr_CA", "he",
         "hr", "hu", "hu_QY", "hy", "in", "it", "iw", "ja", "ka", "ko",
-        "lo", "lt", "lv", "my", "nb", "nl", "pl", "pt", "pt_PT", "rm",
-        "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl", "sr", "sv", "ta",
-        "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
+        "lo", "lt", "lv", "nb", "nl", "pl", "pt", "pt_PT", "rm", "ro",
+        "ru", "ru_PH", "si", "sk", "sk_QY", "sl", "sr", "sv", "ta", "th",
+        "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
         "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "en_GB",
         "es", "es_LA", "fa", "fi", "fr", "fr_CA", "he", "hr", "hu", "hu_QY",
-        "hy", "it", "iw", "lo", "my", "nb", "pt_PT", "ro", "ru", "ru_PH",
-        "si", "sk", "sk_QY", "sl", "sr", "sv", "ta", "th", "tr", "uk"
+        "hy", "it", "iw", "lo", "nb", "pt_PT", "ro", "ru", "ru_PH", "si",
+        "sk", "sk_QY", "sl", "sr", "sv", "ta", "th", "tr", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
         "ar", "bg", "cs", "cs_QY", "da", "de", "el", "en", "en_DV", "es",
         "es_LA", "es_US", "fa", "fr", "fr_CA", "he", "hr", "hu", "hu_QY",
-        "iw", "my", "nb", "ru", "ru_PH", "sk", "sk_QY", "sl", "sr", "sv",
-        "tr", "uk"
+        "iw", "nb", "ru", "ru_PH", "sk", "sk_QY", "sl", "sr", "sv", "tr",
+        "uk"
     };
 
     private static String getLocaleName(Locale l) {
