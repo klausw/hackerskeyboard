@@ -19,7 +19,7 @@ package org.pocketworkstation.pckeyboard;
 class ModifierKeyState {
     private static final int RELEASING = 0;
     private static final int PRESSING = 1;
-    private static final int MOMENTARY = 2;
+    private static final int CHORDING = 2;
 
     private int mState = RELEASING;
 
@@ -33,11 +33,11 @@ class ModifierKeyState {
 
     public void onOtherKeyPressed() {
         if (mState == PRESSING)
-            mState = MOMENTARY;
+            mState = CHORDING;
     }
 
-    public boolean isMomentary() {
-        return mState == MOMENTARY;
+    public boolean isChording() {
+        return mState == CHORDING;
     }
     
     public String toString() {
