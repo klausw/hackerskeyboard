@@ -36,7 +36,7 @@ for
     <string name="key_ae01_alt">1!¡¹½⅓¼⅛</string>
 
     <string name="key_ae02_main">2</string>
-    <string name="key_ae02_shift">?</string>
+    <string name="key_ae02_shift">\?</string>
     <string name="key_ae02_alt">2\@²⅔</string>
 
     <string name="key_ae03_main">3</string>
@@ -127,7 +127,7 @@ for
 
     <string name="key_ad12_main">;</string>
     <string name="key_ad12_shift">§</string>
-    <string name="key_ad12_shift">Щ</string>
+    <string name="key_ad12_alt">Щ</string>
 
     <string name="key_bksl_main">;</string>
     <string name="key_bksl_shift">:</string>
