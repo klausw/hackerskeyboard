@@ -56,6 +56,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -661,7 +662,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
             tracker.setKeyboard(mKeys, mKeyHysteresisDistance);
         }
         mLabelScale = LatinIME.sKeyboardSettings.labelScalePref;
-        if (keyboard.mLayoutRows >= 4) mLabelScale *= 5.0f / keyboard.mLayoutRows;
+        //if (keyboard.mLayoutRows >= 4) mLabelScale *= 5.0f / keyboard.mLayoutRows;
         requestLayout();
         // Hint to reallocate the buffer if the size changed
         mKeyboardChanged = true;
@@ -935,6 +936,22 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         }
         //canvas.drawColor(0x00000000, PorterDuff.Mode.CLEAR);
         final int keyCount = keys.length;
+
+        // Scale the key labels based on the median key size.
+        List<Integer> keyWidths = new ArrayList<Integer>();
+        List<Integer> keyHeights = new ArrayList<Integer>();
+        for (int i = 0; i < keyCount; i++) {
+            final Key key = keys[i];
+            keyWidths.add(key.width);
+            keyHeights.add(key.height);
+        }
+        Collections.sort(keyWidths);
+        Collections.sort(keyHeights);
+        int medianKeyWidth = keyWidths.get(keyCount / 2);
+        int medianKeyHeight = keyHeights.get(keyCount / 2);
+        // Use 60% of the smaller of width or height. This is kind of arbitrary.
+        mKeyTextSize = Math.min(medianKeyHeight * 6 / 10, medianKeyWidth * 6 / 10);
+        mLabelTextSize = mKeyTextSize * 3 / 4;
 
         int keysDrawn = 0;
         for (int i = 0; i < keyCount; i++) {

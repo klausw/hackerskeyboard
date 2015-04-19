@@ -33,10 +33,10 @@
         <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="1.0"
             hk:minValue="0.5"
-            hk:maxValue="8.0"
+            hk:maxValue="2.0"
             hk:logScale="true"
             hk:asPercent="true"
-            android:key="pref_label_scale"
+            android:key="pref_label_scale_v2"
             android:persistent="true"
             android:title="@string/title_label_scale" />
 
