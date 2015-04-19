@@ -162,7 +162,7 @@ public final class GlobalKeyboardSettings {
             public int getFlags() { return FLAG_PREF_NEW_PUNC_LIST; }
         });
 
-        addStringPref("pref_label_scale", new StringPref() {
+        addStringPref("pref_label_scale_v2", new StringPref() {
             public void set(String val) { labelScalePref = Float.valueOf(val); }
             public String getDefault() { return "1.0"; }
             public int getFlags() { return FLAG_PREF_RECREATE_INPUT_VIEW; }
