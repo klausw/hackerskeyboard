@@ -26,55 +26,55 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="key_tlde_main">`</string>
     <string name="key_tlde_shift">~</string>
-    <string name="key_tlde_alt">`~</string>
+    <string name="key_tlde_alt"></string>
     
     <string name="key_ae01_main">1</string>
     <string name="key_ae01_shift">!</string>
-    <string name="key_ae01_alt">1!¡¹½⅓¼⅛</string>
+    <string name="key_ae01_alt">¡¹½⅓¼⅛</string>
 
     <string name="key_ae02_main">2</string>
     <string name="key_ae02_shift">\@</string>
-    <string name="key_ae02_alt">2\@²⅔</string>
+    <string name="key_ae02_alt">²⅔</string>
     
     <string name="key_ae03_main">3</string>
     <string name="key_ae03_shift">#</string>
-    <string name="key_ae03_alt">3#³¾⅜♥♠♦♣</string>
+    <string name="key_ae03_alt">³¾⅜♥♠♦♣</string>
     
     <string name="key_ae04_main">4</string>
     <string name="key_ae04_shift">$</string>
-    <string name="key_ae04_alt">4$⁴¢£€¥</string>
+    <string name="key_ae04_alt">⁴¢£€¥</string>
     
     <string name="key_ae05_main">5</string>
     <string name="key_ae05_shift">%</string>
-    <string name="key_ae05_alt">5%⅝‰</string>
+    <string name="key_ae05_alt">⅝‰</string>
     
     <string name="key_ae06_main">6</string>
     <string name="key_ae06_shift">^</string>
-    <string name="key_ae06_alt">6^↑↓←→</string>
+    <string name="key_ae06_alt">↑↓←→</string>
     
     <string name="key_ae07_main">7</string>
     <string name="key_ae07_shift">&amp;</string>
-    <string name="key_ae07_alt">7&amp;⅞♪</string>
+    <string name="key_ae07_alt">⅞♪</string>
     
     <string name="key_ae08_main">8</string>
     <string name="key_ae08_shift">*</string>
-    <string name="key_ae08_alt">8*•★∞†‡</string>
+    <string name="key_ae08_alt">•★∞†‡</string>
     
     <string name="key_ae09_main">9</string>
     <string name="key_ae09_shift">(</string>
-    <string name="key_ae09_alt">9(√</string>
+    <string name="key_ae09_alt">√</string>
     
     <string name="key_ae10_main">0</string>
     <string name="key_ae10_shift">)</string>
-    <string name="key_ae10_alt">0)ⁿ°</string>
+    <string name="key_ae10_alt">ⁿ°</string>
     
     <string name="key_ae11_main">-</string>
     <string name="key_ae11_shift">_</string>
-    <string name="key_ae11_alt">-_—–</string>
+    <string name="key_ae11_alt">—–</string>
     
     <string name="key_ae12_main">=</string>
     <string name="key_ae12_shift">+</string>
-    <string name="key_ae12_alt">=+≈≠±×÷</string>
+    <string name="key_ae12_alt">≈≠±×÷</string>
 
 
     <string name="key_ad01_main">q</string>
@@ -119,15 +119,15 @@
     
     <string name="key_ad11_main">[</string>
     <string name="key_ad11_shift">{</string>
-    <string name="key_ad11_alt">[{</string>
+    <string name="key_ad11_alt"></string>
     
     <string name="key_ad12_main">]</string>
     <string name="key_ad12_shift">}</string>
-    <string name="key_ad12_alt">]}</string>
+    <string name="key_ad12_alt"></string>
 
     <string name="key_bksl_main">\\</string>
     <string name="key_bksl_shift">|</string>
-    <string name="key_bksl_alt">\\|</string>
+    <string name="key_bksl_alt"></string>
     
     
     <string name="key_ac01_main">a</string>
@@ -168,11 +168,11 @@
 
     <string name="key_ac10_main">;</string>
     <string name="key_ac10_shift">:</string>
-    <string name="key_ac10_alt">;:</string>
+    <string name="key_ac10_alt"></string>
 
     <string name="key_ac11_main">\'</string>
     <string name="key_ac11_shift">\"</string>
-    <string name="key_ac11_alt">\'\"‘’“”</string>
+    <string name="key_ac11_alt">‘’“”</string>
 
 
     <string name="key_lsgt_main"></string>
@@ -209,13 +209,13 @@
 
     <string name="key_ab08_main">,</string>
     <string name="key_ab08_shift">&lt;</string>
-    <string name="key_ab08_alt">,&lt;≤«‹</string>
+    <string name="key_ab08_alt">≤«‹</string>
 
     <string name="key_ab09_main">.</string>
     <string name="key_ab09_shift">&gt;</string>
-    <string name="key_ab09_alt">.&gt;≥»›…</string>
+    <string name="key_ab09_alt">≥»›…</string>
 
     <string name="key_ab10_main">/</string>
     <string name="key_ab10_shift">\?</string>
-    <string name="key_ab10_alt">/\?¿</string>
+    <string name="key_ab10_alt">¿</string>
 </resources>
