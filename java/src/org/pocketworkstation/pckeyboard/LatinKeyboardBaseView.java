@@ -398,6 +398,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                     t.setAlreadyProcessed();
                     queue.remove(oldestPos);
                 }
+                if (queue.isEmpty()) return;
             }
         }
 
