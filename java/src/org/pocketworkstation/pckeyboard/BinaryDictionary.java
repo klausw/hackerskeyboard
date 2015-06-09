@@ -48,7 +48,7 @@ public class BinaryDictionary extends Dictionary {
     private static final boolean ENABLE_MISSED_CHARACTERS = true;
 
     private int mDicTypeId;
-    private int mNativeDict;
+    private long mNativeDict;
     private int mDictLength;
     private int[] mInputCodes = new int[MAX_WORD_LENGTH * MAX_ALTERNATIVES];
     private char[] mOutputChars = new char[MAX_WORD_LENGTH * MAX_WORDS];
@@ -113,14 +113,14 @@ public class BinaryDictionary extends Dictionary {
         mDicTypeId = dicTypeId;
     }
 
-    private native int openNative(ByteBuffer bb, int typedLetterMultiplier,
+    private native long openNative(ByteBuffer bb, int typedLetterMultiplier,
             int fullWordMultiplier, int dictSize);
-    private native void closeNative(int dict);
-    private native boolean isValidWordNative(int nativeData, char[] word, int wordLength);
-    private native int getSuggestionsNative(int dict, int[] inputCodes, int codesSize,
+    private native void closeNative(long dict);
+    private native boolean isValidWordNative(long nativeData, char[] word, int wordLength);
+    private native int getSuggestionsNative(long dict, int[] inputCodes, int codesSize,
             char[] outputChars, int[] frequencies, int maxWordLength, int maxWords,
             int maxAlternatives, int skipPos, int[] nextLettersFrequencies, int nextLettersSize);
-    private native int getBigramsNative(int dict, char[] prevWord, int prevWordLength,
+    private native int getBigramsNative(long dict, char[] prevWord, int prevWordLength,
             int[] inputCodes, int inputCodesLength, char[] outputChars, int[] frequencies,
             int maxWordLength, int maxBigrams, int maxAlternatives);
 
