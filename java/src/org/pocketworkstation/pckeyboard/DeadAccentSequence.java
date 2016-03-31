@@ -18,6 +18,7 @@ package org.pocketworkstation.pckeyboard;
 
 import java.text.Normalizer;
 
+import android.os.Build;
 import android.util.Log;
 
 public class DeadAccentSequence extends ComposeSequence {
@@ -1028,11 +1029,18 @@ public class DeadAccentSequence extends ComposeSequence {
         put("̃ ̄o", "ȭ");
 */
    }
-	
+
+	private static String doNormalise(String input)
+	{
+		if (Build.VERSION.SDK_INT >= 9) {
+			return Normalizer.normalize(input, Normalizer.Form.NFC);
+		}
+		return input;
+	}
+
     public static String normalize(String input) {
     	String lookup = mMap.get(input);
-    	if (lookup != null) return lookup;
-    	return Normalizer.normalize(input, Normalizer.Form.NFC);
+        return lookup != null ? lookup : doNormalise(input);
     }
     
     public boolean execute(int code) {
@@ -1043,9 +1051,10 @@ public class DeadAccentSequence extends ComposeSequence {
     			// Unrecognised - try to use the built-in Java text normalisation
     			int c = composeBuffer.codePointAt(composeBuffer.length() - 1);
     			if (Character.getType(c) != Character.NON_SPACING_MARK) {
-    				// Put the combining character(s) at the end, else this won't work
-    				composeBuffer.reverse();
-    				composed = Normalizer.normalize(composeBuffer.toString(), Normalizer.Form.NFC);
+					StringBuilder buildComposed = new StringBuilder(10);
+					buildComposed.append(composeBuffer);
+					// FIXME? Put the combining character(s) temporarily at the end, else this won't work
+					composed = doNormalise(buildComposed.reverse().toString());
     				if (composed.equals("")) {
     					return true; // incomplete :-)
     				}
