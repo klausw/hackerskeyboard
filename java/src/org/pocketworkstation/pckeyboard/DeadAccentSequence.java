@@ -20,11 +20,11 @@ import java.text.Normalizer;
 
 import android.util.Log;
 
-public class DeadAccentSequence extends ComposeBase {
+public class DeadAccentSequence extends ComposeSequence {
     private static final String TAG = "HK/DeadAccent";
 
     public DeadAccentSequence(ComposeSequencing user) {
-        init(user);
+        super(user);
     }
     
     private static void putAccent(String nonSpacing, String spacing, String ascii) {
