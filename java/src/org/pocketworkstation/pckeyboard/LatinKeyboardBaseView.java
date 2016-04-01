@@ -1790,6 +1790,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 mMiniKeyboardPopup.dismiss();
             }
             mMiniKeyboardVisible = false;
+            mPointerQueue.releaseAllPointersExcept(null, 0); // https://github.com/klausw/hackerskeyboard/issues/477
             invalidateAllKeys();
         }
     }
