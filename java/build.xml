@@ -54,6 +54,24 @@
         <exec dir="." executable="./AutoVersion.sh">
         </exec>
     </target>
+
+    <target name="-pre-compile" depends="-pre-compile-ndk-present, -pre-compile-ndk-missing" />
+    <target name="-pre-compile-ndk-present" if="ndk.dir">
+        <exec executable="${ndk.dir}/ndk-build" failonerror="true" />
+    </target>
+    <target name="-pre-compile-ndk-missing" unless="ndk.dir">
+        <echo>ndk.dir is missing. Dictionary binaries won't be built.</echo>
+    </target>
+
+    <target name="-pre-clean" depends="-pre-clean-ndk-present, -pre-clean-ndk-missing" />
+    <target name="-pre-clean-ndk-present" if="ndk.dir">
+        <exec executable="${ndk.dir}/ndk-build" failonerror="true">
+            <arg value="clean"/>
+        </exec>
+    </target>
+    <target name="-pre-clean-ndk-missing" unless="ndk.dir">
+        <echo>ndk.dir is missing. Dictionary binaries won't be cleaned.</echo>
+    </target>
 <!--
     <target name="-pre-compile">
     </target>
