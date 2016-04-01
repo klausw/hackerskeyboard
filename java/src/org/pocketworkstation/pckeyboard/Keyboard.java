@@ -816,7 +816,7 @@ public class Keyboard {
      * @param context the application or service context
      * @param xmlLayoutResId the resource file that contains the keyboard layout and keys.
      * @param modeId keyboard mode identifier
-     * @param rowHeightPercent height of each row as percentage of screen height
+     * @param kbHeightPercent height of the keyboard as percentage of screen height
      */
     public Keyboard(Context context, int defaultHeight, int xmlLayoutResId, int modeId, float kbHeightPercent) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();

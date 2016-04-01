@@ -37,7 +37,7 @@ abstract public class Dictionary {
 
     /**
      * Interface to be implemented by classes requesting words to be fetched from the dictionary.
-     * @see #getWords(WordComposer, WordCallback)
+     * @see #getWords(WordComposer, WordCallback, int[])
      */
     public interface WordCallback {
         /**
@@ -65,7 +65,7 @@ abstract public class Dictionary {
      *        word so far. For instance, "bracke" can be followed by "t", so array['t'] will have
      *        a non-zero value on returning from this method. 
      *        Pass in null if you don't want the dictionary to look up next letters.
-     * @see WordCallback#addWord(char[], int, int)
+     * @see WordCallback#addWord(char[], int, int, int, int, DataType)
      */
     abstract public void getWords(final WordComposer composer, final WordCallback callback,
             int[] nextLettersFrequencies);

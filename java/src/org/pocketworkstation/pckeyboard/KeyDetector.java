@@ -79,7 +79,7 @@ abstract class KeyDetector {
      *
      * @return Allocates and returns an array that can hold all key indices returned by
      *         {@link #getKeyIndexAndNearbyCodes} method. All elements in the returned array are
-     *         initialized by {@link org.pocketworkstation.pckeyboard.LatinKeyboardView.NOT_A_KEY}
+     *         initialized by {@link org.pocketworkstation.pckeyboard.LatinKeyboardBaseView#NOT_A_KEY}
      *         value.
      */
     public int[] newCodeArray() {

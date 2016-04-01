@@ -75,7 +75,7 @@ public class EditingUtil {
 
     /**
      * @param connection connection to the current text field.
-     * @param sep characters which may separate words
+     * @param separators characters which may separate words
      * @param range the range object to store the result into
      * @return the word that surrounds the cursor, including up to one trailing
      *   separator. For example, if the field contains "he|llo world", where |
