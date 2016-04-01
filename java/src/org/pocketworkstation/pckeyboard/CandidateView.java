@@ -282,7 +282,8 @@ public class CandidateView extends View {
             paint.setTypeface(Typeface.DEFAULT);
             x += wordWidth;
         }
-        mService.onAutoCompletionStateChanged(existsAutoCompletion);
+        if (!isInEditMode())
+            mService.onAutoCompletionStateChanged(existsAutoCompletion);
         mTotalWidth = x;
         if (mTargetScrollX != scrollX) {
             scrollToTarget();

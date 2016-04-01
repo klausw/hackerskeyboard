@@ -466,7 +466,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     public LatinKeyboardBaseView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        Log.i(TAG, "Creating new LatinKeyboardBaseView " + this);
+        if (!isInEditMode())
+            Log.i(TAG, "Creating new LatinKeyboardBaseView " + this);
         setRenderModeIfPossible(LatinIME.sKeyboardSettings.renderMode);
 
         TypedArray a = context.obtainStyledAttributes(
