@@ -1,0 +1,9 @@
+.idea/
+captures/
+java/bin/
+java/gen/
+java/hackerskeyboard.iml
+java/local.properties
+out/
+tests/gen/
+tests/tests.iml
