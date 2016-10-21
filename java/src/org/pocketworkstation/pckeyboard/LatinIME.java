@@ -262,8 +262,8 @@ public class LatinIME extends InputMethodService implements
 
     // Compose sequence handling
     private boolean mComposeMode = false;
-    private ComposeBase mComposeBuffer = new ComposeSequence(this);
-    private ComposeBase mDeadAccentBuffer = new DeadAccentSequence(this);
+    private ComposeSequence mComposeBuffer = new ComposeSequence(this);
+    private ComposeSequence mDeadAccentBuffer = new DeadAccentSequence(this);
 
     private Tutorial mTutorial;
 

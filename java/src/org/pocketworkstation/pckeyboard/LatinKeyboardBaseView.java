@@ -79,7 +79,7 @@ import java.util.WeakHashMap;
  * @attr ref R.styleable#LatinKeyboardBaseView_popupLayout
  */
 public class LatinKeyboardBaseView extends View implements PointerTracker.UIProxy {
-    private static final String TAG = "HK/LatinKeyboardBaseView";
+    private static final String TAG = "HK/LatinKbdBaseView";
     private static final boolean DEBUG = false;
 
     public static final int NOT_A_TOUCH_COORDINATE = -1;
@@ -466,7 +466,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     public LatinKeyboardBaseView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        Log.i(TAG, "Creating new LatinKeyboardBaseView " + this);
+        if (!isInEditMode())
+            Log.i(TAG, "Creating new LatinKeyboardBaseView " + this);
         setRenderModeIfPossible(LatinIME.sKeyboardSettings.renderMode);
 
         TypedArray a = context.obtainStyledAttributes(
@@ -695,7 +696,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
     /**
      * Sets the state of the shift key of the keyboard, if any.
-     * @param shifted whether or not to enable the state of the shift key
+     * @param shiftState whether or not to enable the state of the shift key
      * @return true if the shift key state changed, false if there was no change
      */
     public boolean setShiftState(int shiftState) {
@@ -1790,6 +1791,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 mMiniKeyboardPopup.dismiss();
             }
             mMiniKeyboardVisible = false;
+            mPointerQueue.releaseAllPointersExcept(null, 0); // https://github.com/klausw/hackerskeyboard/issues/477
             invalidateAllKeys();
         }
     }

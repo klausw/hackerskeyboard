@@ -155,7 +155,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         final Resources res = getResources();
         if (previewLayout != 0) {
             mPreviewPopup = new PopupWindow(context);
-            Log.i(TAG, "new mPreviewPopup " + mPreviewPopup + " from " + this);
+            if (!isInEditMode())
+                Log.i(TAG, "new mPreviewPopup " + mPreviewPopup + " from " + this);
             mPreviewText = (TextView) inflate.inflate(previewLayout, null);
             mPreviewTextSizeLarge = (int) res.getDimension(R.dimen.key_preview_text_size_large);
             mPreviewPopup.setContentView(mPreviewText);
@@ -169,7 +170,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         if (mPopupLayout != 0) {
             mMiniKeyboardParent = this;
             mMiniKeyboardPopup = new PopupWindow(context);
-            Log.i(TAG, "new mMiniKeyboardPopup " + mMiniKeyboardPopup + " from " + this);
+            if (!isInEditMode())
+                Log.i(TAG, "new mMiniKeyboardPopup " + mMiniKeyboardPopup + " from " + this);
             mMiniKeyboardPopup.setBackgroundDrawable(null);
             mMiniKeyboardPopup.setAnimationStyle(R.style.MiniKeyboardAnimation);
             mMiniKeyboardVisible = false;
