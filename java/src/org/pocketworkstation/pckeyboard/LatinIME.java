@@ -488,7 +488,7 @@ public class LatinIME extends InputMethodService implements
             int icon = R.drawable.icon;
             CharSequence text = "Keyboard notification enabled.";
             long when = System.currentTimeMillis();
-            Notification notification = new Notification(icon, text, when);
+            //Notification notification = new Notification(icon, text, when);
 
             // TODO: clean this up?
             mNotificationReceiver = new NotificationReceiver(this);
@@ -502,9 +502,19 @@ public class LatinIME extends InputMethodService implements
             
             String title = "Show Hacker's Keyboard";
             String body = "Select this to open the keyboard. Disable in settings.";
+
+            Notification notification = new Notification.Builder(getApplicationContext())
+                    .setAutoCancel(false) //Make this notification automatically dismissed when the user touches it -> false.
+                    .setTicker(text)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setWhen(when)
+                    .setSmallIcon(icon)
+                    .setContentIntent(contentIntent)
+                    .getNotification();
             
             notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_NO_CLEAR;
-            notification.setLatestEventInfo(getApplicationContext(), title, body, contentIntent);
+            //notification.setLatestEventInfo(getApplicationContext(), title, body, contentIntent);
             mNotificationManager.notify(ID, notification);
         } else if (mNotificationReceiver != null) {
             mNotificationManager.cancel(ID);
