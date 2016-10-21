@@ -8,6 +8,7 @@ The supported keyboard layouts include Armenian (Հայերեն), Arabic (الع
 British (en\_GB), Bulgarian (български език), Czech (Čeština), Danish (dansk),
 Carpalx English (language "en-CX"), Dvorak English (language "en-DV"), English
 (QWERTY), Finnish (Suomi), French (Français, AZERTY), German (Deutsch, QWERTZ),
+German Neo2 (Deutsch, language "de-NE"),
 Greek (ελληνικά), Hebrew (עברית), Hungarian (Magyar), Italian (Italiano), Lao
 (ພາສາລາວ), Norwegian (Norsk bokmål), Persian (فارسی), Portuguese (Português),
 Romanian (Română), Russian (Русский), Russian phonetic (Русский, ru-rPH),
