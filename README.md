@@ -4,9 +4,22 @@ Are you missing the key layout you're used to from your computer when using an A
 
 This keyboard is especially useful if you use ConnectBot for SSH access. It provides working Tab/Ctrl/Esc keys, and the arrow keys are essential for devices such as the Xoom tablet or Nexus S that don't have a trackball or D-Pad.
 
-The supported keyboard layouts include Armenian (Հայերեն), Arabic (العربية), British (en\_GB), Bulgarian (български език), Czech (Čeština), Danish (dansk), Carpalx English (language "en-CX"), Dvorak English (language "en-DV"), English (QWERTY), Finnish (Suomi), French (Français, AZERTY), German (Deutsch, QWERTZ), Greek (ελληνικά), Hebrew (עברית), Hungarian (Magyar), Italian (Italiano), Lao (ພາສາລາວ), Norwegian (Norsk bokmål), Persian (فارسی), Portuguese (Português), Romanian (Română), Russian (Русский), Russian phonetic (Русский, ru-rPH), Serbian (Српски), Slovak (Slovenčina), Slovenian (Slovenščina)/Bosnian/Croatian/Latin Serbian, Spanish (Español, Español Latinoamérica), Swedish (Svenska), Tamil (தமிழ்), Thai (ไทย), Turkish (Türkçe), and Ukrainian (українська мова).
+The supported keyboard layouts include Armenian (Հայերեն), Arabic (العربية),
+British (en\_GB), Bulgarian (български език), Czech (Čeština), Danish (dansk),
+Carpalx English (language "en-CX"), Dvorak English (language "en-DV"), English
+(QWERTY), Finnish (Suomi), French (Français, AZERTY), German (Deutsch, QWERTZ),
+Greek (ελληνικά), Hebrew (עברית), Hungarian (Magyar), Italian (Italiano), Lao
+(ພາສາລາວ), Norwegian (Norsk bokmål), Persian (فارسی), Portuguese (Português),
+Romanian (Română), Russian (Русский), Russian phonetic (Русский, ru-rPH),
+Serbian (Српски), Slovak (Slovenčina), Slovenian
+(Slovenščina)/Bosnian/Croatian/Latin Serbian, Spanish (Español, Español
+Latinoamérica), Swedish (Svenska), Tamil (தமிழ்), Thai (ไทย), Turkish (Türkçe),
+and Ukrainian (українська мова).
 
-To install, get **[Hacker's Keyboard](https://market.android.com/details?id=org.pocketworkstation.pckeyboard)** from the Play Store, plus optional [dictionary packs](https://market.android.com/developer?pub=Klaus+Weidner).
+To install, get **[Hacker's
+Keyboard](https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard)**
+from the Play Store, plus optional [dictionary
+packs](https://play.google.com/store/apps/developer?id=Klaus+Weidner).
 
 ## Additional resources ##
 
@@ -18,4 +31,4 @@ Comments, requests, or contributions? Join the [discussion group](http://groups.
 
 Application developers: see KeyboardSupportInApplications if you want to enable the additional keys in your Android application, the same method also works for hardware USB or Bluetooth keyboards.
 
-![http://hackerskeyboard.googlecode.com/files/hk-5row-en-s.png](http://hackerskeyboard.googlecode.com/files/hk-5row-en-s.png)
+![hk-5row-en-s.png](hk-5row-en-s.png)
