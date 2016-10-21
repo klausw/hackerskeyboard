@@ -2,15 +2,17 @@
 
 OUT=res/values/auto-version.xml
 
-if grep -q custom $OUT; then
-  exit 0
-fi
+# TODO(klausw): check for uncommitted files?
 
-# Use the fancy id generator if present, fall back to plain "hg id" if not.
-Id="$(Hg-ident)" 2>/dev/null
-[ -z "$Id" ] && Id="$(hg id)"
+Id="$(git describe --tags)"
 
 Ver="$Id $(date +%Y-%m-%d)"
+
+if [ ."$1" = ."reset" ]; then
+  Ver="custom"
+else
+  echo "*** Version: $Ver"
+fi
 
 # Create the auto-version file with this version string
 exec > $OUT
