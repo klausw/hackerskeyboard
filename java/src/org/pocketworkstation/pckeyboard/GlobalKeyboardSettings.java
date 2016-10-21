@@ -45,6 +45,7 @@ public final class GlobalKeyboardSettings {
     public int keyboardModePortrait = 0;
     public int keyboardModeLandscape = 2;
     public boolean compactModeEnabled = false;
+    public int ctrlAOverride = 0;
     public int chordingCtrlKey = 0;
     public int chordingAltKey = 0;
     public int chordingMetaKey = 0;
@@ -177,6 +178,12 @@ public final class GlobalKeyboardSettings {
         addStringPref("pref_top_row_scale", new StringPref() {
             public void set(String val) { topRowScale = Float.valueOf(val); }
             public String getDefault() { return "1.0"; }
+            public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
+        });
+
+        addStringPref("pref_ctrl_a_override", new StringPref() {
+            public void set(String val) { ctrlAOverride = Integer.valueOf(val); }
+            public String getDefault() { return res.getString(R.string.default_ctrl_a_override); }
             public int getFlags() { return FLAG_PREF_RESET_KEYBOARDS; }
         });
 

@@ -408,6 +408,20 @@
         <item>2</item>
     </string-array>
 
+    <string name="title_ctrl_a_override">Ctrl-A (select all) override</string>
+    <string name="toast_ctrl_a_override_info">Ctrl-A is disabled. Use Ctrl-Alt-A instead, or enable it in settings.</string>
+    <string name="default_ctrl_a_override">0</string>
+    <string-array name="ctrl_a_override_entries">
+        <item>Disable Ctrl-A, use Ctrl-Alt-A instead</item>
+        <item>Disable Ctrl-A completely</item>
+        <item>Use Ctrl-A (no override)</item>
+    </string-array>
+    <string-array name="ctrl_a_override_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string name="title_chording_ctrl_key">Ctrl key code</string>
     <string name="default_chording_ctrl_key">0</string>
     <string-array name="chording_ctrl_key_entries">

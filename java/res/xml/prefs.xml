@@ -153,6 +153,15 @@
     </PreferenceScreen>
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
+            android:key="pref_ctrl_a_override"
+            android:title="@string/title_ctrl_a_override"
+            android:persistent="true"
+            android:entries="@array/ctrl_a_override_entries"
+            android:entryValues="@array/ctrl_a_override_values"
+            android:defaultValue="@string/default_ctrl_a_override"
+            />
+
+    <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
             android:key="pref_chording_ctrl_key"
             android:title="@string/title_chording_ctrl_key"
             android:persistent="true"

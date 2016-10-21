@@ -1846,6 +1846,35 @@ public class LatinIME extends InputMethodService implements
                     // Try workaround for issue 179 where letters don't get upcased
                     ic.commitText(Character.toString(ch), 1);
                     handleModifierKeysUp(false, false);
+                } else if ((ch == 'a' || ch == 'A') && mModCtrl) {
+                    // Special case for Ctrl-A to work around accidental select-all-then-replace.
+                    if (sKeyboardSettings.ctrlAOverride == 0) {
+                        // Ignore Ctrl-A, treat Ctrl-Alt-A as Ctrl-A.
+                        if (mModAlt) {
+                            boolean isChordingAlt = mAltKeyState.isChording();
+                            setModAlt(false);
+                            sendModifiedKeyDownUp(code, shifted);
+                            if (isChordingAlt) setModAlt(true);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                getResources()
+                                .getString(R.string.toast_ctrl_a_override_info), Toast.LENGTH_LONG)
+                                .show();
+                            // Clear the Ctrl modifier (and others)
+                            sendModifierKeysDown(shifted);
+                            sendModifierKeysUp(shifted);
+                            return;  // ignore the key
+                        }
+
+                    } else if (sKeyboardSettings.ctrlAOverride == 1) {
+                        // Clear the Ctrl modifier (and others)
+                        sendModifierKeysDown(shifted);
+                        sendModifierKeysUp(shifted);
+                        return;  // ignore the key
+                    } else {
+                        // Standard Ctrl-A behavior.
+                        sendModifiedKeyDownUp(code, shifted);
+                    }
                 } else {
                     sendModifiedKeyDownUp(code, shifted);
                 }
