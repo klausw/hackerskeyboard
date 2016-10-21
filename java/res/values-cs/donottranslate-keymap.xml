@@ -72,9 +72,9 @@
     <string name="key_ae11_shift">%</string>
     <string name="key_ae11_alt">=%-_\?\¿</string>
     
-    <string name="key_ae12_main">&lt;</string>
-    <string name="key_ae12_shift">&gt;</string>
-    <string name="key_ae12_alt">&lt;&gt;|</string>
+    <string name="key_ae12_main">&#x0301;</string>
+    <string name="key_ae12_shift">&#x030c;</string>
+    <string name="key_ae12_alt">&#x0301;&#x030c;&lt;&gt;|</string>
 
 
     <string name="key_ad01_main">q</string>
@@ -126,7 +126,7 @@
     <string name="key_ad12_alt">)(×]}</string>
 
     <string name="key_bksl_main">\'</string>
-    <string name="key_bksl_shift">\'</string>
+    <string name="key_bksl_shift">\\</string>
     <string name="key_bksl_alt">\'\\|¤</string>
     
     

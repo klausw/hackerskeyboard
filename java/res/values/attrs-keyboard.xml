@@ -21,11 +21,18 @@
         <attr name="keyWidth" format="dimension|fraction" />
         <!-- Default height of a key, in pixels or percentage of display width. -->
         <attr name="keyHeight" format="dimension|fraction" />
-        <!-- Default horizontal gap between keys. -->
+        <!-- Default horizontal gap between keys. Added to key size. -->
         <attr name="horizontalGap" format="dimension|fraction" />
-        <!-- Default vertical gap between rows of keys. -->
+        <!-- Default vertical gap between rows of keys. Added to key size. -->
         <attr name="verticalGap" format="dimension|fraction" />
-    </declare-styleable>
+        <!-- Horizontal padding around key. Included in key size. -->
+        <attr name="horizontalPad" format="dimension|fraction" />
+        <!-- Vertical padding around key. Included in key size. -->
+        <attr name="verticalPad" format="dimension|fraction" />
+        <!-- Layout info for key sizing purposes, giving rows/column counts of the base grid -->
+        <attr name="layoutRows" format="integer" />
+        <attr name="layoutColumns" format="integer" />
+        </declare-styleable>
 
     <declare-styleable name="Keyboard_Row">
         <!-- Row edge flags. -->
@@ -38,6 +45,7 @@
         <!-- Mode of the keyboard. If the mode doesn't match the
              requested keyboard mode, the row will be skipped. -->
         <attr name="keyboardMode" format="reference" />
+        <attr name="extension" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="Keyboard_Key">
@@ -68,6 +76,10 @@
         <attr name="keyOutputText" format="string" />
         <!-- The label to display on the key. -->
         <attr name="keyLabel" format="string" />
+        <!-- The label to display on the shifted key. -->
+        <attr name="shiftLabel" format="string" />
+        <!-- The label to display on the caps-shifted key. -->
+        <attr name="capsLabel" format="string" />
         <!-- The icon to display on the key instead of the label. -->
         <attr name="keyIcon" format="reference" />
         <!-- Mode of the keyboard. If the mode doesn't match the

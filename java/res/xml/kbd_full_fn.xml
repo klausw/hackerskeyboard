@@ -23,6 +23,8 @@
     android:keyWidth="7.1428571485%p"
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
+    android:layoutRows="5"
+    android:layoutColumns="14"
 >
     <Row
         android:rowEdgeFlags="top"
@@ -146,6 +148,7 @@
             android:keyLabel="Ctrl"
             android:keyWidth="10.7142855%p"
             android:codes="@integer/key_ctrl_left"
+            android:isSticky="true"
             android:keyEdgeFlags="left" 
             android:isModifier="true" />
         <Key
@@ -277,12 +280,19 @@
         <Key
             android:codes="@integer/key_alt_left"
             android:keyLabel="Alt"
+            android:isSticky="true"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_meta_left"
+            android:keyLabel="&#x2756;"
+            android:isSticky="true"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_space"
+            android:shiftLabel="@string/key_space_shift"
             android:keyIcon="@drawable/sym_keyboard_space"
             android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="39.2857142857%p"
+            android:keyWidth="32.1428571372%p"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_fn"

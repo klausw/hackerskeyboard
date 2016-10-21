@@ -37,34 +37,88 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class InputLanguageSelection extends PreferenceActivity {
-	private static final String TAG = "PCKeyboardILS";
-    private String mSelectedLanguages;
+    private static final String TAG = "PCKeyboardILS";
     private ArrayList<Loc> mAvailableLanguages = new ArrayList<Loc>();
     private static final String[] BLACKLIST_LANGUAGES = {
         "ko", "ja", "zh"
     };
-    
+
+    // Languages for which auto-caps should be disabled
+    public static final Set<String> NOCAPS_LANGUAGES = new HashSet<String>();
+    static {
+        NOCAPS_LANGUAGES.add("ar");
+        NOCAPS_LANGUAGES.add("iw");
+        NOCAPS_LANGUAGES.add("th");
+    }
+
+    // Languages which should not use dead key logic. The modifier is entered after the base character.
+    public static final Set<String> NODEADKEY_LANGUAGES = new HashSet<String>();
+    static {
+        NODEADKEY_LANGUAGES.add("ar");
+        NODEADKEY_LANGUAGES.add("iw"); // TODO: currently no niqqud in the keymap?
+        NODEADKEY_LANGUAGES.add("th");
+    }
+
+    // Languages which should not auto-add space after completions
+    public static final Set<String> NOAUTOSPACE_LANGUAGES = new HashSet<String>();
+    static {
+        NOAUTOSPACE_LANGUAGES.add("th");
+    }
+
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
-        "ar", "bg", "ca", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB",
-        "es", "es-rUS", "fa", "fi", "fr", "fr-rCA", "hr", "hu", "in",
-        "it", "iw", "ja", "ka", "ko", "lt", "lv", "nb", "nl", "pl", "pt",
-        "pt-rPT", "rm", "ro", "ru", "sk", "sl", "sr", "sv", "th", "tl",
-        "tr", "uk", "vi", "zh-rCN", "zh-rTW"
+        "ar", "bg", "bg_ST", "ca", "cs", "cs_QY", "da", "de", "el", "en",
+        "en_DV", "en_GB", "es", "es_LA", "es_US", "fa", "fi", "fr", "fr_CA",
+        "he", "hr", "hu", "hu_QY", "hy", "in", "it", "iw", "ja", "ka",
+        "ko", "lo", "lt", "lv", "nb", "nl", "pl", "pt", "pt_PT", "rm",
+        "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl", "sr", "sv", "ta",
+        "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "en-rGB", "es",
-        "fi", "fr", "fr-rCA", "hr", "iw", "lo", "ro", "ru", "si", "sl",
-        "sv", "th", "uk"
+        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
+        "en_GB", "es", "es_LA", "fa", "fi", "fr", "fr_CA", "he", "hr",
+        "hu", "hu_QY", "hy", "it", "iw", "lo", "lt", "nb", "pt_PT", "ro",
+        "ru", "ru_PH", "si", "sk", "sk_QY", "sl", "sr", "sv", "ta", "th",
+        "tr", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "bg", "cs", "da", "de", "el", "en", "en-rDV", "fr", "fr-rCA",
-        "iw", "nb", "ru", "sl", "sr", "sv", "uk"
+        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "el", "en", "en_DV",
+        "es", "es_LA", "es_US", "fa", "fr", "fr_CA", "he", "hr", "hu",
+        "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY", "sl", "sr",
+        "sv", "tr", "uk"
     };
 
+    private static String getLocaleName(Locale l) {
+        String lang = l.getLanguage();
+        String country = l.getCountry();
+        if (lang.equals("en") && country.equals("DV")) {
+            return "English (Dvorak)";
+        } else if (lang.equals("en") && country.equals("EX")) {
+                return "English (4x11)";
+        } else if (lang.equals("es") && country.equals("LA")) {
+            return "Español (Latinoamérica)";
+        } else if (lang.equals("cs") && country.equals("QY")) {
+            return "Čeština (QWERTY)";
+        } else if (lang.equals("hu") && country.equals("QY")) {
+            return "Magyar (QWERTY)";
+        } else if (lang.equals("sk") && country.equals("QY")) {
+            return "Slovenčina (QWERTY)";
+        } else if (lang.equals("ru") && country.equals("PH")) {
+            return "Русский (Phonetic)";
+        } else if (lang.equals("bg")) {
+            if (country.equals("ST")) {
+                return "български език (Standard)";
+            } else {
+                return "български език (Phonetic)";
+            }
+        } else {
+            return LanguageSwitcher.toTitleCase(l.getDisplayName(l));
+        }
+    }
+    
     private static class Loc implements Comparable<Object> {
         static Collator sCollator = Collator.getInstance();
 
@@ -92,20 +146,43 @@ public class InputLanguageSelection extends PreferenceActivity {
         addPreferencesFromResource(R.xml.language_prefs);
         // Get the settings preferences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        mSelectedLanguages = sp.getString(LatinIME.PREF_SELECTED_LANGUAGES, "");
-        String[] languageList = mSelectedLanguages.split(",");
+        String selectedLanguagePref = sp.getString(LatinIME.PREF_SELECTED_LANGUAGES, "");
+        Log.i(TAG, "selected languages: " + selectedLanguagePref);
+        String[] languageList = selectedLanguagePref.split(",");
+        
         mAvailableLanguages = getUniqueLocales();
+
+        // Compatibility hack for v1.22 and older - if a selected language 5-code isn't
+        // found in the current list of available languages, try adding the 2-letter
+        // language code. For example, "en_US" is no longer listed, so use "en" instead.
+        Set<String> availableLanguages = new HashSet<String>();
+        for (int i = 0; i < mAvailableLanguages.size(); i++) {
+            Locale locale = mAvailableLanguages.get(i).locale;
+            availableLanguages.add(get5Code(locale));
+        }
+        Set<String> languageSelections = new HashSet<String>();
+        for (int i = 0; i < languageList.length; ++i) {
+            String spec = languageList[i];
+            if (availableLanguages.contains(spec)) {
+                languageSelections.add(spec);
+            } else if (spec.length() > 2) {
+                String lang = spec.substring(0, 2);
+                if (availableLanguages.contains(lang)) languageSelections.add(lang);
+            }
+        }
+
         PreferenceGroup parent = getPreferenceScreen();
         for (int i = 0; i < mAvailableLanguages.size(); i++) {
             CheckBoxPreference pref = new CheckBoxPreference(this);
             Locale locale = mAvailableLanguages.get(i).locale;
-            pref.setTitle(LanguageSwitcher.toTitleCase(locale.getDisplayName(locale)) +
+            pref.setTitle(mAvailableLanguages.get(i).label +
             		" [" + locale.toString() + "]");
-            boolean checked = isLocaleIn(locale, languageList);
-            pref.setChecked(checked);
+            String fivecode = get5Code(locale);
             String language = locale.getLanguage();
-            boolean has4Row = arrayContains(KBD_4_ROW, language);
-            boolean has5Row = arrayContains(KBD_5_ROW, language);
+            boolean checked = languageSelections.contains(fivecode);
+            pref.setChecked(checked);
+            boolean has4Row = arrayContains(KBD_4_ROW, fivecode) || arrayContains(KBD_4_ROW, language);
+            boolean has5Row = arrayContains(KBD_5_ROW, fivecode) || arrayContains(KBD_5_ROW, language);
             List<String> summaries = new ArrayList<String>(3);
             if (has5Row) summaries.add("5-row");           
             if (has4Row) summaries.add("4-row");           
@@ -124,14 +201,6 @@ public class InputLanguageSelection extends PreferenceActivity {
         }
     }
 
-    private boolean isLocaleIn(Locale locale, String[] list) {
-        String lang = get5Code(locale);
-        for (int i = 0; i < list.length; i++) {
-            if (lang.equalsIgnoreCase(list[i])) return true;
-        }
-        return false;
-    }
-
     private boolean hasDictionary(Locale locale) {
         Resources res = getResources();
         Configuration conf = res.getConfiguration();
@@ -148,13 +217,14 @@ public class InputLanguageSelection extends PreferenceActivity {
         if (bd.getSize() > Suggest.LARGE_DICTIONARY_THRESHOLD / 4) {
             haveDictionary = true;
         } else {
-        	BinaryDictionary plug = PluginManager.getDictionary(getApplicationContext(), locale.getLanguage());
-        	if (plug != null) {
-        		bd.close();
-        		bd = plug;
-        		haveDictionary = true;
-        	}
+            BinaryDictionary plug = PluginManager.getDictionary(getApplicationContext(), locale.getLanguage());
+            if (plug != null) {
+                bd.close();
+                bd = plug;
+                haveDictionary = true;
+            }
         }
+
         bd.close();
         conf.locale = saveLocale;
         res.updateConfiguration(conf, res.getDisplayMetrics());
@@ -210,28 +280,31 @@ public class InputLanguageSelection extends PreferenceActivity {
     ArrayList<Loc> getUniqueLocales() {
         Set<String> localeSet = new HashSet<String>();
         Set<String> langSet = new HashSet<String>();
-        String[] sysLocales = getAssets().getLocales();
-        
-        // First, add zz_ZZ style full language+country locales
-        for (int i = 0; i < sysLocales.length; ++i) {
-        	String sl = sysLocales[i];
-        	if (sl.length() != 5) continue;
-        	localeSet.add(sl);
-        	langSet.add(sl.substring(0, 2));
-        }
-        
-        // Add entries for system languages without country, but only if there's
-        // no full locale for that language yet.
-        for (int i = 0; i < sysLocales.length; ++i) {
-        	String sl = sysLocales[i];
-        	if (sl.length() != 2 || langSet.contains(sl)) continue;
-        	localeSet.add(sl);
-        }
+        // Ignore the system (asset) locale list, it's inconsistent and incomplete
+//        String[] sysLocales = getAssets().getLocales();
+//        
+//        // First, add zz_ZZ style full language+country locales
+//        for (int i = 0; i < sysLocales.length; ++i) {
+//        	String sl = sysLocales[i];
+//        	if (sl.length() != 5) continue;
+//        	localeSet.add(sl);
+//        	langSet.add(sl.substring(0, 2));
+//        }
+//        
+//        // Add entries for system languages without country, but only if there's
+//        // no full locale for that language yet.
+//        for (int i = 0; i < sysLocales.length; ++i) {
+//        	String sl = sysLocales[i];
+//        	if (sl.length() != 2 || langSet.contains(sl)) continue;
+//        	localeSet.add(sl);
+//        }
         
         // Add entries for additional languages supported by the keyboard.
         for (int i = 0; i < KBD_LOCALIZATIONS.length; ++i) {
         	String kl = KBD_LOCALIZATIONS[i];
         	if (kl.length() == 2 && langSet.contains(kl)) continue;
+        	// replace zz_rYY with zz_YY
+        	if (kl.length() == 6) kl = kl.substring(0, 2) + "_" + kl.substring(4, 6);
         	localeSet.add(kl);
         }
         Log.i(TAG, "localeSet=" + asString(localeSet));
@@ -250,12 +323,16 @@ public class InputLanguageSelection extends PreferenceActivity {
         for (int i = 0 ; i < origSize; i++ ) {
             String s = locales[i];
             int len = s.length();
-            if (len == 2 || len == 5) {
+            if (len == 2 || len == 5 || len == 6) {
                 String language = s.substring(0, 2);
                 Locale l;
                 if (len == 5) {
+                    // zz_YY
                     String country = s.substring(3, 5);
                     l = new Locale(language, country);
+                } else if (len == 6) {
+                    // zz_rYY
+                    l = new Locale(language, s.substring(4, 6));
                 } else {
                     l = new Locale(language);                	
                 }
@@ -273,15 +350,14 @@ public class InputLanguageSelection extends PreferenceActivity {
                     //  diff lang -> insert ours with lang-only name
                     if (preprocess[finalSize-1].locale.getLanguage().equals(
                             language)) {
-                        preprocess[finalSize-1].label = LanguageSwitcher.toTitleCase(
-                                preprocess[finalSize-1].locale.getDisplayName());
+                        preprocess[finalSize-1].label = getLocaleName(preprocess[finalSize-1].locale);
                         preprocess[finalSize++] =
-                                new Loc(LanguageSwitcher.toTitleCase(l.getDisplayName()), l);
+                                new Loc(getLocaleName(l), l);
                     } else {
                         String displayName;
                         if (s.equals("zz_ZZ")) {
                         } else {
-                            displayName = LanguageSwitcher.toTitleCase(l.getDisplayName(l));
+                            displayName = getLocaleName(l);
                             preprocess[finalSize++] = new Loc(displayName, l);
                         }
                     }

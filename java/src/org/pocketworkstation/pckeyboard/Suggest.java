@@ -108,12 +108,12 @@ public class Suggest implements Dictionary.WordCallback {
     public Suggest(Context context, int[] dictionaryResId) {
         mMainDict = new BinaryDictionary(context, dictionaryResId, DIC_MAIN);
         if (!hasMainDictionary()) {
-        	Locale locale = context.getResources().getConfiguration().locale;
-        	BinaryDictionary plug = PluginManager.getDictionary(context, locale.getLanguage());
-        	if (plug != null) {
-        		mMainDict.close();
-        		mMainDict = plug;
-        	}
+            Locale locale = context.getResources().getConfiguration().locale;
+            BinaryDictionary plug = PluginManager.getDictionary(context, locale.getLanguage());
+            if (plug != null) {
+                mMainDict.close();
+                mMainDict = plug;
+            }
         }
         initPool();
     }

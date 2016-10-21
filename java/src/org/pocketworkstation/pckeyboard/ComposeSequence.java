@@ -19,6 +19,9 @@ package org.pocketworkstation.pckeyboard;
 public class ComposeSequence extends ComposeBase {
     public ComposeSequence(ComposeSequencing user) {
             init(user);
+    }
+    
+    static {
             put("++", "#");
             put("' ", "'");
             put(" '", "'");
@@ -259,6 +262,13 @@ public class ComposeSequence extends ComposeBase {
             put(",e", "ę");
             put("cE", "Ě");
             put("ce", "ě");
+            //put("ff", "ﬀ"); // Not usable, interferes with ffi/ffl prefix
+            put("+f", "ﬀ");
+            put("f+", "ﬀ");
+            put("fi", "ﬁ");
+            put("fl", "ﬂ");
+            put("ffi", "ﬃ");
+            put("ffl", "ﬄ");
             put("^G", "Ĝ");
             put("^g", "ĝ");
             put("UG", "Ğ");

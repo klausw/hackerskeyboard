@@ -16,6 +16,9 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.OnKeyboardActionListener;
 import org.pocketworkstation.pckeyboard.LatinKeyboardBaseView.UIHandler;
 
@@ -39,7 +42,6 @@ public class PointerTracker {
 
     // Timing constants
     private final int mDelayBeforeKeyRepeatStart;
-    private final int mLongPressKeyTimeout;
     private final int mMultiTapKeyTimeout;
 
     // Miscellaneous constants
@@ -79,6 +81,9 @@ public class PointerTracker {
 
     // pressed key
     private int mPreviousKey = NOT_A_KEY;
+
+    private static boolean sSlideKeyHack;
+    private static List<Key> sSlideKeys = new ArrayList<Key>(10);
 
     // This class keeps track of a key index and a position where this pointer is.
     private static class KeyState {
@@ -166,7 +171,7 @@ public class PointerTracker {
     }
 
     public PointerTracker(int id, UIHandler handler, KeyDetector keyDetector, UIProxy proxy,
-            Resources res) {
+            Resources res, boolean slideKeyHack) {
         if (proxy == null || handler == null || keyDetector == null)
             throw new NullPointerException();
         mPointerId = id;
@@ -177,8 +182,8 @@ public class PointerTracker {
         mKeyState = new KeyState(keyDetector);
         mHasDistinctMultitouch = proxy.hasDistinctMultitouch();
         mDelayBeforeKeyRepeatStart = res.getInteger(R.integer.config_delay_before_key_repeat_start);
-        mLongPressKeyTimeout = res.getInteger(R.integer.config_long_press_key_timeout);
         mMultiTapKeyTimeout = res.getInteger(R.integer.config_multi_tap_key_timeout);
+        sSlideKeyHack = slideKeyHack;
         resetMultiTap();
     }
 
@@ -199,6 +204,10 @@ public class PointerTracker {
         return mIsInSlidingKeyInput;
     }
 
+    public void setSlidingKeyInputState(boolean state) {
+        mIsInSlidingKeyInput = state;
+    }
+
     private boolean isValidKeyIndex(int keyIndex) {
         return keyIndex >= 0 && keyIndex < mKeys.length;
     }
@@ -216,6 +225,7 @@ public class PointerTracker {
                 || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
                 || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT
                 || primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT
+                || primaryCode == LatinKeyboardView.KEYCODE_META_LEFT
                 || primaryCode == LatinKeyboardView.KEYCODE_FN;
     }
 
@@ -229,7 +239,7 @@ public class PointerTracker {
 
     public boolean isSpaceKey(int keyIndex) {
         Key key = getKey(keyIndex);
-        return key != null && key.codes != null && key.codes[0] == LatinIME.KEYCODE_SPACE;
+        return key != null && key.codes != null && key.codes[0] == LatinIME.ASCII_SPACE;
     }
 
     public void updateKey(int keyIndex) {
@@ -286,7 +296,7 @@ public class PointerTracker {
         if (mListener != null) {
             if (isValidKeyIndex(keyIndex)) {
                 Key key = mKeys[keyIndex];
-                if (key.codes != null) mListener.onPress(key.codes[0]);
+                if (key.codes != null) mListener.onPress(key.getPrimaryCode());
                 // This onPress call may have changed keyboard layout. Those cases are detected at
                 // {@link #setKeyboard}. In those cases, we should update keyIndex according to the
                 // new keyboard layout.
@@ -307,6 +317,43 @@ public class PointerTracker {
         showKeyPreviewAndUpdateKey(keyIndex);
     }
 
+    private static void addSlideKey(Key key) {
+        if (!sSlideKeyHack || LatinIME.sKeyboardSettings.sendSlideKeys == 0) return;
+        if (key == null) return;
+        if (key.modifier) {
+            clearSlideKeys();
+        } else {
+            sSlideKeys.add(key);
+        }
+    }
+    
+    /*package*/ static void clearSlideKeys() {
+        sSlideKeys.clear();
+    }
+    
+    void sendSlideKeys() {
+        if (!sSlideKeyHack) return;
+        int slideMode = LatinIME.sKeyboardSettings.sendSlideKeys;
+        if ((slideMode & 4) > 0) {
+            // send all
+            for (Key key : sSlideKeys) {
+                detectAndSendKey(key, key.x, key.y, -1);            
+            }
+        } else {
+            // Send first and/or last key only.
+            int n = sSlideKeys.size();
+            if (n > 0 && (slideMode & 1) > 0) {
+                Key key = sSlideKeys.get(0);
+                detectAndSendKey(key, key.x, key.y, -1);            
+            }
+            if (n > 1 && (slideMode & 2) > 0) {
+                Key key = sSlideKeys.get(n - 1);
+                detectAndSendKey(key, key.x, key.y, -1);            
+            }
+        }
+        clearSlideKeys();
+    }
+    
     public void onMoveEvent(int x, int y, long eventTime) {
         if (DEBUG_MOVE)
             debugLog("onMoveEvent:", x, y);
@@ -316,12 +363,14 @@ public class PointerTracker {
         int keyIndex = keyState.onMoveKey(x, y);
         final Key oldKey = getKey(keyState.getKeyIndex());
         if (isValidKeyIndex(keyIndex)) {
+            boolean isMinorMoveBounce = isMinorMoveBounce(x, y, keyIndex);
+            if (DEBUG_MOVE) Log.i(TAG, "isMinorMoveBounce=" +isMinorMoveBounce + " oldKey=" + (oldKey== null ? "null" : oldKey));
             if (oldKey == null) {
                 // The pointer has been slid in to the new key, but the finger was not on any keys.
                 // In this case, we must call onPress() to notify that the new key is being pressed.
                 if (mListener != null) {
                     Key key = getKey(keyIndex);
-                    if (key.codes != null) mListener.onPress(key.codes[0]);
+                    if (key.codes != null) mListener.onPress(key.getPrimaryCode());
                     // This onPress call may have changed keyboard layout. Those cases are detected
                     // at {@link #setKeyboard}. In those cases, we should update keyIndex according
                     // to the new keyboard layout.
@@ -332,17 +381,17 @@ public class PointerTracker {
                 }
                 keyState.onMoveToNewKey(keyIndex, x, y);
                 startLongPressTimer(keyIndex);
-            } else if (!isMinorMoveBounce(x, y, keyIndex)) {
+            } else if (!isMinorMoveBounce) {
                 // The pointer has been slid in to the new key from the previous key, we must call
                 // onRelease() first to notify that the previous key has been released, then call
                 // onPress() to notify that the new key is being pressed.
                 mIsInSlidingKeyInput = true;
                 if (mListener != null && oldKey.codes != null)
-                    mListener.onRelease(oldKey.codes[0]);
+                    mListener.onRelease(oldKey.getPrimaryCode());
                 resetMultiTap();
                 if (mListener != null) {
                     Key key = getKey(keyIndex);
-                    if (key.codes != null) mListener.onPress(key.codes[0]);
+                    if (key.codes != null) mListener.onPress(key.getPrimaryCode());
                     // This onPress call may have changed keyboard layout. Those cases are detected
                     // at {@link #setKeyboard}. In those cases, we should update keyIndex according
                     // to the new keyboard layout.
@@ -350,6 +399,7 @@ public class PointerTracker {
                         mKeyboardLayoutHasBeenChanged = false;
                         keyIndex = keyState.onMoveKey(x, y);
                     }
+                    addSlideKey(oldKey);
                 }
                 keyState.onMoveToNewKey(keyIndex, x, y);
                 startLongPressTimer(keyIndex);
@@ -360,7 +410,7 @@ public class PointerTracker {
                 // notify that the previous key has been released.
                 mIsInSlidingKeyInput = true;
                 if (mListener != null && oldKey.codes != null)
-                    mListener.onRelease(oldKey.codes[0]);
+                    mListener.onRelease(oldKey.getPrimaryCode());
                 resetMultiTap();
                 keyState.onMoveToNewKey(keyIndex, x ,y);
                 mHandler.cancelLongPressTimer();
@@ -376,6 +426,7 @@ public class PointerTracker {
         mHandler.cancelPopupPreview();
         showKeyPreviewAndUpdateKey(NOT_A_KEY);
         mIsInSlidingKeyInput = false;
+        sendSlideKeys();
         if (mKeyAlreadyProcessed)
             return;
         int keyIndex = mKeyState.onUpKey(x, y);
@@ -442,6 +493,7 @@ public class PointerTracker {
         if (newKey == curKey) {
             return true;
         } else if (isValidKeyIndex(curKey)) {
+            //return false; // TODO(klausw): tweak this?
             return getSquareDistanceToKeyEdge(x, y, mKeys[curKey]) < mKeyHysteresisDistanceSquared;
         } else {
             return false;
@@ -475,15 +527,19 @@ public class PointerTracker {
     private void startLongPressTimer(int keyIndex) {
         if (mKeyboardSwitcher.isInMomentaryAutoModeSwitchState()) {
             // We use longer timeout for sliding finger input started from the symbols mode key.
-            mHandler.startLongPressTimer(mLongPressKeyTimeout * 3, keyIndex, this);
+            mHandler.startLongPressTimer(LatinIME.sKeyboardSettings.longpressTimeout * 3, keyIndex, this);
         } else {
-            mHandler.startLongPressTimer(mLongPressKeyTimeout, keyIndex, this);
+            mHandler.startLongPressTimer(LatinIME.sKeyboardSettings.longpressTimeout, keyIndex, this);
         }
     }
 
     private void detectAndSendKey(int index, int x, int y, long eventTime) {
+        detectAndSendKey(getKey(index), x, y, eventTime);
+        mLastSentIndex = index;
+    }
+    
+    private void detectAndSendKey(Key key, int x, int y, long eventTime) {
         final OnKeyboardActionListener listener = mListener;
-        final Key key = getKey(index);
 
         if (key == null) {
             if (listener != null)
@@ -496,7 +552,7 @@ public class PointerTracker {
                 }
             } else {
                 if (key.codes == null) return;
-                int code = key.codes[0];
+                int code = key.getPrimaryCode();
                 int[] codes = mKeyDetector.newCodeArray();
                 mKeyDetector.getKeyIndexAndNearbyCodes(x, y, codes);
                 // Multi-tap
@@ -522,7 +578,6 @@ public class PointerTracker {
                     listener.onRelease(code);
                 }
             }
-            mLastSentIndex = index;
             mLastTapTime = eventTime;
         }
     }
@@ -537,7 +592,11 @@ public class PointerTracker {
             mPreviewLabel.append((char) key.codes[mTapCount < 0 ? 0 : mTapCount]);
             return mPreviewLabel;
         } else {
-            return key.label;
+        	if (key.isDeadKey()) {
+        		return DeadAccentSequence.normalize(" " + key.label);
+        	} else {
+        		return key.label;
+        	}
         }
     }
 

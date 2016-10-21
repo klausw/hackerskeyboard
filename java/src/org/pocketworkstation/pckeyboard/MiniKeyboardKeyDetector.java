@@ -53,7 +53,7 @@ class MiniKeyboardKeyDetector extends KeyDetector {
             }
         }
         if (allKeys != null && closestKeyIndex != LatinKeyboardBaseView.NOT_A_KEY)
-            allKeys[0] = keys[closestKeyIndex].codes[0];
+            allKeys[0] = keys[closestKeyIndex].getPrimaryCode();
         return closestKeyIndex;
     }
 }

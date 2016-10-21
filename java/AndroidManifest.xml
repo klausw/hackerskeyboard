@@ -1,21 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="org.pocketworkstation.pckeyboard" android:versionName="v1.23" android:versionCode="1023">
+        package="org.pocketworkstation.pckeyboard" android:versionName="v1.39.0" android:versionCode="1039000">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.faketouch" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
-    <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8"></uses-sdk>
+    <uses-sdk android:targetSdkVersion="19" android:minSdkVersion="8"></uses-sdk>
 
     <application android:label="@string/english_ime_name"
+            android:allowBackup="true"
             android:backupAgent="LatinIMEBackupAgent"
-            android:hardwareAccelerated="true"
-            android:killAfterRestore="false" android:icon="@drawable/icon">
+            android:restoreAnyVersion="true"
+            android:hardwareAccelerated="false"
+            android:killAfterRestore="false"
+            android:icon="@drawable/icon">
 
         <service android:name="LatinIME"
                 android:label="@string/english_ime_name"
@@ -53,5 +54,32 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-    </application>
+
+        <activity android:name="PrefScreenActions"
+                android:label="@string/pref_screen_actions_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+            
+        <activity android:name="PrefScreenView"
+                android:label="@string/pref_screen_actions_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="PrefScreenFeedback"
+                android:label="@string/pref_screen_feedback_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="org.pocketworkstation.pckeyboard.PREFS_FEEDBACK"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+</application>
 </manifest>

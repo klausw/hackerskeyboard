@@ -22,6 +22,7 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.provider.UserDictionary.Words;
+import android.util.Log;
 
 public class UserDictionary extends ExpandableDictionary {
     
@@ -33,6 +34,8 @@ public class UserDictionary extends ExpandableDictionary {
     
     private static final int INDEX_WORD = 1;
     private static final int INDEX_FREQUENCY = 2;
+
+    private static final String TAG = "HK/UserDictionary";
     
     private ContentObserver mObserver;
     private String mLocale;
@@ -118,6 +121,10 @@ public class UserDictionary extends ExpandableDictionary {
     }
 
     private void addWords(Cursor cursor) {
+        if (cursor == null) {
+            Log.w(TAG, "Unexpected null cursor in addWords()");
+            return;
+        }
         clearDictionary();
 
         final int maxWordLength = getMaxWordLength();
