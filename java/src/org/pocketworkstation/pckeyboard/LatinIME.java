@@ -488,7 +488,6 @@ public class LatinIME extends InputMethodService implements
             int icon = R.drawable.icon;
             CharSequence text = "Keyboard notification enabled.";
             long when = System.currentTimeMillis();
-            //Notification notification = new Notification(icon, text, when);
 
             // TODO: clean this up?
             mNotificationReceiver = new NotificationReceiver(this);
@@ -514,7 +513,6 @@ public class LatinIME extends InputMethodService implements
                     .getNotification();
             
             notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_NO_CLEAR;
-            //notification.setLatestEventInfo(getApplicationContext(), title, body, contentIntent);
             mNotificationManager.notify(ID, notification);
         } else if (mNotificationReceiver != null) {
             mNotificationManager.cancel(ID);
