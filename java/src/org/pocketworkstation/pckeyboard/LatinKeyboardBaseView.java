@@ -538,6 +538,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             }
         }
+		if (a != null) {
+			a.recycle();
+		}
 
         final Resources res = getResources();
 
