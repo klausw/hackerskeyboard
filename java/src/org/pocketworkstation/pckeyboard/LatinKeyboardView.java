@@ -151,6 +151,9 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 break;
             }
         }
+		if (a != null) {
+			a.recycle();
+		}
 
         final Resources res = getResources();
         if (previewLayout != 0) {
