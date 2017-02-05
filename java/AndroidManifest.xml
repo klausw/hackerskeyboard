@@ -1,15 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.android.inputmethod.latin">
+        package="org.pocketworkstation.pckeyboard" android:versionName="v1.21" android:versionCode="1021">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+    <uses-feature android:name="android.hardware.faketouch" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+    <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8"></uses-sdk>
 
     <application android:label="@string/english_ime_name"
             android:backupAgent="LatinIMEBackupAgent"
-            android:killAfterRestore="false">
+            android:hardwareAccelerated="true"
+            android:killAfterRestore="false" android:icon="@drawable/icon">
 
         <service android:name="LatinIME"
                 android:label="@string/english_ime_name"
@@ -19,6 +25,13 @@
             </intent-filter>
             <meta-data android:name="android.view.im" android:resource="@xml/method" />
         </service>
+
+        <activity android:name="Main" android:label="Hacker's Keyboard">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
         <activity android:name="LatinIMESettings" android:label="@string/english_ime_settings">
             <intent-filter>
@@ -36,7 +49,7 @@
                 android:label="@string/language_selection_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <action android:name="com.android.inputmethod.latin.INPUT_LANGUAGE_SELECTION"/>
+                <action android:name="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

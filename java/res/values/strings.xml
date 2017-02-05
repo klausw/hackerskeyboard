@@ -19,9 +19,9 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Title for Latin keyboard  -->
-    <string name="english_ime_name">Android keyboard</string>
+    <string name="english_ime_name">Hacker\'s Keyboard</string>
     <!-- Title for Latin keyboard settings activity / dialog -->
-    <string name="english_ime_settings">Android keyboard settings</string>
+    <string name="english_ime_settings">Settings for Hacker\'s Keyboard</string>
     <!-- Title for Latin keyboard input options dialog -->
     <string name="english_ime_input_options">Input options</string>
 
@@ -373,7 +373,152 @@
     <string name="subtype_mode_keyboard">keyboard</string>
     <string name="subtype_mode_voice">voice</string>
 
+    <string name="title_full_in_portrait">Full keyboard in portrait mode</string>
+    <string name="summary_full_in_portrait_true">Use full 5-row keyboard</string>
+    <string name="summary_full_in_portrait_false">Use 4-row Gingerbread keyboard</string>
+
+    <string name="title_suggestions_in_landscape">Suggestions in landscape mode</string>
+    <string name="summary_suggestions_in_landscape_true">Same as in portrait mode</string>
+    <string name="summary_suggestions_in_landscape_false">Hide suggestions in landscape mode</string>
+
+    <string name="title_fullscreen_override">Landscape mode editor override</string>
+    <string name="summary_fullscreen_override_true">Always use standard view</string>
+    <string name="summary_fullscreen_override_false">Use fullscreen editor on small devices</string>
+
+    <string name="title_application_category">Application-specific settings</string>
+    
+    <string name="title_connectbot_tab_hack">ConnectBot tab key mode</string>
+    <string name="summary_connectbot_tab_hack_true">Enable compatibility workaround</string>
+    <string name="summary_connectbot_tab_hack_false">Send plain Tab key event</string>
+
+    <string name="title_hint_mode">Labeled alternate keys</string>
+    <string-array name="hint_modes">
+        <item>Hide all hint labels</item>
+        <item>Non-letter keys only</item>
+        <item>Show all hint labels</item>
+    </string-array>
+
+    <string-array name="hint_modes_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="default_hint_mode">1</string>
+
+    <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
+    <string-array name="keyboard_height_entries">
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>55%</item>
+        <item>60%</item>
+        <item>65%</item>
+        <item>70%</item>
+        <item>75%</item>
+    </string-array>
+    <string name="percent">percent</string>
+
+	<string name="title_label_scale">Key label scaling</string>
+    <string-array name="label_scale_entries">
+        <item>50%</item>
+        <item>60%</item>
+        <item>70%</item>
+        <item>80%</item>
+        <item>90%</item>
+        <item>100%</item>
+        <item>110%</item>
+        <item>120%</item>
+        <item>130%</item>
+        <item>140%</item>
+        <item>150%</item>
+        <item>175%</item>
+        <item>200%</item>
+        <item>250%</item>
+        <item>300%</item>
+        <item>350%</item>
+        <item>400%</item>
+        <item>600%</item>
+        <item>800%</item>
+    </string-array>
+    <string-array name="label_scale_values">
+        <item>0.5</item>
+        <item>0.6</item>
+        <item>0.7</item>
+        <item>0.8</item>
+        <item>0.9</item>
+        <item>1.0</item>
+        <item>1.1</item>
+        <item>1.2</item>
+        <item>1.3</item>
+        <item>1.4</item>
+        <item>1.5</item>
+        <item>1.75</item>
+        <item>2.0</item>
+        <item>2.5</item>
+        <item>3.0</item>
+        <item>3.5</item>
+        <item>4.0</item>
+        <item>6.0</item>
+        <item>8.0</item>
+    </string-array>
+
+    <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
+        dependent and may require overriding with a device specific overlay. Default is in durations.xml -->
+    <!-- Hack: used for both entries and values, the parser ignores non-numeric part -->
+    <string-array name="vibrate_duration_entries">
+        <item>5 ms</item>
+        <item>10 ms</item>
+        <item>15 ms</item>
+        <item>20 ms</item>
+        <item>30 ms</item>
+        <item>40 ms</item>
+        <item>50 ms</item>
+        <item>75 ms</item>
+        <item>100 ms</item>
+        <item>200 ms</item>
+    </string-array>
+
+    <string name="recorrect_warning">FYI: recorrection does not work correctly on pre-Gingerbread devices due to missing operating system support.</string>
+    <string name="no_market_warning">Unable to launch Market.</string>
     <!-- Title for Latin keyboard debug settings activity / dialog -->
-    <string name="english_ime_debug_settings" translatable="false">Android keyboard Debug settings</string>
+    <string name="english_ime_debug_settings" translatable="false">Debug settings</string>
     <string name="prefs_debug_mode" translatable="false">Debug Mode</string>
+    <string name="main_setup_1">Configure input methods</string>
+    <string name="main_setup_2">Set current input method</string>
+    <string name="main_setup_3">Get dictionaries</string>
+    <string name="main_body"><Data>
+      <![CDATA["
+        <h2>Enabling the keyboard</h2>
+        
+        <p><i>Hacker's Keyboard</i> provides a new Android input method. It is disabled by default, and for security reasons Android doesn't allow programs to change input method settings. Please follow the following steps to activate it.<p>
+        
+        <h3>Add the keyboard to the system's input method list:</h3>
+        <blockquote>
+          <p>&#8226; Open the system input settings configuration by pressing the <b>Configure input methods</b> button above.</p>
+          <p>&#8226; Find <i>Hacker's Keyboard</i> in the input method list, tap the checkmark to switch it on.</p>
+          <p>&#8226; Acknowledge the warning shown by the system. The system always shows this message when enabling a third-party input method.</p>
+          <p>&#8226; Press the <i>Back</i> button to return to this page.</li>
+        </blockquote>
+        
+        <h3>Choose the currently active input method:</h3>
+        <blockquote>
+          <p>&#8226; Press the <b>Set current input method</b> button above.
+          <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.
+        </blockquote>
+
+        <h3>Optionally, install completion dictionary packages:</h3>
+        <blockquote>
+          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.
+        </blockquote>
+        
+        <h2>Additional information</h2>
+        Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.
+      "]]>
+    </Data></string>
+    <string name="text_test">Test</string>
 </resources>

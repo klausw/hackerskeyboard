@@ -25,11 +25,10 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
     android:keyWidth="9.09%p"
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
-    android:keyHeight="@dimen/key_height"
 >
     <Row
         android:rowEdgeFlags="top"
@@ -316,13 +315,12 @@
             android:codes="@integer/key_space"
             android:keyIcon="@drawable/sym_keyboard_space"
             android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="20%p"
+            android:keyWidth="30%p"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_tab"
             android:keyIcon="@drawable/sym_keyboard_tab"
             android:iconPreview="@drawable/sym_keyboard_feedback_tab"
-            android:keyWidth="20%p"
             android:isModifier="true" />
         <Key
             android:keyLabel="."

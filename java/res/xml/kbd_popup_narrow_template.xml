@@ -18,8 +18,8 @@
 */
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="9.45%p"
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
+    android:keyWidth="9%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
     android:keyHeight="@dimen/popup_key_height"

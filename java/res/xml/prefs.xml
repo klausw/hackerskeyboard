@@ -18,9 +18,99 @@
         android:title="@string/english_ime_settings"
         android:key="english_ime_settings">
 
+    <ListPreference
+            android:key="settings_height_portrait"
+            android:title="Keyboard height, portrait"
+            android:persistent="true"
+            android:entryValues="@array/keyboard_height_entries"
+            android:entries="@array/keyboard_height_entries"
+            android:defaultValue="@string/default_height_portrait"
+            />
+
+    <ListPreference
+            android:key="settings_height_landscape"
+            android:title="Keyboard height, landscape"
+            android:persistent="true"
+            android:entryValues="@array/keyboard_height_entries"
+            android:entries="@array/keyboard_height_entries"
+            android:defaultValue="@string/default_height_landscape"
+            />
+
+    <CheckBoxPreference
+            android:key="full_keyboard_in_portrait"
+            android:title="@string/title_full_in_portrait"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_full_in_portrait"
+            android:summaryOn="@string/summary_full_in_portrait_true"
+            android:summaryOff="@string/summary_full_in_portrait_false"
+            />
+
+    <CheckBoxPreference
+            android:key="suggestions_in_landscape"
+            android:title="@string/title_suggestions_in_landscape"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_suggestions_in_landscape"
+            android:summaryOn="@string/summary_suggestions_in_landscape_true"
+            android:summaryOff="@string/summary_suggestions_in_landscape_false"
+            />
+   
+    <CheckBoxPreference
+            android:key="fullscreen_override"
+            android:title="@string/title_fullscreen_override"
+            android:persistent="true" 
+            android:defaultValue="@bool/default_fullscreen_override"
+            android:summaryOn="@string/summary_fullscreen_override_true"
+            android:summaryOff="@string/summary_fullscreen_override_false"
+            />
+
+    <ListPreference
+            android:key="pref_hint_mode"
+            android:title="@string/title_hint_mode"
+            android:persistent="true"
+            android:entryValues="@array/hint_modes_values"
+            android:entries="@array/hint_modes"
+            android:defaultValue="@string/default_hint_mode"
+            />
+
+    <ListPreference
+            android:key="pref_label_scale"
+            android:title="@string/title_label_scale"
+            android:persistent="true"
+            android:entryValues="@array/label_scale_values"
+            android:entries="@array/label_scale_entries"
+            android:defaultValue="1.0"
+            />
+
+    <PreferenceCategory
+            android:title="@string/title_application_category"
+            android:key="application_settings">
+
+        <CheckBoxPreference
+            android:key="connectbot_tab_hack"
+            android:title="@string/title_connectbot_tab_hack"
+            android:persistent="true" 
+            android:defaultValue="true"
+            android:summaryOn="@string/summary_connectbot_tab_hack_true"
+            android:summaryOff="@string/summary_connectbot_tab_hack_false"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Gingerbread keyboard settings"
+            android:key="gingerbread_settings">
+
     <CheckBoxPreference
             android:key="vibrate_on"
             android:title="@string/vibrate_on_keypress"
+            android:persistent="true"
+            />
+
+    <ListPreference
+            android:key="vibrate_len"
+            android:title="Vibrate duration"
+            android:entryValues="@array/vibrate_duration_entries"
+            android:entries="@array/vibrate_duration_entries"
             android:persistent="true"
             />
 
@@ -49,7 +139,7 @@
             android:key="auto_cap"
             android:title="@string/auto_cap"
             android:persistent="true"
-            android:defaultValue="true"
+            android:defaultValue="@bool/default_auto_cap"
             />
 
     <ListPreference
@@ -75,9 +165,11 @@
             android:title="@string/language_selection_title"
             android:summary="@string/language_selection_summary">
         <intent
-                android:action="com.android.inputmethod.latin.INPUT_LANGUAGE_SELECTION"/>
+                android:action="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION"/>
     </PreferenceScreen>
 
+    </PreferenceCategory>
+    
     <PreferenceCategory
             android:title="@string/prediction_category"
             android:key="prediction_settings">
@@ -87,7 +179,7 @@
             android:title="@string/quick_fixes"
             android:summary="@string/quick_fixes_summary"
             android:persistent="true"
-            android:defaultValue="true"
+            android:defaultValue="@bool/default_quick_fixes"
             />
 
         <CheckBoxPreference
@@ -95,7 +187,7 @@
             android:title="@string/show_suggestions"
             android:summary="@string/show_suggestions_summary"
             android:persistent="true"
-            android:defaultValue="true"
+            android:defaultValue="@bool/default_suggestions"
             />
 
         <CheckBoxPreference
