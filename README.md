@@ -17,10 +17,12 @@ Serbian (Српски), Slovak (Slovenčina), Slovenian
 Latinoamérica), Swedish (Svenska), Tamil (தமிழ்), Thai (ไทย), Turkish (Türkçe),
 and Ukrainian (українська мова).
 
-To install, get **[Hacker's
-Keyboard](https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard)**
-from the Play Store, plus optional [dictionary
-packs](https://play.google.com/store/apps/developer?id=Klaus+Weidner).
+<a href="https://f-droid.org/repository/browse/?fdid=org.pocketworkstation.pckeyboard" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="70"/></a>
+<a href="https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard" target="_blank">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="70"/></a>
+
+Here are some optional [dictionary packs](https://play.google.com/store/apps/developer?id=Klaus+Weidner).
 
 ## Additional resources ##
 
