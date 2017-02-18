@@ -87,6 +87,13 @@ public class Main extends Activity {
             }
         });
         // PluginManager.getPluginDictionaries(getApplicationContext()); // why?
+
+        final Button setup5 = (Button) findViewById(R.id.main_setup_btn_settings);
+        setup5.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivityForResult(new Intent(that, LatinIMESettings.class), 0);
+            }
+        });
     }    
 }
 
