@@ -26,7 +26,7 @@ packs](https://play.google.com/store/apps/developer?id=Klaus+Weidner).
 
 See the **ReleaseNotes** for changes in the Play Store released versions, and follow the project on **[Google+](https://plus.google.com/100683221734778417816)** for news and updates including pre-release versions.
 
-Having problems? See the **UsersGuide** and **FrequentlyAskedQuestions**, and check the [issue tracker](http://code.google.com/p/hackerskeyboard/issues/list) for known bugs or filing new ones.
+Having problems? See the **UsersGuide** and **FrequentlyAskedQuestions**, and check the [issue tracker](https://github.com/klausw/hackerskeyboard/issues) for known bugs or filing new ones.
 
 Comments, requests, or contributions? Join the [discussion group](http://groups.google.com/group/hackerskeyboard/).
 
