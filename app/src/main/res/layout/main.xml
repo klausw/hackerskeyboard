@@ -24,6 +24,12 @@
 				android:id="@+id/main_setup_btn_get_dicts" android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></Button>
 		</TableRow>
+		<TableRow>
+			<Button android:text="@string/main_setup_settings"
+				android:id="@+id/main_setup_btn_settings"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"></Button>
+		</TableRow>
 	</TableLayout>
 	<TextView android:layout_height="wrap_content" android:id="@+id/main_description"
 		android:layout_width="wrap_content"></TextView>
