@@ -637,6 +637,7 @@
     <string name="main_setup_get_dicts">More</string>
     <string name="main_setup_input_lang">Input languages</string>
     <string name="main_setup_settings">Settings</string>
+    <string name="main_setup_test">Test</string>
     <string name="main_body"><Data>
       <![CDATA["
         <h2>Enabling Hacker's Keyboard</h2>

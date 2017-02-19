@@ -29,6 +29,11 @@
 				android:id="@+id/main_setup_btn_settings"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></Button>
+			<EditText android:text="@string/main_setup_test"
+				android:id="@+id/main_setup_edit_test"
+				android:layout_width="fill_parent"
+				android:gravity="center"
+				android:layout_height="wrap_content"></EditText>
 		</TableRow>
 	</TableLayout>
 	<TextView android:layout_height="wrap_content" android:id="@+id/main_description"
