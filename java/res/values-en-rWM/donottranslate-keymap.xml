@@ -168,7 +168,7 @@
 
     <string name="key_ac10_main">i</string>
     <string name="key_ac10_shift"></string>
-    <string name="key_ac10_alt">@string/alternatives_for_i</string>
+    <string name="key_ac10_alt">@string/alternates_for_i</string>
 
     <string name="key_ac11_main">\'</string>
     <string name="key_ac11_shift">\"</string>
