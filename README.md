@@ -6,13 +6,14 @@ This keyboard is especially useful if you use ConnectBot for SSH access. It prov
 
 The supported keyboard layouts include Armenian (Հայերեն), Arabic (العربية),
 British (en\_GB), Bulgarian (български език), Czech (Čeština), Danish (dansk),
-Carpalx English (language "en-CX"), Dvorak English (language "en-DV"), English
-(QWERTY), Finnish (Suomi), French (Français, AZERTY), German (Deutsch, QWERTZ),
-German Neo2 (Deutsch, language "de-NE"),
-Greek (ελληνικά), Hebrew (עברית), Hungarian (Magyar), Italian (Italiano), Lao
-(ພາສາລາວ), Norwegian (Norsk bokmål), Persian (فارسی), Portuguese (Português),
-Romanian (Română), Russian (Русский), Russian phonetic (Русский, ru-rPH),
-Serbian (Српски), Slovak (Slovenčina), Slovenian
+Carpalx English (language "en-CX"), Dvorak English (language "en-DV"), Workman
+English (language "en-WM"), English (QWERTY), Finnish (Suomi), French
+(Français, AZERTY), German (Deutsch, QWERTZ), German Neo2 (Deutsch, language
+"de-NE"), Greek (ελληνικά), Hebrew (עברית), Hungarian (Magyar),
+Italian (Italiano), Lao (ພາສາລາວ), Norwegian (Norsk bokmål),
+Persian (فارسی), Portuguese (Português), Romanian (Română), Russian
+(Русский), Russian phonetic (Русский, ru-rPH), Serbian
+(Српски), Slovak (Slovenčina), Slovenian
 (Slovenščina)/Bosnian/Croatian/Latin Serbian, Spanish (Español, Español
 Latinoamérica), Swedish (Svenska), Tamil (தமிழ்), Thai (ไทย), Turkish (Türkçe),
 and Ukrainian (українська мова).
