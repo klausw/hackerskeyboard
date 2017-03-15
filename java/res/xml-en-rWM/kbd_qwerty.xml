@@ -57,7 +57,7 @@
         <Key
             android:keyLabel="b"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_w" />
+            android:popupCharacters="@string/alternates_for_b" />
         <Key
             android:keyLabel="j"
             android:popupKeyboard="@xml/kbd_popup_template"
