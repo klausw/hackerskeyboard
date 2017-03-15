@@ -41,6 +41,7 @@
             android:keyLabel="q"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_q"
+            android:horizontalGap="5%p"
             android:keyEdgeFlags="left" />
         <Key
             android:keyLabel="d"
@@ -81,7 +82,6 @@
             android:keyLabel="a"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_a"
-            android:horizontalGap="5%p"
             android:keyEdgeFlags="left" />
         <Key
             android:keyLabel="s"
