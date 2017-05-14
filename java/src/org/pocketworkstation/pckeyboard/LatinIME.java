@@ -381,7 +381,7 @@ public class LatinIME extends InputMethodService implements
         // setStatusIcon(R.drawable.ime_qwerty);
         mResources = getResources();
         final Configuration conf = mResources.getConfiguration();
-        mOrientation = conf.orientation;
+        mOrientation = conf.screenWidthDp<480 ? Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE;
         final SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
         mLanguageSwitcher = new LanguageSwitcher(this);
@@ -445,7 +445,7 @@ public class LatinIME extends InputMethodService implements
             }
         }
 
-        mOrientation = conf.orientation;
+        mOrientation = conf.screenWidthDp<480 ? Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE;
 
         // register to receive ringer mode changes for silent mode
         IntentFilter filter = new IntentFilter(
@@ -667,7 +667,7 @@ public class LatinIME extends InputMethodService implements
             commitTyped(ic, true);
             if (ic != null)
                 ic.finishComposingText(); // For voice input
-            mOrientation = conf.orientation;
+            mOrientation = conf.screenWidthDp<480 ? Configuration.ORIENTATION_PORTRAIT : Configuration.ORIENTATION_LANDSCAPE;
             reloadKeyboards();
             removeCandidateViewContainer();
         }
