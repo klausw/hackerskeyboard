@@ -27,6 +27,7 @@ public class PrefScreenActions extends PreferenceActivity
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        Keyboard.setFlagSecure(this);
         addPreferencesFromResource(R.xml.prefs_actions);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);

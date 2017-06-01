@@ -147,6 +147,7 @@ public class InputLanguageSelection extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        Keyboard.setFlagSecure(this);
         addPreferencesFromResource(R.xml.language_prefs);
         // Get the settings preferences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);

@@ -29,6 +29,9 @@ import android.util.TypedValue;
 import android.util.Xml;
 import android.util.DisplayMetrics;
 
+import android.app.Activity;
+import android.view.WindowManager;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -1307,6 +1310,17 @@ public class Keyboard {
             return a.getFraction(index, base, base, defValue);
         }
         return defValue;
+    }
+
+    /**
+     * Method to set FLAG_SECURE inside activities
+     *
+     * @param activity
+     * @see <a href="https://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#FLAG_SECURE">FLAG_SECURE</a>
+     */
+    public static void setFlagSecure(Activity activity) {
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     @Override

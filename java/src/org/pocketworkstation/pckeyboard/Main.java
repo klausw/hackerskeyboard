@@ -40,6 +40,7 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        Keyboard.setFlagSecure(this);
         String html = getString(R.string.main_body);
         html += "<p><i>Version: " + getString(R.string.auto_version) + "</i></p>";
         Spanned content = Html.fromHtml(html);
@@ -62,7 +63,7 @@ public class Main extends Activity {
                 mgr.showInputMethodPicker();
             }
         });
-        
+
         final Activity that = this;
 
         final Button setup4 = (Button) findViewById(R.id.main_setup_btn_input_lang);
@@ -77,16 +78,16 @@ public class Main extends Activity {
             public void onClick(View v) {
                 Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse(MARKET_URI));
                 try {
-                	startActivity(it);
+                    startActivity(it);
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(
-                            		R.string.no_market_warning), Toast.LENGTH_LONG)
+                                    R.string.no_market_warning), Toast.LENGTH_LONG)
                             .show();
                 }
             }
         });
         // PluginManager.getPluginDictionaries(getApplicationContext()); // why?
-    }    
+    }
 }
 
