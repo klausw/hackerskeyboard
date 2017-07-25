@@ -147,6 +147,8 @@ public class InputLanguageSelection extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        // Use setFlagSecure(Context) to disable screenshots on the Activities.
+        //Keyboard.setFlagSecure(this);
         addPreferencesFromResource(R.xml.language_prefs);
         // Get the settings preferences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);

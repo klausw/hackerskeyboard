@@ -28,6 +28,8 @@ public class PrefScreenFeedback extends PreferenceActivity
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        // Use setFlagSecure(Context) to disable screenshots on the Activities.
+        //Keyboard.setFlagSecure(this);
         addPreferencesFromResource(R.xml.prefs_feedback);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
