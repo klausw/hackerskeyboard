@@ -35,7 +35,8 @@ public class LatinIMEDebugSettings extends PreferenceActivity
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        Keyboard.setFlagSecure(this);
+        // Use setFlagSecure(Context) to disable screenshots on the Activities.
+        //Keyboard.setFlagSecure(this);
         addPreferencesFromResource(R.xml.prefs_for_debug);
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         prefs.registerOnSharedPreferenceChangeListener(this);
