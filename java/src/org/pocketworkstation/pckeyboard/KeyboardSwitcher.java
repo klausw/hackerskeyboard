@@ -62,6 +62,8 @@ public class KeyboardSwitcher implements
     public static final String DEFAULT_LAYOUT_ID = "0";
     public static final String PREF_KEYBOARD_LAYOUT = "pref_keyboard_layout";
     private static final int[] THEMES = new int[] {
+		R.layout.input_material_dark,
+		R.layout.input_material_light,
         R.layout.input_ics,
         R.layout.input_gingerbread,
         R.layout.input_stone_bold,
