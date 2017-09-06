@@ -373,10 +373,14 @@
     <string name="layout_stone_normal"  translatable="false">Stone (normal)</string>
     <string name="layout_gingerbread"  translatable="false">Gingerbread</string>
     <string name="layout_ics"  translatable="false">Ice Cream Sandwich</string>
+    <string name="layout_material_dark" translatable="false">Material Dark</string>
+    <string name="layout_material_light" translatable="false">Material Light</string>
     <string name="layout_trans"  translatable="false">Transparent</string>
     <string name="layout_trans_neon"  translatable="false">Transparent (experimental)</string>
 
     <string-array name="keyboard_layout_modes" translatable="false">
+        <item>@string/layout_material_dark</item>
+        <item>@string/layout_material_light</item>
         <item>@string/layout_ics</item>
         <item>@string/layout_gingerbread</item>
         <item>@string/layout_stone_bold</item>
@@ -388,6 +392,8 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
 
     <string name="subtype_mode_keyboard">keyboard</string>
