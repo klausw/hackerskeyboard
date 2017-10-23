@@ -68,25 +68,25 @@ public class InputLanguageSelection extends PreferenceActivity {
     // Run the GetLanguages.sh script to update the following lists based on
     // the available keyboard resources and dictionaries.
     private static final String[] KBD_LOCALIZATIONS = {
-        "ar", "bg", "bg_ST", "ca", "cs", "cs_QY", "da", "de", "de_NE",
+        "ar", "bg", "bg_ST", "ca", "cs", "cs_QY", "da", "de", "de_CH", "de_NE",
         "el", "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "es_US",
-        "fa", "fi", "fr", "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "in",
+        "fa", "fi", "fr", "fr_CA", "fr_CH", "he", "hr", "hu", "hu_QY", "hy", "in",
         "it", "iw", "ja", "ka", "ko", "lo", "lt", "lv", "nb", "nl", "pl",
         "pt", "pt_PT", "rm", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
         "sr", "sv", "ta", "th", "tl", "tr", "uk", "vi", "zh_CN", "zh_TW"
     };
 
     private static final String[] KBD_5_ROW = {
-        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
+        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_CH", "de_NE", "el",
         "en", "en_CX", "en_DV", "en_GB", "es", "es_LA", "fa", "fi", "fr",
-        "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo", "lt",
+        "fr_CA", "fr_CH", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo", "lt",
         "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
         "sr", "sv", "ta", "th", "tr", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
-        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
-        "en", "en_CX", "en_DV", "es", "es_LA", "es_US", "fa", "fr", "fr_CA",
+        "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_CH", "de_NE", "el",
+        "en", "en_CX", "en_DV", "es", "es_LA", "es_US", "fa", "fr", "fr_CA", "fr_CH",
         "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
         "sl", "sr", "sv", "tr", "uk"
     };

@@ -14,8 +14,8 @@ Greek (ελληνικά), Hebrew (עברית), Hungarian (Magyar), Italian (Ital
 Romanian (Română), Russian (Русский), Russian phonetic (Русский, ru-rPH),
 Serbian (Српски), Slovak (Slovenčina), Slovenian
 (Slovenščina)/Bosnian/Croatian/Latin Serbian, Spanish (Español, Español
-Latinoamérica), Swedish (Svenska), Tamil (தமிழ்), Thai (ไทย), Turkish (Türkçe),
-and Ukrainian (українська мова).
+Latinoamérica), Swedish (Svenska), Swiss (French and German), Tamil (தமிழ்),
+Thai (ไทย), Turkish (Türkçe), and Ukrainian (українська мова).
 
 To install, get **[Hacker's
 Keyboard](https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard)**
