@@ -1,10 +1,6 @@
 _Instructions originally contributed by Christian Holm Christensen, thank you!_
 
-You can get the sources for the app at
-
-> hg clone https://code.google.com/p/hackerskeyboard/
-
-(Mercurial repository).
+You can get the sources for the app from Github as usual.
 
 ## Developing using Android Studio ##
 
@@ -35,12 +31,7 @@ Then, you should get the Android Development Tool (ADT) plug-in at
 
 > http://developer.android.com/sdk/eclipse-adt.html
 
-To be effective, you should get the Mercurial plug-in
-
-> http://www.javaforge.com/project/HGE#download
-
-Now, use the _File->New->Project..._ wizard, selecting
-_Mercurial->Clone ..._ to check out the sources into your workspace.
+To be effective, you should use the Git plug-in
 
 Note, that this will check out a directory structure that doesn't really correspond to the directory structure expected by the ADT plug-in. You should therefore use the _File->New->Android Project_ wizard to set up another project.  Make sure you select _Create Project from existing sources_ and select the sub-directory _java_ of the sources you check out before.  The project settings should be filled out automatically - except the project name - it could be something like 'my-hackerskeyboard'
 
@@ -52,33 +43,21 @@ Now, clean the project (perhaps twice) and run the app.
 
 ## Other stuff ##
 
-### Make Mercurial ignore some (generated) files ###
+### Make Git ignore some (generated) files ###
 
-Perhaps you want to add the file _.hgignore_ in your check-out directory with content like
+Perhaps you want to add the file _.gitignore_ in your check-out directory with content like
 
 ```
-        syntax: regexp
-        ^java/bin$
-        ^java/obj$
-        ^java/gen$
-        ^java/libs$
-        ^java/.classpath$
-        ^java/.project$
-        ^java/default.properties$
-        ^.project$
+        java/bin
+        java/obj
+        java/gen
+        java/libs
+        java/.classpath
+        java/.project
+        java/default.properties
+        .project
 ```
 
-so that you do not get 'funny' output from 'hg status' or the like
-
-### Making Changes ###
-
-Creating patches:
-
-> hg diff -w > my\_patch.patch
-
-Applying patches:
-
-> patch . < my\_patch.patch
-
+so that you do not get 'funny' output from 'git status' or the like
 
 Happy coding.

@@ -4,9 +4,8 @@
 
 This page summarizes the changes between the Hacker's Keyboard releases on
 Android Market. For non-Market pre-release versions, see the
-[Downloads](http://code.google.com/p/hackerskeyboard/downloads/list) page. The
-code-level change descriptions are available in the
-[Source](http://code.google.com/p/hackerskeyboard/source/list) area.
+[Releases](https://github.com/klausw/hackerskeyboard/releases) page. The
+code-level change descriptions are available in the same area.
 
 If you notice problems or regressions in a Market release, please contact me directly by email or file a bug. I don't get notified for problems reported in Market reviews, and I can't contact the comment author or respond to them, which is especially frustrating for cases where a simple configuration change would fix things.
 
@@ -20,7 +19,7 @@ Major changes:
   * Add Google Cloud settings backup support.
 
 New settings:
-  * Support choice of Shift Lock or Caps Lock, optionally apply Shift Lock to special keys. ([Issue 177](https://code.google.com/p/hackerskeyboard/issues/detail?id=177))
+  * Support choice of Shift Lock or Caps Lock, optionally apply Shift Lock to special keys. ([Issue 177](https://github.com/klausw/hackerskeyboard/issues/177))
 
 New layouts:
 
@@ -28,7 +27,7 @@ New layouts:
   * "ta" (Tamil, தமிழ்) 5-row layout. Contributed by "Stars Soft".
   * "Español (Latinoamérica)" 5-row layout, contributed by Miguel Farah
 
-For more details, please see the [prerelease notes](https://code.google.com/p/hackerskeyboard/downloads/detail?name=hackerskeyboard-v1034rc17.apk).
+For more details, please see the [prerelease notes](https://github.com/klausw/hackerskeyboard/releases/tag/1.34rc17).
 
 ## Version 1.33 ##
 
@@ -46,21 +45,21 @@ New layouts:
 This is primarily a bugfix release, no notable new features.
 
 ### Layout modifications ###
-  * update Portugese 5-row altchars, [issue 191](https://code.google.com/p/hackerskeyboard/issues/detail?id=191)
-  * add Latvian alt chars, [issue 176](https://code.google.com/p/hackerskeyboard/issues/detail?id=176)
+  * update Portugese 5-row altchars, [issue 191](https://github.com/klausw/hackerskeyboard/issues/191)
+  * add Latvian alt chars, [issue 176](https://github.com/klausw/hackerskeyboard/issues/176)
   * Add missing ľ and ĺ altchars for Slovak (SK)
-  * Remove unwanted letter hints in Hebrew and other non-latin keyboards, [issue 159](https://code.google.com/p/hackerskeyboard/issues/detail?id=159)
+  * Remove unwanted letter hints in Hebrew and other non-latin keyboards, [issue 159](https://github.com/klausw/hackerskeyboard/issues/159)
 
 ### Other changes ###
   * disable auto space after completion for Thai
-  * New options for slide key events, see [issue 167](https://code.google.com/p/hackerskeyboard/issues/detail?id=167)
+  * New options for slide key events, see [issue 167](https://github.com/klausw/hackerskeyboard/issues/167)
   * make swipe gesture easier to trigger
 
 ### Bugfixes ###
-  * fix Ctrl modifier that was getting stuck, [issue 165](https://code.google.com/p/hackerskeyboard/issues/detail?id=165)
-  * fix landscape keyboard layout preference, [issue 175](https://code.google.com/p/hackerskeyboard/issues/detail?id=175)
-  * fix suggestion preference handling, [issue 182](https://code.google.com/p/hackerskeyboard/issues/detail?id=182)
-  * disable "slide key hack" for popup keyboards, [issue 187](https://code.google.com/p/hackerskeyboard/issues/detail?id=187)
+  * fix Ctrl modifier that was getting stuck, [issue 165](https://github.com/klausw/hackerskeyboard/issues/165)
+  * fix landscape keyboard layout preference, [issue 175](https://github.com/klausw/hackerskeyboard/issues/175)
+  * fix suggestion preference handling, [issue 182](https://github.com/klausw/hackerskeyboard/issues/182)
+  * disable "slide key hack" for popup keyboards, [issue 187](https://github.com/klausw/hackerskeyboard/issues/187)
   * Workarounds for null pointer exceptions in UserDictionary and isConnectbot()
 
 ## Version 1.29 ##
@@ -98,9 +97,9 @@ This is primarily a bugfix release, no notable new features.
 ### Bugfixes ###
 
   * Completion of words beginning with a capital letter was not working correctly in 5-row mode.
-  * Fix Hebrew layouts on Samsung Galaxy S2 ([issue 122](https://code.google.com/p/hackerskeyboard/issues/detail?id=122))
-  * Add VX ConnectBot support for the compatibility hack ([issue 154](https://code.google.com/p/hackerskeyboard/issues/detail?id=154))
-  * New "Sliding key events" option as a workaround for [issue 53](https://code.google.com/p/hackerskeyboard/issues/detail?id=53) "Keyboard drops characters if I type too fast"
+  * Fix Hebrew layouts on Samsung Galaxy S2 ([issue 122](https://github.com/klausw/hackerskeyboard/issues/122))
+  * Add VX ConnectBot support for the compatibility hack ([issue 154](https://github.com/klausw/hackerskeyboard/issues/154))
+  * New "Sliding key events" option as a workaround for [issue 53](https://github.com/klausw/hackerskeyboard/issues/53) "Keyboard drops characters if I type too fast"
 
 
 ### Experimental features ###
@@ -118,6 +117,6 @@ experiments.
     * In "Theme and label settings", check "Enable compact 5-row keyboard mode"
     * Exit and re-enter keyboard settings (known bug, the new mode isn't visible unless you do this)
     * In "Keyboard view settings", change the "Keyboard mode" to "5-row compact layout" for portrait and/or landscape.
-    * Screenshot, with number row scaling set to 80%: ![http://hackerskeyboard.googlecode.com/files/hk-5row-compact-s.png](http://hackerskeyboard.googlecode.com/files/hk-5row-compact-s.png)
+    * Screenshot, with number row scaling set to 80%: ![https://raw.githubusercontent.com/klausw/hackerskeyboard/master/hk-5row-en-s.png](https://raw.githubusercontent.com/klausw/hackerskeyboard/master/hk-5row-en-s.png)
 
   * Extension keyboards for some layouts, for example adding numbers+punctuation in 4-row mode and F1-F12 in 5-row mode. Toggle the extension with a gesture action, "swipe up" by default.

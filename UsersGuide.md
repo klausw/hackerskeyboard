@@ -33,7 +33,7 @@ The "Fn" key shows an alternate keymap with additional special keys including Ho
 
 The arrow keys in the bottom right corner generate directional pad (trackball) key events.
 
-The "◯" (circle) key next to the arrows corresponds to pressing the directional pad center button. Long-pressing "◯" acts as a "compose" key, for example the sequence "◯" "+" "-" produces "±". See the [source](https://code.google.com/p/hackerskeyboard/source/browse/java/src/org/pocketworkstation/pckeyboard/ComposeSequence.java) for a list of supported combinations.
+The "◯" (circle) key next to the arrows corresponds to pressing the directional pad center button. Long-pressing "◯" acts as a "compose" key, for example the sequence "◯" "+" "-" produces "±". See the [source](https://github.com/klausw/hackerskeyboard/blob/master/java/src/org/pocketworkstation/pckeyboard/ComposeSequence.java) for a list of supported combinations.
 
 ## Configuration options ##
 

@@ -8,13 +8,13 @@ This warning is a general Android system security feature that alerts users when
 
 A keyboard knows which keys you are currently typing (that's part of its job description), and a malicious application could abuse that, especially if it were to ask for Internet access permission.
 
-The source code for this project is available at the [Source](http://code.google.com/p/hackerskeyboard/source/checkout) link above, you are welcome to review it and/or build your own binary.
+The source code for this project is available at the [Source](https://github.com/klausw/hackerskeyboard) link above, you are welcome to review it and/or build your own binary.
 
 In case you're curious about the technical details related to showing this security warning, see the Android OS source code, specifically _ime\_security\_warning_ in the official Android source [LanguageSettings.java](https://android.googlesource.com/platform/packages/apps/Settings/+/935b504a05f328cf90db3415b82ff4a7f51e628f/src/com/android/settings/LanguageSettings.java) and [message catalog](https://android.googlesource.com/platform/packages/apps/Settings/+/935b504a05f328cf90db3415b82ff4a7f51e628f/res/values/strings.xml).
 
 ## Where's the source code? ##
 
-See "Source" link above: http://code.google.com/p/hackerskeyboard/source/browse/
+See "Source" link above: https://github.com/klausw/hackerskeyboard/blob/master/
 
 See BuildingFromSource for instructions how to build it yourself.
 
@@ -29,7 +29,7 @@ If using a phone, turn the phone sideways (landscape mode) to see the full layou
 For manual activation, use these steps:
 
   * Go to Home / Menu / Settings / Language & Keyboard
-  * Scroll down to "Hacker's Keyboard", activate the check mark, and acknowledge the system warning shown for third-party input methods. (See [this FAQ entry](http://code.google.com/p/hackerskeyboard/w/edit.do#Why_is_there_a_security_warning_when_I_activate_it?) for more information about the warning.)
+  * Scroll down to "Hacker's Keyboard", activate the check mark, and acknowledge the system warning shown for third-party input methods. (See [this FAQ entry](https://github.com/klausw/hackerskeyboard/wiki/FrequentlyAskedQuestions#why-is-there-a-security-warning-when-i-activate-it) for more information about the warning.)
   * Exit settings and open a text entry box, for example the Search bar.
   * Long-press the input field, and select the _Input method_ menu entry.
   * Select "Hacker's Keyboard" from the list.
@@ -60,7 +60,7 @@ If this is not working for you, or if you have a nonstandard device that doesn't
 
 You can configure the gesture used for this in the keyboard's "Gesture and key actions" settings menu. If the swipe action is too hard to trigger, try binding the "close keyboard" action to the "Volume down" hardware key. This won't interfere with normal use of the volume button while the keyboard is closed.
 
-For the future, I do plan to add support for a dedicated "close keyboard" key, but this needs to be part of the general user-customizable layout support ([issue 13](https://code.google.com/p/hackerskeyboard/issues/detail?id=13)) - there just isn't enough room in the current layouts to add this by default for everyone.
+For the future, I do plan to add support for a dedicated "close keyboard" key, but this needs to be part of the general user-customizable layout support ([issue 13](https://github.com/klausw/hackerskeyboard/issues/13)) - there just isn't enough room in the current layouts to add this by default for everyone.
 
 ## Where can I get a completion dictionary for my language? ##
 
@@ -83,7 +83,7 @@ I'm planning to add support for an AltGr key in a future version.
 
 The Circle key to the left of the arrow keys corresponds to pushing a trackball to make a menu selection, or pressing the middle of a directional keypad. The corresponding Android keycode is DPAD\_CENTER. This is usually equivalent to pressing RETURN, but some applications treat it differently. For example, when navigating a dropdown suggestion list such as the browser's address bar, you can use it to copy the current selection for further editing instead of immediately selecting it.
 
-As a secondary function, you can long-press the Circle key to activate a "compose" function, for example Compose (long-press Circle) followed by the "o" and "c" keys generates the "©" Copyright symbol. See the [source file](http://code.google.com/p/hackerskeyboard/source/browse/java/src/org/pocketworkstation/pckeyboard/ComposeSequence.java) for the list of supported combinations.
+As a secondary function, you can long-press the Circle key to activate a "compose" function, for example Compose (long-press Circle) followed by the "o" and "c" keys generates the "©" Copyright symbol. See the [source file](https://github.com/klausw/hackerskeyboard/blob/master/java/src/org/pocketworkstation/pckeyboard/ComposeSequence.java) for the list of supported combinations.
 
 # Bugs and known issues #
 
@@ -103,7 +103,7 @@ If this isn't working for you as described here, please let me know.
 
 ## "Touch to correct words" inserts the correction instead of replacing ##
 
-See [issue 17](https://code.google.com/p/hackerskeyboard/issues/detail?id=17), this feature depends on [operating system support](http://developer.android.com/reference/android/view/inputmethod/InputConnection.html#setComposingRegion(int,%20int)) that's only available starting with Gingerbread (v2.3). In the meantime I recommend disabling the option in the keyboard settings if it's not working correctly.
+See [issue 17](https://github.com/klausw/hackerskeyboard/issues/17), this feature depends on [operating system support](http://developer.android.com/reference/android/view/inputmethod/InputConnection.html#setComposingRegion(int,%20int)) that's only available starting with Gingerbread (v2.3). In the meantime I recommend disabling the option in the keyboard settings if it's not working correctly.
 
 ## It doesn't work right after upgrading ##
 
@@ -125,7 +125,7 @@ Recent Android versions (starting from Honeycomb / 3.0) do include support for t
 
 Support for the extra keys varies by application. The keyboard just sends key events, and the application receiving the key events is responsible for acting on them, and typically applications ignore unknown or unexpected key events, or (in unfortunate cases) misinterpret the keystrokes to launch menu shortcuts or similar.
 
-If possible, try attaching a USB or Bluetooth keyboard to your Android device to see if the corresponding keys work with a real hardware keyboard. If that also doesn't work, it'll most likely require a change to the application before a soft keyboard such as this one can support them. If it works with a real keyboard but not with the Hacker's Keyboard application, please [file a bug](http://code.google.com/p/hackerskeyboard/issues/list).
+If possible, try attaching a USB or Bluetooth keyboard to your Android device to see if the corresponding keys work with a real hardware keyboard. If that also doesn't work, it'll most likely require a change to the application before a soft keyboard such as this one can support them. If it works with a real keyboard but not with the Hacker's Keyboard application, please [file a bug](https://github.com/klausw/hackerskeyboard/issues).
 
 Developers: see KeyboardSupportInApplications for more information.
 
@@ -133,7 +133,7 @@ Developers: see KeyboardSupportInApplications for more information.
 
 You can send a crash report through the Android crash reporting tool, this will give me some basic anonymized data about the crash location and an indication how often a problem occurs, but isn't always sufficient to figure out what's going on. If possible, please include details how to reproduce it, and information about your phone and Android version, those aren't included in the automatic report. If you want me to respond, please make sure to include your email address in the text.
 
-It's easiest for me to handle if you [file a bug](http://code.google.com/p/hackerskeyboard/issues/list), that helps avoid losing track of things and lets me easily send progress updates. You can also just send me email if you don't want to use the issue tracker.
+It's easiest for me to handle if you [file a bug](https://github.com/klausw/hackerskeyboard/issues), that helps avoid losing track of things and lets me easily send progress updates. You can also just send me email if you don't want to use the issue tracker.
 
 For crashes and similar issues, I'll most likely need system log information to figure out what's going on if I can't reproduce the bug.
 See HowToAccessSystemLogData for more information how to get this data from your phone.
@@ -189,14 +189,14 @@ Obsolete text following:
 
 > It uses the contacts information for completion of names and email addresses, and audio recording for the voice input feature.
 
-> I'm considering making a minimal-permissions version with this code disabled if there's sufficient demand, see http://code.google.com/p/hackerskeyboard/issues/detail?id=2 for more details.
+> I'm considering making a minimal-permissions version with this code disabled if there's sufficient demand, see https://github.com/klausw/hackerskeyboard/issues/2 for more details.
 
 ## Why does it ask for "call log" permission? ##
 
 Current versions (1.37) should no longer be showing this spurious permission request.
 
 Obsolete text following:
-> This is a temporary side effect of a recent change in Android permissions that appears on 4.1 (Jellybean) devices. I'll need to build and publish a new version to fix this, if you want this earlier you can download one of the release candidates from https://code.google.com/p/hackerskeyboard/downloads/list which includes a fix for this.
+> This is a temporary side effect of a recent change in Android permissions that appears on 4.1 (Jellybean) devices. I'll need to build and publish a new version to fix this, if you want this earlier you can download one of the release candidates from https://github.com/klausw/hackerskeyboard/releases which includes a fix for this.
 
 > The application is not actively asking for the READ\_CALL\_LOG permission. The equivalent rights were granted automatically on older Android versions when asking for READ\_CONTACTS, and recent versions split this up into two separate permissions. To avoid breaking backwards compatibility, apps requesting READ\_CONTACTS are automatically treated as also asking for READ\_CALL\_LOG unless they explicitly declare that they are aware of this distinction by setting the API level. I'll need to rebuild it with a current SDK to remove this permission, thanks for pointing that out.
 
