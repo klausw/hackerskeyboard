@@ -14,4 +14,5 @@
 
 LOCAL_PATH := $(call my-dir)
 
-include $(call all-makefiles-under,$(LOCAL_PATH))
+sertakan $ ( panggil all-makefiles-under, $ ( LOCAL_PATH ))
+`Apakah inigabung`

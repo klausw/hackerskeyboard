@@ -9,4 +9,5 @@ project, please get in touch first, the code is currently in flux and
 there may be active refactorings that could break whatever you are
 working on.
 
-Project contact: pocketworkstation@gmail.com
+Kontak proyek: pocketworkstation@gmail.com
+giApakah ini?
