@@ -392,7 +392,7 @@ public class KeyboardSwitcher implements
                     mHasSettingsKey ? KEYBOARDMODE_SYMBOLS_WITH_SETTINGS_KEY
                             : KEYBOARDMODE_SYMBOLS, false, hasVoice);
         case MODE_PHONE:
-            return new KeyboardId(KBD_PHONE, 0, false, hasVoice);
+            return new KeyboardId(KBD_FULL_FN, 0, false, hasVoice);
         case MODE_URL:
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_URL_WITH_SETTINGS_KEY
