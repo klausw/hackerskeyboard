@@ -10,3 +10,6 @@ java/obj/
 out/
 tests/gen/
 tests/tests.iml
+app/build/*
+.gradle/*
+/local.properties
