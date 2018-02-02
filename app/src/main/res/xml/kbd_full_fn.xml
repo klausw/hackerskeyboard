@@ -233,16 +233,16 @@
 
         <Key
             android:keyWidth="8.035714%p"
-            android:keyLabel="," />
+            android:keyLabel="00" />
         <Key
             android:keyWidth="8.035714%p"
             android:keyLabel="0" />
         <Key
             android:keyWidth="8.035714%p"
-            android:keyLabel="." />
+            android:keyLabel="000" />
         <Key
             android:keyWidth="8.035714%p"
-            android:keyLabel="+" />
+            android:keyLabel="." />
 
         <Key
             android:codes="@integer/key_page_down"
