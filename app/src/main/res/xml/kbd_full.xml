@@ -369,9 +369,10 @@
             android:isSticky="true"
             android:isModifier="true" />
         <Key
-            android:codes="@integer/key_meta_left"
-            android:keyLabel="&#x2756;"
-            android:isSticky="true"
+            android:codes="@integer/key_dpad_center"
+            android:shiftLabel="@string/key_space_shift"
+            android:keyIcon="@drawable/beetronix_logo"
+            android:iconPreview="@drawable/beetronix_logo"
             android:isModifier="true" />
         <Key
             android:codes="@integer/key_space"
