@@ -19,9 +19,9 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Title for Latin keyboard  -->
-    <string name="english_ime_name">Hacker\'s Keyboard</string>
+    <string name="english_ime_name">Beetronix Keyboard</string>
     <!-- Title for Latin keyboard settings activity / dialog -->
-    <string name="english_ime_settings">Settings for Hacker\'s Keyboard</string>
+    <string name="english_ime_settings">Settings for Beetronix Keyboard</string>
     <!-- Title for Latin keyboard input options dialog -->
     <string name="english_ime_input_options">Input options</string>
 
@@ -638,39 +638,11 @@
     <string name="main_setup_input_lang">Input languages</string>
     <string name="main_body"><Data>
       <![CDATA["
-        <h2>Enabling Hacker's Keyboard</h2>
+        <h2>Beetronix</h2>
         
-        <p><i>Hacker's Keyboard</i> provides a new Android input method. It is <b>disabled by default</b>, and for security reasons Android doesn't allow programs to change input method settings. Please follow the following steps to activate it.<p>
+        <p>www.beetronix.com<p>
         
-        <h3>Add the keyboard to the system's input method list:</h3>
-        <blockquote>
-          <p>&#8226; Open the system input settings configuration by pressing the <b>Enable Keyboard</b> button above.</p>
-          <p>&#8226; Find <i>Hacker's Keyboard</i> in the input method list, tap the checkmark to switch it on.</p>
-          <p>&#8226; Acknowledge the warning shown by the system. The system always shows this message when enabling a third-party input method.</p>
-          <p>&#8226; Press the <i>Back</i> button to return to this page.</p>
-        </blockquote>
-        
-        <h3>Choose the currently active input method:</h3>
-        <blockquote>
-          <p>&#8226; Press the <b>Set input method</b> button above.</p>
-          <p>&#8226; Select <i>Hacker's Keyboard</i> from the list.</p>
-        </blockquote>
-
-        <h3>Optional: Select input languages:</h3>
-        <blockquote>
-          <p>&#8226; Press the <b>Input languages</b> button above to select which keyboard layouts you want to use. You <b>must</b> configure this if you want to use a language or layout other than the one corresponding to your system's default language.</p>
-          <p>&#8226; Press the <i>Back</i> button to return to this page.</p>
-          <p>&#8226; When typing, slide the space bar horizontally to switch between selected layouts.
-        </blockquote>
-
-        <h3>Optional: Install completion dictionary packages:</h3>
-        <blockquote>
-          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.</p>
-        </blockquote>
-        
-        <h2>Additional information</h2>
-        <p>Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.</p>
-      "]]>
+          "]]>
     </Data></string>
     <string name="text_test">Test</string>
     <string name="seek_pref_0">0%</string>
