@@ -233,10 +233,10 @@
 
         <Key
             android:keyWidth="8.035714%p"
-            android:keyLabel="00" />
+            android:keyLabel="0" />
         <Key
             android:keyWidth="8.035714%p"
-            android:keyLabel="0" />
+            android:keyLabel="00" />
         <Key
             android:keyWidth="8.035714%p"
             android:keyLabel="000" />
