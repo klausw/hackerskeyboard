@@ -10,3 +10,11 @@ java/obj/
 out/
 tests/gen/
 tests/tests.iml
+app/build/*
+.gradle/*
+/local.properties
+hackerskeyboard.iml
+app/release/output.json
+app/release/app-release.apk
+build/android-profile/*
+build/intermediates/dex-cache/cache.xml
