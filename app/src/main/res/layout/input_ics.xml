@@ -31,5 +31,5 @@
 
         latin:keyBackground="@drawable/btn_keyboard_key_ics"
         latin:keyTextStyle="bold"
-        latin:keyHintColor="#FF000000"
+        latin:keyHintColor="#FFCCCCCC"
         />
