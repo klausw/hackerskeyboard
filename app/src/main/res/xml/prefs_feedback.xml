@@ -15,7 +15,7 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    	xmlns:hk="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
+    	xmlns:hk="http://schemas.android.com/apk/res-auto"
         android:title="@string/pref_screen_feedback_title"
         android:key="feedback_settings">
 

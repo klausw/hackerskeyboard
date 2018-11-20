@@ -27,7 +27,7 @@
         android:paddingRight="16dip"
         >
     <org.pocketworkstation.pckeyboard.LatinKeyboardBaseView
-            xmlns:latin="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
+            xmlns:latin="http://schemas.android.com/apk/res-auto"
             android:id="@+id/LatinKeyboardBaseView"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"

@@ -19,7 +19,7 @@
 ** limitations under the License.
 */
 -->
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard" android:keyWidth="10%p" android:horizontalGap="0px" android:verticalGap="@dimen/key_bottom_gap">
+<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto" android:keyWidth="10%p" android:horizontalGap="0px" android:verticalGap="@dimen/key_bottom_gap">
     <Row android:rowEdgeFlags="top">
         <Key android:keyLabel=";" android:popupKeyboard="@xml/kbd_popup_template"
              android:popupCharacters=";:&#301;&#308;&#300;&#306;&#304;&#302;&#313;&#314;"

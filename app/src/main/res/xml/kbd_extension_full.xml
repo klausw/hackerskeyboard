@@ -23,7 +23,7 @@ Unavailable accents:
         <Key android:keyLabel="&#x30D;"/>
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
+<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
     android:keyWidth="7.1428571485%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
