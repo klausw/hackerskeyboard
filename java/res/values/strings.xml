@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
 /*
 **
@@ -628,13 +628,13 @@
 
     <string name="voice_not_enabled_warning">Voice input is not available in this version.</string>
     <string name="recorrect_warning">FYI: recorrection does not work correctly on pre-Gingerbread devices due to missing operating system support.</string>
-    <string name="no_market_warning">Unable to launch Market.</string>
+    <string name="no_market_warning">Unable to launch Play Store.</string>
     <!-- Title for Latin keyboard debug settings activity / dialog -->
     <string name="english_ime_debug_settings" translatable="false">Debug settings</string>
     <string name="prefs_debug_mode" translatable="false">Debug Mode</string>
     <string name="main_setup_configure_imes">Enable keyboard</string>
     <string name="main_setup_set_ime">Set input method</string>
-    <string name="main_setup_get_dicts">Get dictionaries</string>
+    <string name="main_setup_get_dicts">More</string>
     <string name="main_setup_input_lang">Input languages</string>
     <string name="main_body"><Data>
       <![CDATA["
@@ -665,11 +665,11 @@
 
         <h3>Optional: Install completion dictionary packages:</h3>
         <blockquote>
-          <p>&#8226; Press the <b>Get dictionaries</b> button above to do a Market search.</p>
+          <p>&#8226; Press the <b>More</b> button above to do a Play Store search for the keyboard's developer name, this will show free downloadable completion dictionary packages.</p>
         </blockquote>
         
         <h2>Additional information</h2>
-        <p>Please refer to the <a href='http://code.google.com/p/hackerskeyboard/'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.</p>
+        <p>Please refer to the <a href='https://github.com/klausw/hackerskeyboard'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.</p>
       "]]>
     </Data></string>
     <string name="text_test">Test</string>
