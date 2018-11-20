@@ -19,7 +19,7 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res/org.pocketworkstation.pckeyboard"
+    xmlns:android="http://schemas.android.com/apk/res-auto"
     android:keyWidth="8.33%p"
     android:horizontalGap="0px"
     android:verticalGap="@dimen/key_bottom_gap"
@@ -71,7 +71,7 @@
          <Key
             android:keyLabel="ß"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_ß"/>
+            android:popupCharacters="ſς"/>
          <Key
             android:codes="@integer/key_delete"
             android:keyIcon="@drawable/sym_keyboard_delete"
@@ -143,15 +143,15 @@
         <Key
             android:keyLabel="ü"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_ü" />
+            android:popupCharacters="#∪" />
         <Key
             android:keyLabel="ö"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_ö" />
+            android:popupCharacters="$∩" />
         <Key
             android:keyLabel="ä"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_ä" />
+            android:popupCharacters="|ηℵ" />
         <Key
             android:keyLabel="p"
             android:popupKeyboard="@xml/kbd_popup_template"
@@ -171,11 +171,11 @@
 		<Key
             android:keyLabel=","
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_comma" />
+            android:popupCharacters="\&quot;ϱ⇒" />
         <Key
             android:keyLabel="."
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_dot" />
+            android:popupCharacters="\'ϑ↦" />
          <Key
             android:keyLabel="j"
             android:popupKeyboard="@xml/kbd_popup_template"

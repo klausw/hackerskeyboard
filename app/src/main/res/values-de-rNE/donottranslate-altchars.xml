@@ -28,8 +28,6 @@
     <string name="alternates_for_g">8&gt;γΓ</string>
     <string name="alternates_for_f">9=φΦ</string>
     <string name="alternates_for_q">0&amp;ϕ</string>
-    <string name="alternates_for_ß">ſς</string>
-    <string name="alternates_for_singleQuot">&#x30B;&#x313;&#x306;</string>
     <string name="alternates_for_u">\\⊂</string>
     <string name="alternates_for_i">/∫</string>
     <string name="alternates_for_a">{α∀</string>
@@ -41,14 +39,9 @@
     <string name="alternates_for_t">-τ∂</string>
     <string name="alternates_for_d">:δΔ</string>
     <string name="alternates_for_y">\@υ</string>
-    <string name="alternates_for_ü">#∪</string>
-    <string name="alternates_for_ö">$∩</string>
-    <string name="alternates_for_ä">|ηℵ</string>
     <string name="alternates_for_p">~πΠ</string>
     <string name="alternates_for_z">`ζℤ</string>
     <string name="alternates_for_b">+β⇐</string>
     <string name="alternates_for_m">%μ⇔</string>
-    <string name="alternates_for_comma">\&quot;ϱ⇒</string>
-    <string name="alternates_for_dot">\'ϑ↦</string>
     <string name="alternates_for_j">;θΘ</string>
 </resources>
