@@ -23,6 +23,9 @@ import android.app.Dialog;
 import android.app.backup.BackupManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -55,6 +58,8 @@ public class LatinIMESettings extends PreferenceActivity
     private ListPreference mKeyboardModePortraitPreference;
     private ListPreference mKeyboardModeLandscapePreference;
     private Preference mInputConnectionInfo;
+    private Preference mLabelVersion;
+
     private boolean mVoiceOn;
 
     private boolean mOkClicked = false;
@@ -68,6 +73,8 @@ public class LatinIMESettings extends PreferenceActivity
         mVoicePreference = (ListPreference) findPreference(VOICE_SETTINGS_KEY);
         mSettingsKeyPreference = (ListPreference) findPreference(PREF_SETTINGS_KEY);
         mInputConnectionInfo = (Preference) findPreference(INPUT_CONNECTION_INFO);
+        mLabelVersion = (Preference) findPreference("label_version");
+
 
         // TODO(klausw): remove these when no longer needed
         mKeyboardModePortraitPreference = (ListPreference) findPreference("pref_keyboard_mode_portrait");
@@ -105,6 +112,30 @@ public class LatinIMESettings extends PreferenceActivity
         }
         
         updateSummaries();
+
+        String version = "";
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            version = info.versionName;
+            boolean isOfficial = false;
+            for (Signature sig : info.signatures) {
+                byte[] b = sig.toByteArray();
+                int out = 0;
+                for (int i = 0; i < b.length; ++i) {
+                    int pos = i % 4;
+                    out ^= b[i] << (pos * 4);
+                }
+                if (out == -466825) {
+                    isOfficial = true;
+                }
+                //version += " [" + Integer.toHexString(out) + "]";
+            }
+            version += isOfficial ? " official" : " custom";
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Could not find version info.");
+        }
+
+        mLabelVersion.setSummary(version);
     }
 
     @Override
