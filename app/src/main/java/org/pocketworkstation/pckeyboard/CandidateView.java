@@ -108,6 +108,7 @@ public class CandidateView extends View {
         mPreviewPopup.setContentView(mPreviewText);
         mPreviewPopup.setBackgroundDrawable(null);
         mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
+        mPreviewPopup.setClippingEnabled(false);
         mColorNormal = res.getColor(R.color.candidate_normal);
         mColorRecommended = res.getColor(R.color.candidate_recommended);
         mColorOther = res.getColor(R.color.candidate_other);

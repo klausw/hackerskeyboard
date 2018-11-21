@@ -163,6 +163,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mPreviewPopup.setBackgroundDrawable(null);
             mPreviewPopup.setTouchable(false);
             mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
+            mPreviewPopup.setClippingEnabled(false);
         } else {
             mShowPreview = false;
         }
@@ -175,8 +176,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mMiniKeyboardPopup.setBackgroundDrawable(null);
             mMiniKeyboardPopup.setAnimationStyle(R.style.MiniKeyboardAnimation);
             mMiniKeyboardVisible = false;
+            mMiniKeyboardPopup.setClippingEnabled(false);
         }
-
     }
 
     public void setPhoneKeyboard(Keyboard phoneKeyboard) {
