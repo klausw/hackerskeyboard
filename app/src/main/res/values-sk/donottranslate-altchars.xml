@@ -31,13 +31,13 @@
     <string name="alternates_for_n">}ňñ</string>
     <string name="alternates_for_o">9óôøœöõò</string>
     <string name="alternates_for_q">1\\</string>
-    <string name="alternates_for_r">4ř</string>
+    <string name="alternates_for_r">4ŕř</string>
     <string name="alternates_for_s">š§ßđ</string>
     <string name="alternates_for_t">5ť</string>
     <string name="alternates_for_u">7úüůûù</string>
     <string name="alternates_for_v">\@</string>
     <string name="alternates_for_w">2|</string>
     <string name="alternates_for_x">#</string>
-    <string name="alternates_for_y">ýÿ</string>
+    <string name="alternates_for_y">ý4ÿ</string>
     <string name="alternates_for_z">6ž</string>
 </resources>
