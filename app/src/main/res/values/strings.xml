@@ -678,4 +678,7 @@
     <string name="seek_pref_0">0%</string>
     <string name="seek_pref_val">x%</string>
     <string name="seek_pref_max">100%</string>
+    <string name="notification_channel_name">Hacker\'s Keyboard</string>
+    <string name="notification_channel_description">Hacker\'s Keyboard</string>
+    <string name="notification_action_settings">Settings</string>
 </resources>

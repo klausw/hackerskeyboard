@@ -24,6 +24,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -37,6 +38,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.inputmethodservice.InputMethodService;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.IBinder;
@@ -46,6 +48,8 @@ import android.os.Vibrator;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.speech.SpeechRecognizer;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -93,6 +97,8 @@ public class LatinIME extends InputMethodService implements
     private static final boolean PERF_DEBUG = false;
     static final boolean DEBUG = false;
     static final boolean TRACE = false;
+    private static final String NOTIFICATION_CHANNEL_ID = "PCKeyboard";
+    private static final int NOTIFICATION_ONGOING_ID = 1001;
     static Map<Integer, String> ESC_SEQUENCES;
     static Map<Integer, Integer> CTRL_SEQUENCES;
 
@@ -477,31 +483,63 @@ public class LatinIME extends InputMethodService implements
         LatinIME.sKeyboardSettings.keyboardMode = kbMode;
         LatinIME.sKeyboardSettings.keyboardHeightPercent = (float) screenHeightPercent;
     }
-    
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.notification_channel_name);
+            String description = getString(R.string.notification_channel_description);
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     private void setNotification(boolean visible) {
-    	final String ACTION = "org.pocketworkstation.pckeyboard.SHOW";
-        final int ID = 1;
         String ns = Context.NOTIFICATION_SERVICE;
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-        
+
         if (visible && mNotificationReceiver == null) {
+            createNotificationChannel();
             int icon = R.drawable.icon;
             CharSequence text = "Keyboard notification enabled.";
             long when = System.currentTimeMillis();
 
             // TODO: clean this up?
             mNotificationReceiver = new NotificationReceiver(this);
-            final IntentFilter pFilter = new IntentFilter(ACTION);
+            final IntentFilter pFilter = new IntentFilter(NotificationReceiver.ACTION_SHOW);
+            pFilter.addAction(NotificationReceiver.ACTION_SETTINGS);
             registerReceiver(mNotificationReceiver, pFilter);
             
-            Intent notificationIntent = new Intent(ACTION);
-            
+            Intent notificationIntent = new Intent(NotificationReceiver.ACTION_SHOW);
             PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, 0);
             //PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-            
+
+            Intent configIntent = new Intent(NotificationReceiver.ACTION_SETTINGS);
+            PendingIntent configPendingIntent =
+                    PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, 0);
+
             String title = "Show Hacker's Keyboard";
             String body = "Select this to open the keyboard. Disable in settings.";
 
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.icon_hk_notification)
+                    .setColor(0xff220044)
+                    .setAutoCancel(false) //Make this notification automatically dismissed when the user touches it -> false.
+                    .setTicker(text)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setContentIntent(contentIntent)
+                    .addAction(R.drawable.icon_hk_notification, getString(R.string.notification_action_settings),
+                            configPendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            /*
             Notification notification = new Notification.Builder(getApplicationContext())
                     .setAutoCancel(false) //Make this notification automatically dismissed when the user touches it -> false.
                     .setTicker(text)
@@ -511,11 +549,17 @@ public class LatinIME extends InputMethodService implements
                     .setSmallIcon(icon)
                     .setContentIntent(contentIntent)
                     .getNotification();
-            
             notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_NO_CLEAR;
             mNotificationManager.notify(ID, notification);
+            */
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(NOTIFICATION_ONGOING_ID, mBuilder.build());
+
         } else if (mNotificationReceiver != null) {
-            mNotificationManager.cancel(ID);
+            mNotificationManager.cancel(NOTIFICATION_ONGOING_ID);
             unregisterReceiver(mNotificationReceiver);
             mNotificationReceiver = null;
         }
