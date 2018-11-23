@@ -25,6 +25,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -153,6 +154,12 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         }
 
         final Resources res = getResources();
+
+        // If true, popups are forced to remain inside the keyboard area. If false,
+        // they can extend above it. ("false" seems to break things, i.e. the 4-row
+        // keyboard's punctuation popup on the period key.)
+        boolean clippingEnabled = true;
+
         if (previewLayout != 0) {
             mPreviewPopup = new PopupWindow(context);
             if (!isInEditMode())
@@ -163,7 +170,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mPreviewPopup.setBackgroundDrawable(null);
             mPreviewPopup.setTouchable(false);
             mPreviewPopup.setAnimationStyle(R.style.KeyPreviewAnimation);
-            mPreviewPopup.setClippingEnabled(false);
+            mPreviewPopup.setClippingEnabled(clippingEnabled);
         } else {
             mShowPreview = false;
         }
@@ -176,7 +183,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
             mMiniKeyboardPopup.setBackgroundDrawable(null);
             mMiniKeyboardPopup.setAnimationStyle(R.style.MiniKeyboardAnimation);
             mMiniKeyboardVisible = false;
-            mMiniKeyboardPopup.setClippingEnabled(false);
+            mPreviewPopup.setClippingEnabled(clippingEnabled);
         }
     }
 
