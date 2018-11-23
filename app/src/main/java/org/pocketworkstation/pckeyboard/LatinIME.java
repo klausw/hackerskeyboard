@@ -56,10 +56,12 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.PrintWriterPrinter;
 import android.util.Printer;
+import android.view.DragEvent;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -163,6 +165,7 @@ public class LatinIME extends InputMethodService implements
 
     // private LatinKeyboardView mInputView;
     private LinearLayout mCandidateViewContainer;
+    private View mCandidateViewPadding;
     private CandidateView mCandidateView;
     private Suggest mSuggest;
     private CompletionInfo[] mCompletions;
@@ -724,6 +727,7 @@ public class LatinIME extends InputMethodService implements
     @Override
     public View onCreateInputView() {
         setCandidatesViewShown(false);  // Workaround for "already has a parent" when reconfiguring
+        removeCandidateViewContainer();  // setCandidatesViewShown doesn't remove the container
         mKeyboardSwitcher.recreateInputView();
         mKeyboardSwitcher.makeKeyboards(true);
         mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_TEXT, 0,
@@ -750,7 +754,7 @@ public class LatinIME extends InputMethodService implements
     
     @Override
     public View onCreateCandidatesView() {
-        //Log.i(TAG, "onCreateCandidatesView(), mCandidateViewContainer=" + mCandidateViewContainer);
+        Log.i(TAG, "onCreateCandidatesView(), mCandidateViewContainer=" + mCandidateViewContainer);
         //mKeyboardSwitcher.makeKeyboards(true);
         if (mCandidateViewContainer == null) {
             mCandidateViewContainer = (LinearLayout) getLayoutInflater().inflate(
@@ -761,11 +765,38 @@ public class LatinIME extends InputMethodService implements
             mCandidateView.setService(this);
             setCandidatesView(mCandidateViewContainer);
         }
+        mCandidateViewPadding = mCandidateViewContainer.findViewById(R.id.candidates_padding);
+        /*
+        View padding = mCandidateViewPadding;
+        Log.i(TAG, "padding=" + padding);
+        if (padding != null) {
+            padding.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+                @Override
+                public boolean onGenericMotion(View v, MotionEvent event) {
+                        return false;
+                    }
+            });
+            padding.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Log.i(TAG, "padding onTouch");
+                    return false;
+                }
+            });
+            padding.setOnDragListener(new View.OnDragListener() {
+                @Override
+                public boolean onDrag(View v, DragEvent event) {
+                    Log.i(TAG, "padding onDrag");
+                    return false;
+                }
+            });
+        }
+        */
         return mCandidateViewContainer;
     }
 
     private void removeCandidateViewContainer() {
-        //Log.i(TAG, "removeCandidateViewContainer(), mCandidateViewContainer=" + mCandidateViewContainer);
+        Log.i(TAG, "removeCandidateViewContainer(), mCandidateViewContainer=" + mCandidateViewContainer);
         if (mCandidateViewContainer != null) {
             mCandidateViewContainer.removeAllViews();
             ViewParent parent = mCandidateViewContainer.getParent();
@@ -774,6 +805,18 @@ public class LatinIME extends InputMethodService implements
             }
             mCandidateViewContainer = null;
             mCandidateView = null;
+        }
+        resetPrediction();
+    }
+
+    private void hideCandidateView() {
+        Log.i(TAG, "hideCandidateView()");
+        if (isFullscreenMode()) {
+            removeCandidateViewContainer();
+        } else {
+            if (mCandidateViewContainer != null) {
+                mCandidateView.setVisibility(View.INVISIBLE);
+            }
         }
         resetPrediction();
     }
@@ -1179,14 +1222,23 @@ public class LatinIME extends InputMethodService implements
             if (mCandidateViewContainer == null) {
                 onCreateCandidatesView();
                 setNextSuggestions();
+            } else if (mCandidateView.getVisibility() != View.VISIBLE) {
+                mCandidateView.setVisibility(View.VISIBLE);
+                setNextSuggestions();
             }
         } else {
+            if (mCandidateViewContainer == null) {
+                LatinKeyboardView kb = mKeyboardSwitcher.getInputView();
+                if (kb != null && kb.isShown()) {
+                    onCreateCandidatesView();
+                }
+            }
             if (mCandidateViewContainer != null) {
-                removeCandidateViewContainer();
+                hideCandidateView();
                 commitTyped(getCurrentInputConnection(), true);
             }
         }
-        super.setCandidatesViewShown(visible);
+        super.setCandidatesViewShown(true);  // Always show the candidates view for padding
     }
 
     @Override
@@ -1194,7 +1246,7 @@ public class LatinIME extends InputMethodService implements
         //Log.i(TAG, "onFinishCandidatesView(), mCandidateViewContainer=" + mCandidateViewContainer);
         super.onFinishCandidatesView(finishingInput);
         if (mCandidateViewContainer != null) {
-            removeCandidateViewContainer();
+            hideCandidateView();
         }
     }
 
@@ -1214,13 +1266,29 @@ public class LatinIME extends InputMethodService implements
     @Override
     public void onComputeInsets(InputMethodService.Insets outInsets) {
         super.onComputeInsets(outInsets);
+        Log.i(TAG, "onComputeInsets contentTop=" + outInsets.contentTopInsets + " visibleTop=" + outInsets.visibleTopInsets);
         if (!isFullscreenMode()) {
-            outInsets.contentTopInsets = outInsets.visibleTopInsets;
+            //outInsets.contentTopInsets = outInsets.visibleTopInsets;
+            outInsets.touchableInsets = Insets.TOUCHABLE_INSETS_VISIBLE;
+            if (mCandidateViewPadding != null) {
+                int padding = mCandidateViewPadding.getHeight();
+                Log.i(TAG, "  candidateViewPadding height=" + padding);
+                if (mCandidateView != null && mCandidateView.getVisibility() != View.VISIBLE) {
+                    padding += mCandidateView.getHeight();
+                    Log.i(TAG, "  candidateView height=" + mCandidateView.getHeight());
+                }
+                //outInsets.visibleTopInsets += padding;
+                //outInsets.contentTopInsets -= padding;
+                outInsets.visibleTopInsets = padding;
+                outInsets.contentTopInsets = padding;
+                Log.i(TAG, "onComputeInsets modified padding=" + padding + " contentTop=" + outInsets.contentTopInsets + " visibleTop=" + outInsets.visibleTopInsets);
+            }
         }
     }
 
     @Override
     public boolean onEvaluateFullscreenMode() {
+        boolean useFullscreen = true;
         DisplayMetrics dm = getResources().getDisplayMetrics();
         float displayHeight = dm.heightPixels;
         // If the display is more than X inches high, don't go to fullscreen
@@ -1228,10 +1296,20 @@ public class LatinIME extends InputMethodService implements
         float dimen = getResources().getDimension(
                 R.dimen.max_height_for_fullscreen);
         if (displayHeight > dimen || mFullscreenOverride || isConnectbot()) {
-            return false;
+            useFullscreen = false;
         } else {
-            return super.onEvaluateFullscreenMode();
+            useFullscreen = super.onEvaluateFullscreenMode();
         }
+        // useFullscreen = dm.widthPixels > dm.heightPixels; // FIXME, force on in landscape?
+        Log.i(TAG, "useFullscreen=" + useFullscreen);
+        if (mCandidateViewPadding != null) {
+            if (useFullscreen) {
+                mCandidateViewPadding.setVisibility(View.GONE);
+            } else {
+                mCandidateViewPadding.setVisibility(View.VISIBLE);
+            }
+        }
+        return useFullscreen;
     }
 
     public boolean isKeyboardVisible() {

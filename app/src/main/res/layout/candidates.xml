@@ -20,12 +20,20 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    >
+
+    <View xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/candidates_padding"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/candidate_strip_height"
-        android:background="@drawable/keyboard_suggest_strip"
-        >
-
+        android:layout_height="40dip"
+        android:background="#44ff0000"
+        android:alpha="0.5"
+        android:clickable="false"
+        />
     <org.pocketworkstation.pckeyboard.CandidateView
         android:id="@+id/candidates"
         android:layout_width="wrap_content"
@@ -33,6 +41,7 @@
         android:layout_weight="1"
         android:fadingEdge="horizontal"
         android:fadingEdgeLength="@dimen/candidate_strip_fading_edge_length"
+        android:background="@drawable/keyboard_suggest_strip"
         />
         
 </LinearLayout>
