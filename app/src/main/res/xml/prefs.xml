@@ -99,7 +99,7 @@
             android:persistent="true"
             android:entryValues="@array/voice_input_modes_values"
             android:entries="@array/voice_input_modes"
-            android:defaultValue="@string/voice_mode_main"
+            android:defaultValue="@string/voice_mode_symbols"
             />
 
     <PreferenceScreen
