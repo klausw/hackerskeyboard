@@ -726,6 +726,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public View onCreateInputView() {
+        Log.i(TAG, "onCreateInputView");
         setCandidatesViewShown(false);  // Workaround for "already has a parent" when reconfiguring
         removeCandidateViewContainer();  // setCandidatesViewShown doesn't remove the container
         mKeyboardSwitcher.recreateInputView();
@@ -1158,6 +1159,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void hideWindow() {
+        Log.i(TAG, "hideWindow");
         LatinImeLogger.commit();
         onAutoCompletionStateChanged(false);
 
@@ -1204,20 +1206,27 @@ public class LatinIME extends InputMethodService implements
 
     private void setCandidatesViewShownInternal(boolean shown,
             boolean needsInputViewShown) {
+        Log.i(TAG, "setCandidatesViewShownInternal(" + shown + ", " + needsInputViewShown + ")");
+
 //        Log.i(TAG, "setCandidatesViewShownInternal(" + shown + ", " + needsInputViewShown +
 //                " mCompletionOn=" + mCompletionOn +
 //                " mPredictionOnForMode=" + mPredictionOnForMode +
 //                " mPredictionOnPref=" + mPredictionOnPref +
 //                " mPredicting=" + mPredicting
 //                );
-        // TODO: Remove this if we support candidates with hard keyboard
+
+        // TODO: Remove this (FIXME: which "this"?) if we support candidates with hard keyboard
+
+        // FIXME: haveInputView is lying, it's true even while in the preferences dialog.
+        // BUG: toggling haveSuggestions breaks the back button and shows candidates
+        // inside the preference dialog ?!?!?!?!??!?!
+        boolean haveInputView = onEvaluateInputViewShown()
+            && mKeyboardSwitcher.getInputView() != null;
+        Log.i(TAG, "  haveInputView=" + haveInputView);
+
         boolean visible = shown
-        && onEvaluateInputViewShown()
-        && mKeyboardSwitcher.getInputView() != null
-        && isPredictionOn()
-        && (needsInputViewShown
-                ? mKeyboardSwitcher.getInputView().isShown()
-                        : true);
+            && isPredictionOn()
+            && (needsInputViewShown ? haveInputView : true);
         if (visible) {
             if (mCandidateViewContainer == null) {
                 onCreateCandidatesView();
@@ -1227,18 +1236,18 @@ public class LatinIME extends InputMethodService implements
                 setNextSuggestions();
             }
         } else {
-            if (mCandidateViewContainer == null) {
-                LatinKeyboardView kb = mKeyboardSwitcher.getInputView();
-                if (kb != null && kb.isShown()) {
-                    onCreateCandidatesView();
-                }
+            if (mCandidateViewContainer == null && needsInputViewShown && haveInputView) {
+                onCreateCandidatesView();
             }
-            if (mCandidateViewContainer != null) {
+            if (!haveInputView) {
+                removeCandidateViewContainer();
+            } else {
                 hideCandidateView();
-                commitTyped(getCurrentInputConnection(), true);
             }
+            commitTyped(getCurrentInputConnection(), true);
         }
-        super.setCandidatesViewShown(true);  // Always show the candidates view for padding
+        // If keyboard is visible, always show the candidates view for padding.
+        super.setCandidatesViewShown(haveInputView);
     }
 
     @Override
@@ -1254,7 +1263,7 @@ public class LatinIME extends InputMethodService implements
     public boolean onEvaluateInputViewShown() {
     	boolean parent = super.onEvaluateInputViewShown();
     	boolean wanted = mForceKeyboardOn || parent;
-    	//Log.i(TAG, "OnEvaluateInputViewShown, parent=" + parent + " + " wanted=" + wanted);
+    	Log.i(TAG, "OnEvaluateInputViewShown, parent=" + parent + " wanted=" + wanted);
     	return wanted;
     }
     
