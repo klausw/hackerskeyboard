@@ -25,6 +25,7 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Paint.Align;
@@ -276,6 +277,14 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private final String KEY_LABEL_HEIGHT_REFERENCE_CHAR = "H";
     /* package */ static Method sSetRenderMode;
     private static int sPrevRenderMode = -1;
+
+    private static final float[] INVERTING_MATRIX = {
+            -1.f, 0, 0, 0, 255, // Red
+            0, -1.f, 0, 0, 255, // Green
+            0, 0, -1.f, 0, 255, // Blue
+            0, 0, 0, 1.f, 0, // Alpha
+    };
+    private final ColorMatrixColorFilter mInvertingColorFilter = new ColorMatrixColorFilter(INVERTING_MATRIX);
 
     private final UIHandler mHandler = new UIHandler();
 
@@ -915,15 +924,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         final Key[] keys = mKeys;
         final Key invalidKey = mInvalidatedKey;
 
-        ColorFilter iconColorFilter = null;
-        ColorFilter shadowColorFilter = null;
-        if (mRecolorSymbols) {
-            // TODO: cache these?
-            iconColorFilter = new PorterDuffColorFilter(
-                    mKeyTextColor, PorterDuff.Mode.SRC_ATOP);
-            shadowColorFilter = new PorterDuffColorFilter(
-                    mShadowColor, PorterDuff.Mode.SRC_ATOP);
-        }
+        ColorFilter iconColorFilter = mRecolorSymbols ? mInvertingColorFilter : null;
 
         boolean drawSingleKey = false;
         if (invalidKey != null && canvas.getClipBounds(clipRegion)) {
@@ -1100,25 +1101,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 canvas.translate(drawableX, drawableY);
                 icon.setBounds(0, 0, drawableWidth, drawableHeight);
 
-                if (shadowColorFilter != null && iconColorFilter != null) {
-                    // Re-color the icon to match the theme, and draw a shadow for it manually.
-                    //
-                    // This doesn't seem to look quite right, possibly a problem with using 
-                    // premultiplied icon images?
-
-                    // Try EmbossMaskFilter, and/or offset? Configurable?
-                    BlurMaskFilter shadowBlur = new BlurMaskFilter(mShadowRadius, BlurMaskFilter.Blur.OUTER);
-                    Paint blurPaint = new Paint();
-                    blurPaint.setMaskFilter(shadowBlur);
-                    Bitmap tmpIcon = Bitmap.createBitmap(key.width, key.height, Bitmap.Config.ARGB_8888);
-                    Canvas tmpCanvas = new Canvas(tmpIcon);
-                    icon.draw(tmpCanvas);
-                    int[] offsets = new int[2];
-                    Bitmap shadowBitmap = tmpIcon.extractAlpha(blurPaint, offsets);
-                    Paint shadowPaint = new Paint();
-                    shadowPaint.setColorFilter(shadowColorFilter);
-                    canvas.drawBitmap(shadowBitmap, offsets[0], offsets[1], shadowPaint);
-
+                if (iconColorFilter != null) {
+                    // Re-color the icon to match the theme. Skip the shadow since it tends to not
+                    // look right.
                     icon.setColorFilter(iconColorFilter);
                     icon.draw(canvas);
                     icon.setColorFilter(null);
