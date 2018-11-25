@@ -372,7 +372,8 @@
     <string name="layout_stone_bold"  translatable="false">Stone (bold)</string>
     <string name="layout_stone_normal"  translatable="false">Stone (normal)</string>
     <string name="layout_gingerbread"  translatable="false">Gingerbread</string>
-    <string name="layout_ics"  translatable="false">Ice Cream Sandwich</string>
+    <string name="layout_ics"  translatable="false">Ice Cream Sandwich (bright hints)</string>
+    <string name="layout_ics_darker"  translatable="false">Ice Cream Sandwich (dark hints)</string>
     <string name="layout_trans"  translatable="false">Transparent</string>
     <string name="layout_trans_neon"  translatable="false">Transparent (experimental)</string>
     <string name="layout_material_dark" translatable="false">Material Dark</string>
@@ -380,20 +381,28 @@
 
     <string-array name="keyboard_layout_modes" translatable="false">
         <item>@string/layout_ics</item>
+        <item>@string/layout_ics_darker</item>
+        <item>@string/layout_material_dark</item>
+        <item>@string/layout_material_light</item>
         <item>@string/layout_gingerbread</item>
         <item>@string/layout_stone_bold</item>
         <item>@string/layout_trans_neon</item>
-        <item>@string/layout_material_dark</item>
-        <item>@string/layout_material_light</item>
     </string-array>
 
+    <!--
+    Do *NOT* renumber existing entries, this would lead to people's stored preferences
+    being reinterpreted as different themes. Just assign a new number that's higher
+    than any currently used one, and arrange the order as desired, matching the strings
+    above.
+    -->
     <string-array name="keyboard_layout_modes_values" translatable="false">
         <item>0</item>
+        <item>6</item>
+        <item>4</item>
+        <item>5</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
-        <item>5</item>
     </string-array>
 
     <string name="subtype_mode_keyboard">keyboard</string>
