@@ -564,7 +564,9 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    
+
+    <string name="title_popup_duration">Popup duration</string>
+
     <string name="title_long_press_duration">Long-press duration</string>
 
     <string name="title_render_mode">Drawing method</string>
