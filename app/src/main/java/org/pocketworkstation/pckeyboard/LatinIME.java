@@ -535,6 +535,7 @@ public class LatinIME extends InputMethodService implements
                     .setContentTitle(title)
                     .setContentText(body)
                     .setContentIntent(contentIntent)
+                    .setOngoing(true)
                     .addAction(R.drawable.icon_hk_notification, getString(R.string.notification_action_settings),
                             configPendingIntent)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
