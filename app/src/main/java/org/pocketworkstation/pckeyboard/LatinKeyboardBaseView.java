@@ -669,7 +669,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mHandler.cancelKeyTimers();
         mHandler.cancelPopupPreview();
         mKeyboard = keyboard;
-        LatinImeLogger.onSetKeyboard(keyboard);
         mKeys = mKeyDetector.setKeyboard(keyboard, -getPaddingLeft(),
                 -getPaddingTop() + mVerticalCorrection);
         mKeyboardVerticalGap = (int)getResources().getDimension(R.dimen.key_bottom_gap);

@@ -285,8 +285,8 @@ public class KeyboardSwitcher implements
         try {
             setKeyboardMode(mode, imeOptions, enableVoice, mPreferSymbols);
         } catch (RuntimeException e) {
-            LatinImeLogger.logOnException(mode + "," + imeOptions + ","
-                    + mPreferSymbols, e);
+            Log.e(TAG, "Got exception: " + mode + "," + imeOptions + ","
+                    + mPreferSymbols + " msg=" + e.getMessage());
         }
     }
 
@@ -383,8 +383,6 @@ public class KeyboardSwitcher implements
         }
         switch (mode) {
         case MODE_NONE:
-            LatinImeLogger.logOnWarning("getKeyboardId:" + mode + ","
-                    + imeOptions + "," + isSymbols);
             /* fall through */
         case MODE_TEXT:
             return new KeyboardId(keyboardRowsResId,

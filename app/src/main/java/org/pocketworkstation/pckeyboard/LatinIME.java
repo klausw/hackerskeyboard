@@ -23,7 +23,6 @@ import com.google.android.voiceime.VoiceRecognitionTrigger;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -39,7 +38,6 @@ import android.content.res.XmlResourceParser;
 import android.inputmethodservice.InputMethodService;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -47,19 +45,15 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.speech.SpeechRecognizer;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.PrintWriterPrinter;
 import android.util.Printer;
 import android.view.HapticFeedbackConstants;
-import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -94,9 +88,6 @@ public class LatinIME extends InputMethodService implements
         LatinKeyboardBaseView.OnKeyboardActionListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "PCKeyboardIME";
-    private static final boolean PERF_DEBUG = false;
-    static final boolean DEBUG = false;
-    static final boolean TRACE = false;
     private static final String NOTIFICATION_CHANNEL_ID = "PCKeyboard";
     private static final int NOTIFICATION_ONGOING_ID = 1001;
     static Map<Integer, String> ESC_SEQUENCES;
@@ -271,8 +262,6 @@ public class LatinIME extends InputMethodService implements
     private ComposeSequence mComposeBuffer = new ComposeSequence(this);
     private ComposeSequence mDeadAccentBuffer = new DeadAccentSequence(this);
 
-    private Tutorial mTutorial;
-
     private AudioManager mAudioManager;
     // Align sound effect volume on music volume
     private final float FX_VOLUME = -1.0f;
@@ -357,19 +346,6 @@ public class LatinIME extends InputMethodService implements
             case MSG_UPDATE_OLD_SUGGESTIONS:
                 setOldSuggestions();
                 break;
-            case MSG_START_TUTORIAL:
-                if (mTutorial == null) {
-                    if (mKeyboardSwitcher.getInputView().isShown()) {
-                        mTutorial = new Tutorial(LatinIME.this,
-                                mKeyboardSwitcher.getInputView());
-                        mTutorial.start();
-                    } else {
-                        // Try again soon if the view is not yet showing
-                        sendMessageDelayed(obtainMessage(MSG_START_TUTORIAL),
-                                100);
-                    }
-                }
-                break;
             case MSG_UPDATE_SHIFT_STATE:
                 updateShiftKeyState(getCurrentInputEditorInfo());
                 break;
@@ -380,7 +356,6 @@ public class LatinIME extends InputMethodService implements
     @Override
     public void onCreate() {
         Log.i("PCKeyboard", "onCreate(), os.version=" + System.getProperty("os.version"));
-        LatinImeLogger.init(this);
         KeyboardSwitcher.init(this);
         super.onCreate();
         sInstance = this;
@@ -682,8 +657,6 @@ public class LatinIME extends InputMethodService implements
         	unregisterReceiver(mNotificationReceiver);
             mNotificationReceiver = null;
         }
-        LatinImeLogger.commit();
-        LatinImeLogger.onDestroy();
         super.onDestroy();
     }
 
@@ -937,9 +910,6 @@ public class LatinIME extends InputMethodService implements
         // If we just entered a text field, maybe it has some old text that
         // requires correction
         checkReCorrectionOnStart();
-        checkTutorial(attribute.privateImeOptions);
-        if (TRACE)
-            Debug.startMethodTracing("/data/trace/latinime");
     }
 
     private boolean shouldShowVoiceButton(EditorInfo attribute) {
@@ -979,7 +949,6 @@ public class LatinIME extends InputMethodService implements
     public void onFinishInput() {
         super.onFinishInput();
 
-        LatinImeLogger.commit();
         onAutoCompletionStateChanged(false);
 
         if (mKeyboardSwitcher.getInputView() != null) {
@@ -1011,12 +980,6 @@ public class LatinIME extends InputMethodService implements
             int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd,
                 candidatesStart, candidatesEnd);
-
-        if (DEBUG) {
-            Log.i(TAG, "onUpdateSelection: oss=" + oldSelStart + ", ose="
-                    + oldSelEnd + ", nss=" + newSelStart + ", nse=" + newSelEnd
-                    + ", cs=" + candidatesStart + ", ce=" + candidatesEnd);
-        }
 
         // If the current selection in the text view changes, we should
         // clear whatever candidate text we have.
@@ -1115,11 +1078,8 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void hideWindow() {
-        LatinImeLogger.commit();
         onAutoCompletionStateChanged(false);
 
-        if (TRACE)
-            Debug.stopMethodTracing();
         if (mOptionsDialog != null && mOptionsDialog.isShowing()) {
             mOptionsDialog.dismiss();
             mOptionsDialog = null;
@@ -1132,12 +1092,6 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onDisplayCompletions(CompletionInfo[] completions) {
-        if (DEBUG) {
-            Log.i("foo", "Received completions:");
-            for (int i = 0; i < (completions != null ? completions.length : 0); i++) {
-                Log.i("foo", "  #" + i + ": " + completions[i]);
-            }
-        }
         if (mCompletionOn) {
             mCompletions = completions;
             if (completions == null) {
@@ -1248,19 +1202,7 @@ public class LatinIME extends InputMethodService implements
                     && mKeyboardSwitcher.getInputView() != null) {
                 if (mKeyboardSwitcher.getInputView().handleBack()) {
                     return true;
-                } else if (mTutorial != null) {
-                    mTutorial.close();
-                    mTutorial = null;
                 }
-            }
-            break;
-        case KeyEvent.KEYCODE_DPAD_DOWN:
-        case KeyEvent.KEYCODE_DPAD_UP:
-        case KeyEvent.KEYCODE_DPAD_LEFT:
-        case KeyEvent.KEYCODE_DPAD_RIGHT:
-            // If tutorial is visible, don't allow dpad to work
-            if (mTutorial != null) {
-                return true;
             }
             break;
         case KeyEvent.KEYCODE_VOLUME_UP:
@@ -1284,10 +1226,6 @@ public class LatinIME extends InputMethodService implements
         case KeyEvent.KEYCODE_DPAD_UP:
         case KeyEvent.KEYCODE_DPAD_LEFT:
         case KeyEvent.KEYCODE_DPAD_RIGHT:
-            // If tutorial is visible, don't allow dpad to work
-            if (mTutorial != null) {
-                return true;
-            }
             LatinKeyboardView inputView = mKeyboardSwitcher.getInputView();
             // Enable shift key and DPAD to do selections
             if (inputView != null && inputView.isShown()
@@ -2012,7 +1950,6 @@ public class LatinIME extends InputMethodService implements
             }
             handleBackspace();
             mDeleteCount++;
-            LatinImeLogger.logOnDelete();
             break;
         case Keyboard.KEYCODE_SHIFT:
             // Shift key is handled in onPress() when device has distinct
@@ -2137,7 +2074,6 @@ public class LatinIME extends InputMethodService implements
                 mJustAddedAutoSpace = false;
             }
             RingCharBuffer.getInstance().push((char) primaryCode, x, y);
-            LatinImeLogger.logOnInputChar();
             if (isWordSeparator(primaryCode)) {
                 handleSeparator(primaryCode);
             } else {
@@ -2395,8 +2331,6 @@ public class LatinIME extends InputMethodService implements
             sendModifiableKeyChar((char) primaryCode);
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-        if (LatinIME.PERF_DEBUG)
-            measureCps();
         TextEntryState.typedCharacter((char) primaryCode,
                 isWordSeparator(primaryCode));
     }
@@ -2692,10 +2626,6 @@ public class LatinIME extends InputMethodService implements
         if (suggestion.length() == 1
                 && (isWordSeparator(suggestion.charAt(0)) || isSuggestedPunctuation(suggestion
                         .charAt(0)))) {
-            // Word separators are suggested before the user inputs something.
-            // So, LatinImeLogger logs "" as a user's input.
-            LatinImeLogger.logOnManualSuggestion("", suggestion.toString(),
-                    index, suggestions);
             final char primaryCode = suggestion.charAt(0);
             onKey(primaryCode, new int[] { primaryCode },
                     LatinKeyboardBaseView.NOT_A_TOUCH_COORDINATE,
@@ -2713,8 +2643,6 @@ public class LatinIME extends InputMethodService implements
         } else {
             addToBigramDictionary(suggestion, 1);
         }
-        LatinImeLogger.logOnManualSuggestion(mComposing.toString(), suggestion
-                .toString(), index, suggestions);
         TextEntryState.acceptedSuggestion(mComposing.toString(), suggestion);
         // Follow it with a space
         if (mAutoSpace && !correcting) {
@@ -3141,14 +3069,6 @@ public class LatinIME extends InputMethodService implements
             toggleLanguage(false, false);
         } else if (action.equals("lang_next")) {
             toggleLanguage(false, true);
-        } else if (action.equals("debug_auto_play")) {
-            if (LatinKeyboardView.DEBUG_AUTO_PLAY) {
-                ClipboardManager cm = ((ClipboardManager) getSystemService(CLIPBOARD_SERVICE));
-                CharSequence text = cm.getText();
-                if (!TextUtils.isEmpty(text)) {
-                    mKeyboardSwitcher.getInputView().startPlaying(text.toString());
-                }
-            }
         } else if (action.equals("full_mode")) {
             if (isPortrait()) {
                 mKeyboardModeOverridePortrait = (mKeyboardModeOverridePortrait + 1) % mNumKeyboardModes;
@@ -3402,31 +3322,6 @@ public class LatinIME extends InputMethodService implements
         }
     }
     
-    private void checkTutorial(String privateImeOptions) {
-        if (privateImeOptions == null)
-            return;
-        if (privateImeOptions.equals("com.android.setupwizard:ShowTutorial")) {
-            if (mTutorial == null)
-                startTutorial();
-        } else if (privateImeOptions
-                .equals("com.android.setupwizard:HideTutorial")) {
-            if (mTutorial != null) {
-                if (mTutorial.close()) {
-                    mTutorial = null;
-                }
-            }
-        }
-    }
-
-    private void startTutorial() {
-        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_START_TUTORIAL),
-                500);
-    }
-
-    /* package */void tutorialDone() {
-        mTutorial = null;
-    }
-
     /* package */void promoteToUserDictionary(String word, int frequency) {
         if (mUserDictionary.isValidWord(word))
             return;
@@ -3470,10 +3365,6 @@ public class LatinIME extends InputMethodService implements
 
     protected void launchSettings() {
         launchSettings(LatinIMESettings.class);
-    }
-
-    public void launchDebugSettings() {
-        launchSettings(LatinIMEDebugSettings.class);
     }
 
     protected void launchSettings(

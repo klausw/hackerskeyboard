@@ -124,7 +124,6 @@ public class TextEntryState {
         sTypedChars += typedWord.length();
         sActualChars += actualWord.length();
         sState = State.ACCEPTED_DEFAULT;
-        LatinImeLogger.logOnAutoSuggestion(typedWord.toString(), actualWord.toString());
         displayState();
     }
 
@@ -233,7 +232,6 @@ public class TextEntryState {
         if (sState == State.ACCEPTED_DEFAULT) {
             sState = State.UNDO_COMMIT;
             sAutoSuggestUndoneCount++;
-            LatinImeLogger.logOnAutoSuggestionCanceled();
         } else if (sState == State.UNDO_COMMIT) {
             sState = State.IN_WORD;
         }

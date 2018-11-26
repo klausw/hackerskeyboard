@@ -170,27 +170,7 @@
     
     <!-- Instruction to touch the bubble to start typing -->
     <string name="touch_to_finish">Touch here to close this hint and start typing!</string>
-    
-    <!-- Tutorial tip 1 - The keyboard opens any time you touch a text field -->
-    <string name="tip_to_open_keyboard"><b>The keyboard opens any time you touch a text field</b></string>
-    
-    <!-- Tutorial tip 2 - Touch and hold a key to view accents (examples) -->
-    <string name="tip_to_view_accents"><b>Touch &amp; hold a key to view accents\n(ø, ö, ô, ó, and so on)</b>
-    </string>
-    
-    <!-- Tutorial tip 3 - How to switch to number/symbol keyboard -->
-    <string name="tip_to_open_symbols"><b>Switch to numbers and symbols by touching this key</b></string>
-    
-    <!-- Tutorial tip 4 - How to switch back to alphabet keyboard -->
-    <string name="tip_to_close_symbols"><b>Go back to letters by touching this key again</b></string>
-    
-    <!-- Tutorial tip 5 - How to launch keyboard settings -->
-    <string name="tip_to_launch_settings"><b>Touch &amp; hold this key to change keyboard settings, like auto complete</b></string>
-    
-    <!-- Tutorial tip 6 - Done with the tutorial -->
-    <string name="tip_to_start_typing"><b>Try it!</b></string>
-    
-    
+
     <!-- Label for soft enter key when it performs GO action.  Must be short to fit on key! -->
     <string name="label_go_key">Go</string>
     <!-- Label for soft enter key when it performs NEXT action.  Must be short to fit on key! -->
@@ -313,10 +293,6 @@
 
     <!-- Press the "enter" key after the user speaks. Summary of option in settings.-->
     <string name="auto_submit_summary">Automatically press enter when searching or going to the next field.</string>
-
-    <!-- IME Tutorial screen (ROMAN) --><skip />
-    <!-- appears above image showing the user to click on a TextView to show the IME -->
-    <string name="open_the_keyboard"><font size="17"><b>Open the keyboard\n</b></font><font size="3">\n</font>Touch any text field.</string>
 
     <!-- appears above the image showing the back button used to close the keyboard -->
     <string name="close_the_keyboard"><font size="17"><b>Close the keyboard\n</b></font><font size="3">\n</font>Press the Back key.</string>

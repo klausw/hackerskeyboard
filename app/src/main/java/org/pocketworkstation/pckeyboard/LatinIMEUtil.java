@@ -61,7 +61,6 @@ public class LatinIMEUtil {
                 System.gc();
             }
             if (++mGCTryCount > GC_TRY_COUNT) {
-                LatinImeLogger.logOnException(metaData, t);
                 return false;
             } else {
                 try {
@@ -69,7 +68,6 @@ public class LatinIMEUtil {
                     return true;
                 } catch (InterruptedException e) {
                     Log.e(TAG, "Sleep was interrupted.");
-                    LatinImeLogger.logOnException(metaData, t);
                     return false;
                 }
             }
