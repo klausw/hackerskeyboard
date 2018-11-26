@@ -156,9 +156,9 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         final Resources res = getResources();
 
         // If true, popups are forced to remain inside the keyboard area. If false,
-        // they can extend above it. ("false" seems to break things, i.e. the 4-row
-        // keyboard's punctuation popup on the period key.)
-        boolean clippingEnabled = true;
+        // they can extend above it. Enable clipping just for Android P since drawing
+        // outside the keyboard area doesn't work on that version.
+        boolean clippingEnabled = (Build.VERSION.SDK_INT > Build.VERSION_CODES.O);
 
         if (previewLayout != 0) {
             mPreviewPopup = new PopupWindow(context);
@@ -182,8 +182,8 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
                 Log.i(TAG, "new mMiniKeyboardPopup " + mMiniKeyboardPopup + " from " + this);
             mMiniKeyboardPopup.setBackgroundDrawable(null);
             mMiniKeyboardPopup.setAnimationStyle(R.style.MiniKeyboardAnimation);
+            mMiniKeyboardPopup.setClippingEnabled(clippingEnabled);
             mMiniKeyboardVisible = false;
-            mPreviewPopup.setClippingEnabled(clippingEnabled);
         }
     }
 

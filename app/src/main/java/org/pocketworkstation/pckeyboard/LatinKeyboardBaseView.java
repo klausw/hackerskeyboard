@@ -1456,6 +1456,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         } else if (x > (getMeasuredWidth() - mMiniKeyboardContainer.getMeasuredWidth())) {
             adjustedX = getMeasuredWidth() - mMiniKeyboardContainer.getMeasuredWidth();
         }
+        // Log.i(TAG, "x=" + x + " y=" + y + " adjustedX=" + adjustedX + " getMeasuredWidth()=" + getMeasuredWidth());
         mMiniKeyboardOriginX = adjustedX + mMiniKeyboardContainer.getPaddingLeft() - mWindowOffset[0];
         mMiniKeyboardOriginY = y + mMiniKeyboardContainer.getPaddingTop() - mWindowOffset[1];
         mMiniKeyboard.setPopupOffset(adjustedX, y);
@@ -1466,7 +1467,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mMiniKeyboardPopup.setWidth(mMiniKeyboardContainer.getMeasuredWidth());
         mMiniKeyboardPopup.setHeight(mMiniKeyboardContainer.getMeasuredHeight());
         //Log.i(TAG, "About to show popup " + mMiniKeyboardPopup + " from " + this);
-        mMiniKeyboardPopup.showAtLocation(this, Gravity.NO_GRAVITY, x, y);
+        mMiniKeyboardPopup.showAtLocation(this, Gravity.NO_GRAVITY, adjustedX, y);
         mMiniKeyboardVisible = true;
 
         // Inject down event on the key to mini keyboard.
