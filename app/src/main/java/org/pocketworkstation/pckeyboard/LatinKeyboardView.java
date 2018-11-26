@@ -158,7 +158,7 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         // If true, popups are forced to remain inside the keyboard area. If false,
         // they can extend above it. Enable clipping just for Android P since drawing
         // outside the keyboard area doesn't work on that version.
-        boolean clippingEnabled = (Build.VERSION.SDK_INT > Build.VERSION_CODES.O);
+        boolean clippingEnabled = (Build.VERSION.SDK_INT >= 28 /* Build.VERSION_CODES.P */);
 
         if (previewLayout != 0) {
             mPreviewPopup = new PopupWindow(context);
