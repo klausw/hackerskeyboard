@@ -180,6 +180,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private int mKeyTextColor;
     private int mKeyHintColor;
     private int mKeyCursorColor;
+    private boolean mInvertSymbols;
     private boolean mRecolorSymbols;
     private Typeface mKeyTextStyle = Typeface.DEFAULT;
     private float mLabelTextSize;
@@ -507,6 +508,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 break;
             case R.styleable.LatinKeyboardBaseView_keyCursorColor:
                 mKeyCursorColor = a.getColor(attr, 0xFF000000);
+                break;
+            case R.styleable.LatinKeyboardBaseView_invertSymbols:
+                mInvertSymbols = a.getBoolean(attr, false);
                 break;
             case R.styleable.LatinKeyboardBaseView_recolorSymbols:
                 mRecolorSymbols = a.getBoolean(attr, false);
@@ -924,7 +928,17 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         final Key[] keys = mKeys;
         final Key invalidKey = mInvalidatedKey;
 
-        ColorFilter iconColorFilter = mRecolorSymbols ? mInvertingColorFilter : null;
+        ColorFilter iconColorFilter = null;
+        ColorFilter shadowColorFilter = null;
+        if (mInvertSymbols) {
+            iconColorFilter = mInvertingColorFilter;
+        } else if (mRecolorSymbols) {
+            // TODO: cache these?
+            iconColorFilter = new PorterDuffColorFilter(
+                    mKeyTextColor, PorterDuff.Mode.SRC_ATOP);
+            shadowColorFilter = new PorterDuffColorFilter(
+                    mShadowColor, PorterDuff.Mode.SRC_ATOP);
+        }
 
         boolean drawSingleKey = false;
         if (invalidKey != null && canvas.getClipBounds(clipRegion)) {
@@ -1102,8 +1116,25 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 icon.setBounds(0, 0, drawableWidth, drawableHeight);
 
                 if (iconColorFilter != null) {
-                    // Re-color the icon to match the theme. Skip the shadow since it tends to not
-                    // look right.
+                    // Re-color the icon to match the theme, and draw a shadow for it manually.
+                    //
+                    // This doesn't seem to look quite right, possibly a problem with using
+                    // premultiplied icon images?
+
+                    // Try EmbossMaskFilter, and/or offset? Configurable?
+                    if (shadowColorFilter != null && mShadowRadius > 0) {
+                        BlurMaskFilter shadowBlur = new BlurMaskFilter(mShadowRadius, BlurMaskFilter.Blur.OUTER);
+                        Paint blurPaint = new Paint();
+                        blurPaint.setMaskFilter(shadowBlur);
+                        Bitmap tmpIcon = Bitmap.createBitmap(key.width, key.height, Bitmap.Config.ARGB_8888);
+                        Canvas tmpCanvas = new Canvas(tmpIcon);
+                        icon.draw(tmpCanvas);
+                        int[] offsets = new int[2];
+                        Bitmap shadowBitmap = tmpIcon.extractAlpha(blurPaint, offsets);
+                        Paint shadowPaint = new Paint();
+                        shadowPaint.setColorFilter(shadowColorFilter);
+                        canvas.drawBitmap(shadowBitmap, offsets[0], offsets[1], shadowPaint);
+                    }
                     icon.setColorFilter(iconColorFilter);
                     icon.draw(canvas);
                     icon.setColorFilter(null);

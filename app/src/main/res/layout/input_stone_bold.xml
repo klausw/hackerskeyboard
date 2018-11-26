@@ -36,6 +36,6 @@
         latin:shadowRadius="0"
         latin:keyTextStyle="bold"
         latin:symbolColorScheme="black"
-        latin:recolorSymbols="true"
+        latin:invertSymbols="true"
         latin:popupLayout="@layout/input_stone_popup"
         />

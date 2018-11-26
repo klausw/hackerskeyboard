@@ -40,6 +40,9 @@
         <!-- Color to use for cursor key labels. -->
         <attr name="keyCursorColor" format="color" />
 
+        <!-- Do symbols need to be inverted (for light-background themes)? -->
+        <attr name="invertSymbols" format="boolean" />
+
 	<!--  Do symbols need to be recolored? -->
 	<attr name="recolorSymbols" format="boolean" />
 
