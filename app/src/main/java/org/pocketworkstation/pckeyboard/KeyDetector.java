@@ -16,6 +16,8 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import android.util.Log;
+
 import org.pocketworkstation.pckeyboard.Keyboard.Key;
 
 import java.util.Arrays;
@@ -35,6 +37,7 @@ abstract class KeyDetector {
     protected int mProximityThresholdSquare;
 
     public Key[] setKeyboard(Keyboard keyboard, float correctionX, float correctionY) {
+        Log.i("KeyDetector", "KeyDetector correctionX=" + correctionX + " correctionY=" + correctionY);
         if (keyboard == null)
             throw new NullPointerException();
         mCorrectionX = (int)correctionX;

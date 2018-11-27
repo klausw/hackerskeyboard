@@ -669,8 +669,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mHandler.cancelKeyTimers();
         mHandler.cancelPopupPreview();
         mKeyboard = keyboard;
-        mKeys = mKeyDetector.setKeyboard(keyboard, -getPaddingLeft(),
-                -getPaddingTop() + mVerticalCorrection);
+        // Disable correctionX and correctionY, it doesn't seem to work as intended.
+        // mKeys = mKeyDetector.setKeyboard(keyboard, -getPaddingLeft(),-getPaddingTop() + mVerticalCorrection);
+        mKeys = mKeyDetector.setKeyboard(keyboard, 0, 0);
         mKeyboardVerticalGap = (int)getResources().getDimension(R.dimen.key_bottom_gap);
         for (PointerTracker tracker : mPointerTrackers) {
             tracker.setKeyboard(mKeys, mKeyHysteresisDistance);
