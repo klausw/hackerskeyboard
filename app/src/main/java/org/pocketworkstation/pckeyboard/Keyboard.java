@@ -222,10 +222,17 @@ public class Keyboard {
                     0);
             extension = a.getBoolean(R.styleable.Keyboard_Row_extension, false);
 
-            if (parent.mLayoutRows >= 5) {
+            if (parent.mLayoutRows >= 5 || extension) {
+                // Apply optional scale factor to top (5th) row and/or extension row. If extension
+                // row is visible on a 5-row keyboard, both use the smaller size.
                 boolean isTop = (extension || parent.mRowCount - parent.mExtensionRowCount <= 0);
                 float topScale = LatinIME.sKeyboardSettings.topRowScale;
-                float scale = isTop ? topScale : 1.0f + (1.0f - topScale) / (parent.mLayoutRows - 1);
+                // Apply scale factor to the top row(s), and redistribute the saved space to the
+                // remaining rows. Saved space from the extension row doesn't count here since
+                // the extension row is not part of the configured height percentage.
+                float scale = isTop ?
+                        topScale :
+                        1.0f + (1.0f - topScale) / (parent.mLayoutRows - 1);
                 defaultHeight = Math.round(defaultHeight * scale);
             }
             a.recycle();
