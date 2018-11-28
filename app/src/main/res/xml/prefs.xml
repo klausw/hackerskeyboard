@@ -74,7 +74,7 @@
 
     <PreferenceScreen
             android:title="@string/pref_screen_view_title"
-            android:summary="Configure theming and label display">
+            android:summary="@string/pref_screen_view_title_summary">
         <intent android:action="org.pocketworkstation.pckeyboard.PREFS_VIEW"/>
     </PreferenceScreen>
 
@@ -141,14 +141,14 @@
     
     <PreferenceScreen
             android:title="@string/pref_screen_feedback_title"
-            android:summary="Configure key sound, vibrate, preview popup etc.">
+            android:summary="@string/pref_screen_feedback_title_summary">
         <intent
                 android:action="org.pocketworkstation.pckeyboard.PREFS_FEEDBACK"/>
     </PreferenceScreen>
 
     <PreferenceScreen
             android:title="@string/pref_screen_actions_title"
-            android:summary="Configure actions for swipe gestures and hardware keys">
+            android:summary="@string/pref_screen_actions_title_summary">
         <intent android:action="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
     </PreferenceScreen>
 

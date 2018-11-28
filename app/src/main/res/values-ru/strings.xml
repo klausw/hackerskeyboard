@@ -298,9 +298,11 @@
     <!-- The summary for the preferences item for enabling to correct suggestions by touching words you have typed -->
     <string name="prefs_enable_recorrection_summary">Нажмите на введеные слова для исправления</string>
 
-    <string name="pref_screen_feedback_title">Настройки обратной связи</string>
+    <string name="pref_screen_feedback_title">Обратная связь</string>
+    <string name="pref_screen_feedback_title_summary">Настройка звука клавиш, виброотклика, увеличение нажатых и т.п.</string>
 
-    <string name="pref_screen_view_title">Настройка темы и шрифтов</string>
+    <string name="pref_screen_view_title">Тема и шрифт</string>
+    <string name="pref_screen_view_title_summary">Настройка темы оформления, подсказок на клавишах, шрифтов</string>
 
     <!-- Description for keyboard theme switcher -->
     <string name="keyboard_layout">Тема клавиатуры</string>
@@ -442,6 +444,7 @@
     </string-array>
 
     <string name="pref_screen_actions_title">Жесты и кнопки</string>
+    <string name="pref_screen_actions_title_summary">Настройка жестов и аппаратных кнопок</string>
     <string name="title_swipe_up">Провести вверх</string>
     <string name="title_swipe_down">Провести вниз</string>
     <string name="title_swipe_left">Провести влево</string>
