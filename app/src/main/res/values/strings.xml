@@ -338,9 +338,11 @@
     <string name="prefs_enable_recorrection_summary">Touch entered words to correct them</string>
 
     <string name="pref_screen_feedback_title">Key feedback settings</string>
-        
+    <string name="pref_screen_feedback_title_summary">Configure key sound, vibrate, preview popup etc.</string>
+
     <string name="pref_screen_view_title">Theme and label settings</string>
-        
+    <string name="pref_screen_view_title_summary">Configure theming and label display</string>
+
     <!-- Description for keyboard theme switcher -->
     <string name="keyboard_layout">Keyboard Theme</string>
     <string name="layout_basic" translatable="false">Basic</string>
@@ -558,6 +560,7 @@
     </string-array>
         
     <string name="pref_screen_actions_title">Gesture and key actions</string>
+    <string name="pref_screen_actions_title_summary">Configure actions for swipe gestures and hardware keys</string>
     <string name="title_swipe_up">Swipe up</string>
     <string name="title_swipe_down">Swipe down</string>
     <string name="title_swipe_left">Swipe left</string>
