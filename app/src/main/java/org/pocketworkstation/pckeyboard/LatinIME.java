@@ -2244,6 +2244,7 @@ public class LatinIME extends InputMethodService implements
         }
         mJustRevertedSeparator = null;
         ic.endBatchEdit();
+        updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
     private void setModCtrl(boolean val) {
