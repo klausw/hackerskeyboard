@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* 
+**
+** Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License"); 
+** you may not use this file except in compliance with the License. 
+** You may obtain a copy of the License at 
+**
+**     http://www.apache.org/licenses/LICENSE-2.0 
+**
+** Unless required by applicable law or agreed to in writing, software 
+** distributed under the License is distributed on an "AS IS" BASIS, 
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+** See the License for the specific language governing permissions and 
+** limitations under the License.
+*/
+-->
+
+<Keyboard
+    xmlns:android="http://schemas.android.com/apk/res-auto"
+    android:keyWidth="10%p"
+    android:horizontalGap="0px"
+    android:verticalGap="0px"
+    android:verticalPad="@dimen/key_vertical_pad_compact"
+    android:layoutRows="5"
+    android:layoutColumns="11"
+>
+    <Row
+        android:rowEdgeFlags="top"
+    >
+        <Key
+            android:keyLabel="Esc"
+            android:codes="@integer/key_escape"
+            android:keyWidth="12%p"
+            android:keyEdgeFlags="left"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_f1"
+            android:keyWidth="9%p"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_fkey_f1"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F1" />            
+        <Key
+            android:codes="@integer/key_fkey_f2"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F2" />         
+        <Key
+            android:codes="@integer/key_fkey_f3"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F3" />
+        <Key
+            android:codes="@integer/key_fkey_f4"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F4" />
+        <Key
+            android:codes="@integer/key_fkey_f5"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F5" />
+        <Key
+            android:codes="@integer/key_fkey_f6"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F6" />
+
+        <Key
+            android:codes="@integer/key_break"
+            android:isModifier="true"
+            android:keyWidth="12%p"
+            android:keyLabel="Brk" />
+
+        <Key
+            android:codes="@integer/key_delete"
+            android:keyIcon="@drawable/sym_keyboard_delete"
+            android:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            android:isModifier="true"
+            android:isRepeatable="true"
+            android:keyWidth="13%p"
+            android:keyEdgeFlags="right" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="@integer/key_sysrq"
+            android:isModifier="true"
+            android:keyWidth="12%p"
+            android:keyEdgeFlags="left"
+            android:keyLabel="SyRq" />
+        <Key
+            android:codes="@integer/key_settings"
+            android:keyIcon="@drawable/sym_keyboard_settings"
+            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            android:keyWidth="9%p"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_fkey_f7"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F7" />
+        <Key
+            android:codes="@integer/key_fkey_f8"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F8" />
+        <Key
+            android:codes="@integer/key_fkey_f9"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F9" />
+        <Key
+            android:codes="@integer/key_fkey_f10"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F10" />
+        <Key
+            android:codes="@integer/key_fkey_f11"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F11" />
+        <Key
+            android:codes="@integer/key_fkey_f12"
+            android:isModifier="true"
+            android:keyWidth="9%p"
+            android:keyLabel="F12" />
+
+        <Key
+            android:codes="@integer/key_insert"
+            android:keyLabel="Ins"
+            android:isRepeatable="true"            
+            android:keyWidth="12%p"
+            android:isModifier="true" />
+
+        <Key
+            android:codes="@integer/key_page_up"
+            android:isModifier="true"
+            android:isRepeatable="true"            
+            android:keyWidth="13%p"
+            android:keyEdgeFlags="right"
+            android:keyLabel="PgUp" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="@integer/key_scroll_lock"
+            android:isModifier="true"
+            android:keyWidth="12%p"
+            android:keyEdgeFlags="left"
+            android:keyLabel="ScrL" />
+        <Key android:keyLabel="~" android:keyWidth="9%p" />            
+        <Key android:keyLabel="_" android:keyWidth="9%p" />            
+        <Key android:keyLabel="+" android:keyWidth="9%p" />            
+        <Key android:keyLabel="{" android:keyWidth="9%p" />            
+        <Key android:keyLabel="}" android:keyWidth="9%p" />            
+        <Key android:keyLabel="|" android:keyWidth="9%p" />            
+        <Key android:keyLabel=":" android:keyWidth="9%p" />            
+
+        <Key
+            android:codes="@integer/key_forward_del"
+            android:keyLabel="Del"
+            android:isRepeatable="true"            
+            android:isModifier="true"            
+            android:keyWidth="12%p" />
+        <Key
+            android:codes="@integer/key_page_down"
+            android:isModifier="true"
+            android:isRepeatable="true"
+            android:keyWidth="13%p"
+            android:keyLabel="PgDn"
+            android:keyEdgeFlags="right" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="@integer/key_num_lock"
+            android:keyWidth="12%p"
+            android:isModifier="true"
+            android:keyEdgeFlags="left"
+            android:keyLabel="NumL" />
+
+        <Key android:keyLabel="`" android:keyWidth="9%p" />            
+        <Key android:keyLabel="-" android:keyWidth="9%p" />            
+        <Key android:keyLabel="=" android:keyWidth="9%p" />            
+        <Key android:keyLabel="[" android:keyWidth="9%p" />            
+        <Key android:keyLabel="]" android:keyWidth="9%p" />            
+        <Key android:keyLabel="\\" android:keyWidth="9%p" />            
+        <Key android:keyLabel=";" android:keyWidth="9%p" />            
+
+        <Key
+            android:codes="@integer/key_home"
+            android:keyWidth="12%p"
+            android:keyLabel="Home"
+            android:isModifier="true" />
+         <Key
+            android:codes="@integer/key_end"
+            android:keyLabel="End"
+            android:keyWidth="13%p"
+            android:keyEdgeFlags="right"
+            android:isModifier="true" />
+    </Row>
+    
+    <Row android:rowEdgeFlags="bottom"
+         android:keyWidth="9.09090909%p"
+    >
+        <Key
+            android:codes="@integer/key_fn"
+            android:keyLabel="Fn"
+            android:isModifier="true"
+            android:keyWidth="8.29090909%p"
+            android:keyEdgeFlags="left" />
+        <Key
+            android:keyLabel="Ctrl"
+            android:codes="@integer/key_ctrl_left"
+            android:isSticky="true"
+            android:keyWidth="8.29090909%p"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_alt_left"
+            android:keyLabel="Alt"
+            android:isSticky="true"
+            android:keyWidth="8.29090909%p"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_meta_left"
+            android:keyLabel="&#x2756;"
+            android:isSticky="true"
+            android:keyWidth="8.29090909%p"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_shift"
+            android:keyWidth="8.29090909%p"
+            android:keyIcon="@drawable/sym_keyboard_shift"
+            android:iconPreview="@drawable/sym_keyboard_feedback_shift"
+            android:isModifier="true"
+            android:isSticky="true" />
+        <Key
+            android:keyLabel=".com"
+            android:keyOutputText=".com"
+            android:popupKeyboard="@xml/popup_domains"
+            android:keyWidth="10.145454545%p"
+            android:keyIcon="@drawable/hint_popup" />
+        <Key
+            android:keyLabel=":-)"
+            android:keyOutputText=":-) "
+            android:popupKeyboard="@xml/popup_smileys"
+            android:keyWidth="10.145454545%p"
+            android:keyIcon="@drawable/hint_popup" />
+        <Key
+            android:codes="@integer/key_dpad_center"
+            android:isModifier="true"
+            android:isCursor="true"
+            android:keyWidth="8.29090909%p"
+            android:keyLabel="&#x25cb;" />
+        <Key
+            android:codes="@integer/key_dpad_left"
+            android:isModifier="true"
+            android:isRepeatable="true"            
+            android:isCursor="true"
+            android:keyWidth="7.49090909%p"
+            android:keyLabel="&#x25c1;" />
+        <Key
+            android:codes="@integer/key_dpad_down"
+            android:isModifier="true"
+            android:isRepeatable="true"
+            android:isCursor="true"
+            android:keyWidth="7.49090909%p"
+            android:keyLabel="&#x25bd;" />
+        <Key
+            android:codes="@integer/key_dpad_up"
+            android:isRepeatable="true"            
+            android:keyLabel="&#x25b3;" 
+            android:isCursor="true"
+            android:keyWidth="7.49090909%p"
+            android:isModifier="true" />
+        <Key
+            android:codes="@integer/key_dpad_right"
+            android:isModifier="true"            
+            android:keyLabel="&#x25b7;"
+            android:isRepeatable="true"            
+            android:isCursor="true"
+            android:keyWidth="7.49090909%p"
+            android:keyEdgeFlags="right" />
+    </Row>
+</Keyboard>

@@ -1,8 +1,0 @@
--keep class org.pocketworkstation.pckeyboard.BinaryDictionary {
-  int mDictLength;
-  <init>(...); 
-}
-
--keep class org.pocketworkstation.pckeyboard.Suggest {
-  <init>(...);
-}
