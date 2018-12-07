@@ -638,7 +638,7 @@ public class Keyboard {
                 hint = "";
                 if (shiftLabel != null && !isSimpleUppercase) {
                     char c = shiftLabel.charAt(0);
-                    if (wantAll || wantAscii && is7BitAscii(c)) {
+                    if (wantAll || wantAscii && isNotAlpha(c)) {
                         hint = Character.toString(c);
                     }
                 }
@@ -663,6 +663,11 @@ public class Keyboard {
         private static boolean is7BitAscii(char c) {
             if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) return false;
             return c >= 32 && c < 127;
+        }
+
+        private static boolean isNotAlpha(char c) {
+            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) return false;
+            return true;
         }
         
         /**
