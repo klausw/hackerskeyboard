@@ -26,10 +26,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/keyboard_bottom_padding"
-        android:background="@drawable/keyboard_background_lxx_dark"
-        latin:keyTextColor="@color/key_text_color_lxx_dark"
-        latin:keyHintColor="@color/key_hint_letter_color_lxx_dark"
+        android:background="@drawable/keyboard_background_material_dark"
+        latin:keyTextColor="@color/key_text_color_material_dark"
+        latin:keyHintColor="@color/key_hint_letter_color_material_dark"
 
-        latin:keyBackground="@drawable/btn_keyboard_key_lxx_dark"
+        latin:keyBackground="@drawable/btn_keyboard_key_material_dark"
         latin:popupLayout="@layout/input_popup_material_dark"
         />

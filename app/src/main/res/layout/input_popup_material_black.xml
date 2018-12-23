@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:background="@color/latinkeyboard_transparent"
 
-            latin:keyBackground="@drawable/btn_keyboard_key_popup_lxx_black"
+            latin:keyBackground="@drawable/btn_keyboard_key_popup_material_black"
             latin:keyHysteresisDistance="0dip"
             latin:verticalCorrection="@dimen/mini_keyboard_vertical_correction"
             latin:keyPreviewLayout="@layout/null_layout"
