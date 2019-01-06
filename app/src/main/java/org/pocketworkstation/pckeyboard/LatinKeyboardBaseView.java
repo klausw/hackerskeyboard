@@ -1045,7 +1045,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
                 // Draw alternate hint label (if present) behind the main key
                 String altHint = key.getAltHintLabel(showHints7Bit(), showHintsAll());
-                if (!altHint.equals("")) {
+                if (!altHint.equals("") && !key.isShifted()) {
                     int hintTextSize = (int)(mKeyTextSize * 0.6 * mLabelScale);
                     paintHint.setTextSize(hintTextSize);
 
@@ -1062,7 +1062,8 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 // Draw main key label
                 final int centerX = Math.round(
                         (key.width + padding.left - padding.right) / 2
-                        * (altHint.equals("") ? 1f : KEY_LABEL_ALTHINT_HORIZONTAL_ADJUSTMENT_FACTOR));
+                        * (!altHint.equals("") && !key.isShifted()
+                                ? KEY_LABEL_ALTHINT_HORIZONTAL_ADJUSTMENT_FACTOR : 1f));
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
