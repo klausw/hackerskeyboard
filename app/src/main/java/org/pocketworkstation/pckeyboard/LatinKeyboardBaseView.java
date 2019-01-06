@@ -274,6 +274,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private final HashMap<Integer, Integer> mTextHeightCache = new HashMap<Integer, Integer>();
     // Distance from horizontal center of the key, proportional to key label text height.
     private final float KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR = 0.55f;
+    private final float KEY_LABEL_ALTHINT_HORIZONTAL_ADJUSTMENT_FACTOR = 0.70f;
     private final String KEY_LABEL_HEIGHT_REFERENCE_CHAR = "H";
     /* package */ static Method sSetRenderMode;
     private static int sPrevRenderMode = -1;
@@ -1059,7 +1060,9 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 }
 
                 // Draw main key label
-                final int centerX = (key.width + padding.left - padding.right) / 2;
+                final int centerX = Math.round(
+                        (key.width + padding.left - padding.right) / 2
+                        * (altHint.equals("") ? 1f : KEY_LABEL_ALTHINT_HORIZONTAL_ADJUSTMENT_FACTOR));
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
