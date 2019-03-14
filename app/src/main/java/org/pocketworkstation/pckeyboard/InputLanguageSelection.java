@@ -78,17 +78,17 @@ public class InputLanguageSelection extends PreferenceActivity {
 
     private static final String[] KBD_5_ROW = {
         "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
-        "en", "en_CX", "en_DV", "en_WM", "en_GB", "es", "es_LA", "fa", "fi",
-        "fr", "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo",
-        "lt", "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
+        "en", "en_CX", "en_DV", "en_WM", "en_GB", "es", "es_LA", "fa", "fi", "fr",
+        "fr_CA", "he", "hr", "hu", "hu_QY", "hy", "it", "iw", "lo", "lt",
+        "nb", "pt_PT", "ro", "ru", "ru_PH", "si", "sk", "sk_QY", "sl",
         "sr", "sv", "ta", "th", "tr", "uk"
     };
 
     private static final String[] KBD_4_ROW = {
         "ar", "bg", "bg_ST", "cs", "cs_QY", "da", "de", "de_NE", "el",
-        "en", "en_CX", "en_DV", "en_WM", "es", "es_LA", "es_US", "fa", "fr",
-        "fr_CA", "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk",
-        "sk_QY", "sl", "sr", "sv", "tr", "uk"
+        "en", "en_CX", "en_DV", "en_WM", "es", "es_LA", "es_US", "fa", "fr", "fr_CA",
+        "he", "hr", "hu", "hu_QY", "iw", "nb", "ru", "ru_PH", "sk", "sk_QY",
+        "sl", "sr", "sv", "tr", "uk"
     };
 
     private static String getLocaleName(Locale l) {

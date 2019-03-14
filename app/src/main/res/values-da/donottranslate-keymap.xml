@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+**
+** Copyright 2010, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+**
+**
+** 5-row layout for Danish QWERTY. 
+** By Christian Holm Christensen <cholmcc@gmail.com>.
+** Based on 5-row layout for Swedish QWERTY.
+**
+** See https://github.com/klausw/hackerskeyboard/wiki/AddingNewLayouts for
+** more information.
+*/
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="key_tlde_main">§</string>
+    <string name="key_tlde_shift">½</string>
+    <string name="key_tlde_alt">§½¼¾¶</string>
+    
+    <string name="key_ae01_main">1</string>
+    <string name="key_ae01_shift">!</string>
+    <string name="key_ae01_alt">1!¡¹</string>
+
+    <string name="key_ae02_main">2</string>
+    <string name="key_ae02_shift">\"</string>
+    <string name="key_ae02_alt">2\"\@²</string>
+    
+    <string name="key_ae03_main">3</string>
+    <string name="key_ae03_shift">#</string>
+    <string name="key_ae03_alt">3#£³</string>
+    
+    <string name="key_ae04_main">4</string>
+    <string name="key_ae04_shift">¤</string>
+    <string name="key_ae04_alt">4¤$¼</string>
+    
+    <string name="key_ae05_main">5</string>
+    <string name="key_ae05_shift">%</string>
+    <string name="key_ae05_alt">5%½¢</string>
+    
+    <string name="key_ae06_main">6</string>
+    <string name="key_ae06_shift">&amp;</string>
+    <string name="key_ae06_alt">6&amp;¥⅝</string>
+    
+    <string name="key_ae07_main">7</string>
+    <string name="key_ae07_shift">/</string>
+    <string name="key_ae07_alt">7/{÷</string>
+    
+    <string name="key_ae08_main">8</string>
+    <string name="key_ae08_shift">(</string>
+    <string name="key_ae08_alt">8([«</string>
+    
+    <string name="key_ae09_main">9</string>
+    <string name="key_ae09_shift">)</string>
+    <string name="key_ae09_alt">9)]»</string>
+    
+    <string name="key_ae10_main">0</string>
+    <string name="key_ae10_shift">=</string>
+    <string name="key_ae10_alt">0=}°</string>
+    
+    <string name="key_ae11_main">+</string>
+    <string name="key_ae11_shift">\?</string>
+    <string name="key_ae11_alt">+\?\\¿±</string>
+    
+    <string name="key_ae12_main">&#x301;</string>
+    <string name="key_ae12_shift">&#x300;</string>
+    <string name="key_ae12_alt">&#x301;&#x300;`|¦</string>
+
+
+    <string name="key_ad01_main">q</string>
+    <string name="key_ad01_shift">Q</string>
+    <string name="key_ad01_alt">\@Ω</string>
+    
+    <string name="key_ad02_main">w</string>
+    <string name="key_ad02_shift">W</string>
+    <string name="key_ad02_alt">ł</string>
+    
+    <string name="key_ad03_main">e</string>
+    <string name="key_ad03_shift">E</string>
+    <string name="key_ad03_alt">€¢éèêë</string>
+
+    <string name="key_ad04_main">r</string>
+    <string name="key_ad04_shift">R</string>
+    <string name="key_ad04_alt">r®</string>
+    
+    <string name="key_ad05_main">t</string>
+    <string name="key_ad05_shift">T</string>
+    <string name="key_ad05_alt">þ</string>
+    
+    <string name="key_ad06_main">y</string>
+    <string name="key_ad06_shift">Y</string>
+    <string name="key_ad06_alt">ÿ←¥</string>
+
+    <string name="key_ad07_main">u</string>
+    <string name="key_ad07_shift">U</string>
+    <string name="key_ad07_alt">üû↓↑</string>
+    
+    <string name="key_ad08_main">i</string>
+    <string name="key_ad08_shift">I</string>
+    <string name="key_ad08_alt">íï→ı</string>
+    
+    <string name="key_ad09_main">o</string>
+    <string name="key_ad09_shift">O</string>
+    <string name="key_ad09_alt">ôõœ</string>
+    
+    <string name="key_ad10_main">p</string>
+    <string name="key_ad10_shift">P</string>
+    <string name="key_ad10_alt">þ</string>
+    
+    <string name="key_ad11_main">å</string>
+    <string name="key_ad11_shift">Å</string>
+    <string name="key_ad11_alt">&#x308;&#x30a;</string>
+    
+    <string name="key_ad12_main">&#x308;</string>
+    <string name="key_ad12_shift">&#x302;</string>
+    <string name="key_ad12_alt">&#x308;&#x302;~&#x303;&#x30c;</string>  
+
+
+    <string name="key_bksl_main">\'</string>
+    <string name="key_bksl_shift">*</string>
+    <string name="key_bksl_alt">\'*×˝</string>
+
+    <string name="key_ac01_main">a</string>
+    <string name="key_ac01_shift">A</string>
+    <string name="key_ac01_alt">âãáà@ªº</string>
+
+    <string name="key_ac02_main">s</string>
+    <string name="key_ac02_shift">S</string>
+    <string name="key_ac02_alt">ß§</string>
+
+    <string name="key_ac03_main">d</string>
+    <string name="key_ac03_shift">D</string>
+    <string name="key_ac03_alt">ð</string>
+
+    <string name="key_ac04_main">f</string>
+    <string name="key_ac04_shift">F</string>
+    <string name="key_ac04_alt">đª</string>
+
+    <string name="key_ac05_main">g</string>
+    <string name="key_ac05_shift">G</string>
+    <string name="key_ac05_alt">ŋ</string>
+
+    <string name="key_ac06_main">h</string>
+    <string name="key_ac06_shift">H</string>
+    <string name="key_ac06_alt">ħ</string>
+
+    <string name="key_ac07_main">j</string>
+    <string name="key_ac07_shift">J</string>
+    <string name="key_ac07_alt"></string>
+
+    <string name="key_ac08_main">k</string>
+    <string name="key_ac08_shift">K</string>
+    <string name="key_ac08_alt">ĸ&amp;</string>
+
+    <string name="key_ac09_main">l</string>
+    <string name="key_ac09_shift">L</string>
+    <string name="key_ac09_alt">ł</string>
+
+    <string name="key_ac10_main">æ</string>
+    <string name="key_ac10_shift">Æ</string>
+    <string name="key_ac10_alt">ä\'˝</string>
+
+    <string name="key_ac11_main">ø</string>
+    <string name="key_ac11_shift">Ø</string>
+    <string name="key_ac11_alt">ö^ˇ</string>
+
+    <string name="key_lsgt_main">&gt;</string>
+    <string name="key_lsgt_shift">&lt;</string>
+    <string name="key_lsgt_alt">&gt;&lt;|«»</string>
+    
+    <string name="key_ab01_main">z</string>
+    <string name="key_ab01_shift">Z</string>
+    <string name="key_ab01_alt">«&lt;</string>
+
+    <string name="key_ab02_main">x</string>
+    <string name="key_ab02_shift">X</string>
+    <string name="key_ab02_alt">»&gt;</string>
+
+    <string name="key_ab03_main">c</string>
+    <string name="key_ab03_shift">C</string>
+    <string name="key_ab03_alt">©</string>
+
+    <string name="key_ab04_main">v</string>
+    <string name="key_ab04_shift">V</string>
+    <string name="key_ab04_alt">“‘</string>
+
+    <string name="key_ab05_main">b</string>
+    <string name="key_ab05_shift">B</string>
+    <string name="key_ab05_alt">”’</string>
+
+    <string name="key_ab06_main">n</string>
+    <string name="key_ab06_shift">N</string>
+    <string name="key_ab06_alt">ñ</string>
+
+    <string name="key_ab07_main">m</string>
+    <string name="key_ab07_shift">M</string>
+    <string name="key_ab07_alt">µº</string>
+
+    <string name="key_ab08_main">,</string>
+    <string name="key_ab08_shift">;</string>
+    <string name="key_ab08_alt">,;</string>
+
+    <string name="key_ab09_main">.</string>
+    <string name="key_ab09_shift">:</string>
+    <string name="key_ab09_alt">.:·˙</string>
+
+    <string name="key_ab10_main">-</string>
+    <string name="key_ab10_shift">_</string>
+    <string name="key_ab10_alt">-¯̣ ˙</string>
+</resources>

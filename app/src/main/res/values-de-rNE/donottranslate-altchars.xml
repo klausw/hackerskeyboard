@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+**
+** Copyright 2010, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="alternates_for_x">1…ξΞ</string>
+    <string name="alternates_for_v">2_√</string>
+    <string name="alternates_for_l">3[λΛ</string>
+    <string name="alternates_for_c">4]χ</string>
+    <string name="alternates_for_w">5^ω</string>
+    <string name="alternates_for_k">6!¡κ</string>
+    <string name="alternates_for_h">7&lt;ψΨ</string>
+    <string name="alternates_for_g">8&gt;γΓ</string>
+    <string name="alternates_for_f">9=φΦ</string>
+    <string name="alternates_for_q">0&amp;ϕ</string>
+    <string name="alternates_for_u">\\⊂</string>
+    <string name="alternates_for_i">/∫</string>
+    <string name="alternates_for_a">{α∀</string>
+    <string name="alternates_for_e">}ε∃</string>
+    <string name="alternates_for_o">*ο</string>
+    <string name="alternates_for_s">\?¿σ</string>
+    <string name="alternates_for_n">(νℕ</string>
+    <string name="alternates_for_r">)ρℝ</string>
+    <string name="alternates_for_t">-τ∂</string>
+    <string name="alternates_for_d">:δΔ</string>
+    <string name="alternates_for_y">\@υ</string>
+    <string name="alternates_for_p">~πΠ</string>
+    <string name="alternates_for_z">`ζℤ</string>
+    <string name="alternates_for_b">+β⇐</string>
+    <string name="alternates_for_m">%μ⇔</string>
+    <string name="alternates_for_j">;θΘ</string>
+</resources>

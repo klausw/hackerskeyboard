@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+**
+** Copyright 2010, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+**
+**
+** 5-row layout for Hebrew.
+**
+** See https://github.com/klausw/hackerskeyboard/wiki/AddingNewLayouts for
+** more information.
+*/
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="key_tlde_main">;</string>
+    <string name="key_tlde_shift">~</string>
+    <string name="key_tlde_alt">;~</string>
+    
+    <string name="key_ae01_main">1</string>
+    <string name="key_ae01_shift">!</string>
+    <string name="key_ae01_alt">1!¡¹½⅓¼⅛</string>
+
+    <string name="key_ae02_main">2</string>
+    <string name="key_ae02_shift">\@</string>
+    <string name="key_ae02_alt">2\@²⅔</string>
+    
+    <string name="key_ae03_main">3</string>
+    <string name="key_ae03_shift">#</string>
+    <string name="key_ae03_alt">3#³¾⅜♥♠♦♣</string>
+    
+    <string name="key_ae04_main">4</string>
+    <string name="key_ae04_shift">$</string>
+    <string name="key_ae04_alt">4$⁴¢£€¥</string>
+    
+    <string name="key_ae05_main">5</string>
+    <string name="key_ae05_shift">%</string>
+    <string name="key_ae05_alt">5%⅝‰</string>
+    
+    <string name="key_ae06_main">6</string>
+    <string name="key_ae06_shift">^</string>
+    <string name="key_ae06_alt">6^↑↓←→</string>
+    
+    <string name="key_ae07_main">7</string>
+    <string name="key_ae07_shift">&amp;</string>
+    <string name="key_ae07_alt">7&amp;⅞♪</string>
+    
+    <string name="key_ae08_main">8</string>
+    <string name="key_ae08_shift">*</string>
+    <string name="key_ae08_alt">8*•★∞†‡</string>
+    
+    <string name="key_ae09_main">9</string>
+    <string name="key_ae09_shift">)</string>
+    <string name="key_ae09_alt">9)√</string>
+    
+    <string name="key_ae10_main">0</string>
+    <string name="key_ae10_shift">(</string>
+    <string name="key_ae10_alt">0(ⁿ°</string>
+    
+    <string name="key_ae11_main">-</string>
+    <string name="key_ae11_shift">_</string>
+    <string name="key_ae11_alt">-_—–</string>
+    
+    <string name="key_ae12_main">=</string>
+    <string name="key_ae12_shift">+</string>
+    <string name="key_ae12_alt">=+≈≠±×÷</string>
+
+
+    <string name="key_ad01_main">/</string>
+    <string name="key_ad01_shift">Q</string>
+    <string name="key_ad01_alt">@string/alternates_for_q</string>
+    
+    <string name="key_ad02_main">\'</string>
+    <string name="key_ad02_shift">W</string>
+    <string name="key_ad02_alt">@string/alternates_for_w</string>
+    
+    <string name="key_ad03_main">ק</string>
+    <string name="key_ad03_shift">E</string>
+    <string name="key_ad03_alt">@string/alternates_for_e</string>
+
+    <string name="key_ad04_main">ר</string>
+    <string name="key_ad04_shift">R</string>
+    <string name="key_ad04_alt">@string/alternates_for_r</string>
+    
+    <string name="key_ad05_main">א</string>
+    <string name="key_ad05_shift">T</string>
+    <string name="key_ad05_alt">@string/alternates_for_t</string>
+    
+    <string name="key_ad06_main">ט</string>
+    <string name="key_ad06_shift">Y</string>
+    <string name="key_ad06_alt">@string/alternates_for_y</string>
+
+    <string name="key_ad07_main">ו</string>
+    <string name="key_ad07_shift">U</string>
+    <string name="key_ad07_alt">@string/alternates_for_u</string>
+    
+    <string name="key_ad08_main">ן</string>
+    <string name="key_ad08_shift">I</string>
+    <string name="key_ad08_alt">@string/alternates_for_i</string>
+    
+    <string name="key_ad09_main">ם</string>
+    <string name="key_ad09_shift">O</string>
+    <string name="key_ad09_alt">@string/alternates_for_o</string>
+    
+    <string name="key_ad10_main">פ</string>
+    <string name="key_ad10_shift">P</string>
+    <string name="key_ad10_alt">@string/alternates_for_p</string>
+    
+    <string name="key_ad11_main">]</string>
+    <string name="key_ad11_shift">}</string>
+    <string name="key_ad11_alt">]}</string>
+
+    <string name="key_ad12_main">[</string>
+    <string name="key_ad12_shift">{</string>
+    <string name="key_ad12_alt">[{</string>
+    
+    <string name="key_bksl_main">\\</string>
+    <string name="key_bksl_shift">|</string>
+    <string name="key_bksl_alt">\\|</string>
+    
+    
+    <string name="key_ac01_main">ש</string>
+    <string name="key_ac01_shift">A</string>
+    <string name="key_ac01_alt">@string/alternates_for_a</string>
+
+    <string name="key_ac02_main">ד</string>
+    <string name="key_ac02_shift">S</string>
+    <string name="key_ac02_alt">@string/alternates_for_s</string>
+
+    <string name="key_ac03_main">ג</string>
+    <string name="key_ac03_shift">D</string>
+    <string name="key_ac03_alt">@string/alternates_for_d</string>
+
+    <string name="key_ac04_main">כ</string>
+    <string name="key_ac04_shift">F</string>
+    <string name="key_ac04_alt">@string/alternates_for_f</string>
+
+    <string name="key_ac05_main">ע</string>
+    <string name="key_ac05_shift">G</string>
+    <string name="key_ac05_alt">@string/alternates_for_g</string>
+
+    <string name="key_ac06_main">י</string>
+    <string name="key_ac06_shift">H</string>
+    <string name="key_ac06_alt">@string/alternates_for_h</string>
+
+    <string name="key_ac07_main">ח</string>
+    <string name="key_ac07_shift">J</string>
+    <string name="key_ac07_alt">@string/alternates_for_j</string>
+
+    <string name="key_ac08_main">ל</string>
+    <string name="key_ac08_shift">K</string>
+    <string name="key_ac08_alt">@string/alternates_for_k</string>
+
+    <string name="key_ac09_main">ך</string>
+    <string name="key_ac09_shift">L</string>
+    <string name="key_ac09_alt">@string/alternates_for_l</string>
+
+    <string name="key_ac10_main">ף</string>
+    <string name="key_ac10_shift">:</string>
+    <string name="key_ac10_alt">ף:</string>
+
+    <string name="key_ac11_main">,</string>
+    <string name="key_ac11_shift">\"</string>
+    <string name="key_ac11_alt">,\"‘’“”</string>
+
+
+    <string name="key_ab01_main">ז</string>
+    <string name="key_ab01_shift">Z</string>
+    <string name="key_ab01_alt">@string/alternates_for_z</string>
+
+    <string name="key_ab02_main">ס</string>
+    <string name="key_ab02_shift">X</string>
+    <string name="key_ab02_alt">@string/alternates_for_x</string>
+
+    <string name="key_ab03_main">ב</string>
+    <string name="key_ab03_shift">C</string>
+    <string name="key_ab03_alt">@string/alternates_for_c</string>
+
+    <string name="key_ab04_main">ה</string>
+    <string name="key_ab04_shift">V</string>
+    <string name="key_ab04_alt">@string/alternates_for_v</string>
+
+    <string name="key_ab05_main">נ</string>
+    <string name="key_ab05_shift">B</string>
+    <string name="key_ab05_alt">@string/alternates_for_b</string>
+
+    <string name="key_ab06_main">מ</string>
+    <string name="key_ab06_shift">N</string>
+    <string name="key_ab06_alt">@string/alternates_for_n</string>
+
+    <string name="key_ab07_main">צ</string>
+    <string name="key_ab07_shift">M</string>
+    <string name="key_ab07_alt">@string/alternates_for_m</string>
+
+    <string name="key_ab08_main">ת</string>
+    <string name="key_ab08_shift">&gt;</string>
+    <string name="key_ab08_alt">&gt;≥»›</string>
+
+    <string name="key_ab09_main">ץ</string>
+    <string name="key_ab09_shift">&lt;</string>
+    <string name="key_ab09_alt">&lt;≤«‹</string>
+
+    <string name="key_ab10_main">.</string>
+    <string name="key_ab10_shift">\?</string>
+    <string name="key_ab10_alt">.?\?¿</string>
+</resources>
