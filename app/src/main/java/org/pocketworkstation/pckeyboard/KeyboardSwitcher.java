@@ -66,10 +66,10 @@ public class KeyboardSwitcher implements
         R.layout.input_gingerbread,
         R.layout.input_stone_bold,
         R.layout.input_trans_neon,
-		R.layout.input_popup_material_black,
         R.layout.input_material_dark,
         R.layout.input_material_light,
         R.layout.input_ics_darker,
+        R.layout.input_material_black,
     };
 
     // Tables which contains resource ids for each character theme color
