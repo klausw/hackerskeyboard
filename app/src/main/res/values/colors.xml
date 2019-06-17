@@ -35,12 +35,16 @@
     <color name="latinkeyboard_key_color_black">#FF000000</color>
 
 <!--Material Keyboard Colors-->
-    <color name="key_background_lxx_dark">#263238</color>
-    <color name="key_background_pressed_lxx_dark">#19FFFFFF</color>
-    <color name="key_text_color_lxx_dark">#CCFFFFFF</color>
-    <color name="key_hint_letter_color_lxx_dark">#80FFFFFF</color>
-    <color name="key_background_lxx_light">#ECEFF1</color>
-    <color name="key_background_pressed_lxx_light">#2637474F</color>
-    <color name="key_text_color_lxx_light">#000000</color>
-    <color name="key_hint_letter_color_lxx_light">#B337474F</color>
+    <color name="key_background_material_black">#000000</color>
+    <color name="key_background_pressed_material_black">#19FFFFFF</color>
+    <color name="key_text_color_material_black">#CCFFFFFF</color>
+    <color name="key_hint_letter_color_material_black">#80FFFFFF</color>
+    <color name="key_background_material_dark">#263238</color>
+    <color name="key_background_pressed_material_dark">#19FFFFFF</color>
+    <color name="key_text_color_material_dark">#CCFFFFFF</color>
+    <color name="key_hint_letter_color_material_dark">#80FFFFFF</color>
+    <color name="key_background_material_light">#ECEFF1</color>
+    <color name="key_background_pressed_material_light">#2637474F</color>
+    <color name="key_text_color_material_light">#000000</color>
+    <color name="key_hint_letter_color_material_light">#B337474F</color>
 </resources>
