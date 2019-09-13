@@ -8,7 +8,7 @@ Id="$(git describe --tags)"
 
 Ver="$Id $(date +%Y-%m-%d)"
 
-if [ ."$1" = ."reset" ]; then
+if [[ ."$1" = ."reset" ]]; then
   Ver="custom"
 else
   echo "*** Version: $Ver"
