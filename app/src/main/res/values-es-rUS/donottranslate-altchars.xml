@@ -19,12 +19,12 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="alternates_for_a">áàâãäåæ</string>
-    <string name="alternates_for_e">3éèêë€</string>
-    <string name="alternates_for_i">8íìïî</string>
-    <string name="alternates_for_o">9óòõôöœø</string>
-    <string name="alternates_for_u">7úùüû</string>
+    <string name="alternates_for_e">3₃³éèêë€</string>
+    <string name="alternates_for_i">8₈⁸íìïî</string>
+    <string name="alternates_for_o">9₉⁹óòõôöœø</string>
+    <string name="alternates_for_u">7₇⁷úùüû</string>
     <string name="alternates_for_s">§ß</string>
     <string name="alternates_for_n">ñ</string>
     <string name="alternates_for_c">ç</string>
-    <string name="alternates_for_y">6ýÿ</string>
+    <string name="alternates_for_y">6₆⁶ýÿ</string>
 </resources>

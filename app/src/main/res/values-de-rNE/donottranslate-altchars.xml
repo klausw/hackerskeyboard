@@ -18,16 +18,16 @@
 */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="alternates_for_x">1…ξΞ</string>
-    <string name="alternates_for_v">2_√</string>
-    <string name="alternates_for_l">3[λΛ</string>
-    <string name="alternates_for_c">4]χ</string>
-    <string name="alternates_for_w">5^ω</string>
-    <string name="alternates_for_k">6!¡κ</string>
-    <string name="alternates_for_h">7&lt;ψΨ</string>
-    <string name="alternates_for_g">8&gt;γΓ</string>
-    <string name="alternates_for_f">9=φΦ</string>
-    <string name="alternates_for_q">0&amp;ϕ</string>
+    <string name="alternates_for_x">1₁¹…ξΞ</string>
+    <string name="alternates_for_v">2₂²_√</string>
+    <string name="alternates_for_l">3₃³[λΛ</string>
+    <string name="alternates_for_c">4₄⁴]χ</string>
+    <string name="alternates_for_w">5₅⁵^ω</string>
+    <string name="alternates_for_k">6₆⁶!¡κ</string>
+    <string name="alternates_for_h">7₇⁷&lt;ψΨ</string>
+    <string name="alternates_for_g">8₈⁸&gt;γΓ</string>
+    <string name="alternates_for_f">9₉⁹=φΦ</string>
+    <string name="alternates_for_q">0₀⁰&amp;ϕ</string>
     <string name="alternates_for_u">\\⊂</string>
     <string name="alternates_for_i">/∫</string>
     <string name="alternates_for_a">{α∀</string>
