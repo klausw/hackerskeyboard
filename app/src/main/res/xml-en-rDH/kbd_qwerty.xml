@@ -103,9 +103,9 @@
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_g" />
         <Key
-            android:keyLabel="k"
+            android:keyLabel="m"
             android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_k" />
+            android:popupCharacters="@string/alternates_for_m" />
         <Key
             android:keyLabel="n"
             android:popupKeyboard="@xml/kbd_popup_template"
@@ -158,7 +158,7 @@
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_k" />
         <Key
-            android:keyLabel="m"
+            android:keyLabel="h"
             android:popupKeyboard="@xml/kbd_popup_template"
             android:popupCharacters="@string/alternates_for_m" />
         <Key

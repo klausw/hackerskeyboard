@@ -150,9 +150,9 @@
     <string name="key_ac05_shift">G</string>
     <string name="key_ac05_alt">@string/alternates_for_g</string>
 
-    <string name="key_ac06_main">k</string>
-    <string name="key_ac06_shift">K</string>
-    <string name="key_ac06_alt">@string/alternates_for_k</string>
+    <string name="key_ac06_main">m</string>
+    <string name="key_ac06_shift">M</string>
+    <string name="key_ac06_alt">@string/alternates_for_m</string>
 
     <string name="key_ac07_main">n</string>
     <string name="key_ac07_shift">N</string>
@@ -199,9 +199,9 @@
     <string name="key_ab05_shift">V</string>
     <string name="key_ab05_alt">@string/alternates_for_v</string>
 
-    <string name="key_ab06_main">m</string>
-    <string name="key_ab06_shift">M</string>
-    <string name="key_ab06_alt">@string/alternates_for_m</string>
+    <string name="key_ab06_main">k</string>
+    <string name="key_ab06_shift">K</string>
+    <string name="key_ab06_alt">@string/alternates_for_k</string>
 
     <string name="key_ab07_main">h</string>
     <string name="key_ab07_shift">H</string>
