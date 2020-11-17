@@ -50,7 +50,7 @@
             android:defaultValue="@string/default_click_method"
             android:persistent="true"
             />
-    
+
     <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
             android:defaultValue="@string/default_click_volume"
             hk:minValue="0"
@@ -67,5 +67,16 @@
             android:persistent="true"
             android:defaultValue="@bool/default_popup_preview"
             />
+
+    <org.pocketworkstation.pckeyboard.SeekBarPreferenceString
+            android:defaultValue="@string/popup_duration_ms"
+            hk:minValue="10"
+            hk:maxValue="500"
+            hk:logScale="false"
+            hk:displayFormat="%.0f ms"
+            android:key="pref_popup_duration"
+            android:title="@string/title_popup_duration"
+            android:persistent="true"
+        />
 
 </PreferenceScreen>
