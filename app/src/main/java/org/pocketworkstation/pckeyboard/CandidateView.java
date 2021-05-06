@@ -16,6 +16,7 @@
 
 package org.pocketworkstation.pckeyboard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -45,7 +46,7 @@ public class CandidateView extends View {
     private static final int OUT_OF_BOUNDS_X_COORD = -1;
 
     private LatinIME mService;
-    private final ArrayList<CharSequence> mSuggestions = new ArrayList<CharSequence>();
+    private final ArrayList<CharSequence> mSuggestions = new ArrayList<>();
     private boolean mShowingCompletions;
     private CharSequence mSelectedString;
     private int mSelectedIndex;
@@ -67,8 +68,6 @@ public class CandidateView extends View {
     
     private final int[] mWordWidth = new int[MAX_SUGGESTIONS];
     private final int[] mWordX = new int[MAX_SUGGESTIONS];
-    private int mPopupPreviewX;
-    private int mPopupPreviewY;
 
     private static final int X_GAP = 10;
     
@@ -94,14 +93,13 @@ public class CandidateView extends View {
      * @param context
      * @param attrs
      */
+    @SuppressLint("InflateParams")
     public CandidateView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mSelectionHighlight = context.getResources().getDrawable(
                 R.drawable.list_selector_background_pressed);
 
-        LayoutInflater inflate =
-            (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Resources res = context.getResources();
         mPreviewPopup = new PopupWindow(context);
         mPreviewText = (TextView) inflate.inflate(R.layout.candidate_preview, null);
@@ -335,7 +333,7 @@ public class CandidateView extends View {
         mTargetScrollX = 0;
         mHaveMinimalSuggestion = haveMinimalSuggestion;
         // Compute the total width
-        onDraw(null);
+        draw(null);
         invalidate();
         requestLayout();
     }
@@ -345,7 +343,7 @@ public class CandidateView extends View {
     }
 
     public void showAddToDictionaryHint(CharSequence word) {
-        ArrayList<CharSequence> suggestions = new ArrayList<CharSequence>();
+        ArrayList<CharSequence> suggestions = new ArrayList<>();
         suggestions.add(word);
         suggestions.add(mAddToDictionaryHint);
         setSuggestions(suggestions, false, false, false);
@@ -457,9 +455,9 @@ public class CandidateView extends View {
                         + mPreviewText.getPaddingLeft() + mPreviewText.getPaddingRight();
                 final int popupHeight = mPreviewText.getMeasuredHeight();
                 //mPreviewText.setVisibility(INVISIBLE);
-                mPopupPreviewX = mWordX[wordIndex] - mPreviewText.getPaddingLeft() - getScrollX()
+                int mPopupPreviewX = mWordX[wordIndex] - mPreviewText.getPaddingLeft() - getScrollX()
                         + (mWordWidth[wordIndex] - wordWidth) / 2;
-                mPopupPreviewY = - popupHeight;
+                int mPopupPreviewY = -popupHeight;
                 int [] offsetInWindow = new int[2];
                 getLocationInWindow(offsetInWindow);
                 if (mPreviewPopup.isShowing()) {
