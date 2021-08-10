@@ -97,6 +97,7 @@ public class LatinIME extends InputMethodService implements
     static final String PREF_VIBRATE_LEN = "vibrate_len";
     private static final String PREF_SOUND_ON = "sound_on";
     private static final String PREF_POPUP_ON = "popup_on";
+    private static final String PREF_POPUP_DURATION = "pref_popup_duration";
     private static final String PREF_AUTO_CAP = "auto_cap";
     private static final String PREF_QUICK_FIXES = "quick_fixes";
     private static final String PREF_SHOW_SUGGESTIONS = "show_suggestions";
@@ -200,6 +201,7 @@ public class LatinIME extends InputMethodService implements
     private boolean mPasswordText;
     private boolean mVibrateOn;
     private int mVibrateLen;
+    private int mPopupDuration;
     private boolean mSoundOn;
     private boolean mPopupOn;
     private boolean mAutoCapPref;
@@ -906,6 +908,7 @@ public class LatinIME extends InputMethodService implements
         updateCorrectionMode();
 
         inputView.setPreviewEnabled(mPopupOn);
+        inputView.setPreviewDuration(mPopupDuration);
         inputView.setProximityCorrectionEnabled(true);
         // If we just entered a text field, maybe it has some old text that
         // requires correction
@@ -2177,6 +2180,7 @@ public class LatinIME extends InputMethodService implements
         }
         mJustRevertedSeparator = null;
         ic.endBatchEdit();
+        updateShiftKeyState(getCurrentInputEditorInfo());
     }
 
     private void setModCtrl(boolean val) {
@@ -3036,6 +3040,8 @@ public class LatinIME extends InputMethodService implements
             mVolDownAction = sharedPreferences.getString(PREF_VOL_DOWN, res.getString(R.string.default_vol_down));
         } else if (PREF_VIBRATE_LEN.equals(key)) {
             mVibrateLen = getPrefInt(sharedPreferences, PREF_VIBRATE_LEN, getResources().getString(R.string.vibrate_duration_ms));
+        } else if (PREF_POPUP_DURATION.equals(key)) {
+            mPopupDuration = getPrefInt(sharedPreferences, PREF_POPUP_DURATION, getResources().getString(R.string.popup_duration_ms));
         }
 
         updateKeyboardOptions();
@@ -3385,6 +3391,7 @@ public class LatinIME extends InputMethodService implements
         mSoundOn = sp.getBoolean(PREF_SOUND_ON, false);
         mPopupOn = sp.getBoolean(PREF_POPUP_ON, mResources
                 .getBoolean(R.bool.default_popup_preview));
+        mPopupDuration = getPrefInt(sp, PREF_POPUP_DURATION, getResources().getString(R.string.popup_duration_ms));
         mAutoCapPref = sp.getBoolean(PREF_AUTO_CAP, getResources().getBoolean(
                 R.bool.default_auto_cap));
         mQuickFixes = sp.getBoolean(PREF_QUICK_FIXES, true);
@@ -3511,6 +3518,7 @@ public class LatinIME extends InputMethodService implements
         p.println("  mSoundOn=" + mSoundOn);
         p.println("  mVibrateOn=" + mVibrateOn);
         p.println("  mPopupOn=" + mPopupOn);
+        p.println("  mPopupDuration=" + mPopupDuration);
     }
 
     // Characters per second measurement

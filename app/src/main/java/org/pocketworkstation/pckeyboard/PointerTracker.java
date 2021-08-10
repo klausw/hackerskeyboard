@@ -222,11 +222,17 @@ public class PointerTracker {
             return false;
         int primaryCode = key.codes[0];
         return primaryCode == Keyboard.KEYCODE_SHIFT
+                || primaryCode == Keyboard.KEYCODE_DELETE
                 || primaryCode == Keyboard.KEYCODE_MODE_CHANGE
+                || primaryCode == LatinKeyboardView.KEYCODE_FORWARD_DEL
                 || primaryCode == LatinKeyboardView.KEYCODE_CTRL_LEFT
                 || primaryCode == LatinKeyboardView.KEYCODE_ALT_LEFT
                 || primaryCode == LatinKeyboardView.KEYCODE_META_LEFT
-                || primaryCode == LatinKeyboardView.KEYCODE_FN;
+                || primaryCode == LatinKeyboardView.KEYCODE_FN
+                || primaryCode == LatinKeyboardView.KEYCODE_DPAD_DOWN
+                || primaryCode == LatinKeyboardView.KEYCODE_DPAD_LEFT
+                || primaryCode == LatinKeyboardView.KEYCODE_DPAD_RIGHT
+                || primaryCode == LatinKeyboardView.KEYCODE_DPAD_UP;
     }
 
     public boolean isModifier() {
@@ -513,15 +519,15 @@ public class PointerTracker {
     }
 
     private void showKeyPreviewAndUpdateKey(int keyIndex) {
-        updateKey(keyIndex);
-        // The modifier key, such as shift key, should not be shown as preview when multi-touch is
-        // supported. On the other hand, if multi-touch is not supported, the modifier key should
-        // be shown as preview.
         if (mHasDistinctMultitouch && isModifier()) {
             mProxy.showPreview(NOT_A_KEY, this);
         } else {
             mProxy.showPreview(keyIndex, this);
         }
+        updateKey(keyIndex);
+        // The modifier key, such as shift key, should not be shown as preview when multi-touch is
+        // supported. On the other hand, if multi-touch is not supported, the modifier key should
+        // be shown as preview.
     }
 
     private void startLongPressTimer(int keyIndex) {

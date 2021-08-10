@@ -208,6 +208,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     protected int mPreviewTextSizeLarge;
     protected int[] mOffsetInWindow;
     protected int mOldPreviewKeyIndex = NOT_A_KEY;
+    protected int mPopupDuration;
     protected boolean mShowPreview = true;
     protected boolean mShowTouchPoints = true;
     protected int mPopupPreviewOffsetX;
@@ -216,7 +217,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     protected int mPopupPreviewDisplayedY;
     protected final int mDelayBeforePreview;
     protected final int mDelayBeforeSpacePreview;
-    protected final int mDelayAfterPreview;
 
     // Popup mini keyboard
     protected PopupWindow mMiniKeyboardPopup;
@@ -275,6 +275,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     private final HashMap<Integer, Integer> mTextHeightCache = new HashMap<Integer, Integer>();
     // Distance from horizontal center of the key, proportional to key label text height.
     private final float KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR = 0.55f;
+    private final float KEY_LABEL_ALTHINT_HORIZONTAL_ADJUSTMENT_FACTOR = 0.70f;
     private final String KEY_LABEL_HEIGHT_REFERENCE_CHAR = "H";
     /* package */ static Method sSetRenderMode;
     private static int sPrevRenderMode = -1;
@@ -557,7 +558,6 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
         mShowPreview = false;
         mDelayBeforePreview = res.getInteger(R.integer.config_delay_before_preview);
         mDelayBeforeSpacePreview = res.getInteger(R.integer.config_delay_before_space_preview);
-        mDelayAfterPreview = res.getInteger(R.integer.config_delay_after_preview);
 
         mPopupLayout = 0;
 
@@ -776,6 +776,13 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
     public void setPreviewEnabled(boolean previewEnabled) {
         mShowPreview = previewEnabled;
     }
+
+    /**
+     * Sets for how long the key feedback popup is shown.
+     * By default the preview lasts 10ms.
+     * @param popupDuration the duration in ms to show the key feedback popup
+     */
+    public void setPreviewDuration(int popupDuration) { mPopupDuration = popupDuration; }
 
     /**
      * Returns the enabled state of the key feedback popup.
@@ -1052,7 +1059,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
 
                 // Draw alternate hint label (if present) behind the main key
                 String altHint = key.getAltHintLabel(showHints7Bit(), showHintsAll());
-                if (!altHint.equals("")) {
+                if (!altHint.equals("") && !key.isShifted()) {
                     int hintTextSize = (int)(mKeyTextSize * 0.6 * mLabelScale);
                     paintHint.setTextSize(hintTextSize);
 
@@ -1067,7 +1074,10 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                 }
 
                 // Draw main key label
-                final int centerX = (key.width + padding.left - padding.right) / 2;
+                final int centerX = Math.round(
+                        (key.width + padding.left - padding.right) / 2
+                        * (!altHint.equals("") && !key.isShifted()
+                                ? KEY_LABEL_ALTHINT_HORIZONTAL_ADJUSTMENT_FACTOR : 1f));
                 final int centerY = (key.height + padding.top - padding.bottom) / 2;
                 final float baseline = centerY
                         + labelHeight * KEY_LABEL_VERTICAL_ADJUSTMENT_FACTOR;
@@ -1200,7 +1210,7 @@ public class LatinKeyboardBaseView extends View implements PointerTracker.UIProx
                         || (hidePreviewOrShowSpaceKeyPreview && isLanguageSwitchEnabled))) {
             if (keyIndex == NOT_A_KEY) {
                 mHandler.cancelPopupPreview();
-                mHandler.dismissPreview(mDelayAfterPreview);
+                mHandler.dismissPreview(mPopupDuration);
             } else if (tracker != null) {
                 int delay = mShowPreview ? mDelayBeforePreview : mDelayBeforeSpacePreview;
                 mHandler.popupPreview(delay, keyIndex, tracker);
