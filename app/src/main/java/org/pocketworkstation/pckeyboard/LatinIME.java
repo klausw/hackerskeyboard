@@ -3428,8 +3428,18 @@ public class LatinIME extends InputMethodService implements
         }
         if (suggestPuncs != null) {
             for (int i = 0; i < suggestPuncs.length(); i++) {
-                mSuggestPuncList.add(suggestPuncs.subSequence(i, i + 1));
-            }
+         		int k = suggestPuncs.indexOf(' ', i);
+				if (k < 0) {
+					mSuggestPuncList.add(suggestPuncs.subSequence(i, suggestPuncs.length()));
+					break;
+				}
+				else if (k == 0 || k == i)
+					continue;
+				else {
+					mSuggestPuncList.add(suggestPuncs.subSequence(i, k));
+					i = k;
+				}
+			}
         }
         setNextSuggestions();
     }
