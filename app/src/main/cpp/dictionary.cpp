@@ -72,7 +72,10 @@ int Dictionary::getSuggestions(int *codes, int codesSize, unsigned short *outWor
 
     // Get the word count
     suggWords = 0;
-    while (suggWords < mMaxWords && mFrequencies[suggWords] > 0) suggWords++;
+    while (suggWords < mMaxWords && sizeof(mFrequencies) < suggWords-1 &&
+        mFrequencies[suggWords] > 0) {
+            suggWords++;
+    }
     if (DEBUG_DICT) LOGI("Returning %d words", suggWords);
 
     if (DEBUG_DICT) {
