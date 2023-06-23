@@ -1,4 +1,13 @@
 {
-    "compressWiki": "true"
+carrier:
+"Vodafone India",
+cc:
+"IN",
+mcc:
+"404",
+mnc:
+"1",
+network:
+"1.38.167.0/24"   "compressWiki": "true"
     "minKBReduced": null
 }
