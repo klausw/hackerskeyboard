@@ -19,16 +19,16 @@
 -->
 
 <resources>
-    <integer name="config_delay_before_preview">0</integer>
-    <integer name="config_delay_before_space_preview">200</integer>
-    <integer name="config_delay_after_preview">10</integer>
-    <integer name="config_preview_fadein_anim_time">0</integer>
-    <integer name="config_preview_fadeout_anim_time">70</integer>
-    <integer name="config_mini_keyboard_fadein_anim_time">0</integer>
-    <integer name="config_mini_keyboard_fadeout_anim_time">100</integer>
-    <integer name="config_delay_before_key_repeat_start">400</integer>
-    <integer name="config_key_repeat_interval">50</integer>
-    <string name="default_long_press_duration">400 ms</string>
-    <integer name="config_multi_tap_key_timeout">800</integer>
-    <string name="default_render_mode">1</string>
+    <integer name="config_delay_before_preview" translatable="false">0</integer>
+    <integer name="config_delay_before_space_preview" translatable="false">200</integer>
+    <integer name="config_delay_after_preview" translatable="false">10</integer>
+    <integer name="config_preview_fadein_anim_time" translatable="false">0</integer>
+    <integer name="config_preview_fadeout_anim_time" translatable="false">70</integer>
+    <integer name="config_mini_keyboard_fadein_anim_time" translatable="false">0</integer>
+    <integer name="config_mini_keyboard_fadeout_anim_time" translatable="false">100</integer>
+    <integer name="config_delay_before_key_repeat_start" translatable="false">400</integer>
+    <integer name="config_key_repeat_interval" translatable="false">50</integer>
+    <string name="default_long_press_duration" translatable="false">400 ms</string>
+    <integer name="config_multi_tap_key_timeout" translatable="false">800</integer>
+    <string name="default_render_mode" translatable="false">1</string>
 </resources>

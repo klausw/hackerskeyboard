@@ -19,87 +19,88 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="26.67%p"
-    android:horizontalGap="0px"
-    android:verticalGap="@dimen/key_bottom_gap"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:keyWidth="26.67%p"
+    app:horizontalGap="0px"
+    app:verticalGap="@dimen/key_bottom_gap"
 >
     <Row
-        android:rowEdgeFlags="top"
+        app:rowEdgeFlags="top"
     >
         <Key
-            android:codes="49"
-            android:keyIcon="@drawable/sym_keyboard_num1"
-            android:keyEdgeFlags="left" />
+            app:codes="49"
+            app:keyIcon="@drawable/sym_keyboard_num1"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="50"
-            android:keyIcon="@drawable/sym_keyboard_num2" />
+            app:codes="50"
+            app:keyIcon="@drawable/sym_keyboard_num2" />
         <Key
-            android:codes="51"
-            android:keyIcon="@drawable/sym_keyboard_num3" />
+            app:codes="51"
+            app:keyIcon="@drawable/sym_keyboard_num3" />
         <Key
-            android:keyLabel="-"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:keyLabel="-"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="52"
-            android:keyIcon="@drawable/sym_keyboard_num4"
-            android:keyEdgeFlags="left" />
+            app:codes="52"
+            app:keyIcon="@drawable/sym_keyboard_num4"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="53"
-            android:keyIcon="@drawable/sym_keyboard_num5" />
+            app:codes="53"
+            app:keyIcon="@drawable/sym_keyboard_num5" />
         <Key
-            android:codes="54"
-            android:keyIcon="@drawable/sym_keyboard_num6" />
+            app:codes="54"
+            app:keyIcon="@drawable/sym_keyboard_num6" />
         <Key
-            android:keyLabel="."
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:keyLabel="."
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="55"
-            android:keyIcon="@drawable/sym_keyboard_num7"
-            android:keyEdgeFlags="left" />
+            app:codes="55"
+            app:keyIcon="@drawable/sym_keyboard_num7"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="56"
-            android:keyIcon="@drawable/sym_keyboard_num8" />
+            app:codes="56"
+            app:keyIcon="@drawable/sym_keyboard_num8" />
         <Key
-            android:codes="57"
-            android:keyIcon="@drawable/sym_keyboard_num9" />
+            app:codes="57"
+            app:keyIcon="@drawable/sym_keyboard_num9" />
         <Key
-            android:codes="@integer/key_delete"
-            android:keyIcon="@drawable/sym_keyboard_delete"
-            android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_delete"
+            app:keyIcon="@drawable/sym_keyboard_delete"
+            app:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:rowEdgeFlags="bottom"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyIcon="@drawable/sym_keyboard_numalt"
-            android:iconPreview="@drawable/sym_keyboard_feedback_numalt"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyIcon="@drawable/sym_keyboard_numalt"
+            app:iconPreview="@drawable/sym_keyboard_feedback_numalt"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="48"
-            android:keyIcon="@drawable/sym_keyboard_num0" />
+            app:codes="48"
+            app:keyIcon="@drawable/sym_keyboard_num0" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

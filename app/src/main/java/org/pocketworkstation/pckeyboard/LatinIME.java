@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -45,8 +46,8 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -67,6 +68,8 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -492,12 +495,12 @@ public class LatinIME extends InputMethodService implements
             registerReceiver(mNotificationReceiver, pFilter);
             
             Intent notificationIntent = new Intent(NotificationReceiver.ACTION_SHOW);
-            PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, 0);
+            PendingIntent contentIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
             //PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
             Intent configIntent = new Intent(NotificationReceiver.ACTION_SETTINGS);
             PendingIntent configPendingIntent =
-                    PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, 0);
+                    PendingIntent.getBroadcast(getApplicationContext(), 2, configIntent, PendingIntent.FLAG_IMMUTABLE);
 
             String title = "Show Hacker's Keyboard";
             String body = "Select this to open the keyboard. Disable in settings.";
@@ -531,8 +534,11 @@ public class LatinIME extends InputMethodService implements
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-            // notificationId is a unique int for each notification that you must define
-            notificationManager.notify(NOTIFICATION_ONGOING_ID, mBuilder.build());
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+                // notificationId is a unique int for each notification that you must define
+                notificationManager.notify(NOTIFICATION_ONGOING_ID, mBuilder.build());
+            }
 
         } else if (mNotificationReceiver != null) {
             mNotificationManager.cancel(NOTIFICATION_ONGOING_ID);

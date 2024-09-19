@@ -362,9 +362,15 @@ public class UserBigramDictionary extends ExpandableDictionary {
                 int pairId;
                 if (c.moveToFirst()) {
                     // existing pair
-                    pairId = c.getInt(c.getColumnIndex(MAIN_COLUMN_ID));
-                    db.delete(FREQ_TABLE_NAME, FREQ_COLUMN_PAIR_ID + "=?",
-                            new String[] { Integer.toString(pairId) });
+                    int columnIndex = c.getColumnIndex(MAIN_COLUMN_ID);
+                    if (columnIndex >= 0) {
+                        pairId = c.getInt(columnIndex);
+                        db.delete(FREQ_TABLE_NAME, FREQ_COLUMN_PAIR_ID + "=?",
+                                  new String[] { Integer.toString(pairId) });
+                    } else {
+                        pairId = -1;
+                        // do nothing
+                    }
                 } else {
                     // new pair
                     Long pairIdLong = db.insert(MAIN_TABLE_NAME, null,
@@ -373,8 +379,10 @@ public class UserBigramDictionary extends ExpandableDictionary {
                 }
                 c.close();
 
-                // insert new frequency
-                db.insert(FREQ_TABLE_NAME, null, getFrequencyContentValues(pairId, bi.frequency));
+                if (pairId != -1) { // @TODO: What should we do in this case?
+                    // insert new frequency
+                    db.insert(FREQ_TABLE_NAME, null, getFrequencyContentValues(pairId, bi.frequency));
+                }
             }
             checkPruneData(db);
             sUpdatingDB = false;

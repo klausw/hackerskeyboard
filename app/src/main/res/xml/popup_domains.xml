@@ -19,28 +19,29 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="15%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="@dimen/popup_key_height"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:keyWidth="15%p"
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
+    app:keyHeight="@dimen/popup_key_height"
 >
     <Row
-        android:rowEdgeFlags="top|bottom"
+        app:rowEdgeFlags="top|bottom"
     >
         <Key
-            android:keyLabel="@string/popular_domain_1"
-            android:keyOutputText="@string/popular_domain_1"
-            android:keyEdgeFlags="left" />
+            app:keyLabel="@string/popular_domain_1"
+            app:keyOutputText="@string/popular_domain_1"
+            app:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="@string/popular_domain_2"
-            android:keyOutputText="@string/popular_domain_2" />
+            app:keyLabel="@string/popular_domain_2"
+            app:keyOutputText="@string/popular_domain_2" />
         <Key
-            android:keyLabel="@string/popular_domain_3"
-            android:keyOutputText="@string/popular_domain_3" />
+            app:keyLabel="@string/popular_domain_3"
+            app:keyOutputText="@string/popular_domain_3" />
         <Key
-            android:keyLabel="@string/popular_domain_4"
-            android:keyOutputText="@string/popular_domain_4"
-            android:keyEdgeFlags="right" />
+            app:keyLabel="@string/popular_domain_4"
+            app:keyOutputText="@string/popular_domain_4"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

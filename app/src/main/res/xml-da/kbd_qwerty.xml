@@ -25,508 +25,509 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="9.09%p"
-    android:horizontalGap="0px"
-    android:verticalGap="@dimen/key_bottom_gap"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:keyWidth="9.09%p"
+    app:horizontalGap="0px"
+    app:verticalGap="@dimen/key_bottom_gap"
 >
     <Row
-        android:rowEdgeFlags="top"
+        app:rowEdgeFlags="top"
     >
         <Key
-            android:keyLabel="q"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_q"
-            android:keyEdgeFlags="left" />
+            app:keyLabel="q"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_q"
+            app:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="w"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_w" />
+            app:keyLabel="w"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_w" />
         <Key
-            android:keyLabel="e"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_e" />
+            app:keyLabel="e"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_e" />
         <Key
-            android:keyLabel="r"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_r" />
+            app:keyLabel="r"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_r" />
         <Key
-            android:keyLabel="t"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_t" />
+            app:keyLabel="t"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_t" />
         <Key
-            android:keyLabel="y"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_y" />
+            app:keyLabel="y"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_y" />
         <Key
-            android:keyLabel="u"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_u" />
+            app:keyLabel="u"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_u" />
         <Key
-            android:keyLabel="i"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_i" />
+            app:keyLabel="i"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_i" />
         <Key
-            android:keyLabel="o"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_o" />
+            app:keyLabel="o"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_o" />
         <Key
-            android:keyLabel="p"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_p" />
+            app:keyLabel="p"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_p" />
         <Key
-            android:keyLabel="å"
-            android:keyEdgeFlags="right" />
+            app:keyLabel="å"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:keyLabel="a"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_a"
-            android:keyEdgeFlags="left" />
+            app:keyLabel="a"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_a"
+            app:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="s"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_s" />
+            app:keyLabel="s"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_s" />
         <Key
-            android:keyLabel="d"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_d" />
+            app:keyLabel="d"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_d" />
         <Key
-            android:keyLabel="f" />
+            app:keyLabel="f" />
         <Key
-            android:keyLabel="g"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_g" />
+            app:keyLabel="g"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_g" />
         <Key
-            android:keyLabel="h" />
+            app:keyLabel="h" />
         <Key
-            android:keyLabel="j" />
+            app:keyLabel="j" />
         <Key
-            android:keyLabel="k" />
+            app:keyLabel="k" />
         <Key
-            android:keyLabel="l"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_l" />
+            app:keyLabel="l"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_l" />
         <Key
-            android:keyLabel="æ"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_ae" />
+            app:keyLabel="æ"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_ae" />
         <Key
-            android:keyLabel="ø"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_oe"
-            android:keyEdgeFlags="right" />
+            app:keyLabel="ø"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_oe"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="@integer/key_shift"
-            android:keyIcon="@drawable/sym_keyboard_shift"
-            android:iconPreview="@drawable/sym_keyboard_feedback_shift"
-            android:keyWidth="13.63%p"
-            android:isModifier="true"
-            android:isSticky="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_shift"
+            app:keyIcon="@drawable/sym_keyboard_shift"
+            app:iconPreview="@drawable/sym_keyboard_feedback_shift"
+            app:keyWidth="13.63%p"
+            app:isModifier="true"
+            app:isSticky="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="z"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_z" />
+            app:keyLabel="z"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_z" />
         <Key
-            android:keyLabel="x" />
+            app:keyLabel="x" />
         <Key
-            android:keyLabel="c"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_c" />
+            app:keyLabel="c"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_c" />
         <Key
-            android:keyLabel="v"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_v" />
+            app:keyLabel="v"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_v" />
         <Key
-            android:keyLabel="b" />
+            app:keyLabel="b" />
         <Key
-            android:keyLabel="n"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_n" />
+            app:keyLabel="n"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/alternates_for_n" />
         <Key
-            android:keyLabel="m" />
+            app:keyLabel="m" />
         <Key
-            android:keyLabel="\'"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="&#x300;&#x301;&#x302;&#x308;&#x303;" />
+            app:keyLabel="\'"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="&#x300;&#x301;&#x302;&#x308;&#x303;" />
         <Key
-            android:codes="@integer/key_delete"
-            android:keyIcon="@drawable/sym_keyboard_delete"
-            android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:keyWidth="13.63%p"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_delete"
+            app:keyIcon="@drawable/sym_keyboard_delete"
+            app:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            app:keyWidth="13.63%p"
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_normal"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_normal"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="40%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_url"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_url"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="40%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_email"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_email"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="40%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_im"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_im"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="40%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_smileys"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:keyLabel=":-)"
+            app:keyOutputText=":-) "
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_smileys"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_webentry"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_webentry"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="30%p"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_tab"
-            android:keyIcon="@drawable/sym_keyboard_tab"
-            android:iconPreview="@drawable/sym_keyboard_feedback_tab"
-            android:isModifier="true" />
+            app:codes="@integer/key_tab"
+            app:keyIcon="@drawable/sym_keyboard_tab"
+            app:iconPreview="@drawable/sym_keyboard_feedback_tab"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="20%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_normal_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_normal_with_settings_key"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="15%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            app:codes="@integer/key_settings"
+            app:keyIcon="@drawable/sym_keyboard_settings"
+            app:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="30%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="25%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_url_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_url_with_settings_key"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="15%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            app:codes="@integer/key_settings"
+            app:keyIcon="@drawable/sym_keyboard_settings"
+            app:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="30%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="25%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_email_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_email_with_settings_key"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="15%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            app:codes="@integer/key_settings"
+            app:keyIcon="@drawable/sym_keyboard_settings"
+            app:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="30%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="25%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_im_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_im_with_settings_key"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="15%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            app:codes="@integer/key_settings"
+            app:keyIcon="@drawable/sym_keyboard_settings"
+            app:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="30%p"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_smileys"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:keyLabel=":-)"
+            app:keyOutputText=":-) "
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_smileys"
+            app:keyWidth="25%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_webentry_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        app:keyboardMode="@+id/mode_webentry_with_settings_key"
+        app:keyWidth="10%p"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_symbol"
+            app:keyLabel="@string/label_symbol_key"
+            app:keyWidth="15%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            app:codes="@integer/key_settings"
+            app:keyIcon="@drawable/sym_keyboard_settings"
+            app:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="30%p"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_tab"
-            android:keyIcon="@drawable/sym_keyboard_tab"
-            android:iconPreview="@drawable/sym_keyboard_feedback_tab"
-            android:isModifier="true" />
+            app:codes="@integer/key_tab"
+            app:keyIcon="@drawable/sym_keyboard_tab"
+            app:iconPreview="@drawable/sym_keyboard_feedback_tab"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            app:keyLabel="."
+            app:keyIcon="@drawable/hint_popup"
+            app:popupKeyboard="@xml/popup_punctuation"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="15%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

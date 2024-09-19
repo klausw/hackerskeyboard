@@ -16,41 +16,42 @@
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
 */
-    android:keyHeight="@dimen/key_height"
+    app:keyHeight="@dimen/key_height"
 
 Unavailable accents:
-        <Key android:keyLabel="&#x309;"/>
-        <Key android:keyLabel="&#x30D;"/>
+        <Key app:keyLabel="&#x309;"/>
+        <Key app:keyLabel="&#x30D;"/>
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="7.1428571485%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:keyWidth="7.1428571485%p"
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
     >
 
-    <Row android:rowEdgeFlags="top|bottom">
-        <Key android:keyLabel="&#x300;" android:keyEdgeFlags="left"/>
-        <Key android:keyLabel="&#x301;"/>
-        <Key android:keyLabel="&#x302;"/>        
-        <Key android:keyLabel="&#x303;"/>
-        <Key android:keyLabel="&#x304;"/>
-        <Key android:keyLabel="&#x305;"/>
-        <Key android:keyLabel="&#x306;"/>
-        <Key android:keyLabel="&#x307;"/>
-        <Key android:keyLabel="&#x308;"/>
-        <Key android:keyLabel="&#x30A;"/>
-        <Key android:keyLabel="&#x30B;"/>
-        <Key android:keyLabel="&#x30C;"/>
+    <Row app:rowEdgeFlags="top|bottom">
+        <Key app:keyLabel="&#x300;" app:keyEdgeFlags="left"/>
+        <Key app:keyLabel="&#x301;"/>
+        <Key app:keyLabel="&#x302;"/>        
+        <Key app:keyLabel="&#x303;"/>
+        <Key app:keyLabel="&#x304;"/>
+        <Key app:keyLabel="&#x305;"/>
+        <Key app:keyLabel="&#x306;"/>
+        <Key app:keyLabel="&#x307;"/>
+        <Key app:keyLabel="&#x308;"/>
+        <Key app:keyLabel="&#x30A;"/>
+        <Key app:keyLabel="&#x30B;"/>
+        <Key app:keyLabel="&#x30C;"/>
 	<Key
-            android:codes="@integer/key_home"
-            android:isModifier="true"            
-            android:keyLabel="Home" />
+            app:codes="@integer/key_home"
+            app:isModifier="true"            
+            app:keyLabel="Home" />
 	<Key
-            android:codes="@integer/key_end"
-            android:isModifier="true"            
-            android:keyLabel="End"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_end"
+            app:isModifier="true"            
+            app:keyLabel="End"
+            app:keyEdgeFlags="right" />
         />
     </Row>
 </Keyboard>

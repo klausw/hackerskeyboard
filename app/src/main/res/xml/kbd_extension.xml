@@ -16,46 +16,47 @@
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
 */
-    android:keyHeight="@dimen/key_height"
+    app:keyHeight="@dimen/key_height"
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="10%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:keyWidth="10%p"
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
     >
 
-    <Row android:rowEdgeFlags="top">
-        <Key android:keyLabel="!" android:keyEdgeFlags="left"/>
-        <Key android:keyLabel="\@"/>
-        <Key android:keyLabel="\#"/>        
-        <Key android:keyLabel="&amp;"/>
-        <Key android:keyLabel="-"/>
-        <Key android:keyLabel="\'"/>
-        <Key android:keyLabel=":"/>
-        <Key android:keyLabel="&quot;"/>
-        <Key android:keyLabel="/"/>
-        <Key android:keyLabel="\?" android:keyEdgeFlags="right"
+    <Row app:rowEdgeFlags="top">
+        <Key app:keyLabel="!" app:keyEdgeFlags="left"/>
+        <Key app:keyLabel="\@"/>
+        <Key app:keyLabel="\#"/>        
+        <Key app:keyLabel="&amp;"/>
+        <Key app:keyLabel="-"/>
+        <Key app:keyLabel="\'"/>
+        <Key app:keyLabel=":"/>
+        <Key app:keyLabel="&quot;"/>
+        <Key app:keyLabel="/"/>
+        <Key app:keyLabel="\?" app:keyEdgeFlags="right"
         />
     </Row>
 
-    <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"
+    <Row app:rowEdgeFlags="bottom">
+        <Key app:codes="49" app:keyLabel="1" app:keyEdgeFlags="left"
         />
-        <Key android:codes="50" android:keyLabel="2"
+        <Key app:codes="50" app:keyLabel="2"
         />
-        <Key android:codes="51" android:keyLabel="3"
+        <Key app:codes="51" app:keyLabel="3"
         />
-        <Key android:codes="52" android:keyLabel="4"
+        <Key app:codes="52" app:keyLabel="4"
         />
-        <Key android:codes="53" android:keyLabel="5"
+        <Key app:codes="53" app:keyLabel="5"
         />
-        <Key android:codes="54" android:keyLabel="6"/>
-        <Key android:codes="55" android:keyLabel="7"
+        <Key app:codes="54" app:keyLabel="6"/>
+        <Key app:codes="55" app:keyLabel="7"
         />
-        <Key android:codes="56" android:keyLabel="8"/>
-        <Key android:codes="57" android:keyLabel="9"/>
-        <Key android:codes="48" android:keyLabel="0" 
-                android:keyEdgeFlags="right"/>
+        <Key app:codes="56" app:keyLabel="8"/>
+        <Key app:codes="57" app:keyLabel="9"/>
+        <Key app:codes="48" app:keyLabel="0" 
+                app:keyEdgeFlags="right"/>
     </Row>    
 </Keyboard>

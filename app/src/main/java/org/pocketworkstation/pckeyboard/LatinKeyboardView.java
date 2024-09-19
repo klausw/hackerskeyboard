@@ -135,21 +135,16 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
 
-            switch (attr) {
-            case R.styleable.LatinKeyboardBaseView_keyPreviewLayout:
+            if (attr == R.styleable.LatinKeyboardBaseView_keyPreviewLayout) {
                 previewLayout = a.getResourceId(attr, 0);
                 if (previewLayout == R.layout.null_layout) previewLayout = 0;
-                break;
-            case R.styleable.LatinKeyboardBaseView_keyPreviewOffset:
+            } else if (attr == R.styleable.LatinKeyboardBaseView_keyPreviewOffset) {
                 mPreviewOffset = a.getDimensionPixelOffset(attr, 0);
-                break;
-            case R.styleable.LatinKeyboardBaseView_keyPreviewHeight:
+            } else if (attr == R.styleable.LatinKeyboardBaseView_keyPreviewHeight) {
                 mPreviewHeight = a.getDimensionPixelSize(attr, 80);
-                break;
-            case R.styleable.LatinKeyboardBaseView_popupLayout:
+            } else if (attr == R.styleable.LatinKeyboardBaseView_popupLayout) {
                 mPopupLayout = a.getResourceId(attr, 0);
                 if (mPopupLayout == R.layout.null_layout) mPopupLayout = 0;
-                break;
             }
         }
 

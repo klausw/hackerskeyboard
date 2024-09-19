@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="10%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="@dimen/popup_key_height"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:keyWidth="10%p"
+    app:horizontalGap="0px"
+    app:verticalGap="0px"
+    app:keyHeight="@dimen/popup_key_height"
 >
     <Row
-        android:rowEdgeFlags="top|bottom"
+        app:rowEdgeFlags="top|bottom"
     >
         <Key
-            android:keyLabel="Esc"
-            android:codes="@integer/key_escape"
-            android:keyEdgeFlags="left" />
+            app:keyLabel="Esc"
+            app:codes="@integer/key_escape"
+            app:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_settings"
+            app:keyIcon="@drawable/sym_keyboard_settings"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

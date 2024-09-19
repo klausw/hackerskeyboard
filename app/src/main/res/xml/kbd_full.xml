@@ -19,394 +19,395 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="7.1428571485%p"
-    android:horizontalGap="0px"
-    android:verticalGap="@dimen/key_bottom_gap"
-    android:layoutRows="5"
-    android:layoutColumns="14"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:keyWidth="7.1428571485%p"
+    app:horizontalGap="0px"
+    app:verticalGap="@dimen/key_bottom_gap"
+    app:layoutRows="5"
+    app:layoutColumns="14"
 >
-    <Row android:rowEdgeFlags="top" android:extension="true">
-        <Key android:keyLabel="F1" android:codes="@integer/key_fkey_f1" android:isModifier="true" android:keyEdgeFlags="left"/>
-        <Key android:keyLabel="F2" android:codes="@integer/key_fkey_f2" android:isModifier="true" />
-        <Key android:keyLabel="F3" android:codes="@integer/key_fkey_f3" android:isModifier="true" />
-        <Key android:keyLabel="F4" android:codes="@integer/key_fkey_f4" android:isModifier="true" />
-        <Key android:keyLabel="F5" android:codes="@integer/key_fkey_f5" android:isModifier="true" />
-        <Key android:keyLabel="F6" android:codes="@integer/key_fkey_f6" android:isModifier="true" />
-        <Key android:keyLabel="F7" android:codes="@integer/key_fkey_f7" android:isModifier="true" />
-        <Key android:keyLabel="F8" android:codes="@integer/key_fkey_f8" android:isModifier="true" />
-        <Key android:keyLabel="F9" android:codes="@integer/key_fkey_f9" android:isModifier="true" />
-        <Key android:keyLabel="F10" android:codes="@integer/key_fkey_f10" android:isModifier="true" />
-        <Key android:keyLabel="F11" android:codes="@integer/key_fkey_f11" android:isModifier="true" />
-        <Key android:keyLabel="F12" android:codes="@integer/key_fkey_f12" android:isModifier="true" />
+    <Row app:rowEdgeFlags="top" app:extension="true">
+        <Key app:keyLabel="F1" app:codes="@integer/key_fkey_f1" app:isModifier="true" app:keyEdgeFlags="left"/>
+        <Key app:keyLabel="F2" app:codes="@integer/key_fkey_f2" app:isModifier="true" />
+        <Key app:keyLabel="F3" app:codes="@integer/key_fkey_f3" app:isModifier="true" />
+        <Key app:keyLabel="F4" app:codes="@integer/key_fkey_f4" app:isModifier="true" />
+        <Key app:keyLabel="F5" app:codes="@integer/key_fkey_f5" app:isModifier="true" />
+        <Key app:keyLabel="F6" app:codes="@integer/key_fkey_f6" app:isModifier="true" />
+        <Key app:keyLabel="F7" app:codes="@integer/key_fkey_f7" app:isModifier="true" />
+        <Key app:keyLabel="F8" app:codes="@integer/key_fkey_f8" app:isModifier="true" />
+        <Key app:keyLabel="F9" app:codes="@integer/key_fkey_f9" app:isModifier="true" />
+        <Key app:keyLabel="F10" app:codes="@integer/key_fkey_f10" app:isModifier="true" />
+        <Key app:keyLabel="F11" app:codes="@integer/key_fkey_f11" app:isModifier="true" />
+        <Key app:keyLabel="F12" app:codes="@integer/key_fkey_f12" app:isModifier="true" />
 	<Key
-            android:codes="@integer/key_home"
-            android:isModifier="true"            
-            android:keyLabel="Home" />
+            app:codes="@integer/key_home"
+            app:isModifier="true"            
+            app:keyLabel="Home" />
 	<Key
-            android:codes="@integer/key_end"
-            android:isModifier="true"            
-            android:keyLabel="End"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_end"
+            app:isModifier="true"            
+            app:keyLabel="End"
+            app:keyEdgeFlags="right" />
         />
     </Row>
     <Row
-        android:rowEdgeFlags="top"
+        app:rowEdgeFlags="top"
     >
         <Key
-            android:keyLabel="@string/key_tlde_main"
-            android:shiftLabel="@string/key_tlde_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_tlde_alt"
-            android:keyWidth="4.5714285%p"
-            android:keyEdgeFlags="left" />
+            app:keyLabel="@string/key_tlde_main"
+            app:shiftLabel="@string/key_tlde_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_tlde_alt"
+            app:keyWidth="4.5714285%p"
+            app:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="@string/key_ae01_main"
-            android:shiftLabel="@string/key_ae01_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ae01_alt" />
+            app:keyLabel="@string/key_ae01_main"
+            app:shiftLabel="@string/key_ae01_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ae01_alt" />
         <Key
-            android:keyLabel="@string/key_ae02_main"
-            android:shiftLabel="@string/key_ae02_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ae02_alt" />
+            app:keyLabel="@string/key_ae02_main"
+            app:shiftLabel="@string/key_ae02_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ae02_alt" />
         <Key
-            android:keyLabel="@string/key_ae03_main"
-            android:shiftLabel="@string/key_ae03_shift"
-            android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/key_ae03_alt" />
+            app:keyLabel="@string/key_ae03_main"
+            app:shiftLabel="@string/key_ae03_shift"
+            app:popupKeyboard="@xml/kbd_popup_narrow_template"
+            app:popupCharacters="@string/key_ae03_alt" />
         <Key
-            android:keyLabel="@string/key_ae04_main"
-            android:shiftLabel="@string/key_ae04_shift"
-            android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/key_ae04_alt" />
+            app:keyLabel="@string/key_ae04_main"
+            app:shiftLabel="@string/key_ae04_shift"
+            app:popupKeyboard="@xml/kbd_popup_narrow_template"
+            app:popupCharacters="@string/key_ae04_alt" />
         <Key
-            android:keyLabel="@string/key_ae05_main"
-            android:shiftLabel="@string/key_ae05_shift"
-            android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/key_ae05_alt" />
+            app:keyLabel="@string/key_ae05_main"
+            app:shiftLabel="@string/key_ae05_shift"
+            app:popupKeyboard="@xml/kbd_popup_narrow_template"
+            app:popupCharacters="@string/key_ae05_alt" />
         <Key
-            android:keyLabel="@string/key_ae06_main"
-            android:shiftLabel="@string/key_ae06_shift"
-            android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/key_ae06_alt" />
+            app:keyLabel="@string/key_ae06_main"
+            app:shiftLabel="@string/key_ae06_shift"
+            app:popupKeyboard="@xml/kbd_popup_narrow_template"
+            app:popupCharacters="@string/key_ae06_alt" />
         <Key
-            android:keyLabel="@string/key_ae07_main"
-            android:shiftLabel="@string/key_ae07_shift"
-            android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/key_ae07_alt" />
+            app:keyLabel="@string/key_ae07_main"
+            app:shiftLabel="@string/key_ae07_shift"
+            app:popupKeyboard="@xml/kbd_popup_narrow_template"
+            app:popupCharacters="@string/key_ae07_alt" />
         <Key
-            android:keyLabel="@string/key_ae08_main"
-            android:shiftLabel="@string/key_ae08_shift"
-            android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/key_ae08_alt" />
+            app:keyLabel="@string/key_ae08_main"
+            app:shiftLabel="@string/key_ae08_shift"
+            app:popupKeyboard="@xml/kbd_popup_narrow_template"
+            app:popupCharacters="@string/key_ae08_alt" />
         <Key
-            android:keyLabel="@string/key_ae09_main"
-            android:shiftLabel="@string/key_ae09_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ae09_alt" />
+            app:keyLabel="@string/key_ae09_main"
+            app:shiftLabel="@string/key_ae09_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ae09_alt" />
         <Key
-            android:keyLabel="@string/key_ae10_main"
-            android:shiftLabel="@string/key_ae10_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ae10_alt" />
+            app:keyLabel="@string/key_ae10_main"
+            app:shiftLabel="@string/key_ae10_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ae10_alt" />
         <Key
-            android:keyLabel="@string/key_ae11_main"
-            android:shiftLabel="@string/key_ae11_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ae11_alt" />
+            app:keyLabel="@string/key_ae11_main"
+            app:shiftLabel="@string/key_ae11_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ae11_alt" />
         <Key
-            android:keyLabel="@string/key_ae12_main"
-            android:shiftLabel="@string/key_ae12_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ae12_alt" />
+            app:keyLabel="@string/key_ae12_main"
+            app:shiftLabel="@string/key_ae12_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ae12_alt" />
         <Key
-            android:codes="@integer/key_delete"
-            android:keyIcon="@drawable/sym_keyboard_delete"
-            android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:keyWidth="9.7142855%p"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_delete"
+            app:keyIcon="@drawable/sym_keyboard_delete"
+            app:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            app:keyWidth="9.7142855%p"
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="@integer/key_tab"
-            android:keyIcon="@drawable/sym_keyboard_tab"
-            android:iconPreview="@drawable/sym_keyboard_feedback_tab"
-            android:keyEdgeFlags="left"
-            android:isModifier="true" />
+            app:codes="@integer/key_tab"
+            app:keyIcon="@drawable/sym_keyboard_tab"
+            app:iconPreview="@drawable/sym_keyboard_feedback_tab"
+            app:keyEdgeFlags="left"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="@string/key_ad01_main"
-            android:shiftLabel="@string/key_ad01_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad01_alt" />
+            app:keyLabel="@string/key_ad01_main"
+            app:shiftLabel="@string/key_ad01_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad01_alt" />
         <Key
-            android:keyLabel="@string/key_ad02_main"
-            android:shiftLabel="@string/key_ad02_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad02_alt" />
+            app:keyLabel="@string/key_ad02_main"
+            app:shiftLabel="@string/key_ad02_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad02_alt" />
         <Key
-            android:keyLabel="@string/key_ad03_main"
-            android:shiftLabel="@string/key_ad03_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad03_alt" />
+            app:keyLabel="@string/key_ad03_main"
+            app:shiftLabel="@string/key_ad03_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad03_alt" />
         <Key
-            android:keyLabel="@string/key_ad04_main"
-            android:shiftLabel="@string/key_ad04_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad04_alt" />
+            app:keyLabel="@string/key_ad04_main"
+            app:shiftLabel="@string/key_ad04_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad04_alt" />
         <Key
-            android:keyLabel="@string/key_ad05_main"
-            android:shiftLabel="@string/key_ad05_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad05_alt" />
+            app:keyLabel="@string/key_ad05_main"
+            app:shiftLabel="@string/key_ad05_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad05_alt" />
         <Key
-            android:keyLabel="@string/key_ad06_main"
-            android:shiftLabel="@string/key_ad06_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad06_alt" />
+            app:keyLabel="@string/key_ad06_main"
+            app:shiftLabel="@string/key_ad06_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad06_alt" />
         <Key
-            android:keyLabel="@string/key_ad07_main"
-            android:shiftLabel="@string/key_ad07_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad07_alt" />
+            app:keyLabel="@string/key_ad07_main"
+            app:shiftLabel="@string/key_ad07_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad07_alt" />
         <Key
-            android:keyLabel="@string/key_ad08_main"
-            android:shiftLabel="@string/key_ad08_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad08_alt" />
+            app:keyLabel="@string/key_ad08_main"
+            app:shiftLabel="@string/key_ad08_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad08_alt" />
         <Key
-            android:keyLabel="@string/key_ad09_main"
-            android:shiftLabel="@string/key_ad09_shift"
-            android:popupKeyboard="@xml/kbd_popup_narrow_template"
-            android:popupCharacters="@string/key_ad09_alt" />
+            app:keyLabel="@string/key_ad09_main"
+            app:shiftLabel="@string/key_ad09_shift"
+            app:popupKeyboard="@xml/kbd_popup_narrow_template"
+            app:popupCharacters="@string/key_ad09_alt" />
 
         <Key
-            android:keyLabel="@string/key_ad10_main"
-            android:shiftLabel="@string/key_ad10_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad10_alt"
+            app:keyLabel="@string/key_ad10_main"
+            app:shiftLabel="@string/key_ad10_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad10_alt"
             />
         <Key
-            android:keyLabel="@string/key_ad11_main"
-            android:shiftLabel="@string/key_ad11_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad11_alt" />res/xml/kbd_full.xml
+            app:keyLabel="@string/key_ad11_main"
+            app:shiftLabel="@string/key_ad11_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad11_alt" />res/xml/kbd_full.xml
         <Key
-            android:keyLabel="@string/key_ad12_main"
-            android:shiftLabel="@string/key_ad12_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ad12_alt" />
+            app:keyLabel="@string/key_ad12_main"
+            app:shiftLabel="@string/key_ad12_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ad12_alt" />
         <Key
-            android:keyLabel="@string/key_bksl_main"
-            android:shiftLabel="@string/key_bksl_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_bksl_alt"
-            android:keyEdgeFlags="right" />
+            app:keyLabel="@string/key_bksl_main"
+            app:shiftLabel="@string/key_bksl_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_bksl_alt"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:keyLabel="Ctrl"
-            android:keyWidth="10.7142855%p"
-            android:codes="@integer/key_ctrl_left"
-            android:isSticky="true"
-            android:keyEdgeFlags="left"
-            android:isModifier="true" />
+            app:keyLabel="Ctrl"
+            app:keyWidth="10.7142855%p"
+            app:codes="@integer/key_ctrl_left"
+            app:isSticky="true"
+            app:keyEdgeFlags="left"
+            app:isModifier="true" />
         <Key
-            android:keyLabel="@string/key_ac01_main"
-            android:shiftLabel="@string/key_ac01_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac01_alt" />
+            app:keyLabel="@string/key_ac01_main"
+            app:shiftLabel="@string/key_ac01_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac01_alt" />
         <Key
-            android:keyLabel="@string/key_ac02_main"
-            android:shiftLabel="@string/key_ac02_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac02_alt" />
+            app:keyLabel="@string/key_ac02_main"
+            app:shiftLabel="@string/key_ac02_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac02_alt" />
         <Key
-            android:keyLabel="@string/key_ac03_main"
-            android:shiftLabel="@string/key_ac03_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac03_alt" />
+            app:keyLabel="@string/key_ac03_main"
+            app:shiftLabel="@string/key_ac03_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac03_alt" />
         <Key
-            android:keyLabel="@string/key_ac04_main"
-            android:shiftLabel="@string/key_ac04_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac04_alt" />
+            app:keyLabel="@string/key_ac04_main"
+            app:shiftLabel="@string/key_ac04_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac04_alt" />
         <Key
-            android:keyLabel="@string/key_ac05_main"
-            android:shiftLabel="@string/key_ac05_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac05_alt" />
+            app:keyLabel="@string/key_ac05_main"
+            app:shiftLabel="@string/key_ac05_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac05_alt" />
         <Key
-            android:keyLabel="@string/key_ac06_main"
-            android:shiftLabel="@string/key_ac06_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac06_alt" />
+            app:keyLabel="@string/key_ac06_main"
+            app:shiftLabel="@string/key_ac06_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac06_alt" />
         <Key
-            android:keyLabel="@string/key_ac07_main"
-            android:shiftLabel="@string/key_ac07_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac07_alt" />
+            app:keyLabel="@string/key_ac07_main"
+            app:shiftLabel="@string/key_ac07_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac07_alt" />
         <Key
-            android:keyLabel="@string/key_ac08_main"
-            android:shiftLabel="@string/key_ac08_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac08_alt" />
+            app:keyLabel="@string/key_ac08_main"
+            app:shiftLabel="@string/key_ac08_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac08_alt" />
         <Key
-            android:keyLabel="@string/key_ac09_main"
-            android:shiftLabel="@string/key_ac09_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac09_alt" />
+            app:keyLabel="@string/key_ac09_main"
+            app:shiftLabel="@string/key_ac09_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac09_alt" />
         <Key
-            android:keyLabel="@string/key_ac10_main"
-            android:shiftLabel="@string/key_ac10_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac10_alt" />
+            app:keyLabel="@string/key_ac10_main"
+            app:shiftLabel="@string/key_ac10_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac10_alt" />
         <Key
-            android:keyLabel="@string/key_ac11_main"
-            android:shiftLabel="@string/key_ac11_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ac11_alt" />
+            app:keyLabel="@string/key_ac11_main"
+            app:shiftLabel="@string/key_ac11_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ac11_alt" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="10.7142855%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_return"
+            app:keyIcon="@drawable/sym_keyboard_return"
+            app:iconPreview="@drawable/sym_keyboard_feedback_return"
+            app:keyWidth="10.7142855%p"
+            app:isModifier="true"
+            app:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="@integer/key_shift"
-            android:keyIcon="@drawable/sym_keyboard_shift"
-            android:iconPreview="@drawable/sym_keyboard_feedback_shift"
-            android:isModifier="true"
-            android:isSticky="true"
-            android:keyEdgeFlags="left" />
+            app:codes="@integer/key_shift"
+            app:keyIcon="@drawable/sym_keyboard_shift"
+            app:iconPreview="@drawable/sym_keyboard_feedback_shift"
+            app:isModifier="true"
+            app:isSticky="true"
+            app:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="@string/key_lsgt_main"
-            android:shiftLabel="@string/key_lsgt_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_lsgt_alt" />
+            app:keyLabel="@string/key_lsgt_main"
+            app:shiftLabel="@string/key_lsgt_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_lsgt_alt" />
         <Key
-            android:keyLabel="@string/key_ab01_main"
-            android:shiftLabel="@string/key_ab01_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab01_alt" />
+            app:keyLabel="@string/key_ab01_main"
+            app:shiftLabel="@string/key_ab01_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab01_alt" />
         <Key
-            android:keyLabel="@string/key_ab02_main"
-            android:shiftLabel="@string/key_ab02_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab02_alt" />
+            app:keyLabel="@string/key_ab02_main"
+            app:shiftLabel="@string/key_ab02_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab02_alt" />
         <Key
-            android:keyLabel="@string/key_ab03_main"
-            android:shiftLabel="@string/key_ab03_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab03_alt" />
+            app:keyLabel="@string/key_ab03_main"
+            app:shiftLabel="@string/key_ab03_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab03_alt" />
         <Key
-            android:keyLabel="@string/key_ab04_main"
-            android:shiftLabel="@string/key_ab04_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab04_alt" />
+            app:keyLabel="@string/key_ab04_main"
+            app:shiftLabel="@string/key_ab04_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab04_alt" />
         <Key
-            android:keyLabel="@string/key_ab05_main"
-            android:shiftLabel="@string/key_ab05_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab05_alt" />
+            app:keyLabel="@string/key_ab05_main"
+            app:shiftLabel="@string/key_ab05_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab05_alt" />
         <Key
-            android:keyLabel="@string/key_ab06_main"
-            android:shiftLabel="@string/key_ab06_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab06_alt" />
+            app:keyLabel="@string/key_ab06_main"
+            app:shiftLabel="@string/key_ab06_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab06_alt" />
         <Key
-            android:keyLabel="@string/key_ab07_main"
-            android:shiftLabel="@string/key_ab07_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab07_alt" />
+            app:keyLabel="@string/key_ab07_main"
+            app:shiftLabel="@string/key_ab07_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab07_alt" />
         <Key
-            android:keyLabel="@string/key_ab08_main"
-            android:shiftLabel="@string/key_ab08_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab08_alt" />
+            app:keyLabel="@string/key_ab08_main"
+            app:shiftLabel="@string/key_ab08_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab08_alt" />
         <Key
-            android:keyLabel="@string/key_ab09_main"
-            android:shiftLabel="@string/key_ab09_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab09_alt" />
+            app:keyLabel="@string/key_ab09_main"
+            app:shiftLabel="@string/key_ab09_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab09_alt" />
         <Key
-            android:keyLabel="@string/key_ab10_main"
-            android:shiftLabel="@string/key_ab10_shift"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/key_ab10_alt" />
+            app:keyLabel="@string/key_ab10_main"
+            app:shiftLabel="@string/key_ab10_shift"
+            app:popupKeyboard="@xml/kbd_popup_template"
+            app:popupCharacters="@string/key_ab10_alt" />
         <Key
-            android:codes="@integer/key_dpad_up"
-            android:isRepeatable="true"
-            android:keyLabel="&#x25b3;"
-            android:isCursor="true"
-            android:isModifier="true" />
+            app:codes="@integer/key_dpad_up"
+            app:isRepeatable="true"
+            app:keyLabel="&#x25b3;"
+            app:isCursor="true"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_shift"
-            android:keyIcon="@drawable/sym_keyboard_shift"
-            android:keyEdgeFlags="right"
-            android:isModifier="true" />
+            app:codes="@integer/key_shift"
+            app:keyIcon="@drawable/sym_keyboard_shift"
+            app:keyEdgeFlags="right"
+            app:isModifier="true" />
     </Row>
     <Row
-        android:rowEdgeFlags="bottom"
+        app:rowEdgeFlags="bottom"
     >
         <Key
-            android:keyLabel="Esc"
-            android:codes="@integer/key_escape"
-            android:keyWidth="10.7142855%p"
-            android:keyEdgeFlags="left"
-            android:isModifier="true" />
+            app:keyLabel="Esc"
+            app:codes="@integer/key_escape"
+            app:keyWidth="10.7142855%p"
+            app:keyEdgeFlags="left"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            app:codes="@integer/key_f1"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_alt_left"
-            android:keyLabel="Alt"
-            android:isSticky="true"
-            android:isModifier="true" />
+            app:codes="@integer/key_alt_left"
+            app:keyLabel="Alt"
+            app:isSticky="true"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_meta_left"
-            android:keyLabel="&#x2756;"
-            android:isSticky="true"
-            android:isModifier="true" />
+            app:codes="@integer/key_meta_left"
+            app:keyLabel="&#x2756;"
+            app:isSticky="true"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:shiftLabel="@string/key_space_shift"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="32.1428571372%p"
-            android:isModifier="true" />
+            app:codes="@integer/key_space"
+            app:shiftLabel="@string/key_space_shift"
+            app:keyIcon="@drawable/sym_keyboard_space"
+            app:iconPreview="@drawable/sym_keyboard_feedback_space"
+            app:keyWidth="32.1428571372%p"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_fn"
-            android:keyLabel="Fn"
-            android:isModifier="true" />
+            app:codes="@integer/key_fn"
+            app:keyLabel="Fn"
+            app:isModifier="true" />
         <Key
-            android:codes="@integer/key_dpad_center"
-            android:isModifier="true"
-            android:isCursor="true"
-            android:keyLabel="&#x25cb;" />
+            app:codes="@integer/key_dpad_center"
+            app:isModifier="true"
+            app:isCursor="true"
+            app:keyLabel="&#x25cb;" />
         <Key
-            android:codes="@integer/key_dpad_left"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:isCursor="true"
-            android:keyLabel="&#x25c1;" />
+            app:codes="@integer/key_dpad_left"
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:isCursor="true"
+            app:keyLabel="&#x25c1;" />
         <Key
-            android:codes="@integer/key_dpad_down"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:isCursor="true"
-            android:keyLabel="&#x25bd;" />
+            app:codes="@integer/key_dpad_down"
+            app:isModifier="true"
+            app:isRepeatable="true"
+            app:isCursor="true"
+            app:keyLabel="&#x25bd;" />
         <Key
-            android:codes="@integer/key_dpad_right"
-            android:isModifier="true"
-            android:keyLabel="&#x25b7;"
-            android:isRepeatable="true"
-            android:isCursor="true"
-            android:keyEdgeFlags="right" />
+            app:codes="@integer/key_dpad_right"
+            app:isModifier="true"
+            app:keyLabel="&#x25b7;"
+            app:isRepeatable="true"
+            app:isCursor="true"
+            app:keyEdgeFlags="right" />
     </Row>
 </Keyboard>
