@@ -34,6 +34,9 @@
             app:keyIcon="@drawable/sym_keyboard_settings"
             app:keyEdgeFlags="left" />
         <Key
+            app:codes="@integer/key_emoji"
+            app:keyLabel="🙂" />
+        <Key
             app:keyLabel=","
             app:keyEdgeFlags="right" />
     </Row>

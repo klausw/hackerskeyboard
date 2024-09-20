@@ -83,6 +83,7 @@ public class Keyboard {
     public static final int KEYCODE_DONE = -4;
     public static final int KEYCODE_DELETE = -5;
     public static final int KEYCODE_ALT_SYM = -6;
+    public static final int KEYCODE_EMOJI = -7;
 
     // Backwards compatible setting to avoid having to change all the kbd_qwerty files
     public static final int DEFAULT_LAYOUT_ROWS = 4;

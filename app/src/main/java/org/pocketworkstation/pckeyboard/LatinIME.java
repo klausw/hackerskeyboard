@@ -1952,6 +1952,9 @@ public class LatinIME extends InputMethodService implements
         final boolean distinctMultiTouch = mKeyboardSwitcher
                 .hasDistinctMultitouch();
         switch (primaryCode) {
+        case Keyboard.KEYCODE_EMOJI:
+            mKeyboardSwitcher.setKeyboardMode(KeyboardSwitcher.MODE_EMOJI, 0, false);
+            break;
         case Keyboard.KEYCODE_DELETE:
             if (processMultiKey(primaryCode)) {
                 break;
@@ -2081,7 +2084,14 @@ public class LatinIME extends InputMethodService implements
             if (primaryCode != ASCII_ENTER) {
                 mJustAddedAutoSpace = false;
             }
-            RingCharBuffer.getInstance().push((char) primaryCode, x, y);
+            if (Character.isSupplementaryCodePoint(primaryCode)) {
+                char[] chars = Character.toChars(primaryCode);
+                for (char c : chars) {
+                    RingCharBuffer.getInstance().push(c, x, y);
+                }
+            } else {
+                RingCharBuffer.getInstance().push((char) primaryCode, x, y);
+            }
             if (isWordSeparator(primaryCode)) {
                 handleSeparator(primaryCode);
             } else {
@@ -2323,6 +2333,15 @@ public class LatinIME extends InputMethodService implements
                 // could be either auto-caps or manual shift.
                 mWord.setFirstCharCapitalized(true);
             }
+            
+            if (Character.isSupplementaryCodePoint(primaryCode)) {
+                char[] chars = Character.toChars(primaryCode);
+                for (char c : chars) {
+                    mComposing.append(c);
+                }
+            } else {
+                mComposing.append((char) primaryCode);
+            }
             mComposing.append((char) primaryCode);
             mWord.add(primaryCode, keyCodes);
             InputConnection ic = getCurrentInputConnection();
@@ -2336,11 +2355,26 @@ public class LatinIME extends InputMethodService implements
             }
             postUpdateSuggestions();
         } else {
-            sendModifiableKeyChar((char) primaryCode);
+            if (Character.isSupplementaryCodePoint(primaryCode)) {
+                char[] chars = Character.toChars(primaryCode);
+                for (char c : chars) {
+                    sendModifiableKeyChar(c);
+                }
+            } else {
+                sendModifiableKeyChar((char) primaryCode);
+            }
         }
         updateShiftKeyState(getCurrentInputEditorInfo());
-        TextEntryState.typedCharacter((char) primaryCode,
+        if (Character.isSupplementaryCodePoint(primaryCode)) {
+            char[] chars = Character.toChars(primaryCode);
+            for (char c : chars) {
+                TextEntryState.typedCharacter(c,
+                    isWordSeparator(primaryCode));
+            }
+        } else {
+            TextEntryState.typedCharacter((char) primaryCode,
                 isWordSeparator(primaryCode));
+        }
     }
 
     private void handleSeparator(int primaryCode) {
@@ -2390,7 +2424,15 @@ public class LatinIME extends InputMethodService implements
             removeTrailingSpace();
             mJustAddedAutoSpace = false;
         }
-        sendModifiableKeyChar((char) primaryCode);
+        
+        if (Character.isSupplementaryCodePoint(primaryCode)) {
+            char[] chars = Character.toChars(primaryCode);
+            for (char c : chars) {
+                sendModifiableKeyChar(c);
+            }
+        } else {
+            sendModifiableKeyChar((char) primaryCode);
+        }
 
         // Handle the case of ". ." -> " .." with auto-space if necessary
         // before changing the TextEntryState.
@@ -2399,7 +2441,15 @@ public class LatinIME extends InputMethodService implements
             reswapPeriodAndSpace();
         }
 
-        TextEntryState.typedCharacter((char) primaryCode, true);
+        if (Character.isSupplementaryCodePoint(primaryCode)) {
+            char[] chars = Character.toChars(primaryCode);
+            for (char c : chars) {
+                TextEntryState.typedCharacter(c, true);
+            }
+        } else {
+            TextEntryState.typedCharacter((char) primaryCode, true);
+        }
+            
         if (TextEntryState.getState() == TextEntryState.State.PUNCTUATION_AFTER_ACCEPTED
                 && primaryCode != ASCII_ENTER) {
             swapPunctuationAndSpace();

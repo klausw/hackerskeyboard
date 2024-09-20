@@ -91,7 +91,14 @@ public class WordComposer {
      * @param codes the array of unicode values
      */
     public void add(int primaryCode, int[] codes) {
-        mTypedWord.append((char) primaryCode);
+        if (Character.isSupplementaryCodePoint(primaryCode)) {
+            char[] chars = Character.toChars(primaryCode);
+            for (char c : chars) {
+                mTypedWord.append(c);
+            }
+        } else {
+            mTypedWord.append((char) primaryCode);
+        }
         correctPrimaryJuxtapos(primaryCode, codes);
         correctCodesCase(codes);
         mCodes.add(codes);

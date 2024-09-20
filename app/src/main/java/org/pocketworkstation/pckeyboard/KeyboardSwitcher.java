@@ -40,6 +40,7 @@ public class KeyboardSwitcher implements
     public static final int MODE_EMAIL = 5;
     public static final int MODE_IM = 6;
     public static final int MODE_WEB = 7;
+    public static final int MODE_EMOJI = 8;
 
     // Main keyboard layouts without the settings key
     public static final int KEYBOARDMODE_NORMAL = R.id.mode_normal;
@@ -47,6 +48,7 @@ public class KeyboardSwitcher implements
     public static final int KEYBOARDMODE_EMAIL = R.id.mode_email;
     public static final int KEYBOARDMODE_IM = R.id.mode_im;
     public static final int KEYBOARDMODE_WEB = R.id.mode_webentry;
+    public static final int KEYBOARDMODE_EMOJI = R.id.mode_emoji;
     // Main keyboard layouts with the settings key
     public static final int KEYBOARDMODE_NORMAL_WITH_SETTINGS_KEY = R.id.mode_normal_with_settings_key;
     public static final int KEYBOARDMODE_URL_WITH_SETTINGS_KEY = R.id.mode_url_with_settings_key;
@@ -82,11 +84,12 @@ public class KeyboardSwitcher implements
     private static final int KBD_FULL_FN = R.xml.kbd_full_fn;
     private static final int KBD_COMPACT = R.xml.kbd_compact;
     private static final int KBD_COMPACT_FN = R.xml.kbd_compact_fn;
+    private static final int KBD_EMOJI = R.xml.kbd_emoji;
 
     private LatinKeyboardView mInputView;
     private static final int[] ALPHABET_MODES = { KEYBOARDMODE_NORMAL,
             KEYBOARDMODE_URL, KEYBOARDMODE_EMAIL, KEYBOARDMODE_IM,
-            KEYBOARDMODE_WEB, KEYBOARDMODE_NORMAL_WITH_SETTINGS_KEY,
+            KEYBOARDMODE_WEB, KEYBOARDMODE_EMOJI, KEYBOARDMODE_NORMAL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_URL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_EMAIL_WITH_SETTINGS_KEY,
             KEYBOARDMODE_IM_WITH_SETTINGS_KEY,
@@ -368,6 +371,8 @@ public class KeyboardSwitcher implements
             case MODE_WEB:
                 return new KeyboardId(mFullMode == 1 ? KBD_COMPACT : KBD_FULL,
                         KEYBOARDMODE_NORMAL, true, hasVoice);
+            case MODE_EMOJI:
+                return new KeyboardId(KBD_EMOJI, KEYBOARDMODE_EMOJI, true, false);
             }
         }
         // TODO: generalize for any KeyboardId
@@ -411,6 +416,8 @@ public class KeyboardSwitcher implements
             return new KeyboardId(keyboardRowsResId,
                     mHasSettingsKey ? KEYBOARDMODE_WEB_WITH_SETTINGS_KEY
                             : KEYBOARDMODE_WEB, true, hasVoice);
+        case MODE_EMOJI:
+            return new KeyboardId(KBD_EMOJI, KEYBOARDMODE_EMOJI, true, false);
         }
         return null;
     }
