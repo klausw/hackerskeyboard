@@ -737,8 +737,12 @@ public class LatinIME extends InputMethodService implements
         super.setCandidatesViewShown(true);
         // hideWindow breaks subsequent call to onStartInputView which is
         // important for resetting candidate list when changing input field,
-        // and for chosing numeric keypad where needed
-        // hideWindow();
+        // and for chosing numeric keypad where needed. This happens mostly
+        // for flutter applications, and only if restarting.
+        // if not restarting, we need to keep hideWindow(), or back button
+        // will break in Brave on older Android versions (12)
+        if(!restarting)
+            hideWindow();
     }
 
     @Override
