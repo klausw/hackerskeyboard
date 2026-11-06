@@ -75,7 +75,9 @@
     <PreferenceScreen
             android:title="@string/pref_screen_view_title"
             android:summary="@string/pref_screen_view_title_summary">
-        <intent android:action="org.pocketworkstation.pckeyboard.PREFS_VIEW"/>
+      <intent
+          android:targetPackage="org.pocketworkstation.pckeyboard"
+          android:targetClass="org.pocketworkstation.pckeyboard.PrefScreenView" />
     </PreferenceScreen>
 
     </PreferenceCategory>
@@ -106,7 +108,9 @@
             android:title="@string/language_selection_title"
             android:summary="@string/language_selection_summary">
         <intent
-                android:action="org.pocketworkstation.pckeyboard.INPUT_LANGUAGE_SELECTION"/>
+            android:targetPackage="org.pocketworkstation.pckeyboard"
+            android:targetClass="org.pocketworkstation.pckeyboard.InputLanguageSelection" />
+        />
     </PreferenceScreen>
     </PreferenceCategory>
 
@@ -142,14 +146,17 @@
     <PreferenceScreen
             android:title="@string/pref_screen_feedback_title"
             android:summary="@string/pref_screen_feedback_title_summary">
-        <intent
-                android:action="org.pocketworkstation.pckeyboard.PREFS_FEEDBACK"/>
+      <intent
+          android:targetPackage="org.pocketworkstation.pckeyboard"
+          android:targetClass="org.pocketworkstation.pckeyboard.PrefScreenFeedback" />
     </PreferenceScreen>
 
     <PreferenceScreen
             android:title="@string/pref_screen_actions_title"
             android:summary="@string/pref_screen_actions_title_summary">
-        <intent android:action="org.pocketworkstation.pckeyboard.PREFS_ACTIONS"/>
+      <intent
+          android:targetPackage="org.pocketworkstation.pckeyboard"
+          android:targetClass="org.pocketworkstation.pckeyboard.PrefScreenActions" />
     </PreferenceScreen>
 
     <org.pocketworkstation.pckeyboard.AutoSummaryListPreference
