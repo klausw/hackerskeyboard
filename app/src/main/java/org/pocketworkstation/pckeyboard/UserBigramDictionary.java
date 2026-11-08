@@ -30,6 +30,8 @@ import android.os.AsyncTask;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import android.annotation.SuppressLint;
+
 /**
  * Stores all the pairs user types in databases. Prune the database if the size
  * gets too big. Unlike AutoDictionary, it even stores the pairs that are already
@@ -345,6 +347,7 @@ public class UserBigramDictionary extends ExpandableDictionary {
         }
 
         @Override
+        @SuppressLint("Range")
         protected Void doInBackground(Void... v) {
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
             db.execSQL("PRAGMA foreign_keys = ON;");

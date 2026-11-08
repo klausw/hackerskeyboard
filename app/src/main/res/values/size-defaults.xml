@@ -18,7 +18,9 @@
 */
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+	   tools:ignore="MissingTranslation"
+	   >
     <string name="default_height_portrait">35%</string>
     <string name="default_height_landscape">55%</string>
     <string name="default_keyboard_mode_portrait">0</string>

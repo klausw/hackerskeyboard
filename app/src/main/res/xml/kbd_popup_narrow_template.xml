@@ -18,10 +18,10 @@
 */
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="9%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="@dimen/popup_key_height"
+<Keyboard xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="9%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="0px"
+    hackkbd:keyHeight="@dimen/popup_key_height"
     >
 </Keyboard>

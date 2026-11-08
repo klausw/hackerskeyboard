@@ -16,41 +16,41 @@
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
 */
-    android:keyHeight="@dimen/key_height"
+    hackkbd:keyHeight="@dimen/key_height"
 
 Unavailable accents:
-        <Key android:keyLabel="&#x309;"/>
-        <Key android:keyLabel="&#x30D;"/>
+        <Key hackkbd:keyLabel="&#x309;"/>
+        <Key hackkbd:keyLabel="&#x30D;"/>
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="7.1428571485%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
+<Keyboard xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="7.1428571485%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="0px"
     >
 
-    <Row android:rowEdgeFlags="top|bottom">
-        <Key android:keyLabel="&#x300;" android:keyEdgeFlags="left"/>
-        <Key android:keyLabel="&#x301;"/>
-        <Key android:keyLabel="&#x302;"/>        
-        <Key android:keyLabel="&#x303;"/>
-        <Key android:keyLabel="&#x304;"/>
-        <Key android:keyLabel="&#x305;"/>
-        <Key android:keyLabel="&#x306;"/>
-        <Key android:keyLabel="&#x307;"/>
-        <Key android:keyLabel="&#x308;"/>
-        <Key android:keyLabel="&#x30A;"/>
-        <Key android:keyLabel="&#x30B;"/>
-        <Key android:keyLabel="&#x30C;"/>
+    <Row hackkbd:rowEdgeFlags="top|bottom">
+        <Key hackkbd:keyLabel="&#x300;" hackkbd:keyEdgeFlags="left"/>
+        <Key hackkbd:keyLabel="&#x301;"/>
+        <Key hackkbd:keyLabel="&#x302;"/>        
+        <Key hackkbd:keyLabel="&#x303;"/>
+        <Key hackkbd:keyLabel="&#x304;"/>
+        <Key hackkbd:keyLabel="&#x305;"/>
+        <Key hackkbd:keyLabel="&#x306;"/>
+        <Key hackkbd:keyLabel="&#x307;"/>
+        <Key hackkbd:keyLabel="&#x308;"/>
+        <Key hackkbd:keyLabel="&#x30A;"/>
+        <Key hackkbd:keyLabel="&#x30B;"/>
+        <Key hackkbd:keyLabel="&#x30C;"/>
 	<Key
-            android:codes="@integer/key_home"
-            android:isModifier="true"            
-            android:keyLabel="Home" />
+            hackkbd:codes="@integer/key_home"
+            hackkbd:isModifier="true"            
+            hackkbd:keyLabel="Home" />
 	<Key
-            android:codes="@integer/key_end"
-            android:isModifier="true"            
-            android:keyLabel="End"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_end"
+            hackkbd:isModifier="true"            
+            hackkbd:keyLabel="End"
+            hackkbd:keyEdgeFlags="right" />
         />
     </Row>
 </Keyboard>

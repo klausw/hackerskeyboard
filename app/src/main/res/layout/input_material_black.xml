@@ -29,6 +29,7 @@
         android:background="@drawable/keyboard_background_material_black"
         latin:keyTextColor="@color/key_text_color_material_black"
         latin:keyHintColor="@color/key_hint_letter_color_material_black"
+        android:fitsSystemWindows="true"
 
         latin:keyBackground="@drawable/btn_keyboard_key_material_black"
         latin:popupLayout="@layout/input_popup_material_black"

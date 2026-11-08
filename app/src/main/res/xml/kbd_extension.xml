@@ -16,46 +16,46 @@
 ** See the License for the specific language governing permissions and 
 ** limitations under the License.
 */
-    android:keyHeight="@dimen/key_height"
+    hackkbd:keyHeight="@dimen/key_height"
 -->
 
-<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="10%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
+<Keyboard xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="10%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="0px"
     >
 
-    <Row android:rowEdgeFlags="top">
-        <Key android:keyLabel="!" android:keyEdgeFlags="left"/>
-        <Key android:keyLabel="\@"/>
-        <Key android:keyLabel="\#"/>        
-        <Key android:keyLabel="&amp;"/>
-        <Key android:keyLabel="-"/>
-        <Key android:keyLabel="\'"/>
-        <Key android:keyLabel=":"/>
-        <Key android:keyLabel="&quot;"/>
-        <Key android:keyLabel="/"/>
-        <Key android:keyLabel="\?" android:keyEdgeFlags="right"
+    <Row hackkbd:rowEdgeFlags="top">
+        <Key hackkbd:keyLabel="!" hackkbd:keyEdgeFlags="left"/>
+        <Key hackkbd:keyLabel="\@"/>
+        <Key hackkbd:keyLabel="\#"/>        
+        <Key hackkbd:keyLabel="&amp;"/>
+        <Key hackkbd:keyLabel="-"/>
+        <Key hackkbd:keyLabel="\'"/>
+        <Key hackkbd:keyLabel=":"/>
+        <Key hackkbd:keyLabel="&quot;"/>
+        <Key hackkbd:keyLabel="/"/>
+        <Key hackkbd:keyLabel="\?" hackkbd:keyEdgeFlags="right"
         />
     </Row>
 
-    <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"
+    <Row hackkbd:rowEdgeFlags="bottom">
+        <Key hackkbd:codes="49" hackkbd:keyLabel="1" hackkbd:keyEdgeFlags="left"
         />
-        <Key android:codes="50" android:keyLabel="2"
+        <Key hackkbd:codes="50" hackkbd:keyLabel="2"
         />
-        <Key android:codes="51" android:keyLabel="3"
+        <Key hackkbd:codes="51" hackkbd:keyLabel="3"
         />
-        <Key android:codes="52" android:keyLabel="4"
+        <Key hackkbd:codes="52" hackkbd:keyLabel="4"
         />
-        <Key android:codes="53" android:keyLabel="5"
+        <Key hackkbd:codes="53" hackkbd:keyLabel="5"
         />
-        <Key android:codes="54" android:keyLabel="6"/>
-        <Key android:codes="55" android:keyLabel="7"
+        <Key hackkbd:codes="54" hackkbd:keyLabel="6"/>
+        <Key hackkbd:codes="55" hackkbd:keyLabel="7"
         />
-        <Key android:codes="56" android:keyLabel="8"/>
-        <Key android:codes="57" android:keyLabel="9"/>
-        <Key android:codes="48" android:keyLabel="0" 
-                android:keyEdgeFlags="right"/>
+        <Key hackkbd:codes="56" hackkbd:keyLabel="8"/>
+        <Key hackkbd:codes="57" hackkbd:keyLabel="9"/>
+        <Key hackkbd:codes="48" hackkbd:keyLabel="0" 
+                hackkbd:keyEdgeFlags="right"/>
     </Row>    
 </Keyboard>

@@ -19,71 +19,71 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="15%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="@dimen/popup_key_height"
+    xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="15%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="0px"
+    hackkbd:keyHeight="@dimen/popup_key_height"
 >
     <Row
-        android:rowEdgeFlags="top"
+        hackkbd:rowEdgeFlags="top"
     >
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel=":-)"
+            hackkbd:keyOutputText=":-) "
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel=":-("
-            android:keyOutputText=":-( " />
+            hackkbd:keyLabel=":-("
+            hackkbd:keyOutputText=":-( " />
         <Key
-            android:keyLabel=";-)"
-            android:keyOutputText=";-) " />
+            hackkbd:keyLabel=";-)"
+            hackkbd:keyOutputText=";-) " />
         <Key
-            android:keyLabel=":-P"
-            android:keyOutputText=":-P " />
+            hackkbd:keyLabel=":-P"
+            hackkbd:keyOutputText=":-P " />
         <Key
-            android:keyLabel="=-O"
-            android:keyOutputText="=-O "
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel="=-O"
+            hackkbd:keyOutputText="=-O "
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:keyLabel=":-*"
-            android:keyOutputText=":-* "
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel=":-*"
+            hackkbd:keyOutputText=":-* "
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel=":O"
-            android:keyOutputText=":O " />
+            hackkbd:keyLabel=":O"
+            hackkbd:keyOutputText=":O " />
         <Key
-            android:keyLabel="B-)"
-            android:keyOutputText="B-) " />
+            hackkbd:keyLabel="B-)"
+            hackkbd:keyOutputText="B-) " />
         <Key
-            android:keyLabel=":-$"
-            android:keyOutputText=":-$ " />
+            hackkbd:keyLabel=":-$"
+            hackkbd:keyOutputText=":-$ " />
         <Key
-            android:keyLabel=":-!"
-            android:keyOutputText=":-! "
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel=":-!"
+            hackkbd:keyOutputText=":-! "
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:rowEdgeFlags="bottom"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:keyLabel=":-["
-            android:keyOutputText=":-[ "
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel=":-["
+            hackkbd:keyOutputText=":-[ "
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="O:-)"
-            android:keyOutputText="O:-) " />
+            hackkbd:keyLabel="O:-)"
+            hackkbd:keyOutputText="O:-) " />
         <Key
-            android:keyLabel=":-\\"
-            android:keyOutputText=":-\\ " />
+            hackkbd:keyLabel=":-\\"
+            hackkbd:keyOutputText=":-\\ " />
         <Key
-            android:keyLabel=":'("
-            android:keyOutputText=":'( " />
+            hackkbd:keyLabel=":'("
+            hackkbd:keyOutputText=":'( " />
         <Key
-            android:keyLabel=":-D"
-            android:keyOutputText=":-D "
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel=":-D"
+            hackkbd:keyOutputText=":-D "
+            hackkbd:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

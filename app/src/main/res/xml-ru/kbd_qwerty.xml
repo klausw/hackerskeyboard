@@ -19,494 +19,494 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="9.09%p"
-    android:horizontalGap="0px"
-    android:verticalGap="@dimen/key_bottom_gap"
+    xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="9.09%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="@dimen/key_bottom_gap"
 >
     <Row
-        android:rowEdgeFlags="top"
+        hackkbd:rowEdgeFlags="top"
     >
         <Key
-            android:keyLabel="й"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="1"
-            android:keyWidth="8.75%p"
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel="й"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="1"
+            hackkbd:keyWidth="8.75%p"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="ц"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="2" />
+            hackkbd:keyLabel="ц"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="2" />
         <Key
-            android:keyLabel="у"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="3" />
+            hackkbd:keyLabel="у"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="3" />
         <Key
-            android:keyLabel="к"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="4" />
+            hackkbd:keyLabel="к"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="4" />
         <Key
-            android:keyLabel="е"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_cyrillic_e" />
+            hackkbd:keyLabel="е"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="@string/alternates_for_cyrillic_e" />
         <Key
-            android:keyLabel="н"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="6" />
+            hackkbd:keyLabel="н"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="6" />
         <Key
-            android:keyLabel="г"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="7" />
+            hackkbd:keyLabel="г"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="7" />
         <Key
-            android:keyLabel="ш"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="8" />
+            hackkbd:keyLabel="ш"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="8" />
         <Key
-            android:keyLabel="щ"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="9" />
+            hackkbd:keyLabel="щ"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="9" />
         <Key
-            android:keyLabel="з"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="0" />
+            hackkbd:keyLabel="з"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="0" />
         <Key
-            android:keyLabel="х"
-            android:keyWidth="8.75%p"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel="х"
+            hackkbd:keyWidth="8.75%p"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:keyLabel="ф"
-            android:keyWidth="8.75%p"
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel="ф"
+            hackkbd:keyWidth="8.75%p"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="ы" />
+            hackkbd:keyLabel="ы" />
         <Key
-            android:keyLabel="в" />
+            hackkbd:keyLabel="в" />
         <Key
-            android:keyLabel="а" />
+            hackkbd:keyLabel="а" />
         <Key
-            android:keyLabel="п" />
+            hackkbd:keyLabel="п" />
         <Key
-            android:keyLabel="р" />
+            hackkbd:keyLabel="р" />
         <Key
-            android:keyLabel="о" />
+            hackkbd:keyLabel="о" />
         <Key
-            android:keyLabel="л" />
+            hackkbd:keyLabel="л" />
         <Key
-            android:keyLabel="д" />
+            hackkbd:keyLabel="д" />
         <Key
-            android:keyLabel="ж" />
+            hackkbd:keyLabel="ж" />
         <Key
-            android:keyLabel="э"
-            android:keyWidth="8.75%p"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel="э"
+            hackkbd:keyWidth="8.75%p"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyWidth="8.5%p"
+        hackkbd:keyWidth="8.5%p"
     >
         <Key
-            android:codes="@integer/key_shift"
-            android:keyIcon="@drawable/sym_keyboard_shift"
-            android:iconPreview="@drawable/sym_keyboard_feedback_shift"
-            android:keyWidth="11.75%p"
-            android:isModifier="true"
-            android:isSticky="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_shift"
+            hackkbd:keyIcon="@drawable/sym_keyboard_shift"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_shift"
+            hackkbd:keyWidth="11.75%p"
+            hackkbd:isModifier="true"
+            hackkbd:isSticky="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="я" />
+            hackkbd:keyLabel="я" />
         <Key
-            android:keyLabel="ч" />
+            hackkbd:keyLabel="ч" />
         <Key
-            android:keyLabel="с" />
+            hackkbd:keyLabel="с" />
         <Key
-            android:keyLabel="м" />
+            hackkbd:keyLabel="м" />
         <Key
-            android:keyLabel="и" />
+            hackkbd:keyLabel="и" />
         <Key
-            android:keyLabel="т" />
+            hackkbd:keyLabel="т" />
         <Key
-            android:keyLabel="ь"
-            android:popupKeyboard="@xml/kbd_popup_template"
-            android:popupCharacters="@string/alternates_for_cyrillic_soft_sign" />
+            hackkbd:keyLabel="ь"
+            hackkbd:popupKeyboard="@xml/kbd_popup_template"
+            hackkbd:popupCharacters="@string/alternates_for_cyrillic_soft_sign" />
         <Key
-            android:keyLabel="б" />
+            hackkbd:keyLabel="б" />
         <Key
-            android:keyLabel="ю" />
+            hackkbd:keyLabel="ю" />
         <Key
-            android:codes="@integer/key_delete"
-            android:keyIcon="@drawable/sym_keyboard_delete"
-            android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:keyWidth="11.75%p"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_delete"
+            hackkbd:keyIcon="@drawable/sym_keyboard_delete"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            hackkbd:keyWidth="11.75%p"
+            hackkbd:isModifier="true"
+            hackkbd:isRepeatable="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_normal"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_normal"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="40%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_url"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_url"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="40%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_email"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_email"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="40%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_im"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_im"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="40%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="40%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_smileys"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel=":-)"
+            hackkbd:keyOutputText=":-) "
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_smileys"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_webentry"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_webentry"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="30%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_tab"
-            android:keyIcon="@drawable/sym_keyboard_tab"
-            android:iconPreview="@drawable/sym_keyboard_feedback_tab"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_tab"
+            hackkbd:keyIcon="@drawable/sym_keyboard_tab"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_tab"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_normal_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_normal_with_settings_key"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="15%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_settings"
+            hackkbd:keyIcon="@drawable/sym_keyboard_settings"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="30%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="25%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_url_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_url_with_settings_key"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="15%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_settings"
+            hackkbd:keyIcon="@drawable/sym_keyboard_settings"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="30%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="25%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_email_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_email_with_settings_key"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="15%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_settings"
+            hackkbd:keyIcon="@drawable/sym_keyboard_settings"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="30%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="25%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_im_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_im_with_settings_key"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="15%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_settings"
+            hackkbd:keyIcon="@drawable/sym_keyboard_settings"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="30%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_smileys"
-            android:keyWidth="25%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel=":-)"
+            hackkbd:keyOutputText=":-) "
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_smileys"
+            hackkbd:keyWidth="25%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:keyboardMode="@+id/mode_webentry_with_settings_key"
-        android:keyWidth="10%p"
-        android:rowEdgeFlags="bottom"
+        hackkbd:keyboardMode="@+id/mode_webentry_with_settings_key"
+        hackkbd:keyWidth="10%p"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_symbol_key"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_symbol_key"
+            hackkbd:keyWidth="15%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_settings"
+            hackkbd:keyIcon="@drawable/sym_keyboard_settings"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space"
-            android:keyWidth="30%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space"
+            hackkbd:keyWidth="30%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_tab"
-            android:keyIcon="@drawable/sym_keyboard_tab"
-            android:iconPreview="@drawable/sym_keyboard_feedback_tab"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_tab"
+            hackkbd:keyIcon="@drawable/sym_keyboard_tab"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_tab"
+            hackkbd:isModifier="true" />
         <Key
-            android:keyLabel="."
-            android:keyIcon="@drawable/hint_popup"
-            android:popupKeyboard="@xml/popup_punctuation"
-            android:isModifier="true" />
+            hackkbd:keyLabel="."
+            hackkbd:keyIcon="@drawable/hint_popup"
+            hackkbd:popupKeyboard="@xml/popup_punctuation"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:iconPreview="@drawable/sym_keyboard_feedback_return"
-            android:keyWidth="15%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_return"
+            hackkbd:keyWidth="15%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

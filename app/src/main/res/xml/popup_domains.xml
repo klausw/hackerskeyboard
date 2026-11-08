@@ -19,28 +19,28 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="15%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="@dimen/popup_key_height"
+    xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="15%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="0px"
+    hackkbd:keyHeight="@dimen/popup_key_height"
 >
     <Row
-        android:rowEdgeFlags="top|bottom"
+        hackkbd:rowEdgeFlags="top|bottom"
     >
         <Key
-            android:keyLabel="@string/popular_domain_1"
-            android:keyOutputText="@string/popular_domain_1"
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel="@string/popular_domain_1"
+            hackkbd:keyOutputText="@string/popular_domain_1"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="@string/popular_domain_2"
-            android:keyOutputText="@string/popular_domain_2" />
+            hackkbd:keyLabel="@string/popular_domain_2"
+            hackkbd:keyOutputText="@string/popular_domain_2" />
         <Key
-            android:keyLabel="@string/popular_domain_3"
-            android:keyOutputText="@string/popular_domain_3" />
+            hackkbd:keyLabel="@string/popular_domain_3"
+            hackkbd:keyOutputText="@string/popular_domain_3" />
         <Key
-            android:keyLabel="@string/popular_domain_4"
-            android:keyOutputText="@string/popular_domain_4"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel="@string/popular_domain_4"
+            hackkbd:keyOutputText="@string/popular_domain_4"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

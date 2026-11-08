@@ -17,13 +17,16 @@
 ** limitations under the License.
 */
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+	   xmlns:tools="http://schemas.android.com/tools"
+	   tools:ignore="MissingTranslation"
+	   >
     <!-- Title for Latin keyboard  -->
-    <string name="english_ime_name">Hacker\'s Keyboard</string>
+    <string name="english_ime_name" translatable="false">Hacker\'s Keyboard</string>
     <!-- Title for Latin keyboard settings activity / dialog -->
-    <string name="english_ime_settings">Settings for Hacker\'s Keyboard</string>
+    <string name="english_ime_settings" translatable="false">Settings for Hacker\'s Keyboard</string>
     <!-- Title for Latin keyboard input options dialog -->
-    <string name="english_ime_input_options">Input options</string>
+    <string name="english_ime_input_options" translatable="false">Input options</string>
 
     <!-- Various configuration titles -->
     <string name="title_keyboard_view_settings">Keyboard view settings</string>
@@ -51,61 +54,61 @@
 
     <!-- Option to enable using nearby keys when correcting/predicting -->
     <string name="hit_correction">Correct typing errors</string>
-    
+
     <!-- Description for hit_correction  -->
     <string name="hit_correction_summary">Enable input error correction</string>
-    
+
     <!-- Option to enable using nearby keys when correcting/predicting in landscape-->
     <string name="hit_correction_land">Landscape input errors</string>
-    
+
     <!-- Description for hit_correction in landscape -->
     <string name="hit_correction_land_summary">Enable input error correction</string>
-    
+
     <!-- Option to automatically correct word on hitting space -->
-    <string name="auto_correction">Word suggestions</string> 
-    
+    <string name="auto_correction">Word suggestions</string>
+
     <!-- Description for auto_correction -->
     <string name="auto_correction_summary">Automatically correct the previous word</string>
-	
+
     <!-- Option to enable text prediction -->
     <string name="prediction">Word suggestions</string>
     <!-- Category title for text prediction -->
     <string name="prediction_category">Word suggestion settings</string>
     <!-- Description for text prediction -->
     <string name="prediction_summary">Enable auto completion while typing</string>
-	
+
     <!-- Dialog title for auto complete choices -->
     <string name="auto_complete_dialog_title">Auto completion</string>
-    
+
     <!-- Option to enable text prediction in landscape -->
-    <string name="prediction_landscape">Increase text field size</string> 
+    <string name="prediction_landscape">Increase text field size</string>
     <!-- Description for text prediction -->
     <string name="prediction_landscape_summary">Hide word suggestions in landscape view</string>
-	
+
     <!-- Option to enable auto capitalization of sentences -->
-    <string name="auto_cap">Auto-capitalization</string> 
+    <string name="auto_cap">Auto-capitalization</string>
     <!-- Description for auto cap -->
     <string name="auto_cap_summary">Capitalize the start of a sentence</string>
     <!-- Option to enable auto punctuate -->
-    <string name="auto_punctuate">Auto-punctuate</string> 
+    <string name="auto_punctuate">Auto-punctuate</string>
     <!-- Description for auto punctuate -->
     <string name="auto_punctuate_summary"></string>
-    
+
     <!-- Option to enable quick fixes -->
     <string name="quick_fixes">Quick fixes</string>
     <!-- Description for quick fixes -->
     <string name="quick_fixes_summary">Corrects commonly typed mistakes</string>
-    
+
     <!-- Option to enable showing suggestions -->
     <string name="show_suggestions">Show suggestions</string>
     <!-- Description for show suggestions -->
     <string name="show_suggestions_summary">Display suggested words while typing</string>
-    
+
     <!-- Option to enable auto completion -->
     <string name="auto_complete">Auto-complete</string>
     <!-- Description for auto completion -->
     <string name="auto_complete_summary">Spacebar and punctuation automatically insert highlighted word</string>
-    
+
     <!-- Option to show/hide the settings key -->
     <string name="prefs_settings_key">Show settings key</string>
     <!-- Array of the settings key mode values -->
@@ -138,7 +141,7 @@
         <item>Basic</item>
         <item>Advanced</item>
     </string-array>
-    
+
     <!-- Don't translate -->
     <string name="prediction_none" translatable="false">0</string>
     <!-- Don't translate -->
@@ -154,20 +157,20 @@
 
     <!-- Indicates that a word has been added to the dictionary -->
     <string name="added_word"><xliff:g id="word">%s</xliff:g> : Saved</string>
-    
+
     <!-- Tip to long press on keys -->
     <string name="tip_long_press">Hold a key down to see accents (ø, ö, etc.)</string>
     <!-- Tip to dismiss keyboard -->
     <string name="tip_dismiss">Press the back key \u21B6 to close the keyboard at any point</string>
     <!-- Tip to press ?123 to access numbers and symbols -->
-    <string name="tip_access_symbols">Access numbers and symbols</string>    
+    <string name="tip_access_symbols">Access numbers and symbols</string>
     <!-- Tip to long press on typed word to add to dictionary -->
     <string name="tip_add_to_dictionary">Press and hold the left-most word to add it to the dictionary
         </string>
-        
+
     <!-- Instruction to touch the bubble to continue -->
     <string name="touch_to_continue">Touch this hint to continue »</string>
-    
+
     <!-- Instruction to touch the bubble to start typing -->
     <string name="touch_to_finish">Touch here to close this hint and start typing!</string>
 
@@ -193,24 +196,24 @@
     <!-- Title of the warning dialog that shows when a user initiates voice input for
          the first time. -->
     <string name="voice_warning_title">Voice input</string>
-    
+
     <!-- Message that gets put at the top of the warning dialog if the user is attempting to use
          voice input in a currently unsupported locale. Voice input will work for such a user,
          but it will only recognize them in English. -->
     <string name="voice_warning_locale_not_supported">Voice input is not currently supported for your language, but does work in English.</string>
-    
+
     <!-- Message of the warning dialog that shows when a user initiates voice input for
          the first time, or turns it on in settings. -->
     <string name="voice_warning_may_not_understand">Voice input is an experimental feature using Google\'s networked speech recognition.</string>
-    
+
     <!-- An additional part of the warning dialog for voice input that only shows when the user
          actually initiates voice input, rather than just turning it on in settings. -->
     <string name="voice_warning_how_to_turn_off">To turn off voice input, go to keyboard settings.</string>
-    
+
     <!-- Message to show when user clicks the swiping hint (which says
         "Swipe across keyboard to speak"). Also shown when enabling settings. -->
     <string name="voice_hint_dialog_message">To use voice input, press the microphone button or slide your finger across the on-screen keyboard.</string>
-    
+
     <!-- Short message to tell the user the system is ready for them to speak. -->
     <string name="voice_listening">Speak now</string>
 
@@ -225,7 +228,7 @@
 
     <!-- Short message shown for a network error. -->
     <string name="voice_network_error">Couldn\'t connect</string>
-    
+
     <!-- Short message shown for a network error where the utterance was really long,
          in which case we should suggest that the user speak less. -->
     <string name="voice_too_much_speech">Error, too much speech.</string>
@@ -321,10 +324,10 @@
     <string name="language_selection_title">Input languages</string>
     <!-- Title summary for input language selection screen -->
     <string name="language_selection_summary">Slide finger on spacebar to change language</string>
-    
+
     <!-- Add to dictionary hint -->
     <string name="hint_add_to_dictionary">\u2190 Touch again to save</string>
-    
+
     <!-- Inform the user that a particular language has an available dictionary -->
     <string name="has_dictionary">Dictionary available</string>
 
@@ -454,7 +457,7 @@
         <item>117</item>
         <item>118</item>
     </string-array>
-    
+
     <string name="title_suggestions_in_landscape">Suggestions in landscape mode</string>
     <string name="summary_suggestions_in_landscape_true">Same as in portrait mode</string>
     <string name="summary_suggestions_in_landscape_false">Hide suggestions in landscape mode</string>
@@ -472,10 +475,6 @@
     <string name="summary_keyboard_notification_false">No notification</string>
 
     <string name="title_application_category">Application-specific settings</string>
-    
-    <string name="title_connectbot_tab_hack">ConnectBot tab key mode</string>
-    <string name="summary_connectbot_tab_hack_true">Enable compatibility workaround</string>
-    <string name="summary_connectbot_tab_hack_false">Send plain Tab key event</string>
 
     <string name="title_caps_lock">Double-tap Shift mode</string>
     <string name="summary_caps_lock_true">Caps Lock (q1 => Q1)</string>
@@ -484,7 +483,7 @@
     <string name="title_shift_lock_modifiers">Apply Shift Lock to modifier keys?</string>
     <string name="summary_shift_lock_modifiers_true">Yes, including arrow keys</string>
     <string name="summary_shift_lock_modifiers_false">No, normal keys only</string>
-    
+
     <string name="title_hint_mode">Labeled alternate keys</string>
     <string-array name="hint_modes">
         <item>Hide hint labels</item>
@@ -519,11 +518,11 @@
         <item>3</item>
         <item>4</item>
     </string-array>
- 
+
     <string name="percent">percent</string>
 
     <string name="title_top_row_scale">5th row height adjustment</string>
-        
+
     <string name="title_label_scale">Key label scaling</string>
     <string name="title_candidate_scale">Suggestion label scaling</string>
 
@@ -545,7 +544,7 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    
+
     <string name="title_long_press_duration">Long-press duration</string>
 
     <string name="title_render_mode">Drawing method</string>
@@ -561,7 +560,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-        
+
     <string name="pref_screen_actions_title">Gesture and key actions</string>
     <string name="pref_screen_actions_title_summary">Configure actions for swipe gestures and hardware keys</string>
     <string name="title_swipe_up">Swipe up</string>
@@ -595,14 +594,14 @@
         <item>height_down</item>
         <item>lang_prev</item>
 -       <item>lang_next</item>
-    </string-array>    
+    </string-array>
     <string name="default_swipe_up">extension</string>
     <string name="default_swipe_down">close</string>
     <string name="default_swipe_left">none</string>
     <string name="default_swipe_right">none</string>
     <string name="default_vol_up">none</string>
     <string name="default_vol_down">none</string>
-        
+
     <string name="title_popup_content">Popup mini-keyboard contents</string>
     <string-array name="popup_content_entries">
         <item>No popups</item>
@@ -638,9 +637,9 @@
     <string name="main_body"><Data>
       <![CDATA["
         <h2>Enabling Hacker's Keyboard</h2>
-        
+
         <p><i>Hacker's Keyboard</i> provides a new Android input method. It is <b>disabled by default</b>, and for security reasons Android doesn't allow programs to change input method settings. Please follow the following steps to activate it.<p>
-        
+
         <h3>Add the keyboard to the system's input method list:</h3>
         <blockquote>
           <p>&#8226; Open the system input settings configuration by pressing the <b>Enable Keyboard</b> button above.</p>
@@ -648,7 +647,7 @@
           <p>&#8226; Acknowledge the warning shown by the system. The system always shows this message when enabling a third-party input method.</p>
           <p>&#8226; Press the <i>Back</i> button to return to this page.</p>
         </blockquote>
-        
+
         <h3>Choose the currently active input method:</h3>
         <blockquote>
           <p>&#8226; Press the <b>Set input method</b> button above.</p>
@@ -666,7 +665,7 @@
         <blockquote>
           <p>&#8226; Press the <b>More</b> button above to do a Play Store search for the keyboard's developer name, this will show free downloadable completion dictionary packages.</p>
         </blockquote>
-        
+
         <h2>Additional information</h2>
         <p>Please refer to the <a href='https://github.com/klausw/hackerskeyboard'>project web page</a> for more information, including the user's guide, issue tracker, and discussion group.</p>
       "]]>

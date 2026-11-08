@@ -73,10 +73,7 @@ public class DeadAccentSequence extends ComposeSequence {
 
 	private static String doNormalise(String input)
 	{
-		if (Build.VERSION.SDK_INT >= 9) {
-			return Normalizer.normalize(input, Normalizer.Form.NFC);
-		}
-		return input;
+		return Normalizer.normalize(input, Normalizer.Form.NFC);
 	}
 
     public static String normalize(String input) {

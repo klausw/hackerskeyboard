@@ -1,3 +1,16 @@
+## Status of this fork ##
+
+This is a fork of the original hacker's keyboard by Klaus Weidner. The original had fallen behind on evolution Android evolution, and was not even compilable any more in today's environments. I took it upon myself to bring it up to Sdk 36 level (Android 16), and got dictionaries working again.
+
+[Releases here](../../releases)
+
+## Dictionaries ##
+
+Hacker's keyboard uses Anysoft keyboard's dictionaries (compatible APIs), which you find easily on F-Droid, *except* the English dictionary. Probably because English in built into Anysoft keyboard, and thus it doesn't need any external dictionary for it. Fortunately, you can still find an older version at [Apkpure](https://apkpure.com/english-for-anysoftkeyboard/com.anysoftkeyboard.languagepack.mirfatif.english).
+
+
+# Original README.md #
+
 ## Overview ##
 
 **WARNING:** *This is a rather ancient project that was originally developed back in 2011 based on the Android 2.3 (Gingerbread) AOSP keyboard. While it still works as-is for many users, it would need some major rewrites to work with newer APIs, and some features such as language switching or popup keys don't work right on modern Android systems. I'm not currently planning on significant updates, and it's possible that it will stop working on modern devices or will no longer be updateable via the Google Play store due to minimum API level requirements. Play Store requires targeting API level 29 (Android 10), while the code was written for API level 9 (Android 2.3) from 2011.*

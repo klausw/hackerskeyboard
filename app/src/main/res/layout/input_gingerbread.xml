@@ -28,6 +28,7 @@
         android:paddingBottom="@dimen/keyboard_bottom_padding"
         android:background="@drawable/keyboard_dark_background"
         android:textStyle="bold"
+        android:fitsSystemWindows="true"
 
         latin:keyBackground="@drawable/btn_keyboard_key_gingerbread"
         latin:keyTextStyle="bold"

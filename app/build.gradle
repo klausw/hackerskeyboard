@@ -1,46 +1,67 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion = 37
+    namespace = 'org.pocketworkstation.pckeyboard'
     defaultConfig {
-        applicationId 'org.pocketworkstation.pckeyboard'
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 1041001
-        versionName "v1.41.1"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId = 'org.pocketworkstation.pckeyboard'
+        minSdkVersion = 24
+        targetSdkVersion = 37
+        versionCode = 1042010
+        versionName = "1.42.10ak"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
                 cppFlags ""
             }
         }
     }
+
+    signingConfigs {
+        release {
+            storeFile = file("keystore.jks")
+            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig = signingConfigs.release
         }
     }
     externalNativeBuild {
         cmake {
-            path "CMakeLists.txt"
+            path = "CMakeLists.txt"
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     productFlavors {
     }
     lintOptions {
-        checkReleaseBuilds false
+        checkReleaseBuilds = false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
-        //abortOnError false
+        //abortOnError = false
     }
+
+    // gradle.projectsEvaluated {
+    //    tasks.withType(JavaCompile) {
+    //        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    //    }
+    // }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation "com.android.support:support-compat:26.0.0"
-    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.appcompat:appcompat:1.8.0'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

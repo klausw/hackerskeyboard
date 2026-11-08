@@ -209,9 +209,11 @@ public class CandidateView extends View {
      */
     @Override
     protected void onDraw(Canvas canvas) {
-        if (canvas != null) {
-            super.onDraw(canvas);
-        }
+	super.onDraw(canvas);
+	_onDraw(canvas);
+    }
+
+    private void _onDraw(Canvas canvas) {
         mTotalWidth = 0;
         
         final int height = getHeight();
@@ -335,7 +337,7 @@ public class CandidateView extends View {
         mTargetScrollX = 0;
         mHaveMinimalSuggestion = haveMinimalSuggestion;
         // Compute the total width
-        onDraw(null);
+        _onDraw(null);
         invalidate();
         requestLayout();
     }

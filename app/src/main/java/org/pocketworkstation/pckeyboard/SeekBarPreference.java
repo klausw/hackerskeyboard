@@ -37,12 +37,16 @@ public class SeekBarPreference extends DialogPreference {
         setDialogLayoutResource(R.layout.seek_bar_dialog);
         
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarPreference);
-        mMin = a.getFloat(R.styleable.SeekBarPreference_minValue, 0.0f);
-        mMax = a.getFloat(R.styleable.SeekBarPreference_maxValue, 100.0f);
-        mStep = a.getFloat(R.styleable.SeekBarPreference_step, 0.0f);
-        mAsPercent = a.getBoolean(R.styleable.SeekBarPreference_asPercent, false);
-        mLogScale = a.getBoolean(R.styleable.SeekBarPreference_logScale, false);
-        mDisplayFormat = a.getString(R.styleable.SeekBarPreference_displayFormat);
+	try {
+	    mMin = a.getFloat(R.styleable.SeekBarPreference_minValue, 0.0f);
+	    mMax = a.getFloat(R.styleable.SeekBarPreference_maxValue, 100.0f);
+	    mStep = a.getFloat(R.styleable.SeekBarPreference_step, 0.0f);
+	    mAsPercent = a.getBoolean(R.styleable.SeekBarPreference_asPercent, false);
+	    mLogScale = a.getBoolean(R.styleable.SeekBarPreference_logScale, false);
+	    mDisplayFormat = a.getString(R.styleable.SeekBarPreference_displayFormat);
+	} finally {
+	    a.recycle();
+	}
     }
 
     @Override

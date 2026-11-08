@@ -19,50 +19,50 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="10%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="@dimen/popup_key_height"
+    xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="10%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="0px"
+    hackkbd:keyHeight="@dimen/popup_key_height"
 >
     <Row
-        android:rowEdgeFlags="top"
+        hackkbd:rowEdgeFlags="top"
     >
         <Key
-            android:keyLabel=":"
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel=":"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="/" />
+            hackkbd:keyLabel="/" />
         <Key
-            android:keyLabel="&amp;" />
+            hackkbd:keyLabel="&amp;" />
         <Key
-            android:keyLabel="(" />
+            hackkbd:keyLabel="(" />
         <Key
-            android:keyLabel=")" />
+            hackkbd:keyLabel=")" />
         <Key
-            android:keyLabel="-" />
+            hackkbd:keyLabel="-" />
         <Key
-            android:keyLabel="+"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel="+"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:rowEdgeFlags="bottom"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:keyLabel=";"
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel=";"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="\@" />
+            hackkbd:keyLabel="\@" />
         <Key
-            android:keyLabel="\'" />
+            hackkbd:keyLabel="\'" />
         <Key
-            android:keyLabel="&quot;" />
+            hackkbd:keyLabel="&quot;" />
         <Key
-            android:keyLabel="\?" />
+            hackkbd:keyLabel="\?" />
         <Key
-            android:keyLabel="!" />
+            hackkbd:keyLabel="!" />
         <Key
-            android:keyLabel=","
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel=","
+            hackkbd:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

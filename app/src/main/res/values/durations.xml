@@ -18,7 +18,9 @@
 */
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+	   tools:ignore="MissingTranslation"
+	   >
     <!-- Vibration duration in milliseconds, for key presses in the IME. This can be hardware
         dependent and may require overriding with a device specific overlay. -->
     <string name="vibrate_duration_ms">40 ms</string>

@@ -19,270 +19,270 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="10%p"
-    android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:verticalPad="@dimen/key_vertical_pad_compact"
-    android:layoutRows="5"
-    android:layoutColumns="11"
+    xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="10%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="0px"
+    hackkbd:verticalPad="@dimen/key_vertical_pad_compact"
+    hackkbd:layoutRows="5"
+    hackkbd:layoutColumns="11"
 >
     <Row
-        android:rowEdgeFlags="top"
+        hackkbd:rowEdgeFlags="top"
     >
         <Key
-            android:keyLabel="Esc"
-            android:codes="@integer/key_escape"
-            android:keyWidth="12%p"
-            android:keyEdgeFlags="left"
-            android:isModifier="true" />
+            hackkbd:keyLabel="Esc"
+            hackkbd:codes="@integer/key_escape"
+            hackkbd:keyWidth="12%p"
+            hackkbd:keyEdgeFlags="left"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_f1"
-            android:keyWidth="9%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_f1"
+            hackkbd:keyWidth="9%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_fkey_f1"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F1" />            
+            hackkbd:codes="@integer/key_fkey_f1"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F1" />            
         <Key
-            android:codes="@integer/key_fkey_f2"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F2" />         
+            hackkbd:codes="@integer/key_fkey_f2"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F2" />         
         <Key
-            android:codes="@integer/key_fkey_f3"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F3" />
+            hackkbd:codes="@integer/key_fkey_f3"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F3" />
         <Key
-            android:codes="@integer/key_fkey_f4"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F4" />
+            hackkbd:codes="@integer/key_fkey_f4"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F4" />
         <Key
-            android:codes="@integer/key_fkey_f5"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F5" />
+            hackkbd:codes="@integer/key_fkey_f5"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F5" />
         <Key
-            android:codes="@integer/key_fkey_f6"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F6" />
+            hackkbd:codes="@integer/key_fkey_f6"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F6" />
 
         <Key
-            android:codes="@integer/key_break"
-            android:isModifier="true"
-            android:keyWidth="12%p"
-            android:keyLabel="Brk" />
+            hackkbd:codes="@integer/key_break"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="12%p"
+            hackkbd:keyLabel="Brk" />
 
         <Key
-            android:codes="@integer/key_delete"
-            android:keyIcon="@drawable/sym_keyboard_delete"
-            android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:keyWidth="13%p"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_delete"
+            hackkbd:keyIcon="@drawable/sym_keyboard_delete"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            hackkbd:isModifier="true"
+            hackkbd:isRepeatable="true"
+            hackkbd:keyWidth="13%p"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="@integer/key_sysrq"
-            android:isModifier="true"
-            android:keyWidth="12%p"
-            android:keyEdgeFlags="left"
-            android:keyLabel="SyRq" />
+            hackkbd:codes="@integer/key_sysrq"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="12%p"
+            hackkbd:keyEdgeFlags="left"
+            hackkbd:keyLabel="SyRq" />
         <Key
-            android:codes="@integer/key_settings"
-            android:keyIcon="@drawable/sym_keyboard_settings"
-            android:iconPreview="@drawable/sym_keyboard_feedback_settings"
-            android:keyWidth="9%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_settings"
+            hackkbd:keyIcon="@drawable/sym_keyboard_settings"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_settings"
+            hackkbd:keyWidth="9%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_fkey_f7"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F7" />
+            hackkbd:codes="@integer/key_fkey_f7"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F7" />
         <Key
-            android:codes="@integer/key_fkey_f8"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F8" />
+            hackkbd:codes="@integer/key_fkey_f8"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F8" />
         <Key
-            android:codes="@integer/key_fkey_f9"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F9" />
+            hackkbd:codes="@integer/key_fkey_f9"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F9" />
         <Key
-            android:codes="@integer/key_fkey_f10"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F10" />
+            hackkbd:codes="@integer/key_fkey_f10"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F10" />
         <Key
-            android:codes="@integer/key_fkey_f11"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F11" />
+            hackkbd:codes="@integer/key_fkey_f11"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F11" />
         <Key
-            android:codes="@integer/key_fkey_f12"
-            android:isModifier="true"
-            android:keyWidth="9%p"
-            android:keyLabel="F12" />
+            hackkbd:codes="@integer/key_fkey_f12"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="9%p"
+            hackkbd:keyLabel="F12" />
 
         <Key
-            android:codes="@integer/key_insert"
-            android:keyLabel="Ins"
-            android:isRepeatable="true"            
-            android:keyWidth="12%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_insert"
+            hackkbd:keyLabel="Ins"
+            hackkbd:isRepeatable="true"            
+            hackkbd:keyWidth="12%p"
+            hackkbd:isModifier="true" />
 
         <Key
-            android:codes="@integer/key_page_up"
-            android:isModifier="true"
-            android:isRepeatable="true"            
-            android:keyWidth="13%p"
-            android:keyEdgeFlags="right"
-            android:keyLabel="PgUp" />
+            hackkbd:codes="@integer/key_page_up"
+            hackkbd:isModifier="true"
+            hackkbd:isRepeatable="true"            
+            hackkbd:keyWidth="13%p"
+            hackkbd:keyEdgeFlags="right"
+            hackkbd:keyLabel="PgUp" />
     </Row>
     <Row>
         <Key
-            android:codes="@integer/key_scroll_lock"
-            android:isModifier="true"
-            android:keyWidth="12%p"
-            android:keyEdgeFlags="left"
-            android:keyLabel="ScrL" />
-        <Key android:keyLabel="~" android:keyWidth="9%p" />            
-        <Key android:keyLabel="_" android:keyWidth="9%p" />            
-        <Key android:keyLabel="+" android:keyWidth="9%p" />            
-        <Key android:keyLabel="{" android:keyWidth="9%p" />            
-        <Key android:keyLabel="}" android:keyWidth="9%p" />            
-        <Key android:keyLabel="|" android:keyWidth="9%p" />            
-        <Key android:keyLabel=":" android:keyWidth="9%p" />            
+            hackkbd:codes="@integer/key_scroll_lock"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="12%p"
+            hackkbd:keyEdgeFlags="left"
+            hackkbd:keyLabel="ScrL" />
+        <Key hackkbd:keyLabel="~" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="_" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="+" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="{" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="}" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="|" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel=":" hackkbd:keyWidth="9%p" />            
 
         <Key
-            android:codes="@integer/key_forward_del"
-            android:keyLabel="Del"
-            android:isRepeatable="true"            
-            android:isModifier="true"            
-            android:keyWidth="12%p" />
+            hackkbd:codes="@integer/key_forward_del"
+            hackkbd:keyLabel="Del"
+            hackkbd:isRepeatable="true"            
+            hackkbd:isModifier="true"            
+            hackkbd:keyWidth="12%p" />
         <Key
-            android:codes="@integer/key_page_down"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:keyWidth="13%p"
-            android:keyLabel="PgDn"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_page_down"
+            hackkbd:isModifier="true"
+            hackkbd:isRepeatable="true"
+            hackkbd:keyWidth="13%p"
+            hackkbd:keyLabel="PgDn"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="@integer/key_num_lock"
-            android:keyWidth="12%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="left"
-            android:keyLabel="NumL" />
+            hackkbd:codes="@integer/key_num_lock"
+            hackkbd:keyWidth="12%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="left"
+            hackkbd:keyLabel="NumL" />
 
-        <Key android:keyLabel="`" android:keyWidth="9%p" />            
-        <Key android:keyLabel="-" android:keyWidth="9%p" />            
-        <Key android:keyLabel="=" android:keyWidth="9%p" />            
-        <Key android:keyLabel="[" android:keyWidth="9%p" />            
-        <Key android:keyLabel="]" android:keyWidth="9%p" />            
-        <Key android:keyLabel="\\" android:keyWidth="9%p" />            
-        <Key android:keyLabel=";" android:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="`" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="-" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="=" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="[" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="]" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel="\\" hackkbd:keyWidth="9%p" />            
+        <Key hackkbd:keyLabel=";" hackkbd:keyWidth="9%p" />            
 
         <Key
-            android:codes="@integer/key_home"
-            android:keyWidth="12%p"
-            android:keyLabel="Home"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_home"
+            hackkbd:keyWidth="12%p"
+            hackkbd:keyLabel="Home"
+            hackkbd:isModifier="true" />
          <Key
-            android:codes="@integer/key_end"
-            android:keyLabel="End"
-            android:keyWidth="13%p"
-            android:keyEdgeFlags="right"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_end"
+            hackkbd:keyLabel="End"
+            hackkbd:keyWidth="13%p"
+            hackkbd:keyEdgeFlags="right"
+            hackkbd:isModifier="true" />
     </Row>
     
-    <Row android:rowEdgeFlags="bottom"
-         android:keyWidth="9.09090909%p"
+    <Row hackkbd:rowEdgeFlags="bottom"
+         hackkbd:keyWidth="9.09090909%p"
     >
         <Key
-            android:codes="@integer/key_fn"
-            android:keyLabel="Fn"
-            android:isModifier="true"
-            android:keyWidth="8.29090909%p"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_fn"
+            hackkbd:keyLabel="Fn"
+            hackkbd:isModifier="true"
+            hackkbd:keyWidth="8.29090909%p"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="Ctrl"
-            android:codes="@integer/key_ctrl_left"
-            android:isSticky="true"
-            android:keyWidth="8.29090909%p"
-            android:isModifier="true" />
+            hackkbd:keyLabel="Ctrl"
+            hackkbd:codes="@integer/key_ctrl_left"
+            hackkbd:isSticky="true"
+            hackkbd:keyWidth="8.29090909%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_alt_left"
-            android:keyLabel="Alt"
-            android:isSticky="true"
-            android:keyWidth="8.29090909%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_alt_left"
+            hackkbd:keyLabel="Alt"
+            hackkbd:isSticky="true"
+            hackkbd:keyWidth="8.29090909%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_meta_left"
-            android:keyLabel="&#x2756;"
-            android:isSticky="true"
-            android:keyWidth="8.29090909%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_meta_left"
+            hackkbd:keyLabel="&#x2756;"
+            hackkbd:isSticky="true"
+            hackkbd:keyWidth="8.29090909%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_shift"
-            android:keyWidth="8.29090909%p"
-            android:keyIcon="@drawable/sym_keyboard_shift"
-            android:iconPreview="@drawable/sym_keyboard_feedback_shift"
-            android:isModifier="true"
-            android:isSticky="true" />
+            hackkbd:codes="@integer/key_shift"
+            hackkbd:keyWidth="8.29090909%p"
+            hackkbd:keyIcon="@drawable/sym_keyboard_shift"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_shift"
+            hackkbd:isModifier="true"
+            hackkbd:isSticky="true" />
         <Key
-            android:keyLabel=".com"
-            android:keyOutputText=".com"
-            android:popupKeyboard="@xml/popup_domains"
-            android:keyWidth="10.145454545%p"
-            android:keyIcon="@drawable/hint_popup" />
+            hackkbd:keyLabel=".com"
+            hackkbd:keyOutputText=".com"
+            hackkbd:popupKeyboard="@xml/popup_domains"
+            hackkbd:keyWidth="10.145454545%p"
+            hackkbd:keyIcon="@drawable/hint_popup" />
         <Key
-            android:keyLabel=":-)"
-            android:keyOutputText=":-) "
-            android:popupKeyboard="@xml/popup_smileys"
-            android:keyWidth="10.145454545%p"
-            android:keyIcon="@drawable/hint_popup" />
+            hackkbd:keyLabel=":-)"
+            hackkbd:keyOutputText=":-) "
+            hackkbd:popupKeyboard="@xml/popup_smileys"
+            hackkbd:keyWidth="10.145454545%p"
+            hackkbd:keyIcon="@drawable/hint_popup" />
         <Key
-            android:codes="@integer/key_dpad_center"
-            android:isModifier="true"
-            android:isCursor="true"
-            android:keyWidth="8.29090909%p"
-            android:keyLabel="&#x25cb;" />
+            hackkbd:codes="@integer/key_dpad_center"
+            hackkbd:isModifier="true"
+            hackkbd:isCursor="true"
+            hackkbd:keyWidth="8.29090909%p"
+            hackkbd:keyLabel="&#x25cb;" />
         <Key
-            android:codes="@integer/key_dpad_left"
-            android:isModifier="true"
-            android:isRepeatable="true"            
-            android:isCursor="true"
-            android:keyWidth="7.49090909%p"
-            android:keyLabel="&#x25c1;" />
+            hackkbd:codes="@integer/key_dpad_left"
+            hackkbd:isModifier="true"
+            hackkbd:isRepeatable="true"            
+            hackkbd:isCursor="true"
+            hackkbd:keyWidth="7.49090909%p"
+            hackkbd:keyLabel="&#x25c1;" />
         <Key
-            android:codes="@integer/key_dpad_down"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:isCursor="true"
-            android:keyWidth="7.49090909%p"
-            android:keyLabel="&#x25bd;" />
+            hackkbd:codes="@integer/key_dpad_down"
+            hackkbd:isModifier="true"
+            hackkbd:isRepeatable="true"
+            hackkbd:isCursor="true"
+            hackkbd:keyWidth="7.49090909%p"
+            hackkbd:keyLabel="&#x25bd;" />
         <Key
-            android:codes="@integer/key_dpad_up"
-            android:isRepeatable="true"            
-            android:keyLabel="&#x25b3;" 
-            android:isCursor="true"
-            android:keyWidth="7.49090909%p"
-            android:isModifier="true" />
+            hackkbd:codes="@integer/key_dpad_up"
+            hackkbd:isRepeatable="true"            
+            hackkbd:keyLabel="&#x25b3;" 
+            hackkbd:isCursor="true"
+            hackkbd:keyWidth="7.49090909%p"
+            hackkbd:isModifier="true" />
         <Key
-            android:codes="@integer/key_dpad_right"
-            android:isModifier="true"            
-            android:keyLabel="&#x25b7;"
-            android:isRepeatable="true"            
-            android:isCursor="true"
-            android:keyWidth="7.49090909%p"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_dpad_right"
+            hackkbd:isModifier="true"            
+            hackkbd:keyLabel="&#x25b7;"
+            hackkbd:isRepeatable="true"            
+            hackkbd:isCursor="true"
+            hackkbd:keyWidth="7.49090909%p"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

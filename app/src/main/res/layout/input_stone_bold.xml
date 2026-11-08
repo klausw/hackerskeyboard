@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/keyboard_background"
         android:textStyle="bold"
+        android:fitsSystemWindows="true"
 
         latin:keyBackground="@drawable/btn_keyboard_key_stone"
         latin:keyTextColor="@color/latinkeyboard_key_color_black"

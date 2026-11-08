@@ -33,6 +33,7 @@
 	    latin:shadowColor="#ff777777"
         latin:keyTextColor="@color/key_text_color_material_light"
         latin:keyHintColor="@color/key_hint_letter_color_material_light"
+        android:fitsSystemWindows="true"
 
         latin:keyBackground="@drawable/btn_keyboard_key_material_light"
         latin:popupLayout="@layout/input_popup_material_light"

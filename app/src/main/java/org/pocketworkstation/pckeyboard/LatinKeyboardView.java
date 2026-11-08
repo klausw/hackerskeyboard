@@ -125,33 +125,35 @@ public class LatinKeyboardView extends LatinKeyboardBaseView {
         super(context, attrs, defStyle);
 
         // TODO(klausw): migrate attribute styles to LatinKeyboardView?
+	LayoutInflater inflate =
+	    (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	int previewLayout = 0;
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.LatinKeyboardBaseView, defStyle, R.style.LatinKeyboardBaseView);
-        LayoutInflater inflate =
-                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	try {
+	    int n = a.getIndexCount();
+	    for (int i = 0; i < n; i++) {
+		int attr = a.getIndex(i);
 
-        int previewLayout = 0;
-        int n = a.getIndexCount();
-        for (int i = 0; i < n; i++) {
-            int attr = a.getIndex(i);
+		if(attr == R.styleable.LatinKeyboardBaseView_keyPreviewLayout) {
+		    previewLayout = a.getResourceId(attr, 0);
+		    if (previewLayout == R.layout.null_layout) previewLayout = 0;
 
-            switch (attr) {
-            case R.styleable.LatinKeyboardBaseView_keyPreviewLayout:
-                previewLayout = a.getResourceId(attr, 0);
-                if (previewLayout == R.layout.null_layout) previewLayout = 0;
-                break;
-            case R.styleable.LatinKeyboardBaseView_keyPreviewOffset:
-                mPreviewOffset = a.getDimensionPixelOffset(attr, 0);
-                break;
-            case R.styleable.LatinKeyboardBaseView_keyPreviewHeight:
-                mPreviewHeight = a.getDimensionPixelSize(attr, 80);
-                break;
-            case R.styleable.LatinKeyboardBaseView_popupLayout:
-                mPopupLayout = a.getResourceId(attr, 0);
-                if (mPopupLayout == R.layout.null_layout) mPopupLayout = 0;
-                break;
-            }
-        }
+		} else if(attr == R.styleable.LatinKeyboardBaseView_keyPreviewOffset) {
+		    mPreviewOffset = a.getDimensionPixelOffset(attr, 0);
+
+		} else if(attr == R.styleable.LatinKeyboardBaseView_keyPreviewHeight) {
+		    mPreviewHeight = a.getDimensionPixelSize(attr, 80);
+
+		} else if(attr == R.styleable.LatinKeyboardBaseView_popupLayout) {
+		    mPopupLayout = a.getResourceId(attr, 0);
+		    if (mPopupLayout == R.layout.null_layout) mPopupLayout = 0;
+
+		}
+	    }
+	} finally {
+	    a.recycle();
+	}
 
         final Resources res = getResources();
 

@@ -19,83 +19,83 @@
 -->
 
 <Keyboard
-    xmlns:android="http://schemas.android.com/apk/res-auto"
-    android:keyWidth="26.67%p"
-    android:horizontalGap="0px"
-    android:verticalGap="@dimen/key_bottom_gap"
+    xmlns:hackkbd="http://schemas.android.com/apk/res-auto"
+    hackkbd:keyWidth="26.67%p"
+    hackkbd:horizontalGap="0px"
+    hackkbd:verticalGap="@dimen/key_bottom_gap"
 >
     <Row
-        android:rowEdgeFlags="top"
+        hackkbd:rowEdgeFlags="top"
     >
         <Key
-            android:keyLabel="("
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel="("
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="/" />
+            hackkbd:keyLabel="/" />
         <Key
-            android:keyLabel=")" />
+            hackkbd:keyLabel=")" />
         <Key
-            android:keyLabel="-"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel="-"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:keyLabel="N"
-            android:keyEdgeFlags="left" />
+            hackkbd:keyLabel="N"
+            hackkbd:keyEdgeFlags="left" />
         <!-- Pause is a comma. Check PhoneNumberUtils.java to see if this 
             has changed. -->
         <Key
-            android:codes="44"
-            android:keyLabel="Pause" />
+            hackkbd:codes="44"
+            hackkbd:keyLabel="Pause" />
         <Key
-            android:keyLabel="," />
+            hackkbd:keyLabel="," />
         <Key
-            android:keyLabel="."
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:keyLabel="."
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row>
         <Key
-            android:codes="42"
-            android:keyIcon="@drawable/sym_keyboard_numstar"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="42"
+            hackkbd:keyIcon="@drawable/sym_keyboard_numstar"
+            hackkbd:keyEdgeFlags="left" />
         <!-- Wait is a semicolon. -->
         <Key
-            android:codes="59"
-            android:keyLabel="Wait" />
+            hackkbd:codes="59"
+            hackkbd:keyLabel="Wait" />
         <Key
-            android:codes="35"
-            android:keyIcon="@drawable/sym_keyboard_numpound" />
+            hackkbd:codes="35"
+            hackkbd:keyIcon="@drawable/sym_keyboard_numpound" />
         <Key
-            android:codes="@integer/key_delete"
-            android:keyIcon="@drawable/sym_keyboard_delete"
-            android:iconPreview="@drawable/sym_keyboard_feedback_delete"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:isRepeatable="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_delete"
+            hackkbd:keyIcon="@drawable/sym_keyboard_delete"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_delete"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:isRepeatable="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
     <Row
-        android:rowEdgeFlags="bottom"
+        hackkbd:rowEdgeFlags="bottom"
     >
         <Key
-            android:codes="@integer/key_symbol"
-            android:keyLabel="@string/label_phone_key"
-            android:keyEdgeFlags="left" />
+            hackkbd:codes="@integer/key_symbol"
+            hackkbd:keyLabel="@string/label_phone_key"
+            hackkbd:keyEdgeFlags="left" />
         <Key
-            android:keyLabel="+" />
+            hackkbd:keyLabel="+" />
         <Key
-            android:codes="@integer/key_space"
-            android:keyIcon="@drawable/sym_keyboard_space"
-            android:iconPreview="@drawable/sym_keyboard_feedback_space" />
+            hackkbd:codes="@integer/key_space"
+            hackkbd:keyIcon="@drawable/sym_keyboard_space"
+            hackkbd:iconPreview="@drawable/sym_keyboard_feedback_space" />
         <Key
-            android:codes="@integer/key_return"
-            android:keyIcon="@drawable/sym_keyboard_return"
-            android:keyWidth="20%p"
-            android:isModifier="true"
-            android:keyEdgeFlags="right" />
+            hackkbd:codes="@integer/key_return"
+            hackkbd:keyIcon="@drawable/sym_keyboard_return"
+            hackkbd:keyWidth="20%p"
+            hackkbd:isModifier="true"
+            hackkbd:keyEdgeFlags="right" />
     </Row>
 </Keyboard>

@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:background="@color/latinkeyboard_extension_background"
         android:verticalCorrection="0dip"
+        android:fitsSystemWindows="true"
 
         latin:keyBackground="@drawable/btn_keyboard_key_ics"
         latin:recolorSymbols="true"

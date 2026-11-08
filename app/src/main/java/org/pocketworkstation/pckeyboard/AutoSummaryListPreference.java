@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 public class AutoSummaryListPreference extends ListPreference {
-    private static final String TAG = "HK/AutoSummaryListPreference";
+    private static final String TAG = "HK/AutoSummaryListPrf";
 
     public AutoSummaryListPreference(Context context) {
         super(context);

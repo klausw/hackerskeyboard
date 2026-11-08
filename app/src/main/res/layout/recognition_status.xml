@@ -31,7 +31,6 @@
 >
 
     <LinearLayout 
-       xmlns:android="http://schemas.android.com/apk/res/android"
        android:id="@+id/main_image"
        android:orientation="vertical"
        android:background="@drawable/voice_ime_background"
